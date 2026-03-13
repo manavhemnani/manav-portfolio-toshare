@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percept: Learn Photography — Manav Hemnani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+:root {
+  --bg:           #0a0b0f;
+  --bg-2:         #0f1018;
+  --bg-3:         #161822;
+  --white:        #f0ede6;
+  --muted:        #5a5a62;
+  --mid:          #8a8a96;
+  --accent-blue:  #4a9eff;
+  --accent-amber: #c8a96e;
+  --accent-proj:  #6b8fff; /* Percept — deep photography blue */
+  --success:      #4caf7d;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --serif:        'Playfair Display', Georgia, serif;
+  --nav-h:        68px;
+  --sidebar-w:    220px;
+  --content-max:  720px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9000;
+  pointer-events: none; opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* NAV */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: var(--nav-h);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 3rem;
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  backdrop-filter: blur(14px);
+  background: rgba(10,11,15,0.85);
+}
+.nav-name { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); }
+.nav-right { display: flex; align-items: center; gap: 2.5rem; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+.nav-back:hover { color: var(--white); }
+
+/* HERO — photography inspired, aperture ring */
+.cs-hero {
+  padding-top: var(--nav-h);
+  position: relative;
+  height: 95vh; min-height: 620px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(107,143,255,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(107,143,255,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(200,169,110,0.05) 0%, transparent 45%),
+    linear-gradient(170deg, #050610 0%, #080a18 45%, #0a0b0f 100%);
+}
+
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(10,11,15,0.0) 0%,
+    rgba(10,11,15,0.2) 40%,
+    rgba(10,11,15,0.88) 80%,
+    var(--bg) 100%);
+}
+
+/* Aperture / lens circle — photography easter egg */
+.aperture {
+  position: absolute;
+  top: 12%; right: 8%;
+  width: 340px; height: 340px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.aperture-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(107,143,255,0.12);
+}
+.aperture-ring:nth-child(1) { width: 100%; height: 100%; animation: apertureRotate 40s linear infinite; }
+.aperture-ring:nth-child(2) { width: 72%; height: 72%; border-color: rgba(107,143,255,0.08); animation: apertureRotate 25s linear infinite reverse; }
+.aperture-ring:nth-child(3) { width: 46%; height: 46%; border-color: rgba(107,143,255,0.06); }
+.aperture-ring:nth-child(4) { width: 22%; height: 22%; border-color: rgba(200,169,110,0.15); animation: apertureRotate 15s linear infinite; }
+
+/* Tick marks on outer ring */
+.aperture-ring:nth-child(1)::before {
+  content: '';
+  position: absolute; top: -1px; left: 50%;
+  width: 1px; height: 12px;
+  background: rgba(107,143,255,0.3);
+  transform: translateX(-50%);
+}
+
+@keyframes apertureRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* EXIF easter egg */
+.hero-exif {
+  position: absolute; bottom: 4.5rem; right: 3rem;
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(240,237,230,0.18); font-weight: 300;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem;
+}
+
+.hero-content {
+  position: relative; z-index: 1;
+  padding: 0 3rem 4rem;
+  max-width: 900px;
+  animation: fadeUp 1s 0.2s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap;
+}
+.hero-badge {
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  background: rgba(107,143,255,0.1); border: 1px solid rgba(107,143,255,0.25);
+  color: var(--accent-proj); padding: 0.28rem 0.8rem; border-radius: 2px;
+}
+.hero-year { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+.cs-hero h1 {
+  font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+  font-weight: 300; line-height: 1.02; letter-spacing: -0.028em; margin-bottom: 1.4rem;
+}
+.cs-hero h1 em { font-family: var(--serif); font-style: italic; color: var(--accent-proj); }
+
+.hero-sub { font-size: 1.05rem; color: var(--mid); line-height: 1.75; font-weight: 300; max-width: 580px; }
+.hero-sub strong { color: var(--white); font-weight: 400; }
+
+/* META STRIP */
+.meta-strip {
+  background: var(--bg-2);
+  border-top: 1px solid rgba(240,237,230,0.06);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  padding: 2rem 3rem;
+  animation: fadeUp 1s 0.4s ease both;
+}
+.meta-strip-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 4rem; flex-wrap: wrap; }
+.meta-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+.meta-value { font-size: 0.88rem; color: var(--white); font-weight: 400; }
+.meta-value.highlight { color: var(--accent-proj); }
+
+/* AUDIT NOTE */
+.audit-note {
+  background: rgba(200,169,110,0.05);
+  border: 1px dashed rgba(200,169,110,0.2);
+  border-radius: 4px; padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0; display: flex; gap: 0.8rem; align-items: flex-start;
+}
+.audit-note-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 0.1rem; }
+.audit-note-text { font-size: 0.8rem; color: var(--accent-amber); line-height: 1.65; font-weight: 300; }
+.audit-note-text strong { font-weight: 500; }
+
+/* BODY LAYOUT */
+.cs-body {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 3rem; gap: 6rem; align-items: start;
+}
+
+/* SIDEBAR */
+.cs-sidebar {
+  position: sticky; top: calc(var(--nav-h) + 3rem);
+  padding-top: 5rem; padding-bottom: 2rem;
+}
+.sidebar-label { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+.sidebar-nav { list-style: none; }
+.sidebar-nav li { margin-bottom: 0.1rem; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 0.7rem;
+  font-size: 0.75rem; letter-spacing: 0.04em; color: var(--muted);
+  padding: 0.45rem 0 0.45rem 0.8rem; margin-left: -0.8rem;
+  border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+}
+.sidebar-nav a:hover { color: var(--white); }
+.sidebar-nav a.active { color: var(--white); border-left-color: var(--accent-proj); }
+.sidebar-num { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; min-width: 1.4rem; transition: color 0.2s; }
+.sidebar-nav a.active .sidebar-num { color: var(--accent-proj); }
+.sidebar-progress { margin-top: 2.5rem; height: 2px; background: rgba(240,237,230,0.06); border-radius: 2px; overflow: hidden; }
+.sidebar-progress-fill { height: 100%; background: var(--accent-proj); width: 0%; transition: width 0.15s ease; border-radius: 2px; }
+.sidebar-progress-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.6rem; }
+
+/* CONTENT */
+.cs-content { padding-top: 5rem; padding-bottom: 8rem; }
+
+.chapter { padding-bottom: 7rem; border-bottom: 1px solid rgba(240,237,230,0.06); margin-bottom: 7rem; }
+.chapter:last-child { border-bottom: none; margin-bottom: 0; }
+
+.chapter-header { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.5rem; }
+.chapter-num { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-proj); font-weight: 500; white-space: nowrap; }
+.chapter-title { font-size: 1.55rem; font-weight: 400; letter-spacing: -0.015em; line-height: 1.2; }
+.chapter-title em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+
+.body-text { font-size: 0.95rem; color: var(--mid); line-height: 1.9; font-weight: 300; margin-bottom: 1.4rem; max-width: var(--content-max); }
+.body-text strong { color: var(--white); font-weight: 400; }
+
+/* ORIGIN STORY block — unique to Percept */
+.origin-block {
+  margin: 2.5rem 0; padding: 2.5rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.06);
+  border-radius: 4px;
+  position: relative; overflow: hidden;
+}
+.origin-block::before {
+  content: '"';
+  position: absolute; top: -0.5rem; left: 1.5rem;
+  font-family: var(--serif); font-size: 8rem; color: rgba(107,143,255,0.06);
+  line-height: 1; pointer-events: none;
+}
+.origin-label {
+  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.origin-label::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.origin-text {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.15rem; color: var(--white); line-height: 1.7;
+  position: relative; z-index: 1;
+}
+
+/* Pull quote */
+.pull-quote {
+  margin: 3rem 0; padding: 2rem 2.5rem;
+  border-left: 2px solid var(--accent-proj);
+  background: rgba(107,143,255,0.04);
+}
+.pull-quote p { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--white); line-height: 1.6; margin-bottom: 0.8rem; }
+.pull-quote cite { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-style: normal; }
+
+/* Research insight — key finding that changed direction */
+.insight-block {
+  margin: 2.5rem 0; display: grid; grid-template-columns: auto 1fr; gap: 0;
+  border: 1px solid rgba(240,237,230,0.06); border-radius: 4px; overflow: hidden;
+}
+.insight-label-col {
+  background: var(--bg-3); padding: 1.6rem 1.4rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5rem; min-width: 80px; border-right: 1px solid rgba(240,237,230,0.06);
+}
+.insight-label-text {
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent-proj); writing-mode: vertical-rl; transform: rotate(180deg);
+}
+.insight-label-num { font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--accent-proj); }
+.insight-body { background: var(--bg-2); padding: 1.8rem 2rem; }
+.insight-finding { font-size: 0.95rem; color: var(--white); font-weight: 400; line-height: 1.6; margin-bottom: 0.6rem; }
+.insight-implication { font-size: 0.84rem; color: var(--mid); line-height: 1.65; font-weight: 300; }
+.insight-implication strong { color: var(--accent-amber); font-weight: 400; }
+
+/* Constraint pills */
+.constraint-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.8rem 0; }
+.constraint-pill { font-size: 0.75rem; padding: 0.45rem 1rem; border: 1px solid rgba(240,237,230,0.1); color: var(--mid); border-radius: 2px; font-weight: 300; }
+.constraint-pill.hard { border-color: rgba(107,143,255,0.25); color: var(--accent-proj); background: rgba(107,143,255,0.05); }
+
+/* Image placeholders */
+.img-placeholder {
+  background: var(--bg-3); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 4rem 2rem; border: 1px dashed rgba(240,237,230,0.07);
+  border-radius: 4px; margin: 2.5rem 0;
+}
+.img-placeholder-icon { font-size: 1.4rem; opacity: 0.22; }
+.img-placeholder-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; }
+.img-placeholder-sub { font-size: 0.72rem; color: rgba(138,138,150,0.55); text-align: center; line-height: 1.5; margin-top: 0.3rem; font-style: italic; }
+.img-caption { font-size: 0.73rem; color: var(--muted); margin-top: -1.5rem; margin-bottom: 2.5rem; font-weight: 300; font-style: italic; }
+.img-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 2.5rem 0; }
+.img-three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin: 2.5rem 0; }
+
+/* Decision block */
+.decision-block {
+  margin: 2.5rem 0; border: 1px solid rgba(240,237,230,0.07);
+  border-radius: 4px; overflow: hidden; background: var(--bg-2);
+}
+.decision-header {
+  padding: 1.2rem 1.6rem; border-bottom: 1px solid rgba(240,237,230,0.06);
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.decision-icon { font-size: 0.9rem; }
+.decision-q { font-size: 0.82rem; font-weight: 500; color: var(--white); }
+.decision-body { padding: 1.4rem 1.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.decision-col-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.decision-col ul { list-style: none; }
+.decision-col li { font-size: 0.82rem; color: var(--mid); font-weight: 300; line-height: 1.6; padding: 0.2rem 0; display: flex; gap: 0.6rem; }
+.decision-col li::before { content: '—'; color: var(--muted); flex-shrink: 0; }
+.decision-col.chosen li::before { content: '✓'; color: var(--accent-proj); }
+.decision-rationale {
+  padding: 1.2rem 1.6rem; border-top: 1px solid rgba(240,237,230,0.06);
+  background: rgba(107,143,255,0.04);
+  font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
+}
+.decision-rationale strong { color: var(--white); font-weight: 400; }
+
+/* Failed direction */
+.failed-direction {
+  margin: 2.5rem 0; padding: 1.8rem 2rem;
+  border: 1px solid rgba(240,237,230,0.06); border-radius: 4px;
+  background: var(--bg-2); position: relative;
+}
+.failed-tag {
+  position: absolute; top: -0.6rem; left: 1.4rem;
+  font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  background: var(--bg); border: 1px solid rgba(240,237,230,0.1);
+  color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 2px;
+}
+.failed-direction h4 { font-size: 0.9rem; font-weight: 500; color: var(--white); margin-bottom: 0.6rem; margin-top: 0.5rem; }
+.failed-direction p { font-size: 0.84rem; color: var(--mid); font-weight: 300; line-height: 1.7; }
+.failed-why { margin-top: 0.8rem; font-size: 0.78rem; color: var(--muted); font-style: italic; display: flex; gap: 0.5rem; }
+.failed-why::before { content: '↳'; flex-shrink: 0; }
+
+/* Before/After */
+.before-after { margin: 3rem 0; }
+.ba-label-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem; }
+.ba-label {
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); padding: 0.3rem 0.7rem; background: var(--bg-3);
+  border-radius: 2px; display: flex; align-items: center; gap: 0.5rem;
+}
+.ba-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+.ba-label.after::before { background: var(--accent-proj); }
+.ba-images { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+/* Validation */
+.validation-block {
+  margin: 2.5rem 0; background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.07); border-radius: 4px; overflow: hidden;
+}
+.validation-header {
+  padding: 1rem 1.6rem; border-bottom: 1px solid rgba(240,237,230,0.06);
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.validation-header::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-amber); flex-shrink: 0; }
+.validation-items { padding: 1.4rem 1.6rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; }
+.v-metric { font-size: 1.4rem; font-weight: 300; letter-spacing: -0.02em; color: var(--white); margin-bottom: 0.3rem; }
+.v-metric em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+.v-label { font-size: 0.75rem; color: var(--mid); font-weight: 300; line-height: 1.5; }
+
+/* Reflection */
+.reflection-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 1.5rem; }
+.reflection-col-label { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.reflection-col-label::before { content: ''; width: 16px; height: 1px; background: var(--muted); }
+.reflection-col p { font-size: 0.88rem; color: var(--mid); line-height: 1.8; font-weight: 300; }
+
+/* Next project */
+.next-project {
+  padding: 5rem 3rem; border-top: 1px solid rgba(240,237,230,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 2rem; max-width: 1100px; margin: 0 auto;
+}
+.next-label { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.next-title { font-size: 1.8rem; font-weight: 300; letter-spacing: -0.02em; }
+.next-title em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.95rem 2.2rem; border-radius: 2px;
+  border: 1px solid rgba(240,237,230,0.2); color: var(--white);
+  position: relative; overflow: hidden; transition: all 0.25s;
+}
+.btn-outline::before {
+  content: ''; position: absolute; inset: 0; background: var(--accent-proj);
+  transform: translateX(-101%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-outline:hover::before { transform: translateX(0); }
+.btn-outline span { position: relative; z-index: 1; }
+
+/* TICKER */
+.ticker-wrap { border-top: 1px solid rgba(240,237,230,0.06); padding: 0.85rem 0; overflow: hidden; background: var(--bg-2); }
+.ticker { display: flex; animation: tickerscroll 30s linear infinite; white-space: nowrap; width: max-content; }
+@keyframes tickerscroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+.ticker-item { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 0 2.5rem; display: flex; align-items: center; gap: 2.5rem; }
+.ticker-dot { width: 4px; height: 4px; background: var(--accent-blue); border-radius: 50%; flex-shrink: 0; }
+.ticker-item.amber .ticker-dot { background: var(--accent-amber); }
+
+/* FOOTER */
+.footer { padding: 2.8rem 3rem; border-top: 1px solid rgba(240,237,230,0.06); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem; }
+.footer-copy { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.footer-center { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--mid); text-align: center; }
+.footer-links { display: flex; justify-content: flex-end; gap: 2rem; list-style: none; }
+.footer-links a { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.footer-links a:hover { color: var(--white); }
+
+@media (max-width: 900px) {
+  :root { --sidebar-w: 0px; }
+  .cs-body { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 0; }
+  .cs-sidebar { display: none; }
+  .nav { padding: 0 1.5rem; }
+  .hero-content { padding: 0 1.5rem 3rem; }
+  .aperture { display: none; }
+  .meta-strip { padding: 1.5rem; }
+  .meta-strip-inner { gap: 2rem; }
+  .reflection-two-col, .ba-images, .ba-label-row, .decision-body, .img-two-col, .img-three-col { grid-template-columns: 1fr; }
+  .validation-items { grid-template-columns: 1fr 1fr; }
+  .insight-block { grid-template-columns: 1fr; }
+  .insight-label-col { writing-mode: horizontal-tb; flex-direction: row; padding: 0.8rem 1.4rem; min-width: auto; border-right: none; border-bottom: 1px solid rgba(240,237,230,0.06); }
+  .insight-label-text { writing-mode: horizontal-tb; transform: none; }
+  .footer { grid-template-columns: 1fr; }
+  .footer-center { display: none; }
+  .footer-links { justify-content: flex-start; }
+  .next-project { padding: 3rem 1.5rem; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-name">Manav Hemnani</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/pages/work.html">Work</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+      <li><a href="/pages/contact.html">Contact</a></li>
+    </ul>
+    <a href="work.html" class="nav-back">← Back to Work</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-gradient"></div>
+  <div class="aperture">
+    <div class="aperture-ring"></div>
+    <div class="aperture-ring"></div>
+    <div class="aperture-ring"></div>
+    <div class="aperture-ring"></div>
+  </div>
+  <div class="hero-exif">
+    <span>F / 1.8</span>
+    <span>1 / 250 s</span>
+    <span>ISO 800</span>
+    <span>35 mm</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-badge">Master's Thesis</span>
+      <span class="hero-year">2022 · Mobile App · Educational Platform</span>
+    </div>
+    <h1>Percept:<br><em>Learn Photography</em></h1>
+    <p class="hero-sub">
+      Percept is a guided learning platform designed <strong>to help beginners understand photography through visual explanations </strong>rather than technical jargon. The system breaks down camera concepts into interactive modules that simulate how exposure, aperture, and lighting affect real images. 
+    </p>
+  </div>
+</section>
+
+<!-- META STRIP -->
+<div class="meta-strip">
+  <div class="meta-strip-inner">
+    <div class="meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-value">UX Design · Interaction Design</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Scope</div>
+      <div class="meta-value">Mobile App Design</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-value">24 Months</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Status</div>
+      <div class="meta-value highlight">Concept</div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="cs-body">
+
+  <aside class="cs-sidebar">
+    <p class="sidebar-label">Contents</p>
+    <ul class="sidebar-nav" id="sidebarNav">
+      <li><a href="#origin" class="active"><span class="sidebar-num">01</span>Where It Started</a></li>
+      <li><a href="#problem"><span class="sidebar-num">02</span>The Problem</a></li>
+      <li><a href="#research"><span class="sidebar-num">03</span>Research & Insight</a></li>
+      <li><a href="#constraints"><span class="sidebar-num">04</span>Constraints</a></li>
+      <li><a href="#failed"><span class="sidebar-num">05</span>What Didn't Work</a></li>
+      <li><a href="#decisions"><span class="sidebar-num">06</span>Key Decisions</a></li>
+      <li><a href="#design"><span class="sidebar-num">07</span>Final Design</a></li>
+      <li><a href="#validate"><span class="sidebar-num">08</span>If We'd Shipped</a></li>
+      <li><a href="#reflection"><span class="sidebar-num">09</span>Reflection</a></li>
+    </ul>
+    <div class="sidebar-progress">
+      <div class="sidebar-progress-fill" id="progressFill"></div>
+    </div>
+    <div class="sidebar-progress-label" id="progressLabel">0% read</div>
+  </aside>
+
+  <main class="cs-content">
+
+    <!-- 01 WHERE IT STARTED -->
+    <section class="chapter" id="origin">
+      <div class="chapter-header">
+        <span class="chapter-num">—01</span>
+        <h2 class="chapter-title">Where It <em>Started</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon"></span>
+        <div class="audit-note-text">
+          <strong>
+        </div>
+      </div>
+
+      <div class="origin-block">
+        <div class="origin-label">The origin</div>
+        <p class="origin-text">During design school I noticed that many of us had slowly drifted away from the hobbies that once sparked our curiosity. Photography had been one of mine — something I had practiced for years through Nikon courses and personal experimentation. When I tried returning to it, most learning resources felt overly technical and disconnected from the joy of exploring the craft.</p>
+      </div>
+
+      <p class="body-text">
+        That experience revealed a broader gap: most photography platforms teach camera settings, but very few teach people how to see.
+      </p>
+
+      <img src="../assets/images/praan/screenshot-4.png" alt="Personal travel photography — the eye behind Percept" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">[ Caption: where this was taken, or what it represents about how you see ]</p>
+    </section>
+
+    <!-- 02 THE PROBLEM -->
+    <section class="chapter" id="problem">
+      <div class="chapter-header">
+        <span class="chapter-num">—02</span>
+        <h2 class="chapter-title">The <em>Problem</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>Writing prompt:</strong> The audit noted the competitive space is crowded — Lightroom, Masterclass, YouTube. Your job here is to define why Percept occupies a different space, not a better version of the same space. The distinction you made in the hero — "most apps teach tools, none teach seeing" — is the differentiation. Build this section around that idea.
+        </div>
+      </div>
+
+      <p class="body-text">
+        [ What's actually broken about how people learn photography today? Be specific about the gap — not "existing apps are bad" but what specifically they fail to do. Where does the learning break down? At what moment does a beginner hit a wall that YouTube or Lightroom tutorials can't fix? ]
+      </p>
+
+      <div class="pull-quote">
+        <p>"[ Your sharpest insight about the photography learning problem — the one that reframes why Percept needs to exist. Write this after you've drafted everything else. ]"</p>
+        <cite>[ Source — your research, or a principle you developed ]</cite>
+      </div>
+
+      <p class="body-text">
+        [ How did you define the target user? Not demographics — the specific moment in someone's photography journey where they need Percept. Beginner who just bought a camera? Enthusiast stuck on auto? Someone who's watched 50 YouTube videos and still can't take the shot they imagined? ]
+      </p>
+
+      <img src="../assets/images/praan/website-visual-2.jpg" alt="Competitive landscape — where Percept sits relative to existing tools" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">[ Caption: the gap in the market — what exists and what doesn't ]</p>
+    </section>
+
+    <!-- 03 RESEARCH & INSIGHT -->
+    <section class="chapter" id="research">
+      <div class="chapter-header">
+        <span class="chapter-num">—03</span>
+        <h2 class="chapter-title">Research & <em>Insight</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>This is Percept's strongest chapter — the audit explicitly said your research documentation here is the best in the portfolio.</strong> Don't summarise it. Show it. But crucially: for each research method, name one specific finding that changed the design direction. "We did user interviews" is worthless. "We discovered that beginners didn't fail because of technical knowledge — they failed because they couldn't predict how a shot would look before pressing the shutter. That changed everything." is what gets you hired.
+        </div>
+      </div>
+
+      <p class="body-text">
+        [ Brief overview of research approach — who you spoke to, what you were trying to understand, how long. One paragraph max. ]
+      </p>
+
+      <!-- Insight 1 -->
+      <div class="insight-block">
+        <div class="insight-label-col">
+          <span class="insight-label-num">01</span>
+          <span class="insight-label-text">Finding</span>
+        </div>
+        <div class="insight-body">
+          <p class="insight-finding">[ Research finding 1 — the specific thing you discovered, stated as a fact ]</p>
+          <p class="insight-implication"><strong>Design implication:</strong> [ How this finding changed a specific design decision. What did you build differently because of this? ]</p>
+        </div>
+      </div>
+
+      <!-- Insight 2 -->
+      <div class="insight-block">
+        <div class="insight-label-col">
+          <span class="insight-label-num">02</span>
+          <span class="insight-label-text">Finding</span>
+        </div>
+        <div class="insight-body">
+          <p class="insight-finding">[ Research finding 2 — the one that most surprised you or most directly contradicted your assumptions ]</p>
+          <p class="insight-implication"><strong>Design implication:</strong> [ What changed in the design as a direct result of this finding? ]</p>
+        </div>
+      </div>
+
+      <!-- Insight 3 -->
+      <div class="insight-block">
+        <div class="insight-label-col">
+          <span class="insight-label-num">03</span>
+          <span class="insight-label-text">Finding</span>
+        </div>
+        <div class="insight-body">
+          <p class="insight-finding">[ Research finding 3 — the expert vs. beginner mental model gap, or another key finding ]</p>
+          <p class="insight-implication"><strong>Design implication:</strong> [ What did this mean for the structure or content of the app? ]</p>
+        </div>
+      </div>
+
+      <div class="img-two-col">
+        <img src="../assets/images/praan/screenshot-1.png" alt="Research artifacts — affinity map and interview synthesis" style="width:100%;border-radius:4px;display:block;">
+        <img src="../assets/images/praan/screenshot-5.png" alt="Expert vs beginner mental model — the gap revealed" style="width:100%;border-radius:4px;display:block;">
+      </div>
+      <p class="img-caption">[ Caption: what these artifacts show and the single most important thing they revealed ]</p>
+    </section>
+
+    <!-- 04 CONSTRAINTS -->
+    <section class="chapter" id="constraints">
+      <div class="chapter-header">
+        <span class="chapter-num">—04</span>
+        <h2 class="chapter-title"><em>Constraints</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>Writing prompt:</strong> Learning app constraints are different from utility app constraints. Think about: attention span during a lesson, the transition from in-app to real-world context, the fact that progress in photography is hard to measure objectively, and the risk that gamification mechanics undermine the meditative quality of actually shooting. Document the constraints that shaped your design, not generic ones.
+        </div>
+      </div>
+
+      <div class="constraint-list">
+        <span class="constraint-pill hard">Learning requires doing — passive content doesn't build muscle memory</span>
+        <span class="constraint-pill hard">Progress in photography is subjective — hard to gamify meaningfully</span>
+        <span class="constraint-pill hard">Lesson context switches: in-app → real world → back in-app</span>
+        <span class="constraint-pill">Risk: gamification mechanics undermine the meditative quality of shooting</span>
+        <span class="constraint-pill">Users will open this app outdoors — legibility in sunlight</span>
+        <span class="constraint-pill">[ Add your actual constraints ]</span>
+      </div>
+
+      <p class="body-text">
+        [ Pick the 1–2 most interesting constraints and explain how they directly shaped a design decision. The "learning requires doing" constraint is the core one — how did this force a structural decision about how lessons are designed? ]
+      </p>
+    </section>
+
+    <!-- 05 WHAT DIDN'T WORK -->
+    <section class="chapter" id="failed">
+      <div class="chapter-header">
+        <span class="chapter-num">—05</span>
+        <h2 class="chapter-title">What <em>Didn't Work</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>The audit noted:</strong> "The jump from research to final design is too clean. Where are the early explorations? What did you try that didn't work?" This section addresses that directly. Show one direction that seemed right from the research and turned out wrong in execution — or one structural approach you tried and abandoned.
+        </div>
+      </div>
+
+      <div class="failed-direction">
+        <span class="failed-tag">Direction 01 — Abandoned</span>
+        <h4>[ Name the abandoned direction — e.g. "Course-based linear curriculum" ]</h4>
+        <p>[ What was the idea — why did the research seem to point here? What did you prototype or sketch? ]</p>
+        <div class="failed-why">[ Why it didn't work — what you discovered when you tested or thought through it. The specific moment you knew this direction was wrong. ]</div>
+      </div>
+
+      <img src="../assets/images/praan/screenshot-3.png" alt="Rejected direction — early low-fi prototype" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">[ Caption: what this direction was and why it was abandoned ]</p>
+    </section>
+
+    <!-- 06 KEY DECISIONS -->
+    <section class="chapter" id="decisions">
+      <div class="chapter-header">
+        <span class="chapter-num">—06</span>
+        <h2 class="chapter-title">Key <em>Decisions</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>The audit noted:</strong> "Feature decisions are shown; tradeoffs between approaches are not." This section fixes that. For each decision: what was the question, what did you consider, what did you choose, and — critically — what did you give up? The sacrifice is what makes the decision real.
+        </div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-header">
+          <span class="decision-icon">⚡</span>
+          <span class="decision-q">[ Decision 1: e.g. "How do you structure a lesson so it ends in the real world, not on a screen?" ]</span>
+        </div>
+        <div class="decision-body">
+          <div class="decision-col">
+            <div class="decision-col-label">Options considered</div>
+            <ul>
+              <li>[ Option A ]</li>
+              <li>[ Option B ]</li>
+              <li>[ Option C ]</li>
+            </ul>
+          </div>
+          <div class="decision-col chosen">
+            <div class="decision-col-label">What we chose</div>
+            <ul>
+              <li>[ Chosen approach ]</li>
+              <li>[ What this enabled ]</li>
+              <li>[ What it sacrificed ]</li>
+            </ul>
+          </div>
+        </div>
+        <div class="decision-rationale">
+          <strong>Why:</strong> [ Connect back to the research finding or constraint that made this the right call. ]
+        </div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-header">
+          <span class="decision-icon">⚡</span>
+          <span class="decision-q">[ Decision 2: e.g. "How do you measure progress in something as subjective as photography?" ]</span>
+        </div>
+        <div class="decision-body">
+          <div class="decision-col">
+            <div class="decision-col-label">Options considered</div>
+            <ul>
+              <li>[ Option A ]</li>
+              <li>[ Option B ]</li>
+              <li>[ Option C ]</li>
+            </ul>
+          </div>
+          <div class="decision-col chosen">
+            <div class="decision-col-label">What we chose</div>
+            <ul>
+              <li>[ Chosen approach ]</li>
+              <li>[ What this enabled ]</li>
+              <li>[ What it sacrificed ]</li>
+            </ul>
+          </div>
+        </div>
+        <div class="decision-rationale">
+          <strong>Why:</strong> [ Your rationale. ]
+        </div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-header">
+          <span class="decision-icon">⚡</span>
+          <span class="decision-q">[ Decision 3: e.g. "Navigation and IA — how did you structure the app around doing vs. learning?" ]</span>
+        </div>
+        <div class="decision-body">
+          <div class="decision-col">
+            <div class="decision-col-label">Options considered</div>
+            <ul>
+              <li>[ Option A ]</li>
+              <li>[ Option B ]</li>
+              <li>[ Option C ]</li>
+            </ul>
+          </div>
+          <div class="decision-col chosen">
+            <div class="decision-col-label">What we chose</div>
+            <ul>
+              <li>[ Chosen approach ]</li>
+              <li>[ What this enabled ]</li>
+              <li>[ What it sacrificed ]</li>
+            </ul>
+          </div>
+        </div>
+        <div class="decision-rationale">
+          <strong>Why:</strong> [ Your rationale — connect to the IA and research synthesis work the audit praised. ]
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 FINAL DESIGN -->
+    <section class="chapter" id="design">
+      <div class="chapter-header">
+        <span class="chapter-num">—07</span>
+        <h2 class="chapter-title">Final <em>Design</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>The audit specifically said:</strong> "Cut at least 40% of the individual screen documentation and replace with narrative." Don't show every screen. Pick 4–5 moments that best show your decisions and annotate them. For each screen or flow: what is the user doing, what design decision is visible, and why does it serve the learning goal?
+        </div>
+      </div>
+
+      <p class="body-text">
+        [ One paragraph describing the final experience from a user's perspective — not a feature list. What is it like to open Percept for the first time? What does the app ask you to do? What happens after your first lesson? ]
+      </p>
+
+      <img src="../assets/images/praan/website-visual-1.jpg" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">[ Caption: what this screen communicates and the decision behind it ]</p>
+
+      <div class="before-after">
+        <div class="ba-label-row">
+          <div class="ba-label">Early direction — [ e.g. course-based structure ]</div>
+          <div class="ba-label after">Final design — [ e.g. mission-based structure ]</div>
+        </div>
+        <div class="ba-images">
+          <img src="../assets/images/praan/screenshot-3.png" alt="Early direction — course-based structure" style="width:100%;border-radius:4px;display:block;">
+          <img src="../assets/images/praan/website-visual-1.jpg" alt="Final design — mission-based structure" style="width:100%;border-radius:4px;display:block;">
+        </div>
+      </div>
+      <p class="img-caption">[ Caption: what changed between these two versions and why ]</p>
+
+      <div class="img-three-col">
+        <img src="../assets/images/praan/screenshot-2.png" alt="Lesson screen — in-app learning moment" style="width:100%;border-radius:4px;display:block;">
+        <img src="../assets/images/praan/screenshot-4.png" alt="Field prompt — real-world mission handoff" style="width:100%;border-radius:4px;display:block;">
+        <img src="../assets/images/praan/screenshot-5.png" alt="Progress and reflection — after the shot is taken" style="width:100%;border-radius:4px;display:block;">
+      </div>
+      <p class="img-caption">[ Caption: the three moments of a Percept lesson — learn, shoot, reflect ]</p>
+
+      <img src="../assets/images/praan/website-visual-4.jpg" alt="Full app flow — onboarding through lesson, real world, and reflection" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+    </section>
+
+    <!-- 08 IF WE'D SHIPPED -->
+    <section class="chapter" id="validate">
+      <div class="chapter-header">
+        <span class="chapter-num">—08</span>
+        <h2 class="chapter-title">If We'd <em>Shipped</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>The audit said:</strong> "Concept ends without validation, testing, or even a 'what we'd measure' statement." Define what success would look like. For a learning app, this is especially interesting — how do you measure that someone actually learned to see better? That's a harder UX problem than measuring a click-through rate. Show you've thought about it.
+        </div>
+      </div>
+
+      <p class="body-text">
+        [ What would the first 90 days of Percept data look like if it shipped? What would tell you the core learning loop was working? What would signal it was broken? ]
+      </p>
+
+      <div class="validation-block">
+        <div class="validation-header">Hypothetical success metrics — if shipped</div>
+        <div class="validation-items">
+          <div class="validation-item">
+            <div class="v-metric">[ <em>X</em>% ]</div>
+            <div class="v-label">[ Metric 1 — e.g. lesson completion rate including the real-world field prompt ]</div>
+          </div>
+          <div class="validation-item">
+            <div class="v-metric">[ <em>X</em> ]</div>
+            <div class="v-label">[ Metric 2 — e.g. average shots submitted per user in first 30 days ]</div>
+          </div>
+          <div class="validation-item">
+            <div class="v-metric">[ <em>X</em>% ]</div>
+            <div class="v-label">[ Metric 3 — e.g. 30-day retention — users who completed 3+ lessons ]</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-text">
+        [ The harder question: how would you know someone actually got better at photography — not just better at using the app? What qualitative signal would you look for? This is where you show the depth behind the product thinking. ]
+      </p>
+    </section>
+
+    <!-- 09 REFLECTION -->
+    <section class="chapter" id="reflection">
+      <div class="chapter-header">
+        <span class="chapter-num">—09</span>
+        <h2 class="chapter-title"><em>Reflection</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>The audit said:</strong> "The ending is abrupt. The case study just stops." Close with conviction. What did you learn designing this? Not just about the app — about yourself as a designer. And what would V2 look like? A designer who can articulate what they'd do next signals that the work isn't finished in their head — it's still alive.
+        </div>
+      </div>
+
+      <div class="reflection-two-col">
+        <div class="reflection-col">
+          <div class="reflection-col-label">What worked</div>
+          <p>[ Your honest reflection on what held up — a design decision you're proud of, the research approach, something about the visual language. Be specific, not generic. ]</p>
+        </div>
+        <div class="reflection-col">
+          <div class="reflection-col-label">What I'd do differently</div>
+          <p>[ One specific thing — ideally connected to validation. e.g. "I'd have run 3 sessions with beginner photographers before finalising the lesson structure, because the progression I designed assumes a learning curve I never validated with real users." ]</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-project">
+  <div>
+    <p class="next-label">Next Project</p>
+    <p class="next-title">[ Finance Boutique ]<br><em>Client Acquisition Site</em></p>
+  </div>
+  <a href="swift.html" class="btn-outline"><span>View Case Study →</span></a>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
+  </div>
+</div>
+
+<footer class="footer">
+  <span class="footer-copy">© 2026 Manav Hemnani</span>
+  <span class="footer-center">Percept: Learn Photography</span>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
+    <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
+    <li><a href="mailto:HEMNANIMANAV@GMAIL.COM">Email ↗</a></li>
+  </ul>
+</footer>
+
+<script>
+const chapters = document.querySelectorAll('.chapter');
+const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+const progressFill = document.getElementById('progressFill');
+const progressLabel = document.getElementById('progressLabel');
+
+window.addEventListener('scroll', () => {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.round((window.scrollY / docH) * 100);
+  progressFill.style.width = pct + '%';
+  progressLabel.textContent = pct + '% read';
+  let current = '';
+  chapters.forEach(ch => {
+    if (ch.getBoundingClientRect().top < window.innerHeight * 0.4) current = ch.id;
+  });
+  sidebarLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+
+sidebarLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.06 });
+
+document.querySelectorAll('.chapter, .decision-block, .failed-direction, .validation-block, .insight-block, .origin-block').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(18px)';
+  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  obs.observe(el);
+});
+
+window.addEventListener('scroll', () => {
+  document.querySelector('.nav').style.borderBottomColor =
+    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
+}, { passive: true });
+</script>
+</body>
+</html>

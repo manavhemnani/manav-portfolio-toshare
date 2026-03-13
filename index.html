@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manav Hemnani — Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0d0b;
+  --bg-2: #131310;
+  --bg-3: #1a1a16;
+  --white: #f0ede6;
+  --muted: #5a5a52;
+  --mid: #8a8a7e;
+  --accent-blue: #4a9eff;
+  --accent-amber: #c8a96e;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* GRAIN OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.6rem 3rem;
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  backdrop-filter: blur(12px);
+  background: rgba(13,13,11,0.7);
+  animation: fadeDown 0.8s ease both;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.nav-right {
+  display: flex; align-items: center; gap: 2.5rem;
+}
+
+.nav-links {
+  display: flex; gap: 2rem; list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--white); }
+
+.nav-status {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  background: #4caf7d;
+  border-radius: 50%;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(76,175,125,0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(76,175,125,0); }
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 3rem;
+  padding-top: 68px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Cinematic background */
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(13,13,11,0.2) 0%, rgba(13,13,11,0.85) 75%, var(--bg) 100%),
+    linear-gradient(135deg, #0d1a2e 0%, #0d0d0b 40%, #1a1208 100%);
+  z-index: 0;
+}
+
+/* Subtle grid lines - tennis court / mixer reference */
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(240,237,230,1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,237,230,1) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* Accent glow */
+.hero-glow {
+  position: absolute;
+  top: 20%; right: 15%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(74,158,255,0.08) 0%, transparent 70%);
+  z-index: 0;
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.hero-split {
+  position: relative; z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  animation: fadeUp 1s 0.3s ease both;
+  pointer-events: none;
+}
+
+.hero-left {
+  flex: 0 0 auto;
+  width: clamp(320px, 46%, 540px);
+  min-width: 0;
+  pointer-events: auto;
+}
+
+/* === THREE.JS COURT CANVAS === */
+#court-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto;
+}
+
+/* Left-side darkening shade so text stays legible over the court */
+.hero-left-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(13,13,11,0.92) 0%,
+    rgba(13,13,11,0.78) 30%,
+    rgba(13,13,11,0.42) 55%,
+    transparent 75%
+  );
+}
+
+/* Custom HEAD racket cursor */
+.hero { cursor: none; }
+#cursor-racket {
+  position: fixed;
+  top: 0; left: 0;
+  width: 64px; height: 64px;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  transition: filter 0.15s ease;
+}
+#cursor-racket.hovering {
+  filter: drop-shadow(0 0 14px rgba(200,169,110,0.95));
+}
+
+/* Ball navigation labels */
+.ball-label {
+  position: fixed;
+  font-size: clamp(0.32rem, 0.85vw, 0.46rem);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--accent-amber);
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 10;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.20s;
+  font-family: var(--sans);
+  white-space: nowrap;
+  text-shadow: 0 0 14px rgba(200,169,110,0.7);
+  padding: 0.28rem 0.55rem;
+}
+
+/* Flash overlay for page-transition animation */
+#court-flash {
+  position: fixed;
+  inset: 0;
+  background: #0d0d0b;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9990;
+  transition: opacity 0.2s ease;
+}
+
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-meta-top {
+  display: flex; align-items: center; gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.hero-tag {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  font-weight: 500;
+}
+
+.hero-divider {
+  width: 40px; height: 1px;
+  background: var(--muted);
+}
+
+.hero-coord {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.hero h1 {
+  font-size: clamp(2.8rem, 4.5vw, 5.2rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.8rem;
+  max-width: 600px;
+}
+
+.hero h1 em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-amber);
+}
+
+.hero-bottom {
+  display: flex; flex-direction: column; gap: 2rem;
+}
+
+.hero-sub {
+  font-size: 0.9rem;
+  color: var(--mid);
+  line-height: 1.75;
+  max-width: 440px;
+  font-weight: 300;
+}
+
+.hero-sub strong {
+  color: var(--white);
+  font-weight: 400;
+}
+
+.hero-actions {
+  display: flex; align-items: center; gap: 1.5rem;
+}
+
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  border: 1px solid rgba(240,237,230,0.2);
+  color: var(--white);
+  padding: 0.9rem 2rem;
+  border-radius: 2px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--accent-blue);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.cta-btn:hover::before { transform: translateX(0); }
+.cta-btn span { position: relative; z-index: 1; }
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.8rem;
+  left: 50%;
+  z-index: 3;
+  pointer-events: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 0.6rem;
+  animation: bounceCenter 2s ease-in-out infinite 2s;
+}
+
+@keyframes bounceCenter {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(5px); }
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* TICKER */
+.ticker-wrap {
+  border-top: 1px solid rgba(240,237,230,0.06);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  padding: 0.9rem 0;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+
+.ticker {
+  display: flex;
+  gap: 0;
+  animation: ticker 30s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 2.5rem;
+  display: flex; align-items: center; gap: 2.5rem;
+}
+
+.ticker-dot {
+  width: 4px; height: 4px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ticker-item.amber .ticker-dot { background: var(--accent-amber); }
+
+/* PASSPORT */
+.passport-spread {
+  display: flex;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow:
+    0 70px 140px rgba(0,0,0,0.8),
+    0 25px 50px rgba(0,0,0,0.45),
+    0 0 0 3px #16120d,
+    0 0 0 5px rgba(200,170,100,0.1);
+}
+
+.passport-page {
+  flex: 1;
+  padding: 2rem 1.8rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  /* Warm cream paper with security cross-hatch */
+  background-color: #ede8d5;
+  background-image:
+    repeating-linear-gradient(
+      62deg,
+      transparent,
+      transparent 4px,
+      rgba(120,90,35,0.022) 4px,
+      rgba(120,90,35,0.022) 5px
+    ),
+    repeating-linear-gradient(
+      -62deg,
+      transparent,
+      transparent 4px,
+      rgba(120,90,35,0.022) 4px,
+      rgba(120,90,35,0.022) 5px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 17px,
+      rgba(120,90,35,0.018) 17px,
+      rgba(120,90,35,0.018) 18px
+    );
+}
+
+/* Aged paper edge vignette */
+.passport-page::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(90,65,20,0.09) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.passport-page > * { position: relative; z-index: 1; }
+
+.pp-left {
+  border-right: 1px solid rgba(100,75,35,0.18);
+}
+
+.pp-right {
+  background-color: #eae4d1;
+}
+
+.passport-spine {
+  width: 16px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg,
+    rgba(120,90,40,0.35) 0%,
+    rgba(210,185,130,0.55) 30%,
+    rgba(240,220,170,0.65) 50%,
+    rgba(210,185,130,0.55) 70%,
+    rgba(120,90,40,0.35) 100%
+  );
+  box-shadow:
+    -2px 0 6px rgba(0,0,0,0.15),
+     2px 0 6px rgba(0,0,0,0.15);
+}
+
+.pp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.4rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(90,65,25,0.14);
+}
+
+.pp-country {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(50,35,15,0.4);
+  font-weight: 600;
+}
+
+.pp-doc-no {
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(50,35,15,0.28);
+}
+
+/* STAMPS — ink on paper */
+.stamp {
+  padding: 0.82rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 1.1rem;
+  position: relative;
+  background: transparent;
+}
+
+.stamp-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.44rem;
+}
+
+.stamp-icon {
+  font-size: 0.72rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.stamp-cat {
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.stamp-val {
+  font-size: 0.84rem;
+  font-weight: 400;
+  line-height: 1.38;
+  letter-spacing: 0.01em;
+}
+
+.stamp-val em {
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+.stamp-sub {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.34rem;
+  opacity: 0.5;
+}
+
+/* Inner double-line border on rectangular stamps */
+.stamp-work::after,
+.stamp-listen::after,
+.stamp-read::after {
+  content: '';
+  position: absolute; inset: 3px;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/* Working On — dark forest green ink, entry stamp */
+.stamp-work {
+  border: 1.5px solid rgba(14,65,38,0.52);
+  color: #0c3d22;
+  transform: rotate(-3.8deg);
+  box-shadow:
+    inset 0 0 14px rgba(14,65,38,0.06),
+    0 1px 8px rgba(14,65,38,0.07);
+}
+.stamp-work .stamp-cat  { color: #0d5530; }
+.stamp-work .stamp-icon { color: #16703c; }
+.stamp-work::after      { border: 0.5px solid rgba(14,65,38,0.18); }
+
+/* Listening To — deep crimson ink, visa stamp */
+.stamp-listen {
+  border: 1.5px solid rgba(110,20,20,0.5);
+  color: #521010;
+  transform: rotate(2.5deg);
+  box-shadow:
+    inset 0 0 14px rgba(110,20,20,0.06),
+    0 1px 8px rgba(110,20,20,0.07);
+}
+.stamp-listen .stamp-cat  { color: #7a1818; }
+.stamp-listen .stamp-icon { color: #951e1e; }
+.stamp-listen::after      { border: 0.5px solid rgba(110,20,20,0.18); }
+
+/* Reading — deep navy ink, customs stamp */
+.stamp-read {
+  border: 1.5px solid rgba(18,40,105,0.5);
+  color: #0e2158;
+  transform: rotate(-1.8deg);
+  box-shadow:
+    inset 0 0 14px rgba(18,40,105,0.06),
+    0 1px 8px rgba(18,40,105,0.06);
+}
+.stamp-read .stamp-cat  { color: #163080; }
+.stamp-read .stamp-icon { color: #1c3ca0; }
+.stamp-read::after      { border: 0.5px solid rgba(18,40,105,0.18); }
+
+/* Thinking About — SVG circular seal */
+.stamp-think {
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0;
+  display: flex;
+  justify-content: center;
+  transform: rotate(8.5deg);
+  margin: 0.4rem 0.5rem 0;
+  box-shadow: none;
+}
+.stamp-think::after { display: none; }
+
+.stamp-think-svg {
+  width: 158px;
+  height: 158px;
+  opacity: 0.68;
+  filter: blur(0.12px);
+}
+
+/* WORK */
+.section-work {
+  padding: 7rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 4rem;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 1rem;
+}
+
+.section-label::before {
+  content: '—01';
+  color: var(--accent-blue);
+  font-weight: 500;
+}
+
+.section-link {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 0.5rem;
+  transition: color 0.2s;
+}
+
+.section-link:hover { color: var(--white); }
+
+/* PROJECT CARDS */
+.projects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(240,237,230,0.04);
+}
+
+.project-card {
+  background: var(--bg);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.project-card.featured { grid-column: 1 / -1; }
+
+.project-card:hover { background: var(--bg-3); }
+
+.project-visual {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card.featured .project-visual { height: 420px; }
+.project-card:not(.featured) .project-visual { height: 280px; }
+
+.project-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+.project-card:hover .project-img-placeholder {
+  transform: scale(1.03);
+}
+
+/* Cinematic overlays for each project */
+.img-praan {
+  background:
+    linear-gradient(to top, rgba(13,13,11,0.8) 0%, rgba(13,13,11,0.2) 60%),
+    linear-gradient(135deg, #0a1a14 0%, #0d2218 50%, #061209 100%);
+}
+
+.img-percept {
+  background:
+    linear-gradient(to top, rgba(13,13,11,0.8) 0%, rgba(13,13,11,0.2) 60%),
+    linear-gradient(135deg, #0a0a1e 0%, #0d0d2a 50%, #080818 100%);
+}
+
+.img-swift {
+  background:
+    linear-gradient(to top, rgba(13,13,11,0.8) 0%, rgba(13,13,11,0.2) 60%),
+    linear-gradient(135deg, #1a0a1e 0%, #2a0d30 50%, #120816 100%);
+}
+
+.img-percept, .img-swift {
+  width: 100%; height: 100%;
+}
+
+.project-visual-label {
+  position: absolute;
+  top: 1.4rem; right: 1.4rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(13,13,11,0.7);
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(240,237,230,0.08);
+  border-radius: 2px;
+}
+
+.project-visual-label.shipped {
+  color: var(--accent-blue);
+  border-color: rgba(74,158,255,0.3);
+}
+
+/* Easter egg coordinate on featured */
+.project-coord {
+  position: absolute;
+  bottom: 1.4rem; left: 1.4rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.25);
+  font-weight: 300;
+}
+
+.project-info {
+  padding: 1.8rem 2rem 2rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+  border-top: 1px solid rgba(240,237,230,0.06);
+  position: relative;
+}
+
+.project-number {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.project-name {
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.project-card.featured .project-name { font-size: 1.8rem; }
+
+.project-hook {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.6;
+  font-weight: 300;
+  max-width: 520px;
+}
+
+.project-arrow {
+  position: absolute;
+  bottom: 2rem; right: 2rem;
+  width: 34px; height: 34px;
+  border: 1px solid rgba(240,237,230,0.12);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  transition: all 0.25s;
+}
+
+.project-card:hover .project-arrow {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: rgba(74,158,255,0.1);
+}
+
+/* ABOUT / PHILOSOPHY SECTION */
+.section-about {
+  padding: 7rem 3rem;
+  border-top: 1px solid rgba(240,237,230,0.06);
+}
+
+.about-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.about-left {}
+
+.about-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.about-label::before {
+  content: '—02';
+  color: var(--accent-amber);
+  font-weight: 500;
+}
+
+.about-heading {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.about-heading em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent-amber);
+}
+
+.about-body {
+  font-size: 0.92rem;
+  color: var(--mid);
+  line-height: 1.85;
+  font-weight: 300;
+  margin-bottom: 1.4rem;
+}
+
+.about-body strong { color: var(--white); font-weight: 400; }
+
+.about-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(240,237,230,0.2);
+  padding-bottom: 0.2rem;
+  margin-top: 1rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.about-btn:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+/* PRINCIPLES */
+.about-right {}
+
+.principles {}
+
+.principle {
+  padding: 1.6rem 0;
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.principle:first-child { border-top: 1px solid rgba(240,237,230,0.06); }
+
+.p-num {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-blue);
+  font-weight: 500;
+  padding-top: 0.15rem;
+}
+
+.p-content {}
+
+.p-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: var(--white);
+}
+
+.p-body {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* INTERESTS STRIP — the passport stamps */
+.section-interests {
+  padding: 4rem 3rem;
+  border-top: 1px solid rgba(240,237,230,0.06);
+  background: var(--bg-2);
+}
+
+.interests-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 2rem;
+}
+
+.interests-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.interests-items {
+  display: flex; gap: 0; flex-wrap: wrap;
+}
+
+.interest-item {
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 0.6rem 1.6rem;
+  border-left: 1px solid rgba(240,237,230,0.06);
+}
+
+.interest-item:first-child { border-left: none; }
+
+.interest-icon { font-size: 1rem; opacity: 0.7; }
+
+.interest-name {
+  font-size: 0.78rem;
+  color: var(--mid);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.interest-detail {
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* FOOTER */
+footer {
+  padding: 3rem;
+  border-top: 1px solid rgba(240,237,230,0.06);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+
+.footer-left {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.footer-center {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--mid);
+  text-align: center;
+}
+
+.footer-right {
+  display: flex; justify-content: flex-end; gap: 2rem;
+  list-style: none;
+}
+
+.footer-right a {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-right a:hover { color: var(--white); }
+
+/* ── TABLET (769 – 1024 px): landscape court on top, text below ── */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    height: auto;
+    padding: 68px 0 0 0;
+    overflow: visible;
+  }
+
+  /* Landscape slab: 42 vw tall keeps the wide court visible */
+  #court-canvas {
+    position: relative !important;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .hero-left-shade {
+    position: absolute;
+    left: 0; right: 0;
+    top: 68px;
+    bottom: auto;
+    height: 72vw;   /* matches TABLET_COURT_RATIO — portrait slab */
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 55%,
+      rgba(13,13,11,0.85) 100%
+    );
+    pointer-events: none;
+  }
+
+  .hero-split {
+    position: relative;
+    z-index: 2;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: var(--bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 2.5rem 3rem 5rem;
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    pointer-events: auto;
+  }
+
+  .hero-left {
+    width: 65%;
+    max-width: 600px;
+    pointer-events: auto;
+  }
+}
+
+/* ── MOBILE (≤ 768 px): portrait court on top, text below ── */
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-status { display: none; }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    height: auto;
+    padding: 68px 0 0 0;
+    overflow: visible;
+  }
+
+  /* Portrait slab: 72 vw gives a tall, narrow court frame */
+  #court-canvas {
+    position: relative !important;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .hero-left-shade {
+    position: absolute;
+    left: 0; right: 0;
+    top: 68px;
+    bottom: auto;
+    height: 72vw;   /* matches MOBILE_COURT_RATIO */
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 50%,
+      rgba(13,13,11,0.85) 100%
+    );
+    pointer-events: none;
+  }
+
+  .hero-split {
+    position: relative;
+    z-index: 2;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: var(--bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 2rem 1.5rem 5rem;
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    pointer-events: auto;
+  }
+
+  .hero-left {
+    width: 100%;
+    max-width: 100%;
+    pointer-events: auto;
+  }
+
+  .hero h1 { font-size: 2.4rem; }
+
+  .scroll-hint { bottom: 1.8rem; }
+
+  .section-work { padding: 5rem 1.5rem; }
+  .projects { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: auto; }
+  .project-card.featured .project-visual { height: 280px; }
+  .section-about { padding: 5rem 1.5rem; }
+  .about-inner { grid-template-columns: 1fr; gap: 4rem; }
+  .section-interests { padding: 3rem 1.5rem; }
+  .interests-inner { flex-direction: column; align-items: flex-start; }
+  .interest-item:first-child { border-left: 1px solid rgba(240,237,230,0.06); }
+  footer { grid-template-columns: 1fr; text-align: center; }
+  .footer-right { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-name">Manav Hemnani</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/pages/work.html">Work</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+      <li><a href="/pages/contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      Open to roles
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <canvas id="court-canvas"></canvas>
+  <div class="hero-left-shade"></div>
+
+  <div class="hero-split">
+
+    <!-- LEFT: headline + sub + CTA -->
+    <div class="hero-left">
+      <div class="hero-meta-top">
+        <span class="hero-tag">Product Designer</span>
+        <span class="hero-divider"></span>
+        <span class="hero-coord">Industrial × Digital</span>
+      </div>
+
+      <h1>
+        Designing digital products<br>
+        that understand the<br>
+        <em>physical world.</em>
+      </h1>
+
+      <div class="hero-bottom">
+        <p class="hero-sub">
+          <strong>Industrial design foundation. Product design practice.</strong><br>
+          I work at the intersection of hardware systems, human behavior, and interface design — building products that live where screen meets space.
+        </p>
+        <div class="hero-actions">
+          <a href="/pages/work.html" class="cta-btn"><span>View Work ↓</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="scroll-hint">scroll ↓</div>
+</section>
+
+<!-- TICKER — passport stamp layer -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <!-- Set 1 -->
+    <div class="ticker-item"><span class="ticker-dot"></span> Product Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> Travel Photography</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Hardware Ecosystems</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> House / Techno</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Spatial Computing</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> Tennis Court</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Industrial Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> Consumer Electronics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Motion Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> DJ Sets</div>
+    <!-- Set 2 (duplicate for seamless loop) -->
+    <div class="ticker-item"><span class="ticker-dot"></span> Product Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> Travel Photography</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Hardware Ecosystems</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> House / Techno</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Spatial Computing</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> Tennis Court</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Industrial Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> Consumer Electronics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span> Motion Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span> DJ Sets</div>
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="section-work" id="work">
+  <div class="section-header">
+    <span class="section-label">Selected Work</span>
+    <a href="/pages/work.html" class="section-link">All Projects →</a>
+  </div>
+
+  <div class="projects">
+
+    <!-- FEATURED: PRAAN -->
+    <a href="/pages/praan.html" class="project-card featured">
+      <div class="project-visual">
+        <img src="/assets/images/praan-cover.jpeg" alt="Praan air ecosystem interface" style="width:100%; height:100%; object-fit:cover; display:block;">
+        <span class="project-visual-label shipped">Shipped</span>
+        <span class="project-coord">19° 02' 50.4" N 72° 54' 38.6" E · Mumbai, India</span>
+      </div>
+      <div class="project-info">
+        <span class="project-number">—01 / Hardware + Software Ecosystem</span>
+        <h2 class="project-name">Praan Air Ecosystem</h2>
+        <p class="project-hook">How do you make industrial-grade air purification feel personal and trustworthy? Designing the digital face of a deep-tech hardware company — app, website, and motion language — for users who distrust complexity.</p>
+        <div class="project-arrow">↗</div>
+      </div>
+    </a>
+
+    <!-- SWIFT VR -->
+    <a href="/pages/swift.html" class="project-card">
+      <div class="project-visual">
+        <div class="project-img-placeholder img-swift">
+        </div>
+        <span class="project-visual-label">Concept · Spatial</span>
+        <span class="project-coord">124 BPM · Reaction Time 0.3s</span>
+      </div>
+      <div class="project-info">
+        <span class="project-number">—02 / Spatial Computing · VR</span>
+        <h2 class="project-name">Swift VR Table Tennis</h2>
+        <p class="project-hook">Training requires a partner. VR removes that constraint — if the spatial interaction is designed right.</p>
+        <div class="project-arrow">↗</div>
+      </div>
+    </a>
+
+    <!-- PERCEPT -->
+    <a href="/pages/percept.html" class="project-card">
+      <div class="project-visual">
+        <div class="project-img-placeholder img-percept">
+        </div>
+        <span class="project-visual-label">Concept · Mobile</span>
+        <span class="project-coord">F/2.8 · 1/250s · ISO 400</span>
+      </div>
+      <div class="project-info">
+        <span class="project-number">—03 / Mobile App</span>
+        <h2 class="project-name">Percept: Learn Photography</h2>
+        <p class="project-hook">Learning photography requires doing, not watching. Every lesson ends with your camera in your hand.</p>
+        <div class="project-arrow">↗</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ABOUT + PRINCIPLES -->
+<section class="section-about" id="about">
+  <div class="about-inner">
+    <div class="about-left">
+      <div class="about-label">About</div>
+      <h2 class="about-heading">Product designer.<br><em>Industrial thinker.</em></h2>
+      <p class="about-body">
+        I'm Manav — trained in industrial design, now designing digital products for the physical world. I've designed <strong>companion apps for hardware ecosystems</strong>, spatial training experiences in VR, and mobile tools for everyday learning.
+      </p>
+      <p class="about-body">
+        My industrial design background gives me a different starting point: I think about <strong>systems before screens</strong>, constraints before concepts, and physical behavior before digital interaction.
+      </p>
+      <p class="about-body">
+        Outside the work: travel photographer, DJ, tennis player. I'm drawn to systems — whether that's a mixing board, a tennis rally, or an onboarding flow.
+      </p>
+      <a href="/pages/about.html" class="about-btn">Full Story →</a>
+    </div>
+
+    <div class="about-right">
+      <div class="principles">
+        <div class="principle">
+          <span class="p-num">01</span>
+          <div class="p-content">
+            <p class="p-title">Constraints first</p>
+            <p class="p-body">I start every project by mapping what I can't do. Constraints reveal design opportunity faster than open-ended exploration.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="p-num">02</span>
+          <div class="p-content">
+            <p class="p-title">Legibility under pressure</p>
+            <p class="p-body">The best interfaces work when users are distracted, anxious, or in a hurry. I design for the worst moment, not the ideal one.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="p-num">03</span>
+          <div class="p-content">
+            <p class="p-title">Physical logic in digital space</p>
+            <p class="p-body">When digital interactions borrow from physical behavior — weight, resistance, momentum — users trust them faster.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="p-num">04</span>
+          <div class="p-content">
+            <p class="p-title">Ship to learn</p>
+            <p class="p-body">Concepts teach craft. Shipped products teach humility. I pursue both, equally.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS — passport stamps -->
+<div class="section-interests">
+  <div class="interests-inner">
+    <span class="interests-label">Beyond the work</span>
+    <div class="interests-items">
+      <div class="interest-item">
+        <span class="interest-icon">📷</span>
+        <div>
+          <div class="interest-name">Travel Photography</div>
+          <div class="interest-detail">Landscape · Cinematic</div>
+        </div>
+      </div>
+      <div class="interest-item">
+        <span class="interest-icon">🎛</span>
+        <div>
+          <div class="interest-name">DJ / Music</div>
+          <div class="interest-detail">House · Techno</div>
+        </div>
+      </div>
+      <div class="interest-item">
+        <span class="interest-icon">🎾</span>
+        <div>
+          <div class="interest-name">Tennis</div>
+          <div class="interest-detail">Competitive · Recreational</div>
+        </div>
+      </div>
+      <div class="interest-item">
+        <span class="interest-icon">🏋️</span>
+        <div>
+          <div class="interest-name">Training</div>
+          <div class="interest-detail">Discipline · Movement</div>
+        </div>
+      </div>
+      <div class="interest-item">
+        <span class="interest-icon">🔌</span>
+        <div>
+          <div class="interest-name">Consumer Electronics</div>
+          <div class="interest-detail">Hardware · Systems</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-left">© 2026 Manav Hemnani</div>
+  <div class="footer-center">Let's work together</div>
+  <ul class="footer-right">
+    <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
+    <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
+    <li><a href="mailto:HEMNANIMANAV@GMAIL.COM">Email ↗</a></li>
+  </ul>
+</footer>
+
+<!-- Ball navigation labels (positioned by JS) -->
+<div class="ball-label" id="ball-label-0">Work</div>
+<div class="ball-label" id="ball-label-1">About</div>
+<div class="ball-label" id="ball-label-2">Contact</div>
+
+<!-- Racket cursor — provided asset -->
+<div id="cursor-racket" aria-hidden="true">
+  <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.98 79.9" width="64" height="64">
+    <defs><style>.cls-1{fill:#f0ede7;}</style></defs>
+    <g id="Layer_1-2">
+      <g>
+        <path class="cls-1" d="M79.98,75.98l-3.73-3.73-.19,7.65,3.92-3.92Z"/>
+        <path class="cls-1" d="M75.16,79.2l.18-7.86-3.45-3.45-.17,7.87,3.44,3.44Z"/>
+        <path class="cls-1" d="M70.82,74.86l.17-7.87-3.44-3.44-.18,7.86,3.45,3.45Z"/>
+        <path class="cls-1" d="M66.46,70.5l.19-7.85-3.45-3.45-.19,7.86,3.45,3.44Z"/>
+        <path class="cls-1" d="M62.13,66.16l.18-7.86-3.45-3.45-.18,7.86,3.45,3.45Z"/>
+        <path class="cls-1" d="M35.29,5.7c-.09-.07-.16-.12-.21-.16-1.35-.93-2.72-1.74-4.09-2.42-1.41-.72-2.84-1.31-4.27-1.75-1.39-.46-2.82-.82-4.27-1.05C21.08.08,19.65,0,18.18,0c-1.45.02-2.89.19-4.26.48-1.58.35-2.96.83-4.23,1.47-1.57.75-2.99,1.75-4.23,2.96-.12.08-.21.18-.3.26-.06.08-.18.18-.24.26-1.22,1.28-2.22,2.71-2.98,4.26-.63,1.28-1.11,2.67-1.46,4.24C.18,15.31.02,16.75,0,18.2c-.01,1.47.08,2.9.33,4.26.22,1.46.57,2.89,1.05,4.27.44,1.44,1.02,2.87,1.74,4.28.68,1.36,1.49,2.73,2.41,4.06.05.08.09.15.13.2,1.09,1.56,2.28,3,3.58,4.34l.57.57c1.35,1.35,2.94,2.66,4.42,3.72,1.33.95,2.73,1.79,4.17,2.54,1.43.72,2.87,1.33,4.27,1.79,1.38.49,2.82.85,4.28,1.09,1.42.25,2.84.38,4.26.37.39,0,.77-.01,1.16-.03.03-.01.06-.01.1-.01h.04c.98-.06,1.98-.19,2.97-.4,1.32-.25,2.59-.64,3.75-1.16.06-.05.13-.07.19-.08h.01c.09-.05.19-.09.29-.15,1.57-.73,2.99-1.68,4.23-2.83.2-.17.39-.35.55-.53.2-.19.36-.34.51-.53,1.17-1.26,2.11-2.69,2.84-4.25.05-.1.1-.19.15-.3.01-.06.04-.13.08-.19.51-1.16.91-2.43,1.16-3.75.21-.99.34-1.99.4-2.97-.01-.01,0-.02,0-.04,0-.04,0-.07.01-.1.02-.39.03-.77.03-1.14.01-1.44-.12-2.86-.37-4.28-.24-1.46-.6-2.9-1.08-4.27-.46-1.41-1.07-2.85-1.81-4.29-.74-1.43-1.58-2.83-2.53-4.16-.02-.02-.07-.11-.09-.13-1.06-1.48-2.27-2.94-3.62-4.29l-.57-.57c-1.35-1.29-2.8-2.47-4.32-3.53h0ZM7.43,7.45c.49-.49,1.01-.95,1.58-1.37v2.95h-2.96c.42-.56.89-1.09,1.38-1.58h0ZM26.41,18.64v3.43h-3.43v-3.43h3.43ZM22.97,17.73v-3.42h3.44v3.41h-3.44ZM26.41,23v3.42h-3.44v-3.42h3.44ZM22.06,22.07h-3.41v-3.42s3.41-.01,3.41-.01v3.43ZM22.06,23v3.41h-3.42s0-3.42,0-3.42h3.42ZM17.72,26.42h-3.42v-3.42h3.41v3.42ZM22.06,27.35v3.41h-3.43v-3.42s3.43.01,3.43.01ZM26.41,31.69v3.43h-3.43s0-3.43,0-3.43h3.43ZM22.99,30.76v-3.42s3.42,0,3.42,0v3.42s-3.42,0-3.42,0ZM27.32,27.34h3.43v3.42h-3.42v-3.42ZM27.32,26.42v-3.43h3.42s.01,3.43.01,3.43h-3.43ZM31.68,23h3.43v3.42s-3.43-.01-3.43-.01v-3.41ZM27.34,22.07v-3.43h3.41v3.43h-3.41ZM27.33,17.73v-3.42h3.42v3.42s-3.42,0-3.42,0ZM22.97,13.38v-3.41h3.44s0,3.42,0,3.42h-3.44ZM22.06,13.36h-3.42s0-3.4,0-3.4h3.42s0,3.4,0,3.4ZM22.06,14.31v3.41h-3.42s.01-3.41.01-3.41h3.41ZM17.72,17.73h-3.42v-3.42h3.42s0,3.42,0,3.42ZM17.72,18.65v3.42h-3.42v-3.43h3.42ZM13.36,22.07h-3.43v-3.42h3.42v3.42ZM13.36,22.99v3.43h-3.41v-3.43h3.41ZM17.72,27.34v3.42h-3.42v-3.41h3.42ZM17.7,31.69v3.43h-3.41v-3.42s3.41,0,3.41,0ZM18.63,31.7h3.42s0,3.42,0,3.42h-3.43v-3.42ZM26.41,36.04v3.43h-3.43v-3.43h3.43ZM27.33,36.04h3.43v3.43h-3.43v-3.43ZM27.33,35.11v-3.41h3.42s0,3.42,0,3.42h-3.42ZM31.68,31.69h3.43v3.43h-3.43v-3.43ZM31.68,30.76v-3.41h3.42s.01,3.41.01,3.41h-3.43ZM36.02,27.34h3.43v3.43h-3.42s0-3.43,0-3.43ZM36.02,26.42v-3.43h3.43v3.43h-3.43ZM31.68,22.07v-3.43h3.43v3.43h-3.43ZM31.68,17.72v-3.41h3.43v3.42s-3.43-.01-3.43-.01ZM31.68,13.38v-3.43h3.42s.01,3.43.01,3.43h-3.43ZM30.75,13.37h-3.43v-3.41h3.43v3.41ZM22.99,9.03v-3.41h3.43v3.41h-3.43ZM22.06,9.03h-3.43v-3.42s3.43.01,3.43.01v3.41ZM17.72,9.04h-3.43v-3.42h3.42v3.42ZM17.7,9.95v3.42s-3.41-.01-3.41-.01v-3.41h3.41ZM13.36,13.37h-3.41v-3.41h3.41v3.41ZM13.34,14.31v3.42s-3.4,0-3.4,0v-3.42s3.4,0,3.4,0ZM9,17.73h-3.41v-3.41h3.42s-.01,3.41-.01,3.41ZM9.02,18.64v3.43h-3.41v-3.42s3.41,0,3.41,0ZM9.02,23v3.41h-3.41v-3.42s3.41.01,3.41.01ZM13.36,27.34v3.42s-3.41-.01-3.41-.01v-3.41h3.41ZM13.36,31.7v3.42s-3.41-.01-3.41-.01v-3.41h3.41ZM17.7,36.04v3.41h-3.42s0-3.42,0-3.42h3.42ZM18.63,36.04h3.42v3.42h-3.42s0-3.42,0-3.42ZM26.41,40.39v3.42s-3.42,0-3.42,0v-3.43h3.42ZM27.33,40.39h3.42s0,3.42,0,3.42h-3.43v-3.42ZM31.68,40.38h3.43v3.43h-3.43v-3.43ZM31.68,39.45v-3.41h3.42s0,3.42,0,3.42h-3.42ZM36.02,36.04h3.43v3.43h-3.43v-3.43ZM36.02,35.11v-3.42s3.43.01,3.43.01v3.41h-3.43ZM40.36,31.69h3.43v3.43h-3.43v-3.43ZM40.36,30.76v-3.42s3.43-.01,3.43-.01v3.43h-3.43ZM40.38,26.42v-3.42s3.42,0,3.42,0v3.43h-3.42ZM36.02,22.07v-3.43h3.42s-.01,3.43-.01,3.43h-3.41ZM36.02,17.73v-3.43h3.43v3.43h-3.43ZM36.02,13.37v-3.41h.69c.54.46,1.06.95,1.56,1.45.41.41.81.82,1.18,1.25v.71s-3.43,0-3.43,0ZM35.11,9.03h-3.43v-2.67c1.18.68,2.32,1.43,3.42,2.29v.38ZM30.75,5.86v3.17h-3.41v-3.41h2.94c.16.07.32.15.47.24h0ZM27.33,4.68v-.32c.29.11.58.21.85.32h-.85ZM26.41,4.69h-3.44v-1.49c1.14.19,2.3.48,3.44.84v.65ZM22.06,4.69h-3.42v-1.81c1.12-.03,2.27.03,3.42.18v1.63ZM17.72,4.68h-3.43v-1.18c1.11-.29,2.25-.48,3.43-.57v1.75ZM13.36,3.81v.87h-2.09c.66-.33,1.36-.64,2.09-.87ZM13.36,5.61v3.42s-3.4,0-3.4,0v-3.42s3.4,0,3.4,0ZM9.02,9.95v3.42h-3.42v-3.42s3.42,0,3.42,0ZM4.66,13.37h-.87c.23-.71.52-1.41.86-2.07v2.07ZM4.66,14.31v3.42s-1.74-.01-1.74-.01c.09-1.17.29-2.31.57-3.41h1.17ZM4.66,18.64v3.43h-1.61c-.16-1.16-.21-2.31-.18-3.42h1.79ZM4.66,23v3.41h-.64c-.37-1.14-.64-2.28-.83-3.42h1.47ZM4.34,27.35h.31v.82c-.11-.28-.21-.55-.31-.82ZM5.61,27.35h3.41v3.41h-3.15c-.08-.16-.19-.33-.27-.49v-2.92ZM9.02,31.7v3.42s-.39-.01-.39-.01c-.85-1.09-1.61-2.24-2.26-3.41h2.65ZM9.95,36.72v-.69h3.41v3.43h-.71c-.43-.38-.84-.78-1.25-1.19-.5-.49-.99-1.01-1.45-1.55h0ZM14.29,40.39h3.42s0,2.77,0,2.77c-1.17-.69-2.32-1.46-3.42-2.33v-.44ZM18.63,43.69v-3.31s3.42,0,3.42,0v3.43h-3.2c-.07-.05-.14-.08-.22-.12h0ZM22.06,44.74v.51c-.43-.16-.84-.33-1.27-.52h1.27ZM22.99,44.74h3.43v1.71c-1.14-.2-2.29-.5-3.43-.88v-.83ZM27.33,44.73h3.42v2.1c-1.12.01-2.26-.06-3.43-.22v-1.88ZM31.68,44.74h3.43v1.52c-1.1.29-2.26.46-3.43.54v-2.06ZM36.02,46v-1.27s2.93.01,2.93.01c-.92.51-1.92.93-2.93,1.26h0ZM36.02,43.81v-3.42s3.42,0,3.42,0v3.43h-3.42ZM40.36,43.81v-3.42s3.43-.01,3.43-.01v.04c-.46.65-.98,1.26-1.56,1.83-.57.57-1.19,1.09-1.83,1.56h-.05ZM40.38,39.46v-3.43h3.42s.01,3.43.01,3.43h-3.43ZM44.72,36.04h1.27c-.32,1.01-.74,2-1.26,2.93v-2.93ZM44.72,35.12v-3.43h2.06c-.08,1.18-.25,2.33-.54,3.43h-1.52ZM44.72,30.76v-3.42s1.86,0,1.86,0c.17,1.15.24,2.3.22,3.43h-2.08ZM44.72,26.42v-3.42h.84c.38,1.14.68,2.29.88,3.42h-1.72ZM44.72,22.07v-1.26c.18.42.34.84.5,1.26h-.5ZM43.79,22.07h-3.43v-3.43h3.3c.05.08.09.17.13.24v3.19ZM40.38,17.73v-3.43h.44c.87,1.11,1.65,2.26,2.33,3.43h-2.77Z"/>
+        <path class="cls-1" d="M51.2,47.32c.09.17.06.4-.08.55l-3.26,3.26c-.15.15-.38.18-.55.08-2.28-.96-4.87-1.72-7.74-2.27-.99.44-2.06.8-3.18,1.07,4.01.51,9.82,1.74,14.22,4.66l.02.02.02.02h.01s.01,0,.01,0h.01s.01.02.02.03l7.08,7.08.19-7.86-3.28-3.28h.01s-.01-.02-.02-.03l-.02-.02c-2.92-4.4-4.15-10.21-4.66-14.22-.28,1.11-.63,2.19-1.07,3.18.54,2.86,1.3,5.45,2.27,7.73h0Z"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<!-- Dark flash overlay for ball-click page transition -->
+<div id="court-flash"></div>
+
+<!-- Three.js r128 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var canvas = document.getElementById('court-canvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  /* ── RENDERER ─────────────────────────────────────── */
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  /* Three breakpoints, each with its own court slab proportions.
+     Ratios must match the CSS vw heights in the media queries.    */
+  var MOBILE_COURT_RATIO = 0.72; // mobile  ≤768 px  → portrait tall  (72 vw)
+  var TABLET_COURT_RATIO = 0.72; // tablet 769-1024 px → portrait tall (72 vw)
+  var NAV_HEIGHT = 68;           // px — canvas offset below fixed nav
+
+  function getBreakpoint() {
+    var w = window.innerWidth;
+    if (w <= 768)  return 'mobile';
+    if (w <= 1024) return 'tablet';
+    return 'desktop';
+  }
+
+  function getRendererDimensions() {
+    var bp = getBreakpoint();
+    var cw = window.innerWidth;
+    if (bp === 'mobile') return { w: cw, h: Math.round(cw * MOBILE_COURT_RATIO) };
+    if (bp === 'tablet') return { w: cw, h: Math.round(cw * TABLET_COURT_RATIO) };
+    return { w: cw, h: window.innerHeight };
+  }
+
+  var _rd = getRendererDimensions();
+  renderer.setSize(_rd.w, _rd.h);
+
+  /* ── SCENE & FOG ─────────────────────────────────── */
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x0d0d0b, 24, 46);
+
+  /* ── CAMERA — true 1-point perspective, baseline ─── */
+  /* Camera sits at the near baseline looking down the
+     court length. Vanishing point lands at screen centre. */
+  var camera = new THREE.PerspectiveCamera(72, window.innerWidth / window.innerHeight, 0.1, 80);
+
+  /* Set camera position based on viewport orientation.
+     Portrait (mobile): elevated overhead angle so the full court
+     width fits within the narrow canvas.
+     Landscape (desktop): low dramatic 1-point perspective. */
+  function setCameraForViewport() {
+    var bp = getBreakpoint();
+    if (bp === 'mobile') {
+      // Portrait slab: aspect = canvas w ÷ canvas h = 1 / MOBILE_COURT_RATIO
+      camera.aspect = 1 / MOBILE_COURT_RATIO;
+      camera.fov = 90;
+      // High, slightly pulled back — shows full court width in tall narrow frame
+      camera.position.set(0, 7.5, 11.5);
+      camera.lookAt(0, 0.0, -4);
+    } else if (bp === 'tablet') {
+      // Portrait slab — same elevated angle as mobile, wider viewport
+      camera.aspect = 1 / TABLET_COURT_RATIO;
+      camera.fov = 90;
+      camera.position.set(0, 7.5, 11.5);
+      camera.lookAt(0, 0.0, -4);
+    } else {
+      // Desktop: full viewport, standard landscape perspective
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.fov = 72;
+      camera.position.set(0, 1.85, 13.5);
+      camera.lookAt(0, 0.55, -20);
+    }
+    camera.updateProjectionMatrix();
+  }
+  setCameraForViewport();
+
+  /* ── COLOURS ─────────────────────────────────────── */
+  var COL_WHITE = 0xf0ede6;
+  var COL_AMBER = 0xc8a96e;
+  var COL_GLOW  = 0xffe8c0;
+
+  /* ── LINE FACTORIES ──────────────────────────────── */
+  function mkL(ax, ay, az, bx, by, bz, col, opa) {
+    var g = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(ax, ay, az),
+      new THREE.Vector3(bx, by, bz)
+    ]);
+    var m = new THREE.LineBasicMaterial({
+      color: col, transparent: true, opacity: opa, depthWrite: false
+    });
+    return new THREE.Line(g, m);
+  }
+
+  function makeDash(from, to, col, opa) {
+    var g = new THREE.BufferGeometry().setFromPoints([from, to]);
+    var m = new THREE.LineDashedMaterial({
+      color: col, dashSize: 0.20, gapSize: 0.13,
+      transparent: true, opacity: opa
+    });
+    var l = new THREE.Line(g, m);
+    l.computeLineDistances();
+    return l;
+  }
+
+  /* ── COURT DIMENSIONS ─────────────────────────────
+     Scale ≈ 1 unit = 1 metre.
+     Near baseline faces the camera, far recedes into fog. */
+  var W   =  5.5;   // doubles half-width (real: 5.49m)
+  var WS  =  4.1;   // singles half-width (real: 4.12m)
+  var ZN  =  11.5;  // near baseline z
+  var ZF  = -14.5;  // far baseline z
+  var ZNT =  -1.5;  // net z (centre of court)
+  var ZSN =   4.6;  // near service line
+  var ZSF =  -7.6;  // far service line
+  var NH  =   1.05; // net height (real: 0.91m centre)
+
+  /* ── FLOOR GRID — perspective depth cues ─────────
+     Faint horizontal cross-lines at 1.8-unit intervals
+     plus depth lanes converging to the vanishing point. */
+
+  // Depth lanes (parallel to long axis → converge to VP)
+  var laneXs = [-WS, -W*0.55, -W*0.2, W*0.2, W*0.55, WS];
+  laneXs.forEach(function (x) {
+    scene.add(mkL(x, 0, ZN, x, 0, ZF, COL_WHITE, 0.05));
+  });
+
+  // Cross-hatching on the floor surface
+  for (var gz = ZN - 1; gz >= ZF; gz -= 1.8) {
+    var gf = Math.max(0, (gz - ZF) / (ZN - ZF));
+    var go = 0.07 * gf;
+    if (go > 0.004) scene.add(mkL(-W, 0, gz, W, 0, gz, COL_WHITE, go));
+  }
+
+  /* ── MAIN COURT LINES ─────────────────────────────
+     Painted white lines on a hard court surface.
+     Near baseline is the most prominent — it frames the scene. */
+
+  // Near baseline — hero line, closest to viewer
+  scene.add(mkL(-W,  0,    ZN,  W,  0,    ZN,  COL_WHITE, 0.95));
+  scene.add(mkL(-W,  0.02, ZN,  W,  0.02, ZN,  COL_WHITE, 0.28)); // glow lift
+  scene.add(mkL(-W, -0.02, ZN,  W, -0.02, ZN,  COL_WHITE, 0.18)); // glow lift
+
+  // Far baseline
+  scene.add(mkL(-W, 0, ZF,  W, 0, ZF,  COL_WHITE, 0.55));
+  scene.add(mkL(-W, 0.015, ZF, W, 0.015, ZF, COL_WHITE, 0.15));
+
+  // Doubles sidelines — full court length
+  scene.add(mkL(-W, 0, ZN, -W, 0, ZF,  COL_WHITE, 0.80));
+  scene.add(mkL( W, 0, ZN,  W, 0, ZF,  COL_WHITE, 0.80));
+
+  // Singles sidelines — inside doubles
+  scene.add(mkL(-WS, 0, ZN, -WS, 0, ZF, COL_WHITE, 0.55));
+  scene.add(mkL( WS, 0, ZN,  WS, 0, ZF, COL_WHITE, 0.55));
+
+  // Near service line
+  scene.add(mkL(-WS, 0, ZSN,  WS, 0, ZSN,  COL_WHITE, 0.70));
+  scene.add(mkL(-WS, 0.015, ZSN, WS, 0.015, ZSN, COL_WHITE, 0.20));
+
+  // Far service line
+  scene.add(mkL(-WS, 0, ZSF,  WS, 0, ZSF,  COL_WHITE, 0.42));
+
+  // Centre service-box divider — single line, service line to service line
+  // (passes beneath the net, which is a physical structure above it)
+  scene.add(mkL(0, 0, ZSN,  0, 0, ZSF,  COL_WHITE, 0.44));
+
+  // Centre marks — short inward ticks at each baseline only (no T-mark overshoot)
+  scene.add(mkL( 0, 0, ZN,   0, 0, ZN  - 0.22, COL_WHITE, 0.80));
+  scene.add(mkL( 0, 0, ZF,   0, 0, ZF  + 0.22, COL_WHITE, 0.48));
+
+  /* ── NET ─────────────────────────────────────────
+     The net is the focal amber element — bright and
+     structurally detailed to read as a real barrier. */
+
+  // Ground shadow line
+  scene.add(mkL(-W, 0,  ZNT,  W, 0,  ZNT,  COL_AMBER, 0.38));
+
+  // Posts (left & right)
+  scene.add(mkL(-W, 0,  ZNT, -W, NH, ZNT,  COL_AMBER, 0.95));
+  scene.add(mkL( W, 0,  ZNT,  W, NH, ZNT,  COL_AMBER, 0.95));
+
+  // Top band — primary amber line (duplicated for glow)
+  scene.add(mkL(-W, NH,       ZNT,  W, NH,       ZNT,  COL_AMBER, 1.00));
+  scene.add(mkL(-W, NH+0.025, ZNT,  W, NH+0.025, ZNT,  COL_AMBER, 0.42));
+  scene.add(mkL(-W, NH-0.025, ZNT,  W, NH-0.025, ZNT,  COL_AMBER, 0.28));
+
+  // Centre strap (bright vertical at x=0)
+  scene.add(mkL(0, 0, ZNT,  0, NH * 0.85, ZNT,  COL_AMBER, 0.70));
+
+  // Vertical mesh strands
+  var NS = 40;
+  for (var ni = 1; ni < NS; ni++) {
+    var nx = -W + (ni / NS) * (W * 2);
+    var nOpa = (Math.abs(nx) < 0.15) ? 0 : 0.24; // gap at centre strap
+    scene.add(mkL(nx, 0, ZNT,  nx, NH, ZNT,  COL_AMBER, nOpa));
+  }
+
+  // Horizontal mesh strands (denser near top)
+  var netRowHeights = [0.18, 0.36, 0.52, 0.66, 0.78, 0.88, 0.96];
+  netRowHeights.forEach(function (ry) {
+    var nh = ry * NH;
+    var rowOpa = 0.10 + (ry * 0.08); // brighter rows near top
+    scene.add(mkL(-W, nh, ZNT,  W, nh, ZNT,  COL_AMBER, rowOpa));
+  });
+
+  /* ── BALL COLOURS ────────────────────────────────── */
+  var COL_BALL      = 0xd4b06a;   // warm fuzzy beige (the felt)
+  var COL_BALL_GLOW = 0xf5e8c0;   // warm white inner glow
+  var COL_SEAM      = 0xf0ede6;   // white split-line
+
+  /* ── TENNIS BALL SEAM ─────────────────────────────
+     Parametric equation for the figure-8 seam that wraps
+     around a tennis ball. Built in local space so it rotates
+     and translates with its parent ball mesh automatically.
+       sinφ = c · sin(2t)      (c = seam amplitude ≈ 0.42)
+       x = r · cos(φ) · cos(t)
+       y = r · sin(φ)
+       z = r · cos(φ) · sin(t)            t ∈ [0, 2π]         */
+  function makeTennisBallSeam(r, c) {
+    /* Build the figure-8 seam path as a CatmullRomCurve3 so we can
+       extrude it into a TubeGeometry — WebGL ignores linewidth > 1,
+       so a tube is the only way to get real visible stroke thickness. */
+    var pts = [];
+    var N = 120;
+    for (var k = 0; k <= N; k++) {
+      var t      = (k / N) * Math.PI * 2;
+      var sinPhi = c * Math.sin(2 * t);
+      var cosPhi = Math.sqrt(Math.max(0, 1 - sinPhi * sinPhi));
+      pts.push(new THREE.Vector3(
+        r * cosPhi * Math.cos(t),
+        r * sinPhi,
+        r * cosPhi * Math.sin(t)
+      ));
+    }
+    var curve   = new THREE.CatmullRomCurve3(pts, true);  // closed loop
+    /* Tube radius 0.011 — thin enough to read as a painted seam, not a rope.
+       renderOrder 1 so it composites over the ball (order 0) correctly.    */
+    var tubeGeo = new THREE.TubeGeometry(curve, 140, 0.011, 5, true);
+    var mat = new THREE.MeshBasicMaterial({
+      color: COL_SEAM, transparent: true, opacity: 0.72,
+      depthWrite: false, depthTest: true
+    });
+    var mesh = new THREE.Mesh(tubeGeo, mat);
+    mesh.renderOrder = 1;
+    return mesh;
+  }
+
+  /* ── CURVED TRAJECTORY ────────────────────────────
+     The trail shows where the ball CAME FROM — it was struck
+     from the far baseline, arced over the net, and is now
+     mid-flight toward the camera.
+     Curve: far-court origin → net-area apex → ball position.
+     Two concentric TubeGeometry meshes (thin bright core +
+     fat dim glow) create the look of a tapered motion trail. */
+  function makeCurvedTrajectory(fromP, apexP, ballP) {
+    var curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(fromP[0], fromP[1], fromP[2]),  // struck from far court
+      new THREE.Vector3(apexP[0], apexP[1], apexP[2]),  // peak over the net
+      new THREE.Vector3(ballP[0], ballP[1], ballP[2])   // current ball position
+    ]);
+
+    var group = new THREE.Group();
+
+    // Core — thin, bright
+    var coreGeo = new THREE.TubeGeometry(curve, 60, 0.017, 5, false);
+    var coreMat = new THREE.MeshBasicMaterial({
+      color: COL_AMBER, transparent: true, opacity: 0.58, depthWrite: false
+    });
+    group.add(new THREE.Mesh(coreGeo, coreMat));
+
+    // Glow — fat, dim (creates apparent taper illusion)
+    var glowGeoT = new THREE.TubeGeometry(curve, 30, 0.048, 5, false);
+    var glowMatT = new THREE.MeshBasicMaterial({
+      color: COL_BALL_GLOW, transparent: true, opacity: 0.14, depthWrite: false
+    });
+    group.add(new THREE.Mesh(glowGeoT, glowMatT));
+
+    return group;
+  }
+
+  /* Build a return-shot trajectory for the click animation.
+     Returns { group, coreMat, glowMat } so the caller can
+     update material opacity each frame and remove when done. */
+  function makeReturnTrajectory(startP, apexP, endP) {
+    var curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(startP.x, startP.y, startP.z),
+      new THREE.Vector3(apexP.x,  apexP.y,  apexP.z),
+      new THREE.Vector3(endP.x,   endP.y,   endP.z)
+    ]);
+    var group = new THREE.Group();
+
+    var coreMat = new THREE.MeshBasicMaterial({
+      color: COL_AMBER, transparent: true, opacity: 0.55, depthWrite: false
+    });
+    group.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 60, 0.017, 5, false), coreMat));
+
+    var glowMat = new THREE.MeshBasicMaterial({
+      color: COL_BALL_GLOW, transparent: true, opacity: 0.13, depthWrite: false
+    });
+    group.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 30, 0.052, 5, false), glowMat));
+
+    return { group: group, coreMat: coreMat, glowMat: glowMat };
+  }
+
+  /* ── BALLS ──────────────────────────────────────── */
+  var ballConfigs = [
+    {
+      url: '/pages/work.html',  label: 'Work',
+      p:    [ 3.2, 3.5,  6.5],   // ball position — already crossed baseline
+      from: [-2.0, 0.4, -13.0],  // struck from far-court left wing
+      apex: [ 0.9, 5.0, -0.5]    // peak of arc, just past net
+    },
+    {
+      url: '/pages/about.html', label: 'About',
+      p:    [ 4.6, 2.8,  1.5],
+      from: [-3.5, 0.4, -12.5],  // struck from deep far-court right
+      apex: [ 0.5, 4.5, -1.8]    // crests at net height
+    },
+    {
+      url: '#contact',          label: 'Contact',
+      p:    [ 3.8, 1.9, -4.5],
+      from: [-2.8, 0.4, -13.5],  // deep far court
+      apex: [ 0.4, 3.8, -3.0]    // lower arc, ball is descending
+    }
+  ];
+
+  var ballGeo = new THREE.SphereGeometry(0.32, 32, 32);
+  var glowGeo = new THREE.SphereGeometry(0.18, 14, 14);
+  var balls = [];
+
+  ballConfigs.forEach(function (cfg, i) {
+    var bp = cfg.p;
+
+    // Ball mesh — warm beige felt
+    var ballMat = new THREE.MeshBasicMaterial({
+      color: COL_BALL, transparent: true, opacity: 1.0
+    });
+    var ball = new THREE.Mesh(ballGeo, ballMat);
+    ball.position.set(bp[0], bp[1], bp[2]);
+    ball.renderOrder = 0;
+
+    // White seam — child of ball so it moves with it
+    // Path at r=0.325 (just outside ball surface 0.32) + tube radius 0.011 → max extent 0.336.
+    // Front-facing seam passes depth test; back-facing half is occluded by the ball.
+    var seam = makeTennisBallSeam(0.325, 0.42);
+    // Rotate seam slightly per ball so they don't all look identical
+    seam.rotation.y = i * 0.85;
+    seam.rotation.z = i * 0.4;
+    ball.add(seam);
+
+    // Glow halo — separate mesh at same world position
+    var glowMat = new THREE.MeshBasicMaterial({
+      color: COL_BALL_GLOW, transparent: true, opacity: 0.55
+    });
+    var glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.position.copy(ball.position);
+
+    // Trajectory trail: far court → net → ball (showing inbound flight path)
+    var trail = makeCurvedTrajectory(cfg.from, cfg.apex, bp);
+
+    scene.add(ball);
+    scene.add(glow);
+    scene.add(trail);
+
+    balls.push({
+      mesh: ball, glow: glow, trail: trail,
+      url: cfg.url, label: cfg.label,
+      baseY: bp[1], baseZ: bp[2],
+      shooting: false, hovered: false, index: i
+    });
+  });
+
+  /* ── RAYCASTER & CURSOR ─────────────────────────── */
+  var raycaster = new THREE.Raycaster();
+  var mouse     = new THREE.Vector2(-10, -10);
+  var cursorEl  = document.getElementById('cursor-racket');
+  var lastCX    = 0;
+  var inHero    = false;
+  var heroEl    = document.querySelector('.hero');
+
+  document.addEventListener('mousemove', function (e) {
+    var cx = e.clientX, cy = e.clientY;
+
+    // Cursor position
+    if (cursorEl) {
+      var dx    = cx - lastCX;
+      var tilt  = Math.max(-24, Math.min(24, dx * 1.6));
+      lastCX    = cx;
+      cursorEl.style.left      = cx + 'px';
+      cursorEl.style.top       = cy + 'px';
+      cursorEl.style.transform = 'translate(-50%,-50%) rotate(' + tilt + 'deg)';
+    }
+
+    // Raycaster coords (only inside hero)
+    var rect = heroEl ? heroEl.getBoundingClientRect() : null;
+    if (rect && cy >= rect.top && cy <= rect.bottom) {
+      inHero  = true;
+      mouse.x =  (cx / window.innerWidth)  * 2 - 1;
+      mouse.y = -(cy / window.innerHeight) * 2 + 1;
+    } else {
+      inHero = false;
+      mouse.set(-10, -10);
+    }
+  });
+
+  document.addEventListener('mouseleave', function () {
+    if (cursorEl) cursorEl.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', function () {
+    if (cursorEl) cursorEl.style.opacity = '1';
+  });
+
+  /* ── CLICK HANDLER ──────────────────────────────── */
+  canvas.addEventListener('click', function () {
+    if (!inHero) return;
+    raycaster.setFromCamera(mouse, camera);
+    var meshes = balls.map(function (b) { return b.mesh; });
+    var hits   = raycaster.intersectObjects(meshes);
+    if (!hits.length) return;
+
+    var hitMesh = hits[0].object;
+    var ball    = null;
+    for (var k = 0; k < balls.length; k++) {
+      if (balls[k].mesh === hitMesh) { ball = balls[k]; break; }
+    }
+    if (!ball || ball.shooting) return;
+    ball.shooting = true;
+
+    var startX = ball.mesh.position.x;
+    var startZ = ball.mesh.position.z;
+    var startY = ball.mesh.position.y;
+    var url    = ball.url;
+    var t0     = performance.now();
+
+    /* Build the return-shot trajectory tube instantly, matching
+       the arc the ball will travel: current pos → lob apex → far baseline. */
+    var retStart = new THREE.Vector3(startX, startY, startZ);
+    var retApex  = new THREE.Vector3(startX * 0.4, startY + 3.2, startZ - 16);
+    var retEnd   = new THREE.Vector3(startX * 0.2, startY * 0.2, startZ - 32);
+    var retTrail = makeReturnTrajectory(retStart, retApex, retEnd);
+    scene.add(retTrail.group);
+
+    /* Return shot — ball arcs back over the net and recedes
+       into the far end of the court, shrinking as it goes. */
+    (function shoot(now) {
+      var p    = Math.min((now - t0) / 560, 1);
+      var ease = 1 - Math.pow(1 - p, 3);          // ease-out cubic
+
+      // Fly back toward far baseline
+      ball.mesh.position.z = startZ - ease * 32;
+
+      // Arc up over the net then descend — sin gives a natural lob shape
+      ball.mesh.position.y = startY + Math.sin(ease * Math.PI) * 3.0;
+
+      // Mirror glow
+      ball.glow.position.copy(ball.mesh.position);
+
+      // Shrink and fade as it recedes into the distance
+      var shrink = Math.max(0.02, 1 - ease * 0.96);
+      ball.mesh.scale.setScalar(shrink);
+      ball.mesh.material.opacity = Math.max(0, 1 - ease * 0.88);
+
+      // Return trail fades slightly behind the ball
+      var trailAlpha = Math.max(0, 1 - ease * 0.92);
+      retTrail.coreMat.opacity = trailAlpha * 0.55;
+      retTrail.glowMat.opacity = trailAlpha * 0.13;
+
+      if (p < 1) {
+        requestAnimationFrame(shoot);
+      } else {
+        scene.remove(retTrail.group);
+        var flash = document.getElementById('court-flash');
+        if (flash) flash.style.opacity = '1';
+        setTimeout(function () { window.location.href = url; }, 230);
+      }
+    })(performance.now());
+  });
+
+  /* ── LABELS ─────────────────────────────────────── */
+  var _proj = new THREE.Vector3();
+  function updateLabels() {
+    var bp       = getBreakpoint();
+    var isNonDsk = (bp !== 'desktop');
+
+    /* On non-desktop the canvas is a fixed-height slab at the top of the
+       page, starting at NAV_HEIGHT px. Labels must be projected into
+       canvas-space coordinates then shifted down by NAV_HEIGHT.         */
+    var courtRatio = (bp === 'mobile') ? MOBILE_COURT_RATIO
+                   : (bp === 'tablet') ? TABLET_COURT_RATIO : 1;
+    var canvasH   = isNonDsk ? Math.round(window.innerWidth * courtRatio)
+                              : window.innerHeight;
+    var canvasTop = isNonDsk ? NAV_HEIGHT : 0;
+
+    /* Label Y-offset in world units from ball centre.
+       Larger magnitude = more breathing room between ball edge and text.
+       Below (negative) on non-desktop touch screens, above on desktop. */
+    var yOff = isNonDsk ? -0.90 : 0.92;
+
+    balls.forEach(function (ball, i) {
+      var el = document.getElementById('ball-label-' + i);
+      if (!el) return;
+
+      _proj.copy(ball.mesh.position);
+      _proj.y += yOff;
+      _proj.project(camera);
+
+      var sx = (_proj.x *  0.5 + 0.5) * window.innerWidth;
+      var sy = (_proj.y * -0.5 + 0.5) * canvasH + canvasTop;
+
+      el.style.left = sx + 'px';
+      el.style.top  = sy + 'px';
+
+      // Non-desktop = touch device; no hover → always show when in view
+      el.style.opacity = (_proj.z < 1 && (isNonDsk || ball.hovered)) ? '1' : '0';
+    });
+  }
+
+  /* ── ANIMATE LOOP ───────────────────────────────── */
+  var clock = new THREE.Clock();
+  var _sv   = new THREE.Vector3();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    var t = clock.getElapsedTime();
+
+    balls.forEach(function (ball, i) {
+      if (!ball.shooting) {
+        ball.mesh.position.y = ball.baseY + Math.sin(t * 1.1 + i * 1.25) * 0.20;
+        ball.glow.position.copy(ball.mesh.position);
+      }
+    });
+
+    if (inHero) {
+      raycaster.setFromCamera(mouse, camera);
+      var meshes  = balls.map(function (b) { return b.mesh; });
+      var hits    = raycaster.intersectObjects(meshes);
+      var hovMesh = hits.length ? hits[0].object : null;
+
+      balls.forEach(function (ball) {
+        var isHov = (ball.mesh === hovMesh);
+        ball.hovered = isHov;
+        if (!ball.shooting) {
+          var ts = isHov ? 1.38 : 1.0;
+          ball.mesh.scale.lerp(_sv.set(ts, ts, ts), 0.14);
+        }
+        var targetGlow = isHov ? 0.96 : 0.68;
+        ball.glow.material.opacity += (targetGlow - ball.glow.material.opacity) * 0.13;
+      });
+
+      if (hovMesh) {
+        cursorEl && cursorEl.classList.add('hovering');
+      } else {
+        cursorEl && cursorEl.classList.remove('hovering');
+      }
+    }
+
+    updateLabels();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  /* ── RESIZE ─────────────────────────────────────── */
+  window.addEventListener('resize', function () {
+    setCameraForViewport();          // sets camera.aspect + fov + position
+    var rd = getRendererDimensions();
+    renderer.setSize(rd.w, rd.h);
+  });
+
+}());
+</script>
+</body>
+</html>

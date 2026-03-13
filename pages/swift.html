@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swift VR — Pongori · Manav Hemnani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+:root {
+  --bg:           #0d0d0b;
+  --bg-2:         #131310;
+  --bg-3:         #1a1a16;
+  --white:        #f0ede6;
+  --muted:        #5a5a52;
+  --mid:          #8a8a7e;
+  --accent-blue:  #4a9eff;
+  --accent-amber: #c8a96e;
+  --accent-proj:  #a855f7; /* Swift VR project accent — purple */
+  --success:      #4caf7d;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --serif:        'Playfair Display', Georgia, serif;
+  --nav-h:        68px;
+  --sidebar-w:    220px;
+  --content-max:  720px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9000;
+  pointer-events: none; opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* NAV */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: var(--nav-h);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 3rem;
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  backdrop-filter: blur(14px);
+  background: rgba(13,13,11,0.8);
+}
+.nav-name { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); }
+.nav-right { display: flex; align-items: center; gap: 2.5rem; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+.nav-back:hover { color: var(--white); }
+
+/* HERO */
+.cs-hero {
+  padding-top: var(--nav-h);
+  position: relative;
+  height: 92vh; min-height: 600px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 70%, rgba(168,85,247,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 25%, rgba(74,158,255,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 60% 80%, rgba(168,85,247,0.08) 0%, transparent 50%),
+    linear-gradient(160deg, #100818 0%, #1a0d28 50%, #0c0614 100%);
+}
+
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(13,13,11,0.05) 0%, rgba(13,13,11,0.4) 50%, rgba(13,13,11,0.92) 85%, var(--bg) 100%);
+}
+
+.hero-grid-overlay {
+  position: absolute; inset: 0; opacity: 0.035;
+  background-image:
+    linear-gradient(rgba(240,237,230,1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,237,230,1) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* BPM pulse rings — DJ / athlete easter egg */
+.hero-rings {
+  position: absolute;
+  top: 35%; right: 18%;
+  width: 300px; height: 300px;
+  display: flex; align-items: center; justify-content: center;
+}
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(168,85,247,0.15);
+  animation: ringPulse 2.4s ease-out infinite;
+}
+.ring:nth-child(1) { width: 80px; height: 80px; animation-delay: 0s; }
+.ring:nth-child(2) { width: 140px; height: 140px; animation-delay: 0.3s; border-color: rgba(168,85,247,0.1); }
+.ring:nth-child(3) { width: 210px; height: 210px; animation-delay: 0.6s; border-color: rgba(168,85,247,0.06); }
+.ring:nth-child(4) { width: 290px; height: 290px; animation-delay: 0.9s; border-color: rgba(168,85,247,0.03); }
+
+@keyframes ringPulse {
+  0%   { transform: scale(0.95); opacity: 0.8; }
+  60%  { opacity: 1; }
+  100% { transform: scale(1.05); opacity: 0; }
+}
+
+.hero-content {
+  position: relative; z-index: 1;
+  padding: 0 3rem 4rem;
+  max-width: 920px;
+  animation: fadeUp 1s 0.2s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap;
+}
+
+.hero-badge {
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3);
+  color: var(--accent-proj); padding: 0.28rem 0.8rem; border-radius: 2px;
+}
+
+.hero-year { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+.cs-hero h1 {
+  font-size: clamp(2.8rem, 5.5vw, 5.4rem);
+  font-weight: 300; line-height: 1.0; letter-spacing: -0.028em; margin-bottom: 1.4rem;
+}
+.cs-hero h1 em { font-family: var(--serif); font-style: italic; color: var(--accent-proj); }
+
+.hero-sub { font-size: 1.05rem; color: var(--mid); line-height: 1.75; font-weight: 300; max-width: 600px; }
+.hero-sub strong { color: var(--white); font-weight: 400; }
+
+/* META STRIP */
+.meta-strip {
+  background: var(--bg-2);
+  border-top: 1px solid rgba(240,237,230,0.06);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  padding: 2rem 3rem;
+  animation: fadeUp 1s 0.4s ease both;
+}
+.meta-strip-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 4rem; flex-wrap: wrap; }
+.meta-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+.meta-value { font-size: 0.88rem; color: var(--white); font-weight: 400; }
+.meta-value.highlight { color: var(--accent-proj); }
+
+/* AUDIT CALLOUT — inline guidance for Manav */
+.audit-note {
+  background: rgba(200,169,110,0.06);
+  border: 1px dashed rgba(200,169,110,0.25);
+  border-radius: 4px;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  display: flex; gap: 0.8rem; align-items: flex-start;
+}
+.audit-note-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 0.1rem; }
+.audit-note-text { font-size: 0.8rem; color: var(--accent-amber); line-height: 1.65; font-weight: 300; }
+.audit-note-text strong { font-weight: 500; }
+
+/* BODY LAYOUT */
+.cs-body {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 3rem;
+  gap: 6rem;
+  align-items: start;
+}
+
+/* SIDEBAR */
+.cs-sidebar {
+  position: sticky;
+  top: calc(var(--nav-h) + 3rem);
+  padding-top: 5rem;
+  padding-bottom: 2rem;
+}
+.sidebar-label { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+.sidebar-nav { list-style: none; }
+.sidebar-nav li { margin-bottom: 0.1rem; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 0.7rem;
+  font-size: 0.75rem; letter-spacing: 0.04em; color: var(--muted);
+  padding: 0.45rem 0 0.45rem 0.8rem; margin-left: -0.8rem;
+  border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+}
+.sidebar-nav a:hover { color: var(--white); }
+.sidebar-nav a.active { color: var(--white); border-left-color: var(--accent-proj); }
+.sidebar-num { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; min-width: 1.4rem; transition: color 0.2s; }
+.sidebar-nav a.active .sidebar-num { color: var(--accent-proj); }
+
+.sidebar-progress { margin-top: 2.5rem; height: 2px; background: rgba(240,237,230,0.06); border-radius: 2px; overflow: hidden; }
+.sidebar-progress-fill { height: 100%; background: var(--accent-proj); width: 0%; transition: width 0.15s ease; border-radius: 2px; }
+.sidebar-progress-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.6rem; }
+
+/* CONTENT */
+.cs-content { padding-top: 5rem; padding-bottom: 8rem; }
+
+.chapter {
+  padding-bottom: 7rem;
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  margin-bottom: 7rem;
+}
+.chapter:last-child { border-bottom: none; margin-bottom: 0; }
+
+.chapter-header { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.5rem; }
+.chapter-num { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-proj); font-weight: 500; white-space: nowrap; }
+.chapter-title { font-size: 1.55rem; font-weight: 400; letter-spacing: -0.015em; line-height: 1.2; }
+.chapter-title em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+
+.body-text { font-size: 0.95rem; color: var(--mid); line-height: 1.9; font-weight: 300; margin-bottom: 1.4rem; max-width: var(--content-max); }
+.body-text strong { color: var(--white); font-weight: 400; }
+
+/* Placeholder for images */
+.img-placeholder {
+  background: var(--bg-3);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 4rem 2rem;
+  border: 1px dashed rgba(240,237,230,0.08);
+  border-radius: 4px; margin: 2.5rem 0;
+}
+.img-placeholder-icon { font-size: 1.4rem; opacity: 0.25; }
+.img-placeholder-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; }
+.img-placeholder-sub { font-size: 0.72rem; color: rgba(138,138,126,0.6); text-align: center; line-height: 1.5; margin-top: 0.3rem; font-style: italic; }
+
+.img-caption { font-size: 0.73rem; color: var(--muted); margin-top: -1.5rem; margin-bottom: 2.5rem; font-weight: 300; font-style: italic; }
+
+.img-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 2.5rem 0; }
+.img-collage {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  margin: 2.5rem 0;
+}
+
+.img-collage img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+.img-collage img:first-child {
+  grid-column: span 2;
+}
+
+/* Pull quote */
+.pull-quote {
+  margin: 3rem 0; padding: 2rem 2.5rem;
+  border-left: 2px solid var(--accent-proj);
+  background: rgba(168,85,247,0.04);
+}
+.pull-quote p { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--white); line-height: 1.6; margin-bottom: 0.8rem; }
+.pull-quote cite { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-style: normal; }
+
+/* Constraint pills */
+.constraint-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.8rem 0; }
+.constraint-pill { font-size: 0.75rem; padding: 0.45rem 1rem; border: 1px solid rgba(240,237,230,0.1); color: var(--mid); border-radius: 2px; font-weight: 300; }
+.constraint-pill.hard { border-color: rgba(168,85,247,0.25); color: var(--accent-proj); background: rgba(168,85,247,0.05); }
+
+/* Decision block */
+.decision-block {
+  margin: 2.5rem 0; border: 1px solid rgba(240,237,230,0.08);
+  border-radius: 4px; overflow: hidden; background: var(--bg-2);
+}
+.decision-header {
+  padding: 1.2rem 1.6rem; border-bottom: 1px solid rgba(240,237,230,0.06);
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.decision-icon { font-size: 0.9rem; }
+.decision-q { font-size: 0.82rem; font-weight: 500; color: var(--white); }
+.decision-body { padding: 1.4rem 1.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.decision-col-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.decision-col ul { list-style: none; }
+.decision-col li { font-size: 0.82rem; color: var(--mid); font-weight: 300; line-height: 1.6; padding: 0.2rem 0; display: flex; gap: 0.6rem; }
+.decision-col li::before { content: '—'; color: var(--muted); flex-shrink: 0; }
+.decision-col.chosen li::before { content: '✓'; color: var(--accent-proj); }
+.decision-rationale {
+  padding: 1.2rem 1.6rem; border-top: 1px solid rgba(240,237,230,0.06);
+  background: rgba(168,85,247,0.04);
+  font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
+}
+.decision-rationale strong { color: var(--white); font-weight: 400; }
+
+/* Validation block */
+.validation-block {
+  margin: 2.5rem 0; background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.08); border-radius: 4px; overflow: hidden;
+}
+.validation-header {
+  padding: 1rem 1.6rem; border-bottom: 1px solid rgba(240,237,230,0.06);
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.validation-header::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-amber); flex-shrink: 0; }
+.validation-items { padding: 1.4rem 1.6rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; }
+.validation-item {}
+.v-metric { font-size: 1.4rem; font-weight: 300; letter-spacing: -0.02em; color: var(--white); margin-bottom: 0.3rem; }
+.v-metric em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+.v-label { font-size: 0.75rem; color: var(--mid); font-weight: 300; line-height: 1.5; }
+
+/* Failed direction block */
+.failed-direction {
+  margin: 2.5rem 0; padding: 1.8rem 2rem;
+  border: 1px solid rgba(240,237,230,0.06); border-radius: 4px;
+  background: var(--bg-2); position: relative;
+}
+.failed-tag {
+  position: absolute; top: -0.6rem; left: 1.4rem;
+  font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  background: var(--bg); border: 1px solid rgba(240,237,230,0.12);
+  color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 2px;
+}
+.failed-direction h4 { font-size: 0.9rem; font-weight: 500; color: var(--white); margin-bottom: 0.6rem; margin-top: 0.5rem; }
+.failed-direction p { font-size: 0.84rem; color: var(--mid); font-weight: 300; line-height: 1.7; }
+.failed-why { margin-top: 0.8rem; font-size: 0.78rem; color: var(--muted); font-style: italic; display: flex; gap: 0.5rem; }
+.failed-why::before { content: '↳'; flex-shrink: 0; color: var(--muted); }
+
+/* Before / After */
+.before-after { margin: 3rem 0; }
+.ba-label-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem; }
+.ba-label {
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); padding: 0.3rem 0.7rem; background: var(--bg-3);
+  border-radius: 2px; display: flex; align-items: center; gap: 0.5rem;
+}
+.ba-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+.ba-label.after::before { background: var(--accent-proj); }
+.ba-images { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+/* Reflection */
+.reflection-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 1.5rem; }
+.reflection-col-label {
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.reflection-col-label::before { content: ''; width: 16px; height: 1px; background: var(--muted); }
+.reflection-col p { font-size: 0.88rem; color: var(--mid); line-height: 1.8; font-weight: 300; }
+
+/* Next project */
+.next-project {
+  padding: 5rem 3rem; border-top: 1px solid rgba(240,237,230,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 2rem; max-width: 1100px; margin: 0 auto;
+}
+.next-label { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.next-title { font-size: 1.8rem; font-weight: 300; letter-spacing: -0.02em; }
+.next-title em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.95rem 2.2rem; border-radius: 2px;
+  border: 1px solid rgba(240,237,230,0.2); color: var(--white);
+  position: relative; overflow: hidden; transition: all 0.25s;
+}
+.btn-outline::before {
+  content: ''; position: absolute; inset: 0; background: var(--accent-proj);
+  transform: translateX(-101%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-outline:hover::before { transform: translateX(0); }
+.btn-outline span { position: relative; z-index: 1; }
+
+/* TICKER */
+.ticker-wrap { border-top: 1px solid rgba(240,237,230,0.06); padding: 0.85rem 0; overflow: hidden; background: var(--bg-2); }
+.ticker { display: flex; animation: tickerscroll 30s linear infinite; white-space: nowrap; width: max-content; }
+@keyframes tickerscroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+.ticker-item { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 0 2.5rem; display: flex; align-items: center; gap: 2.5rem; }
+.ticker-dot { width: 4px; height: 4px; background: var(--accent-blue); border-radius: 50%; flex-shrink: 0; }
+.ticker-item.amber .ticker-dot { background: var(--accent-amber); }
+
+/* FOOTER */
+.footer { padding: 2.8rem 3rem; border-top: 1px solid rgba(240,237,230,0.06); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem; }
+.footer-copy { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.footer-center { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--mid); text-align: center; }
+.footer-links { display: flex; justify-content: flex-end; gap: 2rem; list-style: none; }
+.footer-links a { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.footer-links a:hover { color: var(--white); }
+
+@media (max-width: 900px) {
+  :root { --sidebar-w: 0px; }
+  .cs-body { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 0; }
+  .cs-sidebar { display: none; }
+  .nav { padding: 0 1.5rem; }
+  .hero-content { padding: 0 1.5rem 3rem; }
+  .hero-rings { display: none; }
+  .meta-strip { padding: 1.5rem; }
+  .meta-strip-inner { gap: 2rem; }
+  .reflection-two-col, .ba-images, .ba-label-row, .decision-body, .img-two-col { grid-template-columns: 1fr; }
+  .validation-items { grid-template-columns: 1fr 1fr; }
+  .footer { grid-template-columns: 1fr; }
+  .footer-center { display: none; }
+  .footer-links { justify-content: flex-start; }
+  .next-project { padding: 3rem 1.5rem; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-name">Manav Hemnani</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/pages/work.html">Work</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+      <li><a href="/pages/contact.html">Contact</a></li>
+    </ul>
+    <a href="work.html" class="nav-back">← Back to Work</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="cs-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-badge">Academic Project</span>
+      <span class="hero-year">2021 · Table Tennis Training Experience</span>
+    </div>
+    <h1>Swift VR<br><em>Decathlon Pongori</em></h1>
+    <p class="hero-sub">
+      <strong>In collaboration with Pongori by Decathlon.</strong> Designing an immersive training system for table tennis that helps players improve reaction speed, shot precision, and decision-making under pressure.
+    </p>
+  </div>
+</section>
+
+<!-- META STRIP -->
+<div class="meta-strip">
+  <div class="meta-strip-inner">
+    <div class="meta-item">
+      <div class="meta-label">My Role</div>
+      <div class="meta-value">UI/UX Design</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Scope</div>
+      <div class="meta-value">VR App · System · IA · UI</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-value">Sep – Nov 2021 · 3 months</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Team</div>
+      <div class="meta-value">1 Decathlon Design Manager · 3 Industrial Designers · 1 Digital Modeler</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Status</div>
+      <div class="meta-value highlight">Concept</div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="cs-body">
+
+  <aside class="cs-sidebar">
+    <p class="sidebar-label">Contents</p>
+    <ul class="sidebar-nav" id="sidebarNav">
+      <li><a href="#brief" class="active"><span class="sidebar-num">01</span>The Brief</a></li>
+      <li><a href="#problem"><span class="sidebar-num">02</span>The Problem</a></li>
+      <li><a href="#constraints"><span class="sidebar-num">03</span>Constraints</a></li>
+      <li><a href="#process"><span class="sidebar-num">04</span>Process</a></li>
+      <li><a href="#failed"><span class="sidebar-num">05</span>What Didn't Work</a></li>
+      <li><a href="#decisions"><span class="sidebar-num">06</span>Key Decisions</a></li>
+      <li><a href="#design"><span class="sidebar-num">07</span>Final Design</a></li>
+      <li><a href="#validate"><span class="sidebar-num">08</span>If We'd Shipped</a></li>
+      <li><a href="#reflection"><span class="sidebar-num">09</span>Reflection</a></li>
+    </ul>
+    <div class="sidebar-progress">
+      <div class="sidebar-progress-fill" id="progressFill"></div>
+    </div>
+    <div class="sidebar-progress-label" id="progressLabel">0% read</div>
+  </aside>
+
+  <main class="cs-content">
+
+    <!-- 01 THE BRIEF -->
+    <section class="chapter" id="brief">
+      <div class="chapter-header">
+        <span class="chapter-num">—01</span>
+        <h2 class="chapter-title">The <em>Brief</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          
+        </div>
+      </div>
+
+      <p class="body-text">
+        This project was developed in partnership with Decathlon Pongori, exploring how the brand could extend beyond equipment into professional table tennis training systems. The brief focused on supporting players training within Pongori academies and competitive environments.
+      </p>
+      <p class="body-text">
+        [ 1–2 sentences on the Pongori product and why VR table tennis training was an interesting design space to explore. ]
+      </p>
+      <p class="body-text">
+        [ 1–2 sentences on the Pongori product and why VR table tennis training was an interesting design space to explore. ]
+      </p>
+
+      <img src="../assets/images/swift/the-brief.jpg" alt="Swift VR — Pongori vision overview" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+    </section>
+
+    <!-- 02 THE PROBLEM -->
+    <section class="chapter" id="problem">
+      <div class="chapter-header">
+        <span class="chapter-num">—02</span>
+        <h2 class="chapter-title">The <em>Problem</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon"></span>
+        <div class="audit-note-text">
+         
+        </div>
+      </div>
+
+      <p class="body-text">
+        Serious table tennis training depends on three conditions: access to a table, a training partner, and hundreds of high-quality repetitions. Outside professional academies, players rarely have all three consistently. As a result, progression from learning technique to executing it under match pressure becomes slow and fragmented.
+      </p>
+
+      <div class="pull-quote">
+        <p>"Performance in fast-reaction sports improves not through understanding technique, but through the volume of realistic repetitions under pressure. The faster players move from observing a movement to executing it in live play, the faster skill develops."</p>
+        <cite>Source — synthesis from research on table tennis coaching methods and player training routines.</cite>
+      </div>
+      <img src="../assets/images/swift/the-problem-1.png" alt="Table tennis training landscape" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+
+      <p class="body-text">
+        Virtual reality offers an opportunity to remove several barriers that limit table tennis training. Instead of requiring a full table setup and a training partner, VR can simulate rallies and match situations within a small physical space.
+      </p>
+      <img src="../assets/images/swift/the-potential-1.png" alt="Potential of vr in training" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+
+      
+    </section>
+
+    <!-- 03 CONSTRAINTS -->
+    <section class="chapter" id="constraints">
+      <div class="chapter-header">
+        <span class="chapter-num">—03</span>
+        <h2 class="chapter-title"><em>Constraints</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          
+        </div>
+      </div>
+
+      <p class="body-text">
+        VR requires continuous physical engagement, which means users tire faster than in traditional digital interfaces. All interaction happens through handheld controllers that neither weigh nor move like a real table-tennis racket. This creates a mismatch between expected physical feedback and the simulated action, while extended arm movement quickly leads to fatigue.
+      </p>
+
+       <div class="constraint-list">
+        <span class="constraint-pill hard">Motion sickness threshold — session length and movement limits</span>
+        <span class="constraint-pill hard">Controller and racket don't feel the same</span>
+        <span class="constraint-pill hard">Physical fatigue compounds cognitive load in VR</span>
+        <span class="constraint-pill">Spatial audio as a primary feedback mechanism</span>
+        <span class="constraint-pill">Beginner users unfamiliar with VR UI conventions</span>
+      </div>
+      <img src="../assets/images/swift/vr-user-testing.png" alt="User testing in vr" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">Testing VR technology with players & coach at C.R.E.P.S. Training Center, France</p>
+
+    </section>
+
+    <!-- 04 PROCESS -->
+    <section class="chapter" id="process">
+      <div class="chapter-header">
+        <span class="chapter-num">—04</span>
+        <h2 class="chapter-title"><em>Process</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>Writing prompt — show what you learned, not what you did:</strong> Instead of "We conducted user interviews," write one specific thing you discovered that changed the direction of the design. What surprised you? What assumption did research break? "We discovered that beginners don't fail because of poor technique — they fail because they can't read the ball's trajectory early enough. That changed everything about how we designed the first 10 sessions."
+        </div>
+      </div>
+
+      <p class="body-text">
+        The concept emerged from combining Pongori’s global table tennis ecosystem with the VR Eleven simulation engine. Pongori provides sport expertise and community reach, while VR Eleven delivers realistic physics and match environments. Together they create the foundation for an immersive training platform.
+      </p>
+       <img src="../assets/images/swift/pongori-partnership.png" alt="pongori x eleven vr" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+
+      <p class="body-text">
+       Early sketches explored how traditional coaching cues could translate into spatial interactions. Guidance was embedded directly into gameplay through ball drills, visual prompts, and contextual feedback rather than menus. These explorations shaped how learning could happen through movement.
+      </p>
+       <img src="../assets/images/swift/experience-ideation.png" alt="experience sketches" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+
+      <p class="body-text">
+        The system was structured around activities rather than screens. Two primary roles — coach and player — define the interaction model, with quick access to training sessions, match modes, and multiplayer play. This structure keeps navigation minimal inside the headset.
+      </p>
+
+      <img src="../assets/images/swift/user-flow.png" alt="User flow — connected training ecosystem for coaches and students" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">[ Caption: the onboarding progression logic — how skill unlocks are gated ]</p>
+    </section>
+
+    <!-- 05 WHAT DIDN'T WORK -->
+    <section class="chapter" id="failed">
+      <div class="chapter-header">
+        <span class="chapter-num">—05</span>
+        <h2 class="chapter-title">What <em>Didn't Work</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon"></span>
+        <div class="audit-note-text">
+          <strong>
+        </div>
+      </div>
+
+      <div class="failed-direction">
+        <span class="failed-tag">Direction 01</span>
+        <h4>Virtual Classroom Dashboard</h4>
+        <p>An early concept framed the experience as a virtual classroom where players could manage sessions, players, and tables through a floating dashboard. The interface mirrored familiar productivity tools, with tiles for classrooms, reports, and player management.</p>
+        <div class="failed-why">While visually structured, the interface pulled attention away from the physical play space. Instead of preparing players for movement and training, it introduced unnecessary UI complexity inside VR.</div>
+      </div>
+
+      <img src="../assets/images/swift/direction-classroom.png" alt="Classroom view" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+
+      <div class="failed-direction">
+        <span class="failed-tag">Direction 02</span>
+        <h4>Feature-Heavy Menu System</h4>
+        <p>Early exploration treated the product like a traditional application with multiple screens for activities, profiles, calendars, and configuration. This created a comprehensive system covering coaching, matches, and training management.</p>
+        <div class="failed-why">The large number of screens introduced cognitive overhead and broke the flow of physical play. Designing for VR required reducing navigation and embedding most interactions directly within gameplay.</div>
+      </div>
+
+      <div class="img-collage">
+        <img src="../assets/images/swift/diretion-navigation-01.png" alt="Navigation home">
+       <img src="../assets/images/swift/diretion-navigation-02.png" alt="Calendar view">
+       <img src="../assets/images/swift/diretion-navigation-03.png" alt="calendar edit">
+      </div>
+
+      <p class="body-text">
+      </p>
+    </section>
+
+    <!-- 06 KEY DECISIONS -->
+    <section class="chapter" id="decisions">
+      <div class="chapter-header">
+        <span class="chapter-num">—06</span>
+        <h2 class="chapter-title">Key <em>Decisions</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon">✏️</span>
+        <div class="audit-note-text">
+          <strong>
+        </div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-header">
+          <span class="decision-icon">⚡</span>
+          <span class="decision-q">Decision 1: How do you structure skill progression without overwhelming a beginner in VR?</span>
+        </div>
+        <div class="decision-body">
+          <div class="decision-col">
+            <div class="decision-col-label">Options considered</div>
+            <ul>
+              <li>Free exploration of drills and matches</li>
+              <li>Linear coaching program similar to real academies</li>
+              <li>Menu-driven training modules</li>
+            </ul>
+          </div>
+          <div class="decision-col chosen">
+            <div class="decision-col-label">What we chose</div>
+            <ul>
+              <li>Guided skill progression through structured training sessions</li>
+              <li>Enables players to build timing, reaction and control step-by-step</li>
+              <li>Sacrifices open exploration and reduces feature density early</li>
+            </ul>
+          </div>
+        </div>
+        <div class="decision-rationale">
+          <strong>Why:</strong> Research showed beginners struggle not with technique but with reading the ball trajectory early enough to react. A guided progression allowed the first sessions to focus on perception and timing before introducing complex drills or competitive play.
+        </div>
+      </div>
+
+      <div class="decision-block">
+        <div class="decision-header">
+          <span class="decision-icon">⚡</span>
+          <span class="decision-q">Decision 2: How do you give feedback during play without breaking spatial immersion?</span>
+        </div>
+        <div class="decision-body">
+          <div class="decision-col">
+            <div class="decision-col-label">Options considered</div>
+            <ul>
+              <li>Traditional 2D HUD overlays</li>
+              <li>Menu interruptions between drills</li>
+              <li>Environmental and spatial cues</li>
+            </ul>
+          </div>
+          <div class="decision-col chosen">
+            <div class="decision-col-label">What we chose</div>
+            <ul>
+              <li>Feedback embedded in the environment through spatial UI and audio cues</li>
+              <li>Allows players to stay focused on the rally and maintain immersion</li>
+              <li>Sacrifices detailed UI panels and dense on-screen information</li>
+            </ul>
+          </div>
+        </div>
+        <div class="decision-rationale">
+          <strong>Why:</strong> In VR, attention must remain on the ball and opponent. Interruptive interfaces break flow and increase cognitive load. Spatial cues and lightweight feedback allowed coaching guidance without pulling players out of the play space.
+        </div>
+        
+      </div>
+       <div class="decision-block">
+        <div class="decision-header">
+          <span class="decision-icon">⚡</span>
+          <span class="decision-q">Decision 3: How do players learn from others when training alone in VR?</span>
+        </div>
+        <div class="decision-body">
+          <div class="decision-col">
+            <div class="decision-col-label">Options considered</div>
+            <ul>
+              <li>Fully solo training focused on drills and AI opponents</li>
+              <li>Passive learning through recorded tutorials</li>
+              <li>Shared training environments with coaches and other players</li>
+            </ul>
+          </div>
+          <div class="decision-col chosen">
+            <div class="decision-col-label">What we chose</div>
+            <ul>
+              <li>A classroom-style environment connecting coaches and players</li>
+              <li>Enables observation, live coaching, and peer learning inside VR</li>
+              <li>Sacrifices simplicity of a purely single-player training app</li>
+            </ul>
+          </div>
+        </div>
+        <div class="decision-rationale">
+          <strong>Why:</strong> Table tennis learning happens socially — players improve by watching techniques, practicing against others, and receiving live feedback. The classroom model recreated this dynamic inside VR, allowing structured training sessions where players could learn from both coaches and peers.
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 FINAL DESIGN -->
+    <section class="chapter" id="design">
+      <div class="chapter-header">
+        <span class="chapter-num">—07</span>
+        <h2 class="chapter-title">Final <em>Design</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon"></span>
+        <div class="audit-note-text">
+          <strong>
+        </div>
+      </div>
+
+      <p class="body-text">
+       Players begin in a spatial home environment where training activities appear as floating panels around the room. Instead of navigating traditional menus, players select drills, matches, or coaching sessions directly within the VR space.
+      </p>
+
+      <img src="../assets/images/swift/vr-home-1.jpg" alt="Pongori homepage" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">Players enter a shared virtual training environment where drills, coaching sessions, and matches are accessible through spatial panels placed around the room. The interface remains lightweight and peripheral so players can focus on movement and gameplay rather than navigating complex menus.</p>
+
+      <p class="body-text">
+        Players can join classroom sessions where coaches demonstrate techniques and strategies. Observing expert play helps players understand positioning, timing, and shot mechanics before attempting the drills themselves.
+      </p>
+
+      <img src="../assets/images/swift/masterclass-view.jpg" alt="Classroom view coach" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption"></p>
+
+
+      <p class="body-text">
+       Players can practice against other participants in live matches, allowing them to apply trained skills in real game scenarios. Multiplayer sessions recreate the competitive dynamics of real table tennis training environments.
+      </p>
+
+      <img src="../assets/images/swift/coach-view.jpg" alt="1v1 coach view" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption"></p>
+
+      <p class="body-text">
+       Coaching guidance can appear directly within the player's environment, allowing instructors to demonstrate movements and techniques alongside the player during practice.
+      </p>
+
+      <div class="img-collage">
+        <img src="../assets/images/swift/superimposed-view-01.png" alt="Coach imposing fpv">
+       <img src="../assets/images/swift/superimposed-view-02.png" alt="Coach imposing dynamic">
+       <img src="../assets/images/swift/superimposed-view-04.png" alt="Coach imposing overview">
+      </div>
+
+      <p class="body-text">
+       After each session, players receive performance reports highlighting strengths, weaknesses, and key moments from the match. These insights guide the next training cycle, allowing players to practice targeted drills autonomously before returning to competitive play.
+      </p>
+
+      <div class="img-collage">
+        <img src="../assets/images/swift/session-report.jpg" alt="Reports sessions">
+       <img src="../assets/images/swift/player-profile.jpg" alt="Detailed report">
+       <img src="../assets/images/swift/practice-drill.jpg" alt="Autonomous training">
+      </div>
+
+    </section>
+
+    <!-- 08 IF WE'D SHIPPED -->
+    <section class="chapter" id="validate">
+      <div class="chapter-header">
+        <span class="chapter-num">—08</span>
+        <h2 class="chapter-title">If We'd <em>Shipped</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon"></span>
+        <div class="audit-note-text">
+          <strong>
+        </div>
+      </div>
+
+      <p class="body-text">
+        If released as a real Decathlon Pongori training product, the first 90 days would focus on validating whether players can learn effectively inside VR and return regularly for practice. Success would be measured through session completion, repeated practice behaviour, and long-term retention within the training ecosystem.
+      </p>
+
+      <div class="validation-block">
+        <div class="validation-header">Hypothetical success metrics — if shipped</div>
+        <div class="validation-items">
+          <div class="validation-item">
+            <div class="v-metric"> <em>70–80</em>% </div>
+            <div class="v-label">Session completion rate — Players who complete their first guided training session without abandoning the experience.</div>
+          </div>
+          <div class="validation-item">
+            <div class="v-metric"> <em>3–5</em> sessions </div>
+            <div class="v-label">Average sessions before first skill unlock — Indicates whether the progression model encourages repeated practice and skill improvement.</div>
+          </div>
+          <div class="validation-item">
+            <div class="v-metric">[ <em>35–40</em>% ]</div>
+            <div class="v-label">30-day retention — Players returning to continue training after their initial sessions.</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-text">
+        A high drop-off during the first training session would indicate the onboarding flow is too complex or physically demanding. If players repeatedly choose quick matches instead of structured drills, it would suggest the training progression is not engaging enough to sustain deliberate practice.
+      </p>
+    </section>
+
+    <!-- 09 REFLECTION -->
+    <section class="chapter" id="reflection">
+      <div class="chapter-header">
+        <span class="chapter-num">—09</span>
+        <h2 class="chapter-title"><em>Reflection</em></h2>
+      </div>
+
+      <div class="audit-note">
+        <span class="audit-note-icon"></span>
+        <div class="audit-note-text">
+          <strong>
+        </div>
+      </div>
+
+      <div class="reflection-two-col">
+        <div class="reflection-col">
+          <div class="reflection-col-label">What worked</div>
+          <p>During the project review, Jonathan Vandamme from Pongori highlighted how the system reframed VR from a gaming experience into a structured training environment. The combination of observation, drills, and performance reflection mirrored how players actually improve in professional table tennis training, reinforcing the potential of VR as a serious skill development tool.</p>
+        </div>
+        <div class="reflection-col">
+          <div class="reflection-col-label">What I'd do differently</div>
+          <p>If continuing the project, I would test the system with real table tennis players inside an Unreal prototype earlier in the process. Observing how players navigate the spatial interface and engage with training drills would reveal where interaction flow or exercise design becomes confusing or physically demanding in VR.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-project">
+  <div>
+    <p class="next-label">Next Project</p>
+    <p class="next-title">Percept:<br><em>Learn Photography</em></p>
+  </div>
+  <a href="praan.html" class="btn-outline"><span>View Case Study →</span></a>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
+    <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
+  </div>
+</div>
+
+<footer class="footer">
+  <span class="footer-copy">© 2026 Manav Hemnani</span>
+  <span class="footer-center">Swift VR / Pongori</span>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
+    <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
+    <li><a href="mailto:HEMNANIMANAV@GMAIL.COM">Email ↗</a></li>
+  </ul>
+</footer>
+
+<script>
+const chapters = document.querySelectorAll('.chapter');
+const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+const progressFill = document.getElementById('progressFill');
+const progressLabel = document.getElementById('progressLabel');
+
+window.addEventListener('scroll', () => {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.round((window.scrollY / docH) * 100);
+  progressFill.style.width = pct + '%';
+  progressLabel.textContent = pct + '% read';
+
+  let current = '';
+  chapters.forEach(ch => {
+    if (ch.getBoundingClientRect().top < window.innerHeight * 0.4) current = ch.id;
+  });
+  sidebarLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+
+sidebarLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.06 });
+
+document.querySelectorAll('.chapter, .decision-block, .failed-direction, .validation-block').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(18px)';
+  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  obs.observe(el);
+});
+
+window.addEventListener('scroll', () => {
+  document.querySelector('.nav').style.borderBottomColor =
+    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
+}, { passive: true });
+</script>
+</body>
+</html>

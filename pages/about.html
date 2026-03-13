@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Manav Hemnani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+:root {
+  --bg:    #0d0d0b;
+  --bg-2:  #131310;
+  --bg-3:  #1a1a16;
+  --white: #f0ede6;
+  --muted: #5a5a52;
+  --mid:   #8a8a7e;
+  --amber: #c8a96e;
+  --blue:  #4a9eff;
+  --green: #4caf7d;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+  --nav-h: 68px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--white);
+  font-family: var(--sans); line-height: 1.6;
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content:''; position:fixed; inset:0; z-index:9000; pointer-events:none; opacity:0.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+/* NAV */
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  height:var(--nav-h); display:flex; justify-content:space-between; align-items:center;
+  padding:0 3rem; border-bottom:1px solid rgba(240,237,230,0.06);
+  backdrop-filter:blur(14px); background:rgba(13,13,11,0.88);
+  transition:border-color 0.3s;
+}
+.nav-name { font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { font-size:0.75rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color:var(--white); }
+.nav-status { display:flex; align-items:center; gap:0.5rem; font-size:0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); }
+.status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 2.5s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+/* PAGE */
+.page {
+  padding-top:var(--nav-h);
+  max-width:1100px; margin:0 auto;
+  padding-left:3rem; padding-right:3rem;
+}
+
+/* HERO */
+.hero {
+  padding-top:7rem; padding-bottom:5.5rem;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:6rem; align-items:end;
+  border-bottom:1px solid rgba(240,237,230,0.06);
+  animation:fadeUp 0.9s 0.1s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+
+.hero-name {
+  font-size:clamp(3.2rem, 5.5vw, 5.8rem);
+  font-weight:300; line-height:0.96; letter-spacing:-0.03em;
+}
+.hero-name em { font-family:var(--serif); font-style:italic; color:var(--amber); }
+.hero-eyebrow {
+  font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:1.8rem;
+  display:flex; align-items:center; gap:0.8rem;
+}
+.hero-eyebrow::before { content:''; width:20px; height:1px; background:var(--muted); }
+
+.hero-right { padding-bottom:0.3rem; }
+.hero-statement {
+  font-size:1.1rem; color:var(--white); line-height:1.78;
+  font-weight:300; margin-bottom:2.2rem;
+}
+.hero-statement strong { font-weight:400; }
+
+.meta { display:flex; flex-direction:column; gap:0.75rem; }
+.meta-row { display:flex; gap:1.5rem; align-items:baseline; }
+.meta-key { font-size:0.6rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--muted); min-width:90px; flex-shrink:0; }
+.meta-val { font-size:0.88rem; color:var(--mid); font-weight:300; }
+.meta-val.open { color:var(--green); display:flex; align-items:center; gap:0.45rem; }
+.meta-val.open::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:blink 2.5s ease-in-out infinite; flex-shrink:0; }
+
+/* PHOTOS — portrait + two side cells */
+.photo-wrap {
+  margin:5rem 0;
+  display:grid; grid-template-columns:5fr 4fr; gap:0.8rem;
+  animation:fadeUp 0.9s 0.2s ease both;
+}
+.photo-main {
+  aspect-ratio:3/4; background:var(--bg-3);
+  border:1px dashed rgba(240,237,230,0.07); border-radius:2px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem;
+  overflow:hidden;
+}
+.photo-main img { width:100%; height:100%; object-fit:cover; }
+.photo-side { display:flex; flex-direction:column; gap:0.8rem; }
+.photo-cell {
+  flex:1; background:var(--bg-3);
+  border:1px dashed rgba(240,237,230,0.07); border-radius:2px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem;
+  overflow:hidden;
+}
+.photo-cell img { width:100%; height:100%; object-fit:cover; }
+.ph-icon { font-size:1.2rem; opacity:0.14; }
+.ph-label { font-size:0.6rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--muted); text-align:center; padding:0 1rem; line-height:1.5; }
+
+/* BLOCKS — label + prose, no frills */
+.content { animation:fadeUp 0.9s 0.3s ease both; }
+
+.block {
+  padding:4rem 0;
+  border-bottom:1px solid rgba(240,237,230,0.06);
+  display:grid; grid-template-columns:200px 1fr;
+  gap:4rem; align-items:start;
+}
+
+.block-label {
+  font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); padding-top:0.2rem;
+  position:sticky; top:calc(var(--nav-h) + 2rem);
+}
+
+.block-body p {
+  font-size:0.97rem; color:var(--mid); line-height:1.88;
+  font-weight:300; margin-bottom:1.2rem; max-width:580px;
+}
+.block-body p:last-child { margin-bottom:0; }
+.block-body p strong { color:var(--white); font-weight:400; }
+
+/* INTEREST LIST — tight, inline */
+.interests { list-style:none; margin-top:0.3rem; }
+.interests li {
+  display:flex; align-items:baseline; gap:1.2rem;
+  padding:0.6rem 0; border-bottom:1px solid rgba(240,237,230,0.05);
+}
+.interests li:last-child { border-bottom:none; }
+.i-tag {
+  font-size:0.58rem; letter-spacing:0.13em; text-transform:uppercase;
+  color:var(--muted); min-width:84px; flex-shrink:0;
+}
+.i-val { font-size:0.92rem; color:var(--mid); font-weight:300; line-height:1.5; }
+.i-val em { font-family:var(--serif); font-style:italic; color:var(--amber); }
+
+/* CTA */
+.cta-block {
+  padding:5rem 0 6rem;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:2rem;
+  animation:fadeUp 0.9s 0.4s ease both;
+}
+.cta-line {
+  font-size:clamp(1.8rem, 3.2vw, 2.8rem);
+  font-weight:300; letter-spacing:-0.025em; line-height:1.1;
+}
+.cta-line em { font-family:var(--serif); font-style:italic; color:var(--amber); }
+
+.btn {
+  display:inline-flex; align-items:center;
+  font-family:var(--sans); font-size:0.74rem; font-weight:500;
+  letter-spacing:0.08em; text-transform:uppercase;
+  padding:0.95rem 2.2rem; border-radius:2px;
+  border:1px solid rgba(240,237,230,0.2); color:var(--white);
+  position:relative; overflow:hidden; transition:all 0.25s; white-space:nowrap;
+}
+.btn::before {
+  content:''; position:absolute; inset:0; background:var(--amber);
+  transform:translateX(-101%); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.btn:hover::before { transform:translateX(0); }
+.btn span { position:relative; z-index:1; }
+
+/* TICKER */
+.ticker-wrap { border-top:1px solid rgba(240,237,230,0.06); padding:0.85rem 0; overflow:hidden; background:var(--bg-2); }
+.ticker { display:flex; animation:tick 32s linear infinite; white-space:nowrap; width:max-content; }
+@keyframes tick { from{transform:translateX(0);}to{transform:translateX(-50%);} }
+.ti { font-size:0.67rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); padding:0 2.5rem; display:flex; align-items:center; gap:2.5rem; }
+.td { width:4px; height:4px; border-radius:50%; flex-shrink:0; background:var(--blue); }
+.ti.a .td { background:var(--amber); }
+
+/* FOOTER */
+.footer { padding:2.8rem 3rem; border-top:1px solid rgba(240,237,230,0.06); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:2rem; }
+.fc { font-size:0.68rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); }
+.fm { font-family:var(--serif); font-size:1.2rem; font-style:italic; color:var(--mid); text-align:center; }
+.fl { display:flex; justify-content:flex-end; gap:2rem; list-style:none; }
+.fl a { font-size:0.68rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
+.fl a:hover { color:var(--white); }
+
+@media (max-width:860px) {
+  .nav { padding:0 1.5rem; }
+  .page { padding-left:1.5rem; padding-right:1.5rem; }
+  .hero { grid-template-columns:1fr; gap:2.5rem; padding-top:5rem; }
+  .photo-wrap { grid-template-columns:1fr; }
+  .photo-side { flex-direction:row; height:200px; }
+  .photo-main { aspect-ratio:4/3; }
+  .block { grid-template-columns:1fr; gap:1.2rem; }
+  .block-label { position:static; }
+  .cta-block { flex-direction:column; align-items:flex-start; }
+  .footer { grid-template-columns:1fr; }
+  .fm { display:none; }
+  .fl { justify-content:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="/" class="nav-name">Manav Hemnani</a>
+  <ul class="nav-links">
+    <li><a href="/pages/work.html">Work</a></li>
+    <li><a href="/pages/about.html" class="active">About</a></li>
+    <li><a href="/pages/contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-status"><span class="status-dot"></span>Open to roles</div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Product Designer</p>
+      <h1 class="hero-name">Manav<br><em>Hemnani</em></h1>
+    </div>
+    <div class="hero-right">
+      <p class="hero-statement">
+        I design digital products that <strong>understand the physical world.</strong> Industrial design background — which means I think about how something feels to use before I think about how it looks.
+      </p>
+      <div class="meta">
+        <div class="meta-row">
+          <span class="meta-key">Based</span>
+          <span class="meta-val">[ City, Country ]</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Background</span>
+          <span class="meta-val">Industrial Design → UX / Product</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Looking for</span>
+          <span class="meta-val open">Full-time product design roles</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHOTOS -->
+  <div class="photo-wrap">
+    <div class="photo-main">
+      <span class="ph-icon">🖼</span>
+      <span class="ph-label">Portrait or working photo</span>
+    </div>
+    <div class="photo-side">
+      <div class="photo-cell">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-label">Travel / photography shot</span>
+      </div>
+      <div class="photo-cell">
+        <span class="ph-icon">🖼</span>
+        <span class="ph-label">Court, studio, anywhere</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- THE WORK -->
+    <div class="block">
+      <span class="block-label">The work</span>
+      <div class="block-body">
+        <p>
+          [ 2–3 sentences in your voice — what kind of designer you are and what draws you to a problem. The industrial design background is the differentiator: name it plainly. What's the thread across Praan, Sol & Sky, Percept? ]
+        </p>
+        <p>
+          I'm drawn to products where the digital layer has to <strong>earn trust quickly</strong> — where the person using it is sceptical, overwhelmed, or dealing with something that actually matters. The design has to be worth the attention it asks for.
+        </p>
+      </div>
+    </div>
+
+    <!-- BACKGROUND -->
+    <div class="block">
+      <span class="block-label">Background</span>
+      <div class="block-body">
+        <p>
+          [ The industrial design → UX transition in your own words. Not a timeline — a reason. What did that training give you that a pure UX education doesn't? One paragraph, honest and specific. ]
+        </p>
+      </div>
+    </div>
+
+    <!-- OUTSIDE -->
+    <div class="block">
+      <span class="block-label">Outside the work</span>
+      <div class="block-body">
+        <ul class="interests">
+          <li>
+            <span class="i-tag">Photography</span>
+            <span class="i-val">Travel and landscape — <em>[ camera / format ]</em> — [ where you've shot ]</span>
+          </li>
+          <li>
+            <span class="i-tag">Music</span>
+            <span class="i-val">House / techno — <em>[ a set, artist, or club that matters to you ]</em></span>
+          </li>
+          <li>
+            <span class="i-tag">Sport</span>
+            <span class="i-val">Tennis — <em>[ how seriously, what level ]</em></span>
+          </li>
+          <li>
+            <span class="i-tag">Reading</span>
+            <span class="i-val"><em>[ Current book ]</em> — [ one sentence on why ]</span>
+          </li>
+          <li>
+            <span class="i-tag">Thinking about</span>
+            <span class="i-val"><em>[ A design question you keep returning to right now ]</em></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <p class="cta-line">Let's make<br><em>something good.</em></p>
+    <a href="contact.html" class="btn"><span>Get in Touch →</span></a>
+  </div>
+
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ti"><span class="td"></span>Product Design</div>
+    <div class="ti a"><span class="td"></span>Travel Photography</div>
+    <div class="ti"><span class="td"></span>Hardware Ecosystems</div>
+    <div class="ti a"><span class="td"></span>House / Techno</div>
+    <div class="ti"><span class="td"></span>Spatial Computing</div>
+    <div class="ti a"><span class="td"></span>Tennis Court</div>
+    <div class="ti"><span class="td"></span>Industrial Design</div>
+    <div class="ti a"><span class="td"></span>Consumer Electronics</div>
+    <div class="ti"><span class="td"></span>Motion Design</div>
+    <div class="ti a"><span class="td"></span>DJ Sets</div>
+    <div class="ti"><span class="td"></span>Product Design</div>
+    <div class="ti a"><span class="td"></span>Travel Photography</div>
+    <div class="ti"><span class="td"></span>Hardware Ecosystems</div>
+    <div class="ti a"><span class="td"></span>House / Techno</div>
+    <div class="ti"><span class="td"></span>Spatial Computing</div>
+    <div class="ti a"><span class="td"></span>Tennis Court</div>
+    <div class="ti"><span class="td"></span>Industrial Design</div>
+    <div class="ti a"><span class="td"></span>Consumer Electronics</div>
+    <div class="ti"><span class="td"></span>Motion Design</div>
+    <div class="ti a"><span class="td"></span>DJ Sets</div>
+  </div>
+</div>
+
+<footer class="footer">
+  <span class="fc">© 2026 Manav Hemnani</span>
+  <span class="fm">About</span>
+  <ul class="fl">
+    <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
+    <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
+    <li><a href="mailto:HEMNANIMANAV@GMAIL.COM">Email ↗</a></li>
+  </ul>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.borderBottomColor =
+    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
+}, { passive: true });
+</script>
+</body>
+</html>

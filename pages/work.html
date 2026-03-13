@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work — Manav Hemnani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+:root {
+  --bg:           #0d0d0b;
+  --bg-2:         #131310;
+  --bg-3:         #1a1a16;
+  --bg-4:         #202019;
+  --white:        #f0ede6;
+  --muted:        #5a5a52;
+  --mid:          #8a8a7e;
+  --accent-blue:  #4a9eff;
+  --accent-amber: #c8a96e;
+  --success:      #4caf7d;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --serif:        'Playfair Display', Georgia, serif;
+  --nav-h:        68px;
+  --max-w:        1100px;
+  --px:           3rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9000;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* NAV */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: var(--nav-h);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 var(--px);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  backdrop-filter: blur(14px);
+  background: rgba(13,13,11,0.8);
+  animation: fadeDown 0.7s ease both;
+}
+
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.nav-name {
+  font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--white);
+}
+
+.nav-right { display: flex; align-items: center; gap: 2.5rem; }
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+
+.nav-links a {
+  font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted); transition: color 0.2s;
+}
+.nav-links a:hover,
+.nav-links a.active { color: var(--white); }
+
+.nav-status {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted);
+}
+
+.status-dot {
+  width: 6px; height: 6px; background: var(--success); border-radius: 50%;
+  animation: pulsedot 2.5s ease-in-out infinite;
+}
+
+@keyframes pulsedot {
+  0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(76,175,125,0.4); }
+  50%      { opacity:0.7; box-shadow: 0 0 0 5px rgba(76,175,125,0); }
+}
+
+/* PAGE */
+.page-wrap { padding-top: var(--nav-h); }
+
+/* WORK HERO */
+.work-hero {
+  padding: 6rem var(--px) 4.5rem;
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  max-width: var(--max-w); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 3rem; flex-wrap: wrap;
+  animation: fadeUp 0.9s 0.2s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.work-eyebrow {
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent-blue); font-weight: 500; margin-bottom: 1.2rem;
+}
+
+.work-hero h1 {
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  font-weight: 300; line-height: 1.02; letter-spacing: -0.025em;
+}
+
+.work-hero h1 em {
+  font-family: var(--serif); font-style: italic; color: var(--accent-amber);
+}
+
+.work-hero-right { max-width: 360px; }
+
+.work-hero-right p {
+  font-size: 0.9rem; color: var(--mid); line-height: 1.8; font-weight: 300;
+}
+
+/* FILTERS */
+.work-filters {
+  background: var(--bg-2);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  padding: 1.5rem var(--px);
+  animation: fadeUp 0.9s 0.35s ease both;
+}
+
+.filters-inner {
+  max-width: var(--max-w); margin: 0 auto;
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: var(--sans);
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); padding: 0.42rem 1rem;
+  border: 1px solid transparent; border-radius: 2px;
+  cursor: pointer; background: transparent; transition: all 0.2s;
+}
+.filter-btn:hover { color: var(--white); border-color: rgba(240,237,230,0.1); }
+.filter-btn.active { color: var(--white); border-color: rgba(240,237,230,0.15); background: var(--bg-3); }
+
+.filter-count {
+  margin-left: auto;
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+
+/* GRIDS */
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(240,237,230,0.04);
+  animation: fadeUp 0.9s 0.45s ease both;
+}
+
+.featured-grid .card:first-child { grid-column: 1 / -1; }
+.featured-grid .card:first-child .card-visual { height: 500px; }
+.featured-grid .card:not(:first-child) .card-visual { height: 340px; }
+.featured-grid .card:first-child .card-name { font-size: 2rem; }
+
+.section-divide {
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 3.5rem var(--px) 2.5rem;
+  display: flex; align-items: center; gap: 2rem;
+}
+.divide-label {
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap;
+}
+.divide-line { flex: 1; height: 1px; background: rgba(240,237,230,0.06); }
+
+.secondary-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px; background: rgba(240,237,230,0.04);
+  animation: fadeUp 0.9s 0.55s ease both;
+}
+.secondary-grid .card-visual { height: 260px; }
+.secondary-grid .card-name { font-size: 1.05rem; }
+.secondary-grid .card-hook { font-size: 0.8rem; }
+
+/* CARD */
+.card {
+  background: var(--bg);
+  overflow: hidden; display: flex; flex-direction: column;
+  position: relative; transition: background 0.3s; cursor: pointer;
+}
+.card:hover { background: var(--bg-3); }
+
+.card-visual {
+  position: relative; overflow: hidden;
+}
+
+/* Visual backgrounds — cinematic atmosphere per project */
+.vis-praan {
+  width:100%; height:100%;
+  background: radial-gradient(ellipse at 30% 60%, rgba(20,80,50,0.5) 0%, transparent 70%),
+              radial-gradient(ellipse at 80% 20%, rgba(74,158,255,0.07) 0%, transparent 60%),
+              linear-gradient(160deg, #071a10 0%, #0d2218 55%, #05120c 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.vis-finance {
+  width:100%; height:100%;
+  background: radial-gradient(ellipse at 70% 50%, rgba(74,158,255,0.1) 0%, transparent 65%),
+              radial-gradient(ellipse at 20% 80%, rgba(200,169,110,0.06) 0%, transparent 55%),
+              linear-gradient(160deg, #060c18 0%, #0a1428 55%, #060a12 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.vis-petcare {
+  width:100%; height:100%;
+  background: radial-gradient(ellipse at 40% 40%, rgba(200,169,110,0.12) 0%, transparent 65%),
+              radial-gradient(ellipse at 80% 80%, rgba(76,175,125,0.06) 0%, transparent 55%),
+              linear-gradient(160deg, #100e06 0%, #1c180a 55%, #0e0c05 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.vis-percept {
+  width:100%; height:100%;
+  background: radial-gradient(ellipse at 60% 40%, rgba(74,158,255,0.08) 0%, transparent 65%),
+              linear-gradient(160deg, #080816 0%, #0e0e26 55%, #06060e 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.vis-swift {
+  width:100%; height:100%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(160,80,200,0.1) 0%, transparent 65%),
+              radial-gradient(ellipse at 20% 20%, rgba(74,158,255,0.05) 0%, transparent 50%),
+              linear-gradient(160deg, #100818 0%, #200d30 55%, #0c0614 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+.vis-crypto {
+  width:100%; height:100%;
+  background: radial-gradient(ellipse at 60% 60%, rgba(74,158,255,0.07) 0%, transparent 65%),
+              linear-gradient(160deg, #060c16 0%, #0c1824 55%, #04080e 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* Decorative glow rings inside visuals */
+.vis-praan::before,
+.vis-finance::before,
+.vis-petcare::before,
+.vis-percept::before,
+.vis-swift::before,
+.vis-crypto::before {
+  content: '';
+  position: absolute;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  border: 1px solid rgba(240,237,230,0.04);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.card:hover .vis-praan::before,
+.card:hover .vis-finance::before,
+.card:hover .vis-petcare::before,
+.card:hover .vis-percept::before,
+.card:hover .vis-swift::before,
+.card:hover .vis-crypto::before {
+  transform: scale(1.15);
+  opacity: 0.5;
+}
+
+.vis-placeholder-label {
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(240,237,230,0.1); position: relative; z-index: 1;
+  font-weight: 300;
+}
+
+.card-badge {
+  position: absolute; top: 1.3rem; right: 1.3rem;
+  font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  background: rgba(13,13,11,0.85); border: 1px solid rgba(240,237,230,0.1);
+  color: var(--muted); padding: 0.28rem 0.65rem; border-radius: 2px;
+  backdrop-filter: blur(8px);
+}
+.card-badge.shipped { color: var(--accent-blue); border-color: rgba(74,158,255,0.25); }
+
+.card-easter {
+  position: absolute; bottom: 1.2rem; left: 1.3rem;
+  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(240,237,230,0.18); font-weight: 300;
+}
+
+/* Hover reveal overlay */
+.card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(13,13,11,0.6) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.35s;
+}
+.card:hover .card-overlay { opacity: 1; }
+
+.card-info {
+  padding: 1.7rem 1.9rem 2.2rem;
+  border-top: 1px solid rgba(240,237,230,0.06);
+  position: relative;
+  flex: 1;
+}
+
+.card-meta {
+  font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.55rem;
+}
+
+.card-name {
+  font-size: 1.3rem; font-weight: 400;
+  line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 0.6rem;
+}
+
+.card-hook {
+  font-size: 0.84rem; color: var(--mid); line-height: 1.65;
+  font-weight: 300; max-width: 480px;
+}
+
+.card-arrow {
+  position: absolute; bottom: 1.9rem; right: 1.9rem;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(240,237,230,0.1); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; color: var(--muted);
+  transition: all 0.25s;
+}
+.card:hover .card-arrow {
+  border-color: var(--accent-blue); color: var(--accent-blue);
+  background: rgba(74,158,255,0.08);
+}
+
+/* BOTTOM CTA */
+.work-cta {
+  padding: 6rem var(--px);
+  max-width: var(--max-w); margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 2rem;
+  border-top: 1px solid rgba(240,237,230,0.06);
+}
+
+.work-cta h2 {
+  font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 300;
+  letter-spacing: -0.02em; line-height: 1.08; margin-bottom: 0.6rem;
+}
+.work-cta h2 em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+.work-cta p { font-size: 0.88rem; color: var(--mid); font-weight: 300; }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.95rem 2.2rem; border-radius: 2px;
+  border: 1px solid rgba(240,237,230,0.2); color: var(--white);
+  position: relative; overflow: hidden; transition: all 0.25s;
+}
+.btn-outline::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent-blue);
+  transform: translateX(-101%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-outline:hover::before { transform: translateX(0); }
+.btn-outline span { position: relative; z-index: 1; }
+
+/* TICKER */
+.ticker-wrap {
+  border-top: 1px solid rgba(240,237,230,0.06);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  padding: 0.85rem 0; overflow: hidden; background: var(--bg-2);
+}
+.ticker { display: flex; animation: tickerscroll 30s linear infinite; white-space: nowrap; width: max-content; }
+@keyframes tickerscroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-item {
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); padding: 0 2.5rem;
+  display: flex; align-items: center; gap: 2.5rem;
+}
+.ticker-dot { width: 4px; height: 4px; background: var(--accent-blue); border-radius: 50%; flex-shrink: 0; }
+.ticker-item.amber .ticker-dot { background: var(--accent-amber); }
+
+/* FOOTER */
+.footer {
+  padding: 2.8rem var(--px);
+  border-top: 1px solid rgba(240,237,230,0.06);
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 2rem;
+}
+.footer-copy { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.footer-center { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--mid); text-align: center; }
+.footer-links { display: flex; justify-content: flex-end; gap: 2rem; list-style: none; }
+.footer-links a { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.footer-links a:hover { color: var(--white); }
+
+@media (max-width: 900px) {
+  :root { --px: 1.5rem; }
+  .nav-status { display: none; }
+  .work-hero { flex-direction: column; align-items: flex-start; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .featured-grid .card:first-child { grid-column: auto; }
+  .featured-grid .card:first-child .card-visual,
+  .featured-grid .card:not(:first-child) .card-visual { height: 260px; }
+  .featured-grid .card:first-child .card-name { font-size: 1.4rem; }
+  .secondary-grid { grid-template-columns: 1fr; }
+  .work-cta { flex-direction: column; align-items: flex-start; }
+  .footer { grid-template-columns: 1fr; }
+  .footer-center { display: none; }
+  .footer-links { justify-content: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-name">Manav Hemnani</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/pages/work.html" class="active">Work</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+      <li><a href="/pages/contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-status"><span class="status-dot"></span>Open to roles</div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="work-hero">
+    <div>
+      <p class="work-eyebrow">Selected Work — 2023–2024</p>
+      <h1>Three projects.<br><em>One thread.</em></h1>
+    </div>
+    <div class="work-hero-right">
+      <p>From hardware ecosystems to spatial computing — each project starts with a physical or behavioral constraint and ends with a digital product designed around it.</p>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="work-filters">
+    <div class="filters-inner">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="product">Product Design</button>
+      <button class="filter-btn" data-filter="web">Web & Commerce</button>
+      <button class="filter-btn" data-filter="shipped">Shipped</button>
+      <button class="filter-btn" data-filter="concept">Concept</button>
+      <span class="filter-count">3 projects</span>
+    </div>
+  </div>
+
+  <!-- FEATURED: PRAAN, SWIFT, PERCEPT -->
+  <div class="featured-grid">
+
+    <a href="/pages/praan.html" class="card" data-cat="product shipped">
+      <div class="card-visual">
+        <div class="vis-praan"><span class="vis-placeholder-label">Praan — add image</span></div>
+        <div class="card-overlay"></div>
+        <span class="card-badge shipped">● Shipped</span>
+        <span class="card-easter">19° 02' 50.4" N 72° 54' 38.6" E · Mumbai, India</span>
+      </div>
+      <div class="card-info">
+        <p class="card-meta">—01 · Hardware + Software Ecosystem · 2024</p>
+        <h2 class="card-name">Praan Air Ecosystem</h2>
+        <p class="card-hook">How do you make industrial-grade air purification feel personal and trustworthy? Designing the digital face of a deep-tech hardware company — app, website, and motion language — for users who distrust complexity.</p>
+        <div class="card-arrow">↗</div>
+      </div>
+    </a>
+
+    <a href="/pages/swift.html" class="card" data-cat="product concept">
+      <div class="card-visual">
+        <div class="vis-swift"><span class="vis-placeholder-label">Swift VR — add image</span></div>
+        <div class="card-overlay"></div>
+        <span class="card-badge">Concept · Spatial</span>
+        <span class="card-easter">124 BPM · Reaction 0.3s</span>
+      </div>
+      <div class="card-info">
+        <p class="card-meta">—02 · Spatial Computing · VR · 2023</p>
+        <h2 class="card-name">Swift VR Table Tennis</h2>
+        <p class="card-hook">Training requires a partner. VR removes that constraint — if the spatial interaction is designed right.</p>
+        <div class="card-arrow">↗</div>
+      </div>
+    </a>
+
+    <a href="/pages/percept.html" class="card" data-cat="product concept">
+      <div class="card-visual">
+        <div class="vis-percept"><span class="vis-placeholder-label">Percept — add image</span></div>
+        <div class="card-overlay"></div>
+        <span class="card-badge">Concept · Mobile</span>
+        <span class="card-easter">F/2.8 · 1/250s · ISO 400</span>
+      </div>
+      <div class="card-info">
+        <p class="card-meta">—03 · Mobile App · 2024</p>
+        <h2 class="card-name">Percept: Learn Photography</h2>
+        <p class="card-hook">Learning photography requires doing, not watching. Every lesson ends with your camera in your hand.</p>
+        <div class="card-arrow">↗</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="work-cta">
+    <div>
+      <h2>Have a project<br><em>worth designing?</em></h2>
+      <p>Currently open to senior product design roles and select freelance projects.</p>
+    </div>
+    <a href="/pages/contact.html" class="btn-outline"><span>Get in touch →</span></a>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
+      <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-copy">© 2026 Manav Hemnani</span>
+    <span class="footer-center">Selected Work</span>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
+      <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
+      <li><a href="/pages/contact.html">Email ↗</a></li>
+    </ul>
+  </footer>
+
+</div>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.nav');
+  nav.style.borderBottomColor = window.scrollY > 20
+    ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
+}, { passive: true });
+
+// Filters
+const btns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.card[data-cat]');
+const count = document.querySelector('.filter-count');
+
+btns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    let n = 0;
+    cards.forEach(c => {
+      const show = f === 'all' || c.dataset.cat.includes(f);
+      c.style.opacity = show ? '1' : '0.15';
+      c.style.pointerEvents = show ? 'auto' : 'none';
+      c.style.transition = 'opacity 0.3s ease';
+      if (show) n++;
+    });
+    count.textContent = `${n} project${n !== 1 ? 's' : ''}`;
+  });
+});
+
+// Reveal on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.card, .work-cta').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
