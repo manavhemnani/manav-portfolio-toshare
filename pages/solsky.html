@@ -669,18 +669,77 @@ figure.cs-img figcaption.cap {
   margin-top: 0.75rem;
 }
 
-/* Decision visual — single full-width image replacing the two-panel grid */
+/* Decision visual — full-bleed image inside the decision card */
 .dec-vis-img {
-  margin: 0 1.6rem 0;
   border-bottom: 1px solid rgba(240,237,230,0.06);
-  padding-bottom: 1rem;
 }
 .dec-vis-img img {
   width: 100%;
+  height: auto;
   display: block;
-  border-radius: 6px;
-  object-fit: cover;
 }
+
+/* 18 ── DESIGN EXPLORATION CARDS — 3-column grid replacing ia-diag row list */
+.dec-explore-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 2rem 0;
+}
+.decision-card {
+  border-radius: 6px;
+  border: 1px solid rgba(240,237,230,0.08);
+  background: var(--bg-2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.decision-card.dead { opacity: 0.55; }
+.decision-card.chosen {
+  border-color: rgba(212,160,40,0.22);
+  background: rgba(212,160,40,0.025);
+  opacity: 1;
+}
+.decision-visual {
+  width: 100%;
+  background: var(--bg-3);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  line-height: 0; /* removes inline gap below img */
+}
+.decision-card.chosen .decision-visual {
+  border-bottom-color: rgba(212,160,40,0.12);
+}
+.decision-visual img {
+  width: 100%;
+  height: auto;   /* natural height — no cropping */
+  display: block;
+}
+.decision-content {
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  flex: 1;
+}
+/* Reuse existing ia-* text classes, override right-aligned styles for card context */
+.decision-content .ia-rowtitle { color: rgba(240,237,230,0.45); }
+.decision-card.chosen .decision-content .ia-rowtitle { color: var(--white); }
+.decision-content .ia-rowwhy {
+  text-align: left;
+  max-width: none;
+  margin-top: 0.1rem;
+}
+.decision-card.chosen .decision-content .ia-rowwhy { color: rgba(212,160,40,0.6); font-style: normal; }
+.decision-card-num {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: rgba(120,140,123,0.3);
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+.decision-card.chosen .decision-card-num { color: var(--accent-proj); }
 </style>
 </head>
 <body>
@@ -738,7 +797,7 @@ figure.cs-img figcaption.cap {
     </div>
     <div class="meta-item">
       <div class="meta-lbl">Timeline</div>
-      <div class="meta-val" style="color:var(--muted);font-style:italic;">[PLACEHOLDER: X weeks — confirm with founder]</div>
+      <div class="meta-val" style="color:var(--muted);font-style:italic;">2 weeks</div>
     </div>
     <div class="meta-item">
       <div class="meta-lbl">Platform</div>
@@ -790,7 +849,8 @@ figure.cs-img figcaption.cap {
 
       <div class="pull">
         <p>"How do you sell a product whose entire value proposition is that you'll never need to prove it worked?"</p>
-        <cite>The question that shaped every content decision on this site</cite>
+        <cite>A question that came out of the first brief conversation — and ended up shaping every content hierarchy decision on the site.</cite>
+        <cite>It's why the homepage leads with a problem statement before showing a single product.</cite>
       </div>
 
     </section>
@@ -807,7 +867,7 @@ figure.cs-img figcaption.cap {
       </p>
 
       <p class="body">
-        The initial brief was an e-commerce website. The actual brief — the one that emerged through the first conversation — was a category-creation problem: build a digital presence that doesn't just sell products, but teaches a new way of thinking about dog care before asking for anything in return. The live result is at <a href="https://petsofsolandsky.com/" target="_blank" rel="noopener" style="color:var(--accent-proj);border-bottom:1px solid rgba(212,160,40,0.3);padding-bottom:1px;transition:border-color 0.2s;">petsofsolandsky.com ↗</a>.
+        This isn't a traditional UX engagement. The design challenge here is belief formation — getting a first-time visitor to understand why prevention matters before they'll consider the product at all. That required applying content architecture, information hierarchy, and mental model thinking to a brand and commerce context rather than a product interface. Working directly with Sanika — no PM, no brief document, no feedback layers — meant every decision was made against her founding conviction rather than a spec. When a direction felt off, the filter was always the same: does this feel like a brand that acts before problems appear? That kind of clarity is rare. It made the process faster and the output sharper."
       </p>
 
       <div class="collab">
@@ -827,6 +887,9 @@ figure.cs-img figcaption.cap {
           <div class="collab-desc">Platform constraints shaped every IA and content hierarchy decision. Custom sections were built within theme architecture, and every layout decision had to work within Shopify's rendering model.</div>
         </div>
       </div>
+      <p class="body">
+        Working directly with Sanika — no PM, no brief document, no feedback layers — meant every decision was made against her founding conviction rather than a spec. When a direction felt off, the filter was always the same: does this feel like a brand that acts before problems appear? That kind of clarity is rare. It made the process faster and the output sharper."
+      </p>
 
       <figure class="cs-img" style="margin-top:2rem;">
         <img src="/assets/images/solsky/process-shopify.png" alt="Shopify theme editor open during Sol & Sky build" class="cs-img-full">
@@ -854,6 +917,10 @@ figure.cs-img figcaption.cap {
         The price point is the sharpest constraint. At ₹349–₹399, Sol &amp; Sky isn't competing on price — it's competing on trust. The customer who buys a ₹399 single-ingredient treat instead of a ₹99 filler-heavy one is making a values-based decision, not an economic one. That means the website's job is to earn the values alignment, not justify the cost. Every design decision was filtered through one question: does this feel like a brand that takes its ingredients as seriously as it claims?
       </p>
 
+      <p class="body">
+       Two distinct mindsets in the same audience — first-time pet parents actively seeking education, and experienced owners looking for cleaner alternatives to what they already use. The site had to educate without being condescending, and signal premium quality without requiring prior category knowledge.
+      </p>
+
     </section>
 
     <!-- 04 — WHAT DIDN'T WORK -->
@@ -863,47 +930,50 @@ figure.cs-img figcaption.cap {
         <h2 class="ch-title">What <em>Didn't Work</em></h2>
       </div>
 
-      <div class="ia-diag">
-        <div class="ia-diag-hd">
-          <span class="ia-diag-lbl">Design Exploration Map — 04</span>
-          <span class="ia-diag-sub">3 directions explored · 1 shipped</span>
-        </div>
-        <div>
-          <div class="ia-row dead">
-            <div class="ia-rownum">01</div>
-            <div class="ia-rowmain">
-              <div class="ia-rowtitle">Product-First Homepage</div>
-              <div class="ia-rowsub">Content hierarchy — hero leads with product range, grid of items above the fold</div>
-            </div>
-            <div class="ia-rowend">
-              <div class="ia-rowstatus bad">Abandoned</div>
-              <div class="ia-rowwhy">No context = no purchase. A visitor who doesn't understand "preventive care" sees a ₹399 shampoo and doesn't know why it's different from the cheaper alternative</div>
-            </div>
+      <div class="dec-explore-grid">
+
+        <!-- Direction 01 — Abandoned -->
+        <div class="decision-card dead">
+          <div class="decision-visual">
+            <img src="/assets/images/solsky/exploration-product-first.png" alt="Design exploration visual">
           </div>
-          <div class="ia-row dead">
-            <div class="ia-rownum">02</div>
-            <div class="ia-rowmain">
-              <div class="ia-rowtitle">Per-Product Benefit Sections</div>
-              <div class="ia-rowsub">Structural IA — each product has its own hero with benefit claims, no overarching brand frame</div>
-            </div>
-            <div class="ia-rowend">
-              <div class="ia-rowstatus bad">Abandoned</div>
-              <div class="ia-rowwhy">Fragments the brand into individual products. The "daily system" thinking — the brand's actual differentiation — never emerges when each product stands alone</div>
-            </div>
-          </div>
-          <div class="ia-chosen-sep"><span>Final Direction</span></div>
-          <div class="ia-row chosen">
-            <div class="ia-rownum">↓</div>
-            <div class="ia-rowmain">
-              <div class="ia-rowtitle">Problem-First Narrative → System → Product Reveal</div>
-              <div class="ia-rowsub">Single confident hierarchy · problem named before any product is shown · products positioned as components of a daily habit, not standalone items</div>
-            </div>
-            <div class="ia-rowend">
-              <div class="ia-rowstatus good">Shipped</div>
-              <div class="ia-rowwhy">One entry point. One belief to establish. Every product earns its place in the system rather than competing for attention on its own.</div>
-            </div>
+          <div class="decision-content">
+            <div class="decision-card-num">01</div>
+            <div class="ia-rowtitle">Product-First Homepage</div>
+            <div class="ia-rowsub">Content hierarchy — hero leads with product range, grid of items above the fold</div>
+            <div class="ia-rowstatus bad">Abandoned</div>
+            <div class="ia-rowwhy">No context = no purchase. A visitor who doesn't understand "preventive care" sees a ₹399 shampoo and doesn't know why it's different from the cheaper alternative</div>
           </div>
         </div>
+
+        <!-- Direction 02 — Abandoned -->
+        <div class="decision-card dead">
+          <div class="decision-visual">
+            <img src="/assets/images/solsky/exploration-per-product.png" alt="Design exploration visual">
+          </div>
+          <div class="decision-content">
+            <div class="decision-card-num">02</div>
+            <div class="ia-rowtitle">Per-Product Benefit Sections</div>
+            <div class="ia-rowsub">Structural IA — each product has its own hero with benefit claims, no overarching brand frame</div>
+            <div class="ia-rowstatus bad">Abandoned</div>
+            <div class="ia-rowwhy">Fragments the brand into individual products. The "daily system" thinking — the brand's actual differentiation — never emerges when each product stands alone</div>
+          </div>
+        </div>
+
+        <!-- Direction 03 — Shipped -->
+        <div class="decision-card chosen">
+          <div class="decision-visual">
+            <img src="/assets/images/solsky/exploration-problem-first.png" alt="Design exploration visual">
+          </div>
+          <div class="decision-content">
+            <div class="decision-card-num">↓</div>
+            <div class="ia-rowtitle">Problem-First Narrative → System → Product Reveal</div>
+            <div class="ia-rowsub">Single confident hierarchy · problem named before any product is shown · products positioned as components of a daily habit, not standalone items</div>
+            <div class="ia-rowstatus good">Shipped</div>
+            <div class="ia-rowwhy">One entry point. One belief to establish. Every product earns its place in the system rather than competing for attention on its own.</div>
+          </div>
+        </div>
+
       </div>
 
       <p class="body">
@@ -1035,6 +1105,10 @@ figure.cs-img figcaption.cap {
 
       <p class="body">
         The website, product naming, and visual language were designed as a single coherent system. The naming convention — "Smoothening Dog Shampoo," "Nourishing Paw Balm" — mirrors the ingredient-first brand philosophy: functional, honest, no marketing abstraction. The three-step daily routine maps each product to a specific daily moment, converting the product range from a collection into a habit. The ingredient-hero photography signals clean formulation through visual convention rather than copy claims.
+      </p>
+
+      <p class="body">
+        The hardest part of making this system coherent was the tension between ingredient-forward photography — which signals clinical trust — and the emotional warmth that dog parents respond to. The resolution: lead with ingredients in product and hero shots, and reserve dog-interaction photography for secondary carousel images. Warmth is present, but never leads.
       </p>
 
       <p class="body">
