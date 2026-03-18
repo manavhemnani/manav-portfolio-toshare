@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Manav Hemnani is a product designer focused on hardware ecosystems, spatial computing, and everyday learning tools. Based on industrial design, building for the physical world.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Manav Hemnani — Product Designer">
+<meta property="og:description" content="Manav Hemnani is a product designer focused on hardware ecosystems, spatial computing, and everyday learning tools. Based on industrial design, building for the physical world.">
+<meta property="og:image" content="https://manavhemnani.com/assets/images/og-home.png">
+<meta property="og:url" content="https://manavhemnani.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Manav Hemnani — Product Designer">
+<meta name="twitter:description" content="Manav Hemnani is a product designer focused on hardware ecosystems, spatial computing, and everyday learning tools. Based on industrial design, building for the physical world.">
+<meta name="twitter:image" content="https://manavhemnani.com/assets/images/og-home.png">
 <title>Manav Hemnani — Product Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
@@ -20,6 +30,11 @@
   --accent-amber: #c8a96e;
   --sans: 'DM Sans', system-ui, sans-serif;
   --serif: 'Playfair Display', Georgia, serif;
+  /* Layout grid */
+  --page-max:    1100px;
+  --page-px:     3rem;
+  --content-max: 720px;
+  --nav-h:       68px;
 }
 
 html { scroll-behavior: smooth; }
@@ -29,7 +44,7 @@ body {
   color: var(--white);
   font-family: var(--sans);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
 }
 
@@ -256,7 +271,7 @@ nav {
 }
 
 .hero-tag {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-blue);
@@ -269,7 +284,7 @@ nav {
 }
 
 .hero-coord {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -346,7 +361,7 @@ nav {
   left: 50%;
   z-index: 3;
   pointer-events: none;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -386,7 +401,7 @@ nav {
 }
 
 .ticker-item {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -491,7 +506,7 @@ nav {
 }
 
 .pp-country {
-  font-size: 0.55rem;
+  font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(50,35,15,0.4);
@@ -499,7 +514,7 @@ nav {
 }
 
 .pp-doc-no {
-  font-size: 0.52rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(50,35,15,0.28);
@@ -528,7 +543,7 @@ nav {
 }
 
 .stamp-cat {
-  font-size: 0.52rem;
+  font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 700;
@@ -547,7 +562,7 @@ nav {
 }
 
 .stamp-sub {
-  font-size: 0.58rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 0.34rem;
@@ -636,7 +651,7 @@ nav {
 }
 
 .section-label {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -732,7 +747,7 @@ nav {
 .project-visual-label {
   position: absolute;
   top: 1.4rem; right: 1.4rem;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -751,7 +766,7 @@ nav {
 .project-coord {
   position: absolute;
   bottom: 1.4rem; left: 1.4rem;
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(240,237,230,0.25);
@@ -766,7 +781,7 @@ nav {
 }
 
 .project-number {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -824,7 +839,7 @@ nav {
 .about-left {}
 
 .about-label {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -897,7 +912,7 @@ nav {
 .principle:first-child { border-top: 1px solid rgba(240,237,230,0.06); }
 
 .p-num {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   color: var(--accent-blue);
   font-weight: 500;
@@ -916,7 +931,7 @@ nav {
 .p-body {
   font-size: 0.82rem;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.75;
   font-weight: 300;
 }
 
@@ -934,7 +949,7 @@ nav {
 }
 
 .interests-label {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -963,7 +978,7 @@ nav {
 }
 
 .interest-detail {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   color: var(--muted);
   letter-spacing: 0.06em;
 }
@@ -1138,6 +1153,23 @@ footer {
   .interest-item:first-child { border-left: 1px solid rgba(240,237,230,0.06); }
   footer { grid-template-columns: 1fr; text-align: center; }
   .footer-right { justify-content: center; }
+}
+
+/* ── Accessibility: focus states ─────────────────────────────── */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-blue, #4a9eff);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Accessibility: reduced motion ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
@@ -1388,7 +1420,7 @@ footer {
   <ul class="footer-right">
     <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
     <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
-    <li><a href="mailto:HEMNANIMANAV@GMAIL.COM">Email ↗</a></li>
+    <li><a href="mailto:hemnanimanav@gmail.com">Email ↗</a></li>
   </ul>
 </footer>
 

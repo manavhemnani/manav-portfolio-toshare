@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="About Manav Hemnani — product designer trained in industrial design. Background, process, interests, and thinking.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="About — Manav Hemnani">
+<meta property="og:description" content="About Manav Hemnani — product designer trained in industrial design. Background, process, interests, and thinking.">
+<meta property="og:image" content="https://manavhemnani.com/assets/images/og-about.png">
+<meta property="og:url" content="https://manavhemnani.com/about">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About — Manav Hemnani">
+<meta name="twitter:description" content="About Manav Hemnani — product designer trained in industrial design. Background, process, interests, and thinking.">
+<meta name="twitter:image" content="https://manavhemnani.com/assets/images/og-about.png">
 <title>About — Manav Hemnani</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
@@ -24,12 +34,17 @@ a { color: inherit; text-decoration: none; }
   --sans:  'DM Sans', system-ui, sans-serif;
   --serif: 'Playfair Display', Georgia, serif;
   --nav-h: 68px;
+  /* Layout grid */
+  --page-max:    1100px;
+  --page-px:     3rem;
+  --content-max: 720px;
+  --nav-h:       68px;
 }
 
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg); color: var(--white);
-  font-family: var(--sans); line-height: 1.6;
+  font-family: var(--sans); line-height: 1.7;
   overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 body::before {
@@ -48,7 +63,7 @@ body::before {
 }
 .nav-name { font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; }
 .nav-links { display:flex; gap:2rem; list-style:none; }
-.nav-links a { font-size:0.75rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
+.nav-links a { font-size:0.8rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
 .nav-links a:hover, .nav-links a.active { color:var(--white); }
 .nav-status { display:flex; align-items:center; gap:0.5rem; font-size:0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); }
 .status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 2.5s ease-in-out infinite; }
@@ -77,7 +92,7 @@ body::before {
 }
 .hero-name em { font-family:var(--serif); font-style:italic; color:var(--amber); }
 .hero-eyebrow {
-  font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
+  font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase;
   color:var(--muted); margin-bottom:1.8rem;
   display:flex; align-items:center; gap:0.8rem;
 }
@@ -92,7 +107,7 @@ body::before {
 
 .meta { display:flex; flex-direction:column; gap:0.75rem; }
 .meta-row { display:flex; gap:1.5rem; align-items:baseline; }
-.meta-key { font-size:0.6rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--muted); min-width:90px; flex-shrink:0; }
+.meta-key { font-size: 0.72rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--muted); min-width:90px; flex-shrink:0; }
 .meta-val { font-size:0.88rem; color:var(--mid); font-weight:300; }
 .meta-val.open { color:var(--green); display:flex; align-items:center; gap:0.45rem; }
 .meta-val.open::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:blink 2.5s ease-in-out infinite; flex-shrink:0; }
@@ -119,7 +134,7 @@ body::before {
 }
 .photo-cell img { width:100%; height:100%; object-fit:cover; }
 .ph-icon { font-size:1.2rem; opacity:0.14; }
-.ph-label { font-size:0.6rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--muted); text-align:center; padding:0 1rem; line-height:1.5; }
+.ph-label { font-size: 0.72rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--muted); text-align:center; padding:0 1rem; line-height:1.5; }
 
 /* BLOCKS — label + prose, no frills */
 .content { animation:fadeUp 0.9s 0.3s ease both; }
@@ -132,7 +147,7 @@ body::before {
 }
 
 .block-label {
-  font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase;
+  font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase;
   color:var(--muted); padding-top:0.2rem;
   position:sticky; top:calc(var(--nav-h) + 2rem);
 }
@@ -152,7 +167,7 @@ body::before {
 }
 .interests li:last-child { border-bottom:none; }
 .i-tag {
-  font-size:0.58rem; letter-spacing:0.13em; text-transform:uppercase;
+  font-size: 0.72rem; letter-spacing:0.13em; text-transform:uppercase;
   color:var(--muted); min-width:84px; flex-shrink:0;
 }
 .i-val { font-size:0.92rem; color:var(--mid); font-weight:300; line-height:1.5; }
@@ -190,16 +205,16 @@ body::before {
 .ticker-wrap { border-top:1px solid rgba(240,237,230,0.06); padding:0.85rem 0; overflow:hidden; background:var(--bg-2); }
 .ticker { display:flex; animation:tick 32s linear infinite; white-space:nowrap; width:max-content; }
 @keyframes tick { from{transform:translateX(0);}to{transform:translateX(-50%);} }
-.ti { font-size:0.67rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); padding:0 2.5rem; display:flex; align-items:center; gap:2.5rem; }
+.ti { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); padding:0 2.5rem; display:flex; align-items:center; gap:2.5rem; }
 .td { width:4px; height:4px; border-radius:50%; flex-shrink:0; background:var(--blue); }
 .ti.a .td { background:var(--amber); }
 
 /* FOOTER */
 .footer { padding:2.8rem 3rem; border-top:1px solid rgba(240,237,230,0.06); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:2rem; }
-.fc { font-size:0.68rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); }
+.fc { font-size: 0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); }
 .fm { font-family:var(--serif); font-size:1.2rem; font-style:italic; color:var(--mid); text-align:center; }
 .fl { display:flex; justify-content:flex-end; gap:2rem; list-style:none; }
-.fl a { font-size:0.68rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
+.fl a { font-size: 0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
 .fl a:hover { color:var(--white); }
 
 @media (max-width:860px) {
@@ -215,6 +230,23 @@ body::before {
   .footer { grid-template-columns:1fr; }
   .fm { display:none; }
   .fl { justify-content:flex-start; }
+}
+
+/* ── Accessibility: focus states ─────────────────────────────── */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-blue, #4a9eff);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Accessibility: reduced motion ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
@@ -373,7 +405,7 @@ body::before {
   <ul class="fl">
     <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
     <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
-    <li><a href="mailto:HEMNANIMANAV@GMAIL.COM">Email ↗</a></li>
+    <li><a href="mailto:hemnanimanav@gmail.com">Email ↗</a></li>
   </ul>
 </footer>
 

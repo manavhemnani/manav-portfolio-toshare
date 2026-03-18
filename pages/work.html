@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Selected projects and case studies by Manav Hemnani — shipped products, design process, and outcomes across hardware ecosystems, VR, and mobile.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Work — Manav Hemnani">
+<meta property="og:description" content="Selected projects and case studies by Manav Hemnani — shipped products, design process, and outcomes across hardware ecosystems, VR, and mobile.">
+<meta property="og:image" content="https://manavhemnani.com/assets/images/og-work.png">
+<meta property="og:url" content="https://manavhemnani.com/work">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Work — Manav Hemnani">
+<meta name="twitter:description" content="Selected projects and case studies by Manav Hemnani — shipped products, design process, and outcomes across hardware ecosystems, VR, and mobile.">
+<meta name="twitter:image" content="https://manavhemnani.com/assets/images/og-work.png">
 <title>Work — Manav Hemnani</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
@@ -27,6 +37,11 @@ a { color: inherit; text-decoration: none; }
   --nav-h:        68px;
   --max-w:        1100px;
   --px:           3rem;
+  /* Layout grid */
+  --page-max:    1100px;
+  --page-px:     3rem;
+  --content-max: 720px;
+  --nav-h:       68px;
 }
 
 html { scroll-behavior: smooth; }
@@ -35,7 +50,7 @@ body {
   background: var(--bg);
   color: var(--white);
   font-family: var(--sans);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -77,7 +92,7 @@ body::before {
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 
 .nav-links a {
-  font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase;
+  font-size: 0.8rem; letter-spacing: 0.07em; text-transform: uppercase;
   color: var(--muted); transition: color 0.2s;
 }
 .nav-links a:hover,
@@ -85,7 +100,7 @@ body::before {
 
 .nav-status {
   display: flex; align-items: center; gap: 0.5rem;
-  font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted);
+  font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted);
 }
 
 .status-dot {
@@ -117,7 +132,7 @@ body::before {
 }
 
 .work-eyebrow {
-  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--accent-blue); font-weight: 500; margin-bottom: 1.2rem;
 }
 
@@ -151,7 +166,7 @@ body::before {
 
 .filter-btn {
   font-family: var(--sans);
-  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--muted); padding: 0.42rem 1rem;
   border: 1px solid transparent; border-radius: 2px;
   cursor: pointer; background: transparent; transition: all 0.2s;
@@ -161,7 +176,7 @@ body::before {
 
 .filter-count {
   margin-left: auto;
-  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
 }
 
 /* GRIDS */
@@ -184,7 +199,7 @@ body::before {
   display: flex; align-items: center; gap: 2rem;
 }
 .divide-label {
-  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--muted); white-space: nowrap;
 }
 .divide-line { flex: 1; height: 1px; background: rgba(240,237,230,0.06); }
@@ -278,14 +293,14 @@ body::before {
 }
 
 .vis-placeholder-label {
-  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: rgba(240,237,230,0.1); position: relative; z-index: 1;
   font-weight: 300;
 }
 
 .card-badge {
   position: absolute; top: 1.3rem; right: 1.3rem;
-  font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
   background: rgba(13,13,11,0.85); border: 1px solid rgba(240,237,230,0.1);
   color: var(--muted); padding: 0.28rem 0.65rem; border-radius: 2px;
   backdrop-filter: blur(8px);
@@ -294,7 +309,7 @@ body::before {
 
 .card-easter {
   position: absolute; bottom: 1.2rem; left: 1.3rem;
-  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
   color: rgba(240,237,230,0.18); font-weight: 300;
 }
 
@@ -314,7 +329,7 @@ body::before {
 }
 
 .card-meta {
-  font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--muted); margin-bottom: 0.55rem;
 }
 
@@ -386,7 +401,7 @@ body::before {
   to   { transform: translateX(-50%); }
 }
 .ticker-item {
-  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--muted); padding: 0 2.5rem;
   display: flex; align-items: center; gap: 2.5rem;
 }
@@ -400,14 +415,20 @@ body::before {
   display: grid; grid-template-columns: 1fr auto 1fr;
   align-items: center; gap: 2rem;
 }
-.footer-copy { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.footer-copy { font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
 .footer-center { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--mid); text-align: center; }
 .footer-links { display: flex; justify-content: flex-end; gap: 2rem; list-style: none; }
-.footer-links a { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.footer-links a { font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
 .footer-links a:hover { color: var(--white); }
 
 @media (max-width: 900px) {
-  :root { --px: 1.5rem; }
+  :root { --px: 1.5rem;
+  /* Layout grid */
+  --page-max:    1100px;
+  --page-px:     3rem;
+  --content-max: 720px;
+  --nav-h:       68px;
+}
   .nav-status { display: none; }
   .work-hero { flex-direction: column; align-items: flex-start; }
   .featured-grid { grid-template-columns: 1fr; }
@@ -420,6 +441,23 @@ body::before {
   .footer { grid-template-columns: 1fr; }
   .footer-center { display: none; }
   .footer-links { justify-content: flex-start; }
+}
+
+/* ── Accessibility: focus states ─────────────────────────────── */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-blue, #4a9eff);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Accessibility: reduced motion ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>

@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sol & Sky — Manav Hemnani</title>
+<meta name="description" content="Case study: Sol & Sky. Designing India's first preventive daily care stack for dogs — brand, Shopify build, content architecture, and product photography direction.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sol & Sky — Manav Hemnani">
+<meta property="og:description" content="Case study: Sol & Sky. Designing India's first preventive daily care stack for dogs — brand, Shopify build, content architecture, and product photography direction.">
+<meta property="og:image" content="https://manavhemnani.com/assets/images/solsky-cover.jpeg">
+<meta property="og:url" content="https://manavhemnani.com/solsky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sol & Sky — Manav Hemnani">
+<meta name="twitter:description" content="Case study: Sol & Sky. Designing India's first preventive daily care stack for dogs — brand, Shopify build, content architecture, and product photography direction.">
+<meta name="twitter:image" content="https://manavhemnani.com/assets/images/solsky-cover.jpeg">
+<title>Sol & Sky — Preventive Pet Care · Manav Hemnani</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
 <style>
@@ -12,22 +22,26 @@ img, video { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 
 :root {
-  --bg:           #0d0b08;
-  --bg-2:         #141108;
-  --bg-3:         #1c1810;
+  --bg:           #060c08;
+  --bg-2:         #0b130d;
+  --bg-3:         #111a13;
   --white:        #f0ede6;
-  --muted:        #5a5548;
-  --mid:          #8a8472;
+  --muted:        #4a5e4d;
+  --mid:          #788c7b;
   --accent-blue:  #4a9eff;
   --accent-amber: #c8a96e;
-  --accent-proj:  #d4824a; /* Sol & Sky — warm terracotta/earth */
-  --accent-light: #e8c49a;
-  --success:      #4caf7d;
+  --accent-proj:  #c87941;
+  --accent-light: #e8b07a;
   --sans:         'DM Sans', system-ui, sans-serif;
   --serif:        'Playfair Display', Georgia, serif;
   --nav-h:        68px;
   --sidebar-w:    220px;
   --content-max:  720px;
+  /* Layout grid */
+  --page-max:    1100px;
+  --page-px:     3rem;
+  --content-max: 720px;
+  --nav-h:       68px;
 }
 
 html { scroll-behavior: smooth; }
@@ -35,19 +49,19 @@ body {
   background: var(--bg);
   color: var(--white);
   font-family: var(--sans);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
 body::before {
-  content: ''; position: fixed; inset: 0; z-index: 9000;
-  pointer-events: none; opacity: 0.03;
+  content: ''; position: fixed; inset: 0; z-index: 9000; pointer-events: none;
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
 
-/* NAV */
+/* ─── NAV ─────────────────────────────────────────── */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 500;
   height: var(--nav-h);
@@ -55,388 +69,623 @@ body::before {
   padding: 0 3rem;
   border-bottom: 1px solid rgba(240,237,230,0.06);
   backdrop-filter: blur(14px);
-  background: rgba(13,11,8,0.85);
+  background: rgba(14,11,8,0.88);
+  transition: border-color 0.3s;
 }
-.nav-name { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); }
+.nav-name { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
 .nav-right { display: flex; align-items: center; gap: 2.5rem; }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a { font-size: 0.75rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.nav-links a { font-size: 0.8rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
 .nav-links a:hover { color: var(--white); }
-.nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
+.nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
 .nav-back:hover { color: var(--white); }
 
-/* HERO */
+/* ─── HERO ────────────────────────────────────────── */
 .cs-hero {
   padding-top: var(--nav-h);
-  position: relative;
-  height: 95vh; min-height: 620px;
+  position: relative; height: 95vh; min-height: 640px;
   display: flex; flex-direction: column; justify-content: flex-end;
   overflow: hidden;
 }
-
 .hero-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse at 20% 60%, rgba(212,130,74,0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 30%, rgba(212,130,74,0.07) 0%, transparent 50%),
-    radial-gradient(ellipse at 55% 90%, rgba(200,169,110,0.08) 0%, transparent 45%),
-    linear-gradient(160deg, #100a04 0%, #180e06 45%, #0d0b08 100%);
+    radial-gradient(ellipse at 18% 58%, rgba(212,160,40,0.16) 0%, transparent 52%),
+    radial-gradient(ellipse at 78% 28%, rgba(212,160,40,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 55% 88%, rgba(74,158,255,0.05) 0%, transparent 40%),
+    linear-gradient(155deg, #030804 0%, #060c08 100%);
 }
-
-.hero-gradient {
+.hero-fade {
   position: absolute; inset: 0;
   background: linear-gradient(to bottom,
-    rgba(13,11,8,0.0) 0%,
-    rgba(13,11,8,0.25) 45%,
-    rgba(13,11,8,0.88) 80%,
-    var(--bg) 100%);
+    transparent 0%, rgba(14,11,8,0.2) 40%,
+    rgba(14,11,8,0.88) 78%, var(--bg) 100%);
 }
 
-/* Organic dot grid — product / ingredient reference */
-.hero-dots {
-  position: absolute; inset: 0; opacity: 0.04;
-  background-image: radial-gradient(circle, rgba(240,237,230,0.8) 1px, transparent 1px);
-  background-size: 36px 36px;
-}
-
-/* Ingredient circle — visual language of the brand */
-.ingredient-visual {
-  position: absolute;
-  top: 10%; right: 6%;
-  width: 320px; height: 320px;
-  display: flex; align-items: center; justify-content: center;
-}
-
-.ing-ring {
+/* Floating particles */
+.particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.p {
   position: absolute; border-radius: 50%;
+  background: rgba(212,160,40,0.18);
+  animation: floatUp linear infinite;
 }
-.ing-ring:nth-child(1) {
-  width: 100%; height: 100%;
-  border: 1px solid rgba(212,130,74,0.12);
-  animation: slowSpin 60s linear infinite;
-}
-.ing-ring:nth-child(2) {
-  width: 68%; height: 68%;
-  border: 1px solid rgba(212,130,74,0.08);
-  animation: slowSpin 40s linear infinite reverse;
-}
-.ing-ring:nth-child(3) {
-  width: 38%; height: 38%;
-  background: rgba(212,130,74,0.06);
-  border: 1px solid rgba(212,130,74,0.15);
-}
-
-.ing-label {
-  position: absolute;
-  font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(212,130,74,0.4); font-weight: 500;
-  text-align: center;
+.p:nth-child(1){ width:3px;height:3px;left:12%;animation-duration:20s;animation-delay:0s; }
+.p:nth-child(2){ width:2px;height:2px;left:27%;animation-duration:26s;animation-delay:4s; }
+.p:nth-child(3){ width:4px;height:4px;left:44%;animation-duration:17s;animation-delay:1s; }
+.p:nth-child(4){ width:2px;height:2px;left:60%;animation-duration:22s;animation-delay:6s; }
+.p:nth-child(5){ width:3px;height:3px;left:75%;animation-duration:19s;animation-delay:2s; }
+.p:nth-child(6){ width:5px;height:5px;left:88%;animation-duration:28s;animation-delay:9s;opacity:0.6; }
+.p:nth-child(7){ width:2px;height:2px;left:36%;animation-duration:23s;animation-delay:7s; }
+.p:nth-child(8){ width:3px;height:3px;left:55%;animation-duration:15s;animation-delay:3s; }
+@keyframes floatUp {
+  0%   { transform:translateY(100vh);opacity:0; }
+  8%   { opacity:1; }
+  92%  { opacity:1; }
+  100% { transform:translateY(-80px) translateX(12px);opacity:0; }
 }
 
-@keyframes slowSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+/* Dog health indicator easter egg — same class structure as .hero-aqi / .aqi-tag / .aqi-num / .aqi-status */
+.hero-aqi {
+  position: absolute; top: 5.5rem; right: 3rem;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;
+  pointer-events: none;
 }
+.aqi-tag   { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(212,160,40,0.35); }
+.aqi-num   { font-size: 3rem; font-weight: 300; line-height: 1; color: rgba(212,160,40,0.12); letter-spacing: -0.04em; font-family: var(--serif); font-style: italic; }
+.aqi-status{ font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(212,160,40,0.25); }
 
 .hero-content {
   position: relative; z-index: 1;
-  padding: 0 3rem 4rem; max-width: 900px;
-  animation: fadeUp 1s 0.2s ease both;
+  padding: 0 3rem 4.5rem; max-width: 920px;
+  animation: fadeUp 1s 0.15s ease both;
 }
-
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(24px); }
+  from { opacity:0; transform:translateY(22px); }
   to   { opacity:1; transform:translateY(0); }
 }
 
-.hero-eyebrow { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
-.hero-badge {
-  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
-  background: rgba(212,130,74,0.12); border: 1px solid rgba(212,130,74,0.3);
-  color: var(--accent-proj); padding: 0.28rem 0.8rem; border-radius: 2px;
+.eyebrow { display:flex; align-items:center; gap:1rem; margin-bottom:1.4rem; flex-wrap:wrap; }
+.badge {
+  font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+  background:rgba(212,160,40,0.1); border:1px solid rgba(212,160,40,0.28);
+  color:var(--accent-proj); padding:0.28rem 0.8rem; border-radius:2px;
+  display:flex; align-items:center; gap:0.4rem;
 }
-.hero-year { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.badge::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent-proj); animation:pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.hero-meta { font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); }
 
 .cs-hero h1 {
-  font-size: clamp(2.8rem, 5.5vw, 5.2rem);
-  font-weight: 300; line-height: 1.02; letter-spacing: -0.028em; margin-bottom: 1.4rem;
+  font-size: clamp(3rem,5.8vw,5.6rem);
+  font-weight:300; line-height:0.98; letter-spacing:-0.03em; margin-bottom:1.5rem;
 }
-.cs-hero h1 em { font-family: var(--serif); font-style: italic; color: var(--accent-proj); }
+.cs-hero h1 em { font-family:var(--serif); font-style:italic; color:var(--accent-proj); }
 
-.hero-sub { font-size: 1.05rem; color: var(--mid); line-height: 1.75; font-weight: 300; max-width: 580px; }
-.hero-sub strong { color: var(--white); font-weight: 400; }
+.hero-sub { font-size:1.05rem; color:var(--mid); line-height:1.78; font-weight:300; max-width:580px; }
+.hero-sub strong { color:var(--white); font-weight:400; }
 
-/* META STRIP */
+/* ─── META STRIP ──────────────────────────────────── */
 .meta-strip {
-  background: var(--bg-2);
-  border-top: 1px solid rgba(240,237,230,0.06);
-  border-bottom: 1px solid rgba(240,237,230,0.06);
-  padding: 2rem 3rem;
-  animation: fadeUp 1s 0.4s ease both;
+  background:var(--bg-2);
+  border-top:1px solid rgba(240,237,230,0.06);
+  border-bottom:1px solid rgba(240,237,230,0.06);
+  padding:2rem 3rem;
+  animation:fadeUp 1s 0.35s ease both;
 }
-.meta-strip-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 4rem; flex-wrap: wrap; }
-.meta-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
-.meta-value { font-size: 0.88rem; color: var(--white); font-weight: 400; }
-.meta-value.highlight { color: var(--accent-proj); }
+.meta-inner { max-width:1100px; margin:0 auto; display:flex; gap:4rem; flex-wrap:wrap; }
+.meta-item {}
+.meta-lbl { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:0.32rem; }
+.meta-val { font-size:0.88rem; color:var(--white); font-weight:400; }
+.meta-val.green { color:var(--accent-proj); }
 
-/* VIEW SITE LINK */
-.meta-link {
-  font-size: 0.88rem; color: var(--accent-proj);
-  display: flex; align-items: center; gap: 0.4rem;
-  transition: color 0.2s;
-  font-weight: 400;
-}
-.meta-link:hover { color: var(--accent-light); }
-
-/* AUDIT NOTE */
-.audit-note {
-  background: rgba(200,169,110,0.05);
-  border: 1px dashed rgba(200,169,110,0.2);
-  border-radius: 4px; padding: 1.2rem 1.5rem;
-  margin: 1.5rem 0; display: flex; gap: 0.8rem; align-items: flex-start;
-}
-.audit-note-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 0.1rem; }
-.audit-note-text { font-size: 0.8rem; color: var(--accent-amber); line-height: 1.65; font-weight: 300; }
-.audit-note-text strong { font-weight: 500; }
-
-/* BODY LAYOUT */
+/* ─── BODY GRID ───────────────────────────────────── */
 .cs-body {
-  display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
-  max-width: 1100px; margin: 0 auto;
-  padding: 0 3rem; gap: 6rem; align-items: start;
-}
+  display:grid; grid-template-columns:var(--sidebar-w) 1fr;
+  max-width:1100px; margin:0 auto; padding:0 3rem; gap:6rem; align-items:start;
+  line-height: 1.7;}
 
-/* SIDEBAR */
+/* ─── SIDEBAR ─────────────────────────────────────── */
 .cs-sidebar {
-  position: sticky; top: calc(var(--nav-h) + 3rem);
-  padding-top: 5rem; padding-bottom: 2rem;
+  position:sticky; top:calc(var(--nav-h) + 3rem);
+  padding-top:5rem; padding-bottom:2rem;
 }
-.sidebar-label { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
-.sidebar-nav { list-style: none; }
-.sidebar-nav li { margin-bottom: 0.1rem; }
-.sidebar-nav a {
-  display: flex; align-items: center; gap: 0.7rem;
-  font-size: 0.75rem; letter-spacing: 0.04em; color: var(--muted);
-  padding: 0.45rem 0 0.45rem 0.8rem; margin-left: -0.8rem;
-  border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+.sb-label { font-size: 0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:1.4rem; }
+.sb-nav { list-style:none; }
+.sb-nav li { margin-bottom:0.08rem; }
+.sb-nav a {
+  display:flex; align-items:center; gap:0.7rem;
+  font-size:0.74rem; letter-spacing:0.04em; color:var(--muted);
+  padding:0.42rem 0 0.42rem 0.8rem; margin-left:-0.8rem;
+  border-left:2px solid transparent; transition:color 0.2s, border-color 0.2s;
 }
-.sidebar-nav a:hover { color: var(--white); }
-.sidebar-nav a.active { color: var(--white); border-left-color: var(--accent-proj); }
-.sidebar-num { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; font-weight: 500; min-width: 1.4rem; transition: color 0.2s; }
-.sidebar-nav a.active .sidebar-num { color: var(--accent-proj); }
-.sidebar-progress { margin-top: 2.5rem; height: 2px; background: rgba(240,237,230,0.06); border-radius: 2px; overflow: hidden; }
-.sidebar-progress-fill { height: 100%; background: var(--accent-proj); width: 0%; transition: width 0.15s ease; border-radius: 2px; }
-.sidebar-progress-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.6rem; }
+.sb-nav a:hover { color:var(--white); }
+.sb-nav a.active { color:var(--white); border-left-color:var(--accent-proj); }
+.sb-num { font-size: 0.72rem; color:var(--muted); letter-spacing:0.1em; min-width:1.4rem; transition:color 0.2s; }
+.sb-nav a.active .sb-num { color:var(--accent-proj); }
+.sb-progress { margin-top:2.5rem; height:2px; background:rgba(240,237,230,0.06); border-radius:2px; overflow:hidden; }
+.sb-fill { height:100%; background:var(--accent-proj); width:0%; transition:width 0.12s ease; border-radius:2px; }
+.sb-pct { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:0.55rem; }
 
-/* CONTENT */
-.cs-content { padding-top: 5rem; padding-bottom: 8rem; }
+/* ─── CONTENT ─────────────────────────────────────── */
+.cs-content { padding-top:5rem; padding-bottom:8rem; }
 
-.chapter { padding-bottom: 7rem; border-bottom: 1px solid rgba(240,237,230,0.06); margin-bottom: 7rem; }
-.chapter:last-child { border-bottom: none; margin-bottom: 0; }
+.chapter { padding-bottom:7rem; border-bottom:1px solid rgba(240,237,230,0.06); margin-bottom:7rem; }
+.chapter:last-child { border-bottom:none; margin-bottom:0; }
 
-.chapter-header { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.5rem; }
-.chapter-num { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-proj); font-weight: 500; white-space: nowrap; }
-.chapter-title { font-size: 1.55rem; font-weight: 400; letter-spacing: -0.015em; line-height: 1.2; }
-.chapter-title em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
+.ch-header { display:flex; align-items:baseline; gap:1.2rem; margin-bottom:2.5rem; }
+.ch-num { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-proj); font-weight:500; white-space:nowrap; }
+.ch-title { font-size:1.55rem; font-weight:400; letter-spacing:-0.016em; line-height:1.2; }
+.ch-title em { font-family:var(--serif); font-style:italic; color:var(--accent-amber); }
 
-.body-text { font-size: 0.95rem; color: var(--mid); line-height: 1.9; font-weight: 300; margin-bottom: 1.4rem; max-width: var(--content-max); }
-.body-text strong { color: var(--white); font-weight: 400; }
+.body { font-size:0.95rem; color:var(--mid); line-height:1.9; font-weight:300; margin-bottom:1.4rem; max-width:var(--content-max); }
+.body strong { color:var(--white); font-weight:400; }
 
-/* Pull quote */
-.pull-quote {
-  margin: 3rem 0; padding: 2rem 2.5rem;
-  border-left: 2px solid var(--accent-proj);
-  background: rgba(212,130,74,0.04);
+/* AUDIT PROMPT */
+.prompt {
+  background:rgba(200,169,110,0.05); border:1px dashed rgba(200,169,110,0.2);
+  border-radius:4px; padding:1.2rem 1.5rem; margin:1.5rem 0;
+  display:flex; gap:0.8rem;
 }
-.pull-quote p { font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--white); line-height: 1.6; margin-bottom: 0.8rem; }
-.pull-quote cite { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-style: normal; }
+.prompt-icon { font-size:0.9rem; flex-shrink:0; margin-top:0.1rem; }
+.prompt-text { font-size:0.79rem; color:var(--accent-amber); line-height:1.65; font-weight:300; }
+.prompt-text strong { font-weight:500; }
 
-/* SCOPE TABLE — unique to shipped projects */
-.scope-table {
-  margin: 2.5rem 0; border: 1px solid rgba(240,237,230,0.07);
-  border-radius: 4px; overflow: hidden;
+/* PULL QUOTE */
+.pull {
+  margin:3rem 0; padding:2rem 2.5rem;
+  border-left:2px solid var(--accent-proj); background:rgba(212,160,40,0.04);
 }
-.scope-row {
-  display: grid; grid-template-columns: 180px 1fr;
+.pull p { font-family:var(--serif); font-style:italic; font-size:1.2rem; color:var(--white); line-height:1.6; margin-bottom:0.75rem; }
+.pull cite { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); font-style:normal; }
+
+/* COLLABORATION MAP */
+.collab {
+  margin:2.5rem 0; display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:rgba(240,237,230,0.06); border-radius:4px; overflow:hidden;
+}
+.collab-cell { background:var(--bg-2); padding:1.6rem 1.5rem; }
+.collab-role { font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-proj); margin-bottom:0.35rem; }
+.collab-name { font-size:0.9rem; color:var(--white); font-weight:400; margin-bottom:0.25rem; }
+.collab-desc { font-size:0.78rem; color:var(--muted); line-height:1.5; font-weight:300; }
+
+/* PILLS */
+.pills { display:flex; flex-wrap:wrap; gap:0.55rem; margin:1.8rem 0; }
+.pill { font-size:0.74rem; padding:0.42rem 0.95rem; border:1px solid rgba(240,237,230,0.1); color:var(--mid); border-radius:2px; font-weight:300; }
+.pill.hard { border-color:rgba(212,160,40,0.25); color:var(--accent-proj); background:rgba(212,160,40,0.05); }
+
+/* FAILED DIRECTION */
+.failed {
+  margin:2.5rem 0; padding:1.8rem 2rem;
+  border:1px solid rgba(240,237,230,0.06); border-radius:4px;
+  background:var(--bg-2); position:relative;
+}
+.failed-tag {
+  position:absolute; top:-0.6rem; left:1.4rem;
+  font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  background:var(--bg); border:1px solid rgba(240,237,230,0.1);
+  color:var(--muted); padding:0.18rem 0.6rem; border-radius:2px;
+}
+.failed h4 { font-size:0.9rem; font-weight:500; color:var(--white); margin:0.5rem 0 0.5rem; }
+.failed p  { font-size:0.84rem; color:var(--mid); font-weight:300; line-height:1.7; }
+.failed-why { margin-top:0.75rem; font-size:0.78rem; color:var(--muted); font-style:italic; display:flex; gap:0.5rem; }
+.failed-why::before { content:'↳'; flex-shrink:0; }
+
+/* DECISION BLOCK */
+.decision {
+  margin:2.5rem 0; border:1px solid rgba(240,237,230,0.07);
+  border-radius:4px; overflow:hidden; background:var(--bg-2);
+}
+.dec-head {
+  padding:1.2rem 1.6rem; border-bottom:1px solid rgba(240,237,230,0.06);
+  display:flex; align-items:center; gap:0.8rem;
+}
+.dec-icon { font-size:0.88rem; }
+.dec-q { font-size:0.82rem; font-weight:500; color:var(--white); }
+.dec-body { padding:1.4rem 1.6rem; display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;
+  line-height: 1.7;}
+.dec-lbl { font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.55rem; }
+.dec-col ul { list-style:none; }
+.dec-col li { font-size:0.82rem; color:var(--mid); font-weight:300; line-height:1.6; padding:0.18rem 0; display:flex; gap:0.6rem; }
+.dec-col li::before { content:'—'; color:var(--muted); flex-shrink:0; }
+.dec-col.yes li::before { content:'✓'; color:var(--accent-proj); }
+.dec-why {
+  padding:1.2rem 1.6rem; border-top:1px solid rgba(240,237,230,0.06);
+  background:rgba(212,160,40,0.04); font-size:0.82rem; color:var(--mid); line-height:1.65; font-weight:300;
+}
+.dec-why strong { color:var(--white); font-weight:400; }
+
+/* DECISION VISUAL COMPARISON */
+.dec-vis {
+  display:grid; grid-template-columns:1fr 32px 1fr;
+  padding:1.5rem 1.6rem 1rem; align-items:center;
+  border-bottom:1px solid rgba(240,237,230,0.06);
+}
+.dv-col { display:flex; flex-direction:column; align-items:center; gap:0.55rem; }
+.dv-panel {
+  width:100%; border-radius:4px; padding:1.4rem 1.2rem;
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:0.5rem; min-height:100px; text-align:center;
+}
+.dv-panel.no {
+  background:rgba(240,237,230,0.018); border:1px dashed rgba(240,237,230,0.07);
+}
+.dv-panel.yes {
+  background:rgba(212,160,40,0.05); border:1px solid rgba(212,160,40,0.18);
+}
+.dv-tag {
+  font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted);
+}
+.dv-panel.yes + .dv-tag { color:rgba(212,160,40,0.65); }
+.dv-mid { display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:0.85rem; }
+
+/* Breathing ring */
+.dv-ring {
+  width:38px; height:38px; border-radius:50%;
+  border:1.5px solid rgba(212,160,40,0.55); position:relative;
+  animation:dvBreathe 3s ease-in-out infinite;
+}
+.dv-ring::after {
+  content:''; position:absolute; inset:7px; border-radius:50%;
+  background:rgba(212,160,40,0.14); animation:dvBreathe 3s ease-in-out infinite;
+}
+@keyframes dvBreathe { 0%,100%{transform:scale(1);opacity:0.6;} 50%{transform:scale(1.12);opacity:1;} }
+
+/* Spec bars */
+.dv-bars { display:flex; flex-direction:column; gap:5px; width:82%; }
+.dv-bar { height:4px; border-radius:2px; background:rgba(240,237,230,0.08); }
+.dv-bar.s { width:50%; } .dv-bar.m { width:72%; } .dv-bar.l { width:90%; }
+
+/* IA boxes / funnel */
+.dv-boxes { display:flex; gap:4px; justify-content:center; flex-wrap:wrap; }
+.dv-box {
+  font-size: 0.72rem; letter-spacing:0.07em; text-transform:uppercase;
+  padding:0.22rem 0.55rem; border-radius:2px;
+  border:1px solid rgba(240,237,230,0.08); color:rgba(240,237,230,0.22);
+}
+.dv-funnel { display:flex; flex-direction:column; align-items:center; gap:5px; }
+.dv-funnel-in {
+  font-size: 0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+  padding:0.22rem 0.7rem; border-radius:2px;
+  border:1px solid rgba(212,160,40,0.3); color:rgba(212,160,40,0.65);
+}
+.dv-funnel-depths { display:flex; gap:4px; margin-top:2px; }
+.dv-depth { height:4px; border-radius:1px; background:rgba(212,160,40,0.2); }
+.dv-depth:nth-child(1){ width:22px; }
+.dv-depth:nth-child(2){ width:16px; opacity:0.65; }
+.dv-depth:nth-child(3){ width:10px; opacity:0.4; }
+
+/* IMAGE PLACEHOLDERS */
+.ph {
+  background:var(--bg-3); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:0.5rem;
+  padding:4rem 2rem; border:1px dashed rgba(240,237,230,0.07);
+  border-radius:4px; margin:2.5rem 0;
+}
+.ph-icon  { font-size:1.4rem; opacity:0.2; }
+.ph-label { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-align:center; }
+.ph-sub   { font-size: 0.72rem; color:rgba(120,140,123,0.5); text-align:center; line-height:1.5; margin-top:0.25rem; font-style:italic; }
+.cap { font-size:0.72rem; color:var(--muted); margin-top:-1.5rem; margin-bottom:2.5rem; font-weight:300; font-style:italic; }
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin:2.5rem 0; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.8rem; margin:2.5rem 0; }
+.ba { margin:3rem 0; }
+.ba-labels { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-bottom:0.6rem; }
+.ba-lbl {
+  font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--muted); padding:0.28rem 0.65rem; background:var(--bg-3);
+  border-radius:2px; display:flex; align-items:center; gap:0.45rem;
+}
+.ba-lbl::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--muted); flex-shrink:0; }
+.ba-lbl.after::before { background:var(--accent-proj); }
+.ba-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+
+/* OUTCOMES */
+.outcomes {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:rgba(240,237,230,0.06); margin:2.5rem 0;
+}
+.oc { background:var(--bg-2); padding:2rem 1.8rem; }
+.oc-num { font-size:2.4rem; font-weight:300; letter-spacing:-0.03em; color:var(--white); line-height:1; margin-bottom:0.4rem; }
+.oc-num em { font-family:var(--serif); font-style:italic; color:var(--accent-proj); }
+.oc-label { font-size:0.74rem; color:var(--mid); font-weight:300; line-height:1.5; }
+
+/* FOUNDER QUOTE */
+.fq {
+  margin:2.5rem 0; padding:2rem 2.5rem;
+  background:var(--bg-2); border:1px solid rgba(240,237,230,0.07); border-radius:4px;
+}
+.fq-lbl { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-proj); margin-bottom:0.9rem; display:flex; align-items:center; gap:0.6rem; }
+.fq-lbl::before { content:''; width:16px; height:1px; background:var(--accent-proj); }
+.fq-text { font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--white); line-height:1.65; margin-bottom:0.7rem; }
+.fq-attr { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+
+/* KEY LEARNING */
+.learning {
+  margin:2.5rem 0; padding:1.6rem 2rem;
+  background:rgba(212,160,40,0.05); border:1px solid rgba(212,160,40,0.14); border-radius:4px;
+}
+.learning-lbl { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-proj); margin-bottom:0.55rem; }
+.learning-text { font-size:0.9rem; color:var(--white); line-height:1.72; font-weight:300; }
+.learning-text strong { font-weight:400; }
+
+/* REFLECTION TWO-COL */
+.reflect { display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:1.5rem; }
+.reflect-lbl { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:0.9rem; display:flex; align-items:center; gap:0.6rem; }
+.reflect-lbl::before { content:''; width:16px; height:1px; background:var(--muted); }
+.reflect-col p { font-size:0.88rem; color:var(--mid); line-height:1.8; font-weight:300; }
+
+/* ─── NEXT PROJECT ────────────────────────────────── */
+.next {
+  padding:5rem 3rem; border-top:1px solid rgba(240,237,230,0.06);
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:2rem; max-width:1100px; margin:0 auto;
+}
+.next-lbl { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:0.55rem; }
+.next-title { font-size:1.85rem; font-weight:300; letter-spacing:-0.02em; line-height:1.1; }
+.next-title em { font-family:var(--serif); font-style:italic; color:var(--accent-amber); }
+
+.btn {
+  display:inline-flex; align-items:center; gap:0.6rem;
+  font-family:var(--sans); font-size:0.74rem; font-weight:500;
+  letter-spacing:0.08em; text-transform:uppercase;
+  padding:0.95rem 2.2rem; border-radius:2px;
+  border:1px solid rgba(240,237,230,0.2); color:var(--white);
+  position:relative; overflow:hidden; transition:all 0.25s;
+}
+.btn::before {
+  content:''; position:absolute; inset:0; background:var(--accent-proj);
+  transform:translateX(-101%); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.btn:hover::before { transform:translateX(0); }
+.btn span { position:relative; z-index:1; }
+
+/* ─── TICKER ──────────────────────────────────────── */
+.ticker-wrap { border-top:1px solid rgba(240,237,230,0.06); padding:0.85rem 0; overflow:hidden; background:var(--bg-2); }
+.ticker { display:flex; animation:tick 32s linear infinite; white-space:nowrap; width:max-content; }
+@keyframes tick { from{transform:translateX(0);}to{transform:translateX(-50%);} }
+.ti { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); padding:0 2.5rem; display:flex; align-items:center; gap:2.5rem; }
+.td { width:4px; height:4px; background:var(--accent-proj); border-radius:50%; flex-shrink:0; }
+.ti.a .td { background:var(--accent-amber); }
+
+/* ─── FOOTER ──────────────────────────────────────── */
+.footer { padding:2.8rem 3rem; border-top:1px solid rgba(240,237,230,0.06); display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:2rem; }
+.fc { font-size: 0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); }
+.fm { font-family:var(--serif); font-size:1.3rem; font-style:italic; color:var(--mid); text-align:center; }
+.fl { display:flex; justify-content:flex-end; gap:2rem; list-style:none; }
+.fl a { font-size: 0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
+.fl a:hover { color:var(--white); }
+
+/* ─── RESPONSIVE ──────────────────────────────────── */
+@media (max-width:900px) {
+  :root {--sidebar-w:0px;
+  --page-max:    1100px;
+  --page-px:     3rem;
+  --content-max: 720px;
+  --nav-h:       68px;
+}
+  .cs-body{grid-template-columns:1fr;padding:0 1.5rem;gap:0;line-height: 1.7;}
+  .cs-sidebar{display:none;}
+  .nav,.hero-content,.meta-strip{padding-left:1.5rem;padding-right:1.5rem;}
+  .hero-aqi,.particles{display:none;}
+  .collab,.reflect,.ba-grid,.ba-labels,.dec-body,.g2,.g3{grid-template-columns:1fr;}
+  .outcomes{grid-template-columns:1fr 1fr;}
+  .footer{grid-template-columns:1fr;}
+  .fm{display:none;}
+  .fl{justify-content:flex-start;}
+  .next{padding:3rem 1.5rem;flex-direction:column;align-items:flex-start;}
+  .ia-row{grid-template-columns:2.5rem 1fr;}
+  .ia-rowend{display:none;}
+}
+
+/* ─── IA EXPLORATION DIAGRAM ──────────────────────── */
+.ia-diag { margin:2.5rem 0 3rem; border:1px solid rgba(240,237,230,0.09); border-radius:4px; overflow:hidden; background:var(--bg-3); }
+.ia-diag-hd { padding:0.85rem 1.6rem; border-bottom:1px solid rgba(240,237,230,0.07); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; }
+.ia-diag-lbl { font-size: 0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); }
+.ia-diag-sub { font-size: 0.72rem; color:rgba(120,140,123,0.4); font-weight:300; }
+.ia-row { display:grid; grid-template-columns:3rem 1fr auto; align-items:stretch; border-bottom:1px solid rgba(240,237,230,0.045); }
+.ia-row:last-child { border-bottom:none; }
+.ia-row.dead { opacity:0.5; }
+.ia-row.chosen { background:rgba(212,160,40,0.03); border-top:1px solid rgba(212,160,40,0.12); border-bottom:none; opacity:1; }
+.ia-rownum { display:flex; align-items:center; justify-content:center; font-size: 0.72rem; letter-spacing:0.12em; color:rgba(120,140,123,0.3); border-right:1px solid rgba(240,237,230,0.06); padding:1rem 0; font-weight:500; }
+.ia-row.chosen .ia-rownum { color:var(--accent-proj); }
+.ia-rowmain { padding:1rem 1.4rem; display:flex; flex-direction:column; justify-content:center; gap:0.2rem; }
+.ia-rowtitle { font-size:0.82rem; color:rgba(240,237,230,0.42); font-weight:400; line-height:1.3; }
+.ia-row.chosen .ia-rowtitle { color:var(--white); }
+.ia-rowsub { font-size: 0.72rem; color:rgba(120,140,123,0.35); font-weight:300; line-height:1.45; }
+.ia-row.chosen .ia-rowsub { color:rgba(212,160,40,0.55); }
+.ia-rowend { padding:1rem 1.4rem; display:flex; flex-direction:column; justify-content:center; align-items:flex-end; gap:0.28rem; min-width:210px; border-left:1px solid rgba(240,237,230,0.045); }
+.ia-rowstatus { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,237,230,0.18); display:flex; align-items:center; gap:0.4rem; }
+.ia-rowstatus.bad::before { content:'✕'; }
+.ia-rowstatus.good { color:var(--accent-proj); }
+.ia-rowstatus.good::before { content:'✓'; }
+.ia-rowwhy { font-size: 0.72rem; color:rgba(120,140,123,0.32); font-weight:300; font-style:italic; line-height:1.5; text-align:right; max-width:200px; }
+.ia-row.chosen .ia-rowwhy { color:rgba(212,160,40,0.55); font-style:normal; }
+.ia-chosen-sep { padding:0.5rem 1.6rem; border-top:1px solid rgba(212,160,40,0.12); background:rgba(212,160,40,0.015); }
+.ia-chosen-sep span { font-size: 0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(212,160,40,0.35); }
+
+/* ─── UPGRADED DEC-VIS THEME ─────────────────────── */
+.dec-vis { background:var(--bg-3); }
+.dv-panel.no { background:rgba(240,237,230,0.04); border:1px solid rgba(240,237,230,0.12); }
+.dv-panel.yes { background:rgba(212,160,40,0.07); border:1px solid rgba(212,160,40,0.28); }
+.dv-tag { font-size: 0.72rem; letter-spacing:0.11em; text-transform:uppercase; color:rgba(240,237,230,0.3); padding:0.2rem 0.6rem; border:1px solid rgba(240,237,230,0.09); border-radius:2px; }
+.dv-panel.yes + .dv-tag { color:var(--accent-amber); border-color:rgba(200,169,110,0.25); background:rgba(200,169,110,0.04); }
+
+/* ── Accessibility: focus states ─────────────────────────────── */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-blue, #4a9eff);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Accessibility: reduced motion ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SOL & SKY BRAND ALIGNMENT — VISUAL OVERRIDES
+   Reference: petsofsolandsky.com (#f2efdd cream, #ffbf1e gold,
+   #0474ba blue, #001f32 navy). Dark-mode adaptation of the brand.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 1 ── WARM DARK PALETTE
+   Derived from brand cream (#f2efdd) darkened to dark-mode values.
+   Replaces the inherited green-cast from Praan template.         */
+:root {
+  --bg:           #0e0b08;  /* warm dark — green cast → brown-black */
+  --bg-2:         #160f0b;  /* warm dark mid-surface                */
+  --bg-3:         #1e1610;  /* warm dark raised surface             */
+  --white:        #f5efe3;  /* warm cream — close to brand #f2efdd  */
+  --muted:        #5e4e3c;  /* warm brown (replaces cool olive)      */
+  --mid:          #8e7a65;  /* warm taupe (replaces cool green-grey) */
+  --accent-blue:  #4aabdf;  /* brand blue (#0474ba) lightened for dark mode */
+  --accent-amber: #c8a040;  /* warm golden amber                    */
+  --accent-proj:  #d4a028;  /* brand-adjacent gold — bridges current
+                               amber & brand golden yellow #ffbf1e  */
+  --accent-light: #ecc050;  /* lighter gold highlight               */
+}
+
+/* 2 ── HERO SURFACES */
+.hero-bg {
+  background:
+    radial-gradient(ellipse at 18% 58%, rgba(212,160,40,0.14) 0%, transparent 52%),
+    radial-gradient(ellipse at 78% 28%, rgba(212,160,40,0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at 55% 88%, rgba(74,171,223,0.05) 0%, transparent 40%),
+    linear-gradient(155deg, #080603 0%, #0e0b08 100%);
+}
+.hero-fade {
+  background: linear-gradient(to bottom,
+    transparent 0%, rgba(14,11,8,0.2) 40%,
+    rgba(14,11,8,0.88) 78%, var(--bg) 100%);
+}
+.nav { background: rgba(14,11,8,0.88); }
+
+/* 3 ── PARTICLES
+   Floating upward dots visually evoke airborne pollutants —
+   the signature motif of the Praan air-quality project this
+   template was built on. Wrong metaphor for a pet care brand. */
+.particles { display: none; }
+
+/* 4 ── PET WELLBEING INDICATOR
+   Recolour the ghost number element to match new accent gold.   */
+.aqi-tag    { color: rgba(212,160,40,0.38); }
+.aqi-num    { color: rgba(212,160,40,0.13); }
+.aqi-status { color: rgba(212,160,40,0.26); }
+
+/* 5 ── BADGE
+   Rounded pill (stadium shape) reads warm + approachable.
+   Slower pulse cadence feels like gentle breathing, not
+   a live server-health monitor.                                  */
+.badge {
+  background:    rgba(212,160,40,0.11);
+  border:        1px solid rgba(212,160,40,0.30);
+  border-radius: 20px;
+}
+.badge::before { animation: pulse 4.5s ease-in-out infinite; }
+
+/* 6 ── PILLS
+   Stadium shape for soft/contextual constraints = warmth.
+   Sharper rectangle kept for hard/structural constraints =
+   intentional visual distinction, not just template carry-over. */
+.pill      { border-radius: 20px; }
+.pill.hard {
+  border-radius:   6px;
+  border-color:    rgba(212,160,40,0.28);
+  background:      rgba(212,160,40,0.06);
+}
+
+/* 7 ── PULL QUOTE
+   Slight right-side rounding + more left breathing room.
+   Feels like a considered pause, not a margin annotation.       */
+.pull {
+  background:    rgba(212,160,40,0.04);
+  border-left:   2px solid var(--accent-proj);
+  border-radius: 0 6px 6px 0;
+  padding:       2rem 2.5rem 2rem 3rem;
+}
+
+/* 8 ── COLLAB GRID
+   Spacing gap + individual border on cells replaces the
+   background-as-1px-divider trick. Cards breathe.              */
+.collab      { gap: 1.5rem; background: transparent; }
+.collab-cell { border-radius: 6px; border: 1px solid rgba(240,237,230,0.07); }
+
+/* 9 ── DECISION BLOCKS */
+.dec-head { padding: 1.5rem 1.8rem; }
+.dec-why  { background: rgba(212,160,40,0.04); }
+
+.dv-panel.yes  { background: rgba(212,160,40,0.07); border: 1px solid rgba(212,160,40,0.28); }
+.dv-ring       { border: 1.5px solid rgba(212,160,40,0.55); }
+.dv-ring::after{ background: rgba(212,160,40,0.14); }
+.dv-funnel-in  { border: 1px solid rgba(212,160,40,0.3); color: rgba(212,160,40,0.65); }
+.dv-depth      { background: rgba(212,160,40,0.2); }
+
+/* 10 ── IA EXPLORATION DIAGRAM — chosen row */
+.ia-row.chosen          { background: rgba(212,160,40,0.03); border-top: 1px solid rgba(212,160,40,0.12); }
+.ia-row.chosen .ia-rowsub  { color: rgba(212,160,40,0.55); }
+.ia-row.chosen .ia-rowwhy  { color: rgba(212,160,40,0.55); }
+.ia-chosen-sep             { border-top: 1px solid rgba(212,160,40,0.12); background: rgba(212,160,40,0.015); }
+.ia-chosen-sep span        { color: rgba(212,160,40,0.35); }
+
+/* 11 ── LEARNING BLOCK */
+.learning {
+  background:    rgba(212,160,40,0.05);
+  border:        1px solid rgba(212,160,40,0.15);
+  border-radius: 8px;
+}
+
+/* 12 ── OUTCOME CELLS — celebrate the numbers */
+.oc     { padding: 2.5rem 2rem; }
+.oc-num { font-size: 3rem; }
+
+/* 13 ── BODY PARAGRAPHS — more breath between ideas */
+.body { margin-bottom: 1.8rem; }
+
+/* 14 ── HERO SUB — confident weight, not technical delicate */
+.hero-sub { font-weight: 400; }
+
+/* 15 ── SIDEBAR PROGRESS — warm ambient glow on fill */
+.sb-fill { box-shadow: 0 0 8px rgba(212,160,40,0.28); }
+
+/* 16 ── REFLECTION — personal writing gets reading space */
+.reflect-col p { font-size: 0.92rem; line-height: 1.85; }
+
+/* 17 ── IMAGE DISPLAY — real images in panels and figures */
+figure.cs-img img.cs-img-full {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* Fix caption overlap — .cap was designed for .ph blocks which have
+   built-in bottom padding. Against a real <img> it pulls negative into
+   the image. Reset to a clean positive gap for figure captions.       */
+figure.cs-img figcaption.cap {
+  margin-top: 0.75rem;
+}
+
+/* Decision visual — single full-width image replacing the two-panel grid */
+.dec-vis-img {
+  margin: 0 1.6rem 0;
   border-bottom: 1px solid rgba(240,237,230,0.06);
+  padding-bottom: 1rem;
 }
-.scope-row:last-child { border-bottom: none; }
-.scope-key {
-  padding: 1rem 1.4rem; background: var(--bg-2);
-  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--muted); display: flex; align-items: center;
-  border-right: 1px solid rgba(240,237,230,0.06);
-}
-.scope-val {
-  padding: 1rem 1.4rem; background: var(--bg-3);
-  font-size: 0.88rem; color: var(--white); font-weight: 300; line-height: 1.6;
-}
-.scope-val.yes { color: var(--accent-proj); }
-
-/* Constraint pills */
-.constraint-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.8rem 0; }
-.constraint-pill { font-size: 0.75rem; padding: 0.45rem 1rem; border: 1px solid rgba(240,237,230,0.1); color: var(--mid); border-radius: 2px; font-weight: 300; }
-.constraint-pill.hard { border-color: rgba(212,130,74,0.25); color: var(--accent-proj); background: rgba(212,130,74,0.05); }
-
-/* Decision block */
-.decision-block {
-  margin: 2.5rem 0; border: 1px solid rgba(240,237,230,0.07);
-  border-radius: 4px; overflow: hidden; background: var(--bg-2);
-}
-.decision-header {
-  padding: 1.2rem 1.6rem; border-bottom: 1px solid rgba(240,237,230,0.06);
-  display: flex; align-items: center; gap: 0.8rem;
-}
-.decision-icon { font-size: 0.9rem; }
-.decision-q { font-size: 0.82rem; font-weight: 500; color: var(--white); }
-.decision-body { padding: 1.4rem 1.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.decision-col-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
-.decision-col ul { list-style: none; }
-.decision-col li { font-size: 0.82rem; color: var(--mid); font-weight: 300; line-height: 1.6; padding: 0.2rem 0; display: flex; gap: 0.6rem; }
-.decision-col li::before { content: '—'; color: var(--muted); flex-shrink: 0; }
-.decision-col.chosen li::before { content: '✓'; color: var(--accent-proj); }
-.decision-rationale {
-  padding: 1.2rem 1.6rem; border-top: 1px solid rgba(240,237,230,0.06);
-  background: rgba(212,130,74,0.04);
-  font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
-}
-.decision-rationale strong { color: var(--white); font-weight: 400; }
-
-/* Image placeholders */
-.img-placeholder {
-  background: var(--bg-3); display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 0.5rem;
-  padding: 4rem 2rem; border: 1px dashed rgba(240,237,230,0.07);
-  border-radius: 4px; margin: 2.5rem 0;
-}
-.img-placeholder-icon { font-size: 1.4rem; opacity: 0.22; }
-.img-placeholder-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; }
-.img-placeholder-sub { font-size: 0.72rem; color: rgba(138,132,114,0.55); text-align: center; line-height: 1.5; margin-top: 0.3rem; font-style: italic; }
-.img-caption { font-size: 0.73rem; color: var(--muted); margin-top: -1.5rem; margin-bottom: 2.5rem; font-weight: 300; font-style: italic; }
-.img-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin: 2.5rem 0; }
-.img-three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin: 2.5rem 0; }
-
-/* Before / After */
-.before-after { margin: 3rem 0; }
-.ba-label-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem; }
-.ba-label {
-  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--muted); padding: 0.3rem 0.7rem; background: var(--bg-3);
-  border-radius: 2px; display: flex; align-items: center; gap: 0.5rem;
-}
-.ba-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
-.ba-label.after::before { background: var(--accent-proj); }
-.ba-images { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-
-/* OUTCOMES GRID — for shipped projects, use real data */
-.outcomes-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: rgba(240,237,230,0.06); margin: 2.5rem 0;
-}
-.outcome-item { background: var(--bg-2); padding: 2rem 1.8rem; }
-.outcome-num { font-size: 2.4rem; font-weight: 300; letter-spacing: -0.03em; color: var(--white); line-height: 1; margin-bottom: 0.4rem; }
-.outcome-num em { font-family: var(--serif); font-style: italic; color: var(--accent-proj); }
-.outcome-label { font-size: 0.75rem; color: var(--mid); font-weight: 300; line-height: 1.5; }
-
-/* Live site callout */
-.live-callout {
-  margin: 2.5rem 0; padding: 1.6rem 2rem;
-  background: rgba(212,130,74,0.06);
-  border: 1px solid rgba(212,130,74,0.2);
-  border-radius: 4px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 1rem;
-}
-.live-callout-text { }
-.live-callout-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-proj); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.5rem; }
-.live-callout-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--success); flex-shrink: 0; animation: pulsedot 2.5s ease-in-out infinite; }
-.live-callout-title { font-size: 0.95rem; color: var(--white); font-weight: 400; }
-.live-callout-sub { font-size: 0.82rem; color: var(--mid); font-weight: 300; margin-top: 0.2rem; }
-.live-link {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--accent-proj); border: 1px solid rgba(212,130,74,0.3);
-  padding: 0.6rem 1.2rem; border-radius: 2px;
-  transition: all 0.2s; white-space: nowrap;
-}
-.live-link:hover { background: var(--accent-proj); color: var(--bg); }
-
-@keyframes pulsedot {
-  0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(76,175,125,0.4); }
-  50%      { opacity:0.7; box-shadow: 0 0 0 5px rgba(76,175,125,0); }
-}
-
-/* Reflection */
-.reflection-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 1.5rem; }
-.reflection-col-label { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
-.reflection-col-label::before { content: ''; width: 16px; height: 1px; background: var(--muted); }
-.reflection-col p { font-size: 0.88rem; color: var(--mid); line-height: 1.8; font-weight: 300; }
-
-/* Next project */
-.next-project {
-  padding: 5rem 3rem; border-top: 1px solid rgba(240,237,230,0.06);
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 2rem; max-width: 1100px; margin: 0 auto;
-}
-.next-label { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
-.next-title { font-size: 1.8rem; font-weight: 300; letter-spacing: -0.02em; }
-.next-title em { font-family: var(--serif); font-style: italic; color: var(--accent-amber); }
-
-.btn-outline {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 0.95rem 2.2rem; border-radius: 2px;
-  border: 1px solid rgba(240,237,230,0.2); color: var(--white);
-  position: relative; overflow: hidden; transition: all 0.25s;
-}
-.btn-outline::before {
-  content: ''; position: absolute; inset: 0; background: var(--accent-proj);
-  transform: translateX(-101%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-}
-.btn-outline:hover::before { transform: translateX(0); }
-.btn-outline span { position: relative; z-index: 1; }
-
-/* TICKER */
-.ticker-wrap { border-top: 1px solid rgba(240,237,230,0.06); padding: 0.85rem 0; overflow: hidden; background: var(--bg-2); }
-.ticker { display: flex; animation: tickerscroll 30s linear infinite; white-space: nowrap; width: max-content; }
-@keyframes tickerscroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
-.ticker-item { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 0 2.5rem; display: flex; align-items: center; gap: 2.5rem; }
-.ticker-dot { width: 4px; height: 4px; background: var(--accent-blue); border-radius: 50%; flex-shrink: 0; }
-.ticker-item.amber .ticker-dot { background: var(--accent-amber); }
-
-/* FOOTER */
-.footer { padding: 2.8rem 3rem; border-top: 1px solid rgba(240,237,230,0.06); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem; }
-.footer-copy { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
-.footer-center { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--mid); text-align: center; }
-.footer-links { display: flex; justify-content: flex-end; gap: 2rem; list-style: none; }
-.footer-links a { font-size: 0.7rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
-.footer-links a:hover { color: var(--white); }
-
-@media (max-width: 900px) {
-  :root { --sidebar-w: 0px; }
-  .cs-body { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 0; }
-  .cs-sidebar { display: none; }
-  .nav { padding: 0 1.5rem; }
-  .hero-content { padding: 0 1.5rem 3rem; }
-  .ingredient-visual { display: none; }
-  .meta-strip { padding: 1.5rem; }
-  .meta-strip-inner { gap: 2rem; }
-  .reflection-two-col, .ba-images, .ba-label-row, .decision-body, .img-two-col, .img-three-col { grid-template-columns: 1fr; }
-  .outcomes-grid { grid-template-columns: 1fr 1fr; }
-  .scope-row { grid-template-columns: 1fr; }
-  .scope-key { border-right: none; border-bottom: 1px solid rgba(240,237,230,0.06); }
-  .footer { grid-template-columns: 1fr; }
-  .footer-center { display: none; }
-  .footer-links { justify-content: flex-start; }
-  .next-project { padding: 3rem 1.5rem; flex-direction: column; align-items: flex-start; }
+.dec-vis-img img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+  object-fit: cover;
 }
 </style>
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" id="nav">
   <a href="/" class="nav-name">Manav Hemnani</a>
   <div class="nav-right">
     <ul class="nav-links">
@@ -444,59 +693,60 @@ body::before {
       <li><a href="/pages/about.html">About</a></li>
       <li><a href="/pages/contact.html">Contact</a></li>
     </ul>
-    <a href="work.html" class="nav-back">← Back to Work</a>
+    <a href="work.html" class="nav-back">← All Work</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="cs-hero">
-  <div class="hero-bg"></div>
-  <div class="hero-gradient"></div>
-  <div class="hero-dots"></div>
-  <div class="ingredient-visual">
-    <div class="ing-ring"></div>
-    <div class="ing-ring"></div>
-    <div class="ing-ring"></div>
-    <div class="ing-label">Sol & Sky</div>
+  <div class="hero-bg">
+    <img src="/assets/images/solsky/hero-bg.jpg" alt="Sol & Sky — preventive pet care products flat-lay" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+  </div>
+  <div class="hero-fade"></div>
+  <div class="particles">
+    <div class="p"></div><div class="p"></div><div class="p"></div>
+    <div class="p"></div><div class="p"></div><div class="p"></div>
+    <div class="p"></div><div class="p"></div>
+  </div>
+  <div class="hero-aqi">
+    <span class="aqi-tag">Gut Health · Sol</span>
+    <span class="aqi-num">94</span>
+    <span class="aqi-status">Thriving ↑</span>
   </div>
   <div class="hero-content">
-    <div class="hero-eyebrow">
-      <span class="hero-badge">● Shipped · Shopify</span>
-      <span class="hero-year">2025 · D2C Brand · E-Commerce</span>
+    <div class="eyebrow">
+      <span class="badge">Shipped Product</span>
+      <span class="hero-meta">2025 · D2C Brand · Shopify</span>
     </div>
-    <h1>Sol & Sky —<br><em>Preventive Pet Care</em></h1>
+    <h1>Sol & Sky<br><em>Preventive Pet Care</em></h1>
     <p class="hero-sub">
-      Indian pet care is reactive. Products appear after damage is done. <strong>Sol & Sky was built to prevent the problem from the beginning</strong> — and the entire digital experience had to sell that idea before it sold a product.
+      Prevention doesn't sell itself. Every other pet care product on the market has urgency built in — something is already wrong when the customer reaches for it. The brief was to build a brand and a Shopify storefront that could introduce a category that didn't yet exist in India, and make a first-time visitor care about preventing a problem they hadn't experienced yet.
     </p>
   </div>
 </section>
 
 <!-- META STRIP -->
 <div class="meta-strip">
-  <div class="meta-strip-inner">
+  <div class="meta-inner">
     <div class="meta-item">
-      <div class="meta-label">My Role</div>
-      <div class="meta-value">[ Full scope — clarify ]</div>
+      <div class="meta-lbl">My Role</div>
+      <div class="meta-val">Brand Designer + Shopify Designer</div>
     </div>
     <div class="meta-item">
-      <div class="meta-label">Scope</div>
-      <div class="meta-value">Brand + Shopify Build</div>
+      <div class="meta-lbl">Scope</div>
+      <div class="meta-val">Brand Identity · IA · Shopify Build · Photography Art Direction</div>
     </div>
     <div class="meta-item">
-      <div class="meta-label">Timeline</div>
-      <div class="meta-value">[ X weeks / months ]</div>
+      <div class="meta-lbl">Timeline</div>
+      <div class="meta-val" style="color:var(--muted);font-style:italic;">[PLACEHOLDER: X weeks — confirm with founder]</div>
     </div>
     <div class="meta-item">
-      <div class="meta-label">Platform</div>
-      <div class="meta-value">Shopify</div>
+      <div class="meta-lbl">Platform</div>
+      <div class="meta-val">Shopify</div>
     </div>
     <div class="meta-item">
-      <div class="meta-label">Status</div>
-      <div class="meta-value highlight">● Live</div>
-    </div>
-    <div class="meta-item">
-      <div class="meta-label">View Live</div>
-      <a href="https://petsofsolandsky.com" target="_blank" class="meta-link">petsofsolandsky.com ↗</a>
+      <div class="meta-lbl">Status</div>
+      <div class="meta-val green">● Live & Shipped</div>
     </div>
   </div>
 </div>
@@ -504,481 +754,446 @@ body::before {
 <!-- BODY -->
 <div class="cs-body">
 
+  <!-- SIDEBAR -->
   <aside class="cs-sidebar">
-    <p class="sidebar-label">Contents</p>
-    <ul class="sidebar-nav" id="sidebarNav">
-      <li><a href="#brief" class="active"><span class="sidebar-num">01</span>The Brief</a></li>
-      <li><a href="#problem"><span class="sidebar-num">02</span>The Problem</a></li>
-      <li><a href="#scope"><span class="sidebar-num">03</span>Scope & Constraints</a></li>
-      <li><a href="#strategy"><span class="sidebar-num">04</span>Brand Strategy</a></li>
-      <li><a href="#decisions"><span class="sidebar-num">05</span>Key Decisions</a></li>
-      <li><a href="#design"><span class="sidebar-num">06</span>The Build</a></li>
-      <li><a href="#outcomes"><span class="sidebar-num">07</span>Outcomes</a></li>
-      <li><a href="#reflection"><span class="sidebar-num">08</span>Reflection</a></li>
+    <p class="sb-label">Contents</p>
+    <ul class="sb-nav" id="sbNav">
+      <li><a href="#problem" class="active"><span class="sb-num">01</span>The Problem</a></li>
+      <li><a href="#context"><span class="sb-num">02</span>Context &amp; Brief</a></li>
+      <li><a href="#constraints"><span class="sb-num">03</span>Constraints</a></li>
+      <li><a href="#failed"><span class="sb-num">04</span>What Didn't Work</a></li>
+      <li><a href="#decisions"><span class="sb-num">05</span>Key Decisions</a></li>
+      <li><a href="#ecosystem"><span class="sb-num">06</span>The System</a></li>
+      <li><a href="#outcomes"><span class="sb-num">07</span>What Changed</a></li>
+      <li><a href="#reflection"><span class="sb-num">08</span>Reflection</a></li>
     </ul>
-    <div class="sidebar-progress">
-      <div class="sidebar-progress-fill" id="progressFill"></div>
-    </div>
-    <div class="sidebar-progress-label" id="progressLabel">0% read</div>
+    <div class="sb-progress"><div class="sb-fill" id="sbFill"></div></div>
+    <div class="sb-pct" id="sbPct">0% read</div>
   </aside>
 
   <main class="cs-content">
 
-    <!-- 01 THE BRIEF -->
-    <section class="chapter" id="brief">
-      <div class="chapter-header">
-        <span class="chapter-num">—01</span>
-        <h2 class="chapter-title">The <em>Brief</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>Writing prompt:</strong> This is a shipped project — lead with context, not process. Who is the founder, what was the business idea, why did they come to you? How much did you own — was this a full brand build from scratch, or did you come in with the brand already defined? Clarify your scope in the first paragraph. Then set up the challenge: building a D2C brand in a crowded market where trust is low and most Indian pet owners are first-generation.
-        </div>
-      </div>
-
-      <p class="body-text">
-        [ Who is the Sol & Sky founder and what was the founding insight? What did they come to you with — a product, an idea, a brand name, all three? What was explicitly in your scope from day one? ]
-      </p>
-
-      <p class="body-text">
-        [ The brand's core positioning is sharp: "Prevention is the best care your dog will ever get." Did this come from the founder or did you help develop it? What was the starting point for the brand strategy? ]
-      </p>
-
-      <div class="live-callout">
-        <div class="live-callout-text">
-          <div class="live-callout-label">Live site</div>
-          <div class="live-callout-title">petsofsolandsky.com</div>
-          <div class="live-callout-sub">Fully live on Shopify — India's first preventive daily care stack for dogs</div>
-        </div>
-        <a href="https://petsofsolandsky.com" target="_blank" class="live-link">Visit Site ↗</a>
-      </div>
-    </section>
-
-    <!-- 02 THE PROBLEM -->
+    <!-- 01 — THE PROBLEM -->
     <section class="chapter" id="problem">
-      <div class="chapter-header">
-        <span class="chapter-num">—02</span>
-        <h2 class="chapter-title">The <em>Problem</em></h2>
+      <div class="ch-header">
+        <span class="ch-num">—01</span>
+        <h2 class="ch-title">The <em>Problem</em></h2>
       </div>
 
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>Writing prompt — this is a two-layer problem:</strong> Layer 1 is the market problem (Indian pet care is reactive, not preventive — global brands formulated for Western dogs, high vet dependency, treat culture vs. nutrition). Layer 2 is the design problem (how do you sell prevention when pet owners are conditioned to buy reactively? How do you build trust for a new brand in a low-trust category?). Write both layers clearly — they're both interesting and they require different design responses.
-        </div>
-      </div>
-
-      <p class="body-text">
-        [ The market problem: What's broken about Indian pet care today? The site makes this clear — "Indian pet care is reactive. Products appear after damage is done." Expand on this with any research or observations that backed it up. ]
+      <p class="body">
+        Indian pet care runs on panic. A dog scratches more than usual — parents buy anti-itch shampoo. A dog's coat dulls — parents buy a coat supplement. The entire product ecosystem is built on symptoms, which means it's built on waiting. By the time a product enters the picture, something has already gone wrong.
       </p>
 
-      <div class="pull-quote">
-        <p>"Prevention is the best care your dog will ever get."</p>
-        <cite>Sol & Sky brand positioning — the entire site is built around making this believable</cite>
-      </div>
-
-      <p class="body-text">
-        [ The design problem: selling prevention is harder than selling cure. A dog shampoo that prevents skin problems is a harder sell than one that fixes them. How did you approach making the preventive positioning feel credible and urgent — not vague? ]
+      <p class="body">
+        Sol &amp; Sky was built on a different premise: that the three most common issues Indian dog parents face — gut problems, damaged paw pads, skin barrier breakdown — are entirely preventable. The design problem wasn't how to explain that logic. It was how to make a first-time visitor <em>feel</em> that logic before they'd ever experienced the alternative.
       </p>
 
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">🖼</span>
-        <span class="img-placeholder-label">Add: market landscape or competitive audit</span>
-        <span class="img-placeholder-sub">Where Sol & Sky sits relative to global brands, Indian competitors, and vet products</span>
+      <div class="pull">
+        <p>"How do you sell a product whose entire value proposition is that you'll never need to prove it worked?"</p>
+        <cite>The question that shaped every content decision on this site</cite>
       </div>
-      <p class="img-caption">[ Caption: the gap Sol & Sky was designed to fill ]</p>
+
     </section>
 
-    <!-- 03 SCOPE & CONSTRAINTS -->
-    <section class="chapter" id="scope">
-      <div class="chapter-header">
-        <span class="chapter-num">—03</span>
-        <h2 class="chapter-title">Scope & <em>Constraints</em></h2>
+    <!-- 02 — CONTEXT & BRIEF -->
+    <section class="chapter" id="context">
+      <div class="ch-header">
+        <span class="ch-num">—02</span>
+        <h2 class="ch-title">Context &amp; <em>Brief</em></h2>
       </div>
 
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>Writing prompt:</strong> For a full Shopify build, scope documentation is critical — it signals to hiring managers that you understand end-to-end product delivery, not just visual design. Be specific about what you owned and what you didn't. Did you write copy? Direct photography? Set up Shopify metafields? Handle app integrations? The more specific, the stronger.
-        </div>
-      </div>
-
-      <div class="scope-table">
-        <div class="scope-row">
-          <span class="scope-key">Brand Identity</span>
-          <span class="scope-val yes">[ Yes / Partial — clarify what you designed: logo, color palette, typography, visual language ]</span>
-        </div>
-        <div class="scope-row">
-          <span class="scope-key">Copy Direction</span>
-          <span class="scope-val">[ Did you write or brief the copy? The site copy is strong — "India's first preventive daily care stack" — did that come from you? ]</span>
-        </div>
-        <div class="scope-row">
-          <span class="scope-key">Shopify Build</span>
-          <span class="scope-val yes">Yes — full theme build, product pages, collection pages, homepage</span>
-        </div>
-        <div class="scope-row">
-          <span class="scope-key">Product Photography</span>
-          <span class="scope-val">[ Did you art direct or brief the product photography? ]</span>
-        </div>
-        <div class="scope-row">
-          <span class="scope-key">UX / Conversion Design</span>
-          <span class="scope-val yes">[ Navigation, product page structure, purchase flow, cart — clarify what you designed for conversion ]</span>
-        </div>
-        <div class="scope-row">
-          <span class="scope-key">Post-Launch</span>
-          <span class="scope-val">[ Any ongoing work — updates, new products, A/B tests? ]</span>
-        </div>
-      </div>
-
-      <div class="constraint-list">
-        <span class="constraint-pill hard">First-generation Indian pet owners — low product literacy</span>
-        <span class="constraint-pill hard">New brand — zero trust equity at launch</span>
-        <span class="constraint-pill hard">3-product range — full system had to feel complete, not thin</span>
-        <span class="constraint-pill">Shopify platform constraints — theme customisation limits</span>
-        <span class="constraint-pill">Mobile-first — most Indian e-commerce traffic is on mobile</span>
-        <span class="constraint-pill">[ Add your actual constraints ]</span>
-      </div>
-    </section>
-
-    <!-- 04 BRAND STRATEGY -->
-    <section class="chapter" id="strategy">
-      <div class="chapter-header">
-        <span class="chapter-num">—04</span>
-        <h2 class="chapter-title">Brand <em>Strategy</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>Writing prompt — this is the chapter that separates a designer from a Shopify developer.</strong> The brand strategy is the most interesting part of this project. The "Three Products. One Daily System." structure is not a product catalogue — it's a behaviour change strategy. It reframes three individual products as a morning-walk-bathtime routine. This was a design decision, not a product decision. Explain how you arrived at the system framing and why it was the right strategic choice.
-        </div>
-      </div>
-
-      <p class="body-text">
-        [ How did you develop the brand's visual language — the clean, ingredient-forward aesthetic, the warm earth tones, the "no fillers" philosophy expressed visually? What references or directions did you explore before landing here? ]
+      <p class="body">
+        Sol &amp; Sky came to me with a clear founding thesis — prevention over reaction — but needed a digital expression that could carry that idea to a customer who had never heard it before. The founder had spent months fostering dogs, reading ingredient labels, and talking to vets before launching. The brand thinking was sharp. What it needed was a design system and a Shopify build that could translate that thinking into a purchase decision within a single scroll session.
       </p>
 
-      <div class="img-two-col">
-        <div class="img-placeholder" style="margin:0">
-          <span class="img-placeholder-icon">🖼</span>
-          <span class="img-placeholder-label">Brand moodboard or direction exploration</span>
-          <span class="img-placeholder-sub">Early visual directions considered</span>
-        </div>
-        <div class="img-placeholder" style="margin:0">
-          <span class="img-placeholder-icon">🖼</span>
-          <span class="img-placeholder-label">Final brand system</span>
-          <span class="img-placeholder-sub">Color, type, photography style, logo</span>
-        </div>
-      </div>
-      <p class="img-caption">[ Caption: the brand direction exploration and where you landed ]</p>
-
-      <p class="body-text">
-        [ The "Three Products. One Daily System." framing is the smartest thing on the site. It reframes the product catalogue as a behaviour — morning treat, post-walk paw balm, bath shampoo. This makes three products feel like a complete solution. Explain how this system thinking came about — did it come from the founder's positioning or from your design process? ]
+      <p class="body">
+        The initial brief was an e-commerce website. The actual brief — the one that emerged through the first conversation — was a category-creation problem: build a digital presence that doesn't just sell products, but teaches a new way of thinking about dog care before asking for anything in return. The live result is at <a href="https://petsofsolandsky.com/" target="_blank" rel="noopener" style="color:var(--accent-proj);border-bottom:1px solid rgba(212,160,40,0.3);padding-bottom:1px;transition:border-color 0.2s;">petsofsolandsky.com ↗</a>.
       </p>
 
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">🖼</span>
-        <span class="img-placeholder-label">Add: the daily system section — from the live site</span>
-        <span class="img-placeholder-sub">The 3-step morning/walk/bathtime routine framework</span>
+      <div class="collab">
+        <div class="collab-cell">
+          <div class="collab-role">Design — Manav Hemnani</div>
+          <div class="collab-name">Brand + Shopify Designer</div>
+          <div class="collab-desc">Led brand design, Shopify theme customisation, IA, content hierarchy, and art direction for product photography. Built the daily habit framework as the primary navigational logic of the homepage.</div>
+        </div>
+        <div class="collab-cell">
+          <div class="collab-role">Direction — Founder</div>
+          <div class="collab-name">Sanika</div>
+          <div class="collab-desc">Product vision, formulation brief, brand naming, and sign-off. No PM layer — all design decisions were made directly with the founder, which compressed iteration cycles and raised the stakes of every call.</div>
+        </div>
+        <div class="collab-cell">
+          <div class="collab-role">Platform — Shopify</div>
+          <div class="collab-name">Theme Architecture</div>
+          <div class="collab-desc">Platform constraints shaped every IA and content hierarchy decision. Custom sections were built within theme architecture, and every layout decision had to work within Shopify's rendering model.</div>
+        </div>
       </div>
-      <p class="img-caption">[ Caption: why framing three products as a daily system was a strategic — not just visual — decision ]</p>
+
+      <figure class="cs-img" style="margin-top:2rem;">
+        <img src="/assets/images/solsky/process-shopify.png" alt="Shopify theme editor open during Sol & Sky build" class="cs-img-full">
+        <figcaption class="cap">Working within Shopify's theme architecture — every layout and content hierarchy decision was made against real platform constraints, not a greenfield canvas.</figcaption>
+      </figure>
+
     </section>
 
-    <!-- 05 KEY DECISIONS -->
+    <!-- 03 — CONSTRAINTS -->
+    <section class="chapter" id="constraints">
+      <div class="ch-header">
+        <span class="ch-num">—03</span>
+        <h2 class="ch-title"><em>Constraints</em></h2>
+      </div>
+
+      <div class="pills">
+        <span class="pill hard">Shopify theme architecture — no custom front-end, every decision had to work within template constraints</span>
+        <span class="pill hard">First-to-category — no existing mental model for "preventive pet care" in India to borrow from</span>
+        <span class="pill">Urban Indian millennial dog parents — high emotional investment, low patience for jargon</span>
+        <span class="pill">₹349–₹399 price point — must feel considered and premium, not cheap D2C</span>
+        <span class="pill">Zero social proof at launch — credibility had to be built structurally, not through reviews or press</span>
+      </div>
+
+      <p class="body">
+        The price point is the sharpest constraint. At ₹349–₹399, Sol &amp; Sky isn't competing on price — it's competing on trust. The customer who buys a ₹399 single-ingredient treat instead of a ₹99 filler-heavy one is making a values-based decision, not an economic one. That means the website's job is to earn the values alignment, not justify the cost. Every design decision was filtered through one question: does this feel like a brand that takes its ingredients as seriously as it claims?
+      </p>
+
+    </section>
+
+    <!-- 04 — WHAT DIDN'T WORK -->
+    <section class="chapter" id="failed">
+      <div class="ch-header">
+        <span class="ch-num">—04</span>
+        <h2 class="ch-title">What <em>Didn't Work</em></h2>
+      </div>
+
+      <div class="ia-diag">
+        <div class="ia-diag-hd">
+          <span class="ia-diag-lbl">Design Exploration Map — 04</span>
+          <span class="ia-diag-sub">3 directions explored · 1 shipped</span>
+        </div>
+        <div>
+          <div class="ia-row dead">
+            <div class="ia-rownum">01</div>
+            <div class="ia-rowmain">
+              <div class="ia-rowtitle">Product-First Homepage</div>
+              <div class="ia-rowsub">Content hierarchy — hero leads with product range, grid of items above the fold</div>
+            </div>
+            <div class="ia-rowend">
+              <div class="ia-rowstatus bad">Abandoned</div>
+              <div class="ia-rowwhy">No context = no purchase. A visitor who doesn't understand "preventive care" sees a ₹399 shampoo and doesn't know why it's different from the cheaper alternative</div>
+            </div>
+          </div>
+          <div class="ia-row dead">
+            <div class="ia-rownum">02</div>
+            <div class="ia-rowmain">
+              <div class="ia-rowtitle">Per-Product Benefit Sections</div>
+              <div class="ia-rowsub">Structural IA — each product has its own hero with benefit claims, no overarching brand frame</div>
+            </div>
+            <div class="ia-rowend">
+              <div class="ia-rowstatus bad">Abandoned</div>
+              <div class="ia-rowwhy">Fragments the brand into individual products. The "daily system" thinking — the brand's actual differentiation — never emerges when each product stands alone</div>
+            </div>
+          </div>
+          <div class="ia-chosen-sep"><span>Final Direction</span></div>
+          <div class="ia-row chosen">
+            <div class="ia-rownum">↓</div>
+            <div class="ia-rowmain">
+              <div class="ia-rowtitle">Problem-First Narrative → System → Product Reveal</div>
+              <div class="ia-rowsub">Single confident hierarchy · problem named before any product is shown · products positioned as components of a daily habit, not standalone items</div>
+            </div>
+            <div class="ia-rowend">
+              <div class="ia-rowstatus good">Shipped</div>
+              <div class="ia-rowwhy">One entry point. One belief to establish. Every product earns its place in the system rather than competing for attention on its own.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="body">
+        The abandoned directions share the same failure: they led with what the brand wanted to show rather than what the visitor needed to understand first. A product grid without context is just noise. Benefit claims without a framework are just marketing copy. The alternative — naming the problem before showing a single product, and framing every product as part of a system — is harder to earn confidence in. But it's the only structure that makes the category legible to someone encountering it for the first time.
+      </p>
+
+    </section>
+
+    <!-- 05 — KEY DECISIONS -->
     <section class="chapter" id="decisions">
-      <div class="chapter-header">
-        <span class="chapter-num">—05</span>
-        <h2 class="chapter-title">Key <em>Decisions</em></h2>
+      <div class="ch-header">
+        <span class="ch-num">—05</span>
+        <h2 class="ch-title">Key <em>Decisions</em></h2>
       </div>
 
-      <div class="decision-block">
-        <div class="decision-header">
-          <span class="decision-icon">⚡</span>
-          <span class="decision-q">Homepage: lead with the problem or lead with the product?</span>
+      <!-- Decision 1 -->
+      <div class="decision">
+        <div class="dec-head">
+          <span class="dec-icon">▶</span>
+          <span class="dec-q">Homepage hero: lead with the product, the benefit, or the problem?</span>
         </div>
-        <div class="decision-body">
-          <div class="decision-col">
-            <div class="decision-col-label">Options considered</div>
-            <ul>
-              <li>Product-first: hero shows product range, shop CTA above fold</li>
-              <li>Problem-first: lead with "Indian pet care is reactive" before products</li>
-              <li>Lifestyle-first: dogs, emotional imagery, brand feeling</li>
-            </ul>
-          </div>
-          <div class="decision-col chosen">
-            <div class="decision-col-label">What we chose</div>
-            <ul>
-              <li>Problem-first narrative structure</li>
-              <li>Positioned prevention before products</li>
-              <li>Products introduced within the system context</li>
-            </ul>
-          </div>
-        </div>
-        <div class="decision-rationale">
-          <strong>Why:</strong> A new brand in a low-trust category can't lead with product — there's no equity yet. Leading with a sharp problem statement ("most pet products show up after something's already wrong") creates category tension before the brand enters. By the time a product appears, the user understands why prevention matters. The product becomes the answer to a question already in their head.
-        </div>
-      </div>
 
-      <div class="decision-block">
-        <div class="decision-header">
-          <span class="decision-icon">⚡</span>
-          <span class="decision-q">[ Decision 2: e.g. "Product page — how do you communicate 'clean formulation' without overwhelming ingredient lists?" ]</span>
+        <div class="dec-vis-img">
+          <img src="/assets/images/solsky/dec-1-vis.png" alt="Decision 1 — product-first vs problem-first homepage comparison">
         </div>
-        <div class="decision-body">
-          <div class="decision-col">
-            <div class="decision-col-label">Options considered</div>
+
+        <div class="dec-body">
+          <div class="dec-col">
+            <div class="dec-lbl">Options considered</div>
             <ul>
-              <li>[ Option A ]</li>
-              <li>[ Option B ]</li>
-              <li>[ Option C ]</li>
+              <li>Product hero — grid of items and add-to-cart above the fold</li>
+              <li>Benefit hero — "Your dog deserves better" headline with product imagery</li>
+              <li>Problem hero — name the reactive care problem before showing anything</li>
+              <li>Outcome hero — state the result, let the product follow</li>
             </ul>
           </div>
-          <div class="decision-col chosen">
-            <div class="decision-col-label">What we chose</div>
+          <div class="dec-col yes">
+            <div class="dec-lbl">What we chose</div>
             <ul>
-              <li>[ Chosen approach ]</li>
-              <li>[ What this enabled ]</li>
-              <li>[ What it sacrificed ]</li>
+              <li>Outcome headline as the opening statement ("Prevention is the best care your dog will ever get")</li>
+              <li>Explicit problem section directly below the fold — before any product is revealed</li>
+              <li>Products introduced only after the visitor understands the category</li>
             </ul>
           </div>
         </div>
-        <div class="decision-rationale">
-          <strong>Why:</strong> [ Your rationale. ]
+        <div class="dec-why">
+          At ₹349–₹399 with zero brand recognition at launch, an impulse purchase is unlikely regardless of homepage structure. The customer who will convert needs to understand <em>why</em> this product is different from cheaper alternatives. Problem-first priming is the only structure that makes the price differential legible. <strong>Delaying the product reveal was a deliberate trust decision, not a conversion oversight.</strong>
         </div>
       </div>
 
-      <div class="decision-block">
-        <div class="decision-header">
-          <span class="decision-icon">⚡</span>
-          <span class="decision-q">[ Decision 3: e.g. "Social proof — how do you build reviews credibility for a brand with zero history?" ]</span>
+      <!-- Decision 2 -->
+      <div class="decision">
+        <div class="dec-head">
+          <span class="dec-icon">⚡</span>
+          <span class="dec-q">Sell products individually or frame them as a daily system?</span>
         </div>
-        <div class="decision-body">
-          <div class="decision-col">
-            <div class="decision-col-label">Options considered</div>
+
+        <div class="dec-vis-img">
+          <img src="/assets/images/solsky/dec-2-vis.png" alt="Decision 2 — individual product browse vs three-step daily habit system">
+        </div>
+
+        <div class="dec-body">
+          <div class="dec-col">
+            <div class="dec-lbl">Options considered</div>
             <ul>
-              <li>[ Option A ]</li>
-              <li>[ Option B ]</li>
-              <li>[ Option C ]</li>
+              <li>Standard e-commerce — individual product pages as primary entry points</li>
+              <li>Category navigation — Internal Care / External Care / Accessories</li>
+              <li>Lifestyle narrative — "everything your dog needs" without structure</li>
+              <li>Daily habit system — three numbered steps mapping each product to a time-of-day moment</li>
             </ul>
           </div>
-          <div class="decision-col chosen">
-            <div class="decision-col-label">What we chose</div>
+          <div class="dec-col yes">
+            <div class="dec-lbl">What we chose</div>
             <ul>
-              <li>[ Chosen approach ]</li>
-              <li>[ What this enabled ]</li>
-              <li>[ What it sacrificed ]</li>
+              <li>Three-step daily routine (Morning → Post-Walk → Bath Time), each mapped to one product</li>
+              <li>Products introduced as components of the habit, not as individual items to browse</li>
+              <li>Collections architecture retained for users who want to browse, but never the primary entry point</li>
             </ul>
           </div>
         </div>
-        <div class="decision-rationale">
-          <strong>Why:</strong> [ Your rationale. ]
+        <div class="dec-why">
+          Brand loyalty in the preventive care category depends on habit formation, not repeat impulse. A customer who adopts the routine is structurally retained — the product is embedded in their daily behaviour. <strong>The system framing is a lifetime value decision disguised as a homepage design decision.</strong>
         </div>
       </div>
+
+      <!-- Decision 3 -->
+      <div class="decision">
+        <div class="dec-head">
+          <span class="dec-icon">▶</span>
+          <span class="dec-q">Lifestyle photography or ingredient-forward photography as the primary visual language?</span>
+        </div>
+
+        <div class="dec-vis-img">
+          <img src="/assets/images/solsky/dec-3-vis.png" alt="Decision 3 — lifestyle photography vs ingredient-forward photography comparison">
+        </div>
+
+        <div class="dec-body">
+          <div class="dec-col">
+            <div class="dec-lbl">Options considered</div>
+            <ul>
+              <li>Lifestyle: happy dogs, golden hour, owner-dog interaction, emotional warmth</li>
+              <li>Product-only: clean studio shots on white background</li>
+              <li>Ingredient-forward: raw ingredients visible alongside the product</li>
+              <li>Mixed: lifestyle for hero, ingredient-forward for product pages</li>
+            </ul>
+          </div>
+          <div class="dec-col yes">
+            <div class="dec-lbl">What we chose</div>
+            <ul>
+              <li>Ingredient-forward as the primary visual convention across all product photography</li>
+              <li>Dog-interaction photography as secondary — used in product image carousels, not as hero images</li>
+              <li>White/neutral surfaces throughout — no lifestyle staging</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dec-why">
+          The brand's single most important claim is clean formulation — no fillers, single-ingredient, plant-based. Any photography convention that doesn't foreground the ingredients leaves that claim to the copy, which requires reading. Ingredient-forward photography makes the claim visual. <strong>For a new brand with zero social proof at launch, visual credibility is more valuable than visual warmth.</strong>
+        </div>
+      </div>
+
     </section>
 
-    <!-- 06 THE BUILD -->
-    <section class="chapter" id="design">
-      <div class="chapter-header">
-        <span class="chapter-num">—06</span>
-        <h2 class="chapter-title">The <em>Build</em></h2>
+    <!-- 06 — THE SYSTEM -->
+    <section class="chapter" id="ecosystem">
+      <div class="ch-header">
+        <span class="ch-num">—06</span>
+        <h2 class="ch-title">The <em>System</em></h2>
       </div>
 
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>Writing prompt:</strong> Don't document every page. Show the 4–5 moments in the site that best express the design decisions — and annotate each one. The homepage hero, the "Three Products. One Daily System." section, a product page, and the reviews section are the most interesting. For each: what decision is embedded in this design, and how does it serve the conversion goal?
-        </div>
-      </div>
-
-      <div class="img-placeholder">
-        <span class="img-placeholder-icon">🖼</span>
-        <span class="img-placeholder-label">Add: homepage — full width screenshot</span>
-        <span class="img-placeholder-sub">The complete homepage showing the narrative structure: problem → system → products</span>
-      </div>
-      <p class="img-caption">[ Caption: the homepage narrative arc — how the page structure moves a visitor from problem awareness to purchase intent ]</p>
-
-      <div class="before-after">
-        <div class="ba-label-row">
-          <div class="ba-label">Early direction</div>
-          <div class="ba-label after">Final design</div>
-        </div>
-        <div class="ba-images">
-          <div class="img-placeholder" style="margin:0; min-height:280px;">
-            <span class="img-placeholder-icon">🖼</span>
-            <span class="img-placeholder-label">Early concept / wireframe</span>
-          </div>
-          <div class="img-placeholder" style="margin:0; min-height:280px;">
-            <span class="img-placeholder-icon">🖼</span>
-            <span class="img-placeholder-label">Final shipped design</span>
-          </div>
-        </div>
-      </div>
-      <p class="img-caption">[ Caption: what changed and why ]</p>
-
-      <div class="img-three-col">
-        <div class="img-placeholder" style="margin:0; min-height:340px;">
-          <span class="img-placeholder-icon">🖼</span>
-          <span class="img-placeholder-label">Product page</span>
-          <span class="img-placeholder-sub">Chicken Jerky — ingredient-forward layout</span>
-        </div>
-        <div class="img-placeholder" style="margin:0; min-height:340px;">
-          <span class="img-placeholder-icon">🖼</span>
-          <span class="img-placeholder-label">Daily system section</span>
-          <span class="img-placeholder-sub">3-step routine framework</span>
-        </div>
-        <div class="img-placeholder" style="margin:0; min-height:340px;">
-          <span class="img-placeholder-icon">🖼</span>
-          <span class="img-placeholder-label">Mobile view</span>
-          <span class="img-placeholder-sub">Mobile-first — how it looks on the primary device</span>
-        </div>
-      </div>
-      <p class="img-caption">[ Caption: three key moments — product page, system section, mobile ]</p>
-    </section>
-
-    <!-- 07 OUTCOMES -->
-    <section class="chapter" id="outcomes">
-      <div class="chapter-header">
-        <span class="chapter-num">—07</span>
-        <h2 class="chapter-title"><em>Outcomes</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>This is your strongest outcomes section in the portfolio — it's a live, shipped product.</strong> Pull real data from Shopify analytics if you have access: conversion rate, average order value, bounce rate, return customer rate, add-to-cart rate. Even one real metric transforms this section. If you don't have exact numbers, qualitative outcomes work — client feedback, press coverage, Instagram following growth, repeat orders. Something real.
-        </div>
-      </div>
-
-      <div class="outcomes-grid">
-        <div class="outcome-item">
-          <div class="outcome-num">[ <em>X</em> ]</div>
-          <div class="outcome-label">[ Metric 1 — e.g. orders in first 3 months, conversion rate, or monthly revenue milestone ]</div>
-        </div>
-        <div class="outcome-item">
-          <div class="outcome-num">[ <em>X</em>% ]</div>
-          <div class="outcome-label">[ Metric 2 — e.g. returning customer rate, average order value, or add-to-cart rate ]</div>
-        </div>
-        <div class="outcome-item">
-          <div class="outcome-num">[ <em>X</em> ]</div>
-          <div class="outcome-label">[ Metric 3 — e.g. Instagram followers, 5-star reviews, or another signal of traction ]</div>
-        </div>
-      </div>
-
-      <p class="body-text">
-        [ Write 1–2 sentences describing the qualitative outcome — what did the launch feel like, what did the founder say, what did early customers respond to most strongly? The reviews on the live site are real and positive — that's a signal worth documenting. ]
+      <p class="body">
+        The website, product naming, and visual language were designed as a single coherent system. The naming convention — "Smoothening Dog Shampoo," "Nourishing Paw Balm" — mirrors the ingredient-first brand philosophy: functional, honest, no marketing abstraction. The three-step daily routine maps each product to a specific daily moment, converting the product range from a collection into a habit. The ingredient-hero photography signals clean formulation through visual convention rather than copy claims.
       </p>
 
-      <div class="live-callout">
-        <div class="live-callout-text">
-          <div class="live-callout-label">Live & selling</div>
-          <div class="live-callout-title">petsofsolandsky.com</div>
-          <div class="live-callout-sub">[ Add launch date ] — [ X ] products live across India</div>
-        </div>
-        <a href="https://petsofsolandsky.com" target="_blank" class="live-link">Visit Site ↗</a>
-      </div>
+      <p class="body">
+        The result is a brand where everything — the name, the photography style, the page hierarchy, the routine framing — reinforces the same single idea: this brand is honest about what's in its products and serious about preventing problems rather than treating them.
+      </p>
+
+      <!-- IMAGE 1: Annotated homepage screenshot -->
+      <figure class="cs-img">
+        <img src="/assets/images/solsky/homepage-annotated.png" alt="Sol & Sky homepage annotated — problem section → daily system → product reveal → reviews → CTA" class="cs-img-full">
+        <figcaption class="cap">The homepage leads with the problem before showing a single product. The content hierarchy — problem → system → product — is a deliberate narrative decision, not a default Shopify layout.</figcaption>
+      </figure>
+
+      <!-- IMAGE 2: Product photography trio -->
+      <figure class="cs-img">
+        <img src="/assets/images/solsky/product-photography-trio.png" alt="Sol & Sky product trio — Jerky Treat, Smoothening Shampoo, Nourishing Paw Balm — ingredient-forward photography" class="cs-img-full">
+        <figcaption class="cap">Ingredient-forward photography makes the brand's single most important claim — clean formulation, no fillers — visual without requiring the visitor to read anything.</figcaption>
+      </figure>
+
+      <!-- IMAGE 3: Daily routine section screenshot -->
+      <figure class="cs-img">
+        <img src="/assets/images/solsky/daily-routine-section.png" alt="Sol & Sky three-step daily routine — Morning, Post-Walk, Bath Time — from the live site" class="cs-img-full">
+        <figcaption class="cap">The daily routine converts three separate products into one habit. A customer who adopts the routine becomes structurally retained — the product is embedded in their day, not competing for attention at re-purchase time.</figcaption>
+      </figure>
+
     </section>
 
-    <!-- 08 REFLECTION -->
+    <!-- 07 — WHAT CHANGED -->
+    <section class="chapter" id="outcomes">
+      <div class="ch-header">
+        <span class="ch-num">—07</span>
+        <h2 class="ch-title">What <em>Changed</em></h2>
+      </div>
+
+      <div class="outcomes">
+        <div class="oc">
+          <div class="oc-num"><em>10</em></div>
+          <div class="oc-label">Products live across internal care, grooming, accessories, and gifting — all under one brand and design system</div>
+        </div>
+        <div class="oc">
+          <div class="oc-num"><em>3</em></div>
+          <div class="oc-label">Distinct product categories unified by a single daily habit framework — positioned as a system, not a catalogue</div>
+        </div>
+        <div class="oc">
+          <div class="oc-num">Live</div>
+          <div class="oc-label">Brand, website, and product system in production — from brief to shipped within a single engagement</div>
+        </div>
+      </div>
+
+      <!-- PLACEHOLDER: Outcome metric -->
+      <!-- Add one real number here — conversion rate, first-month units sold, session data, anything -->
+      <!-- Even a founder quote works: "Within the first month, the daily routine section had the highest engagement on the homepage" -->
+      <!-- Without one real metric, this section reads as filler. Source it before publishing. -->
+      <div class="ph">
+        <div class="ph-icon">⬜</div>
+        <div class="ph-label">Real Outcome Metric — Source Before Publishing</div>
+        <div class="ph-sub">Add one real number: conversion rate, units sold, session data, or a founder quote with specific engagement data.<br>Without this the outcomes section reads as placeholder. Ask Sanika for the data.</div>
+      </div>
+
+      <div class="learning">
+        <div class="learning-lbl">Key Learning</div>
+        <p class="learning-text">Selling a new category is fundamentally a <strong>narrative design problem</strong>, not a product design problem. The customer doesn't need to be convinced the products work — they need to understand why prevention matters before they'll consider the category at all. <strong>Leading with the problem, then offering the system, then revealing the products</strong> is a content architecture pattern I'd apply to any early-stage D2C brand entering an underserved or newly defined market.</p>
+      </div>
+
+    </section>
+
+    <!-- 08 — REFLECTION -->
     <section class="chapter" id="reflection">
-      <div class="chapter-header">
-        <span class="chapter-num">—08</span>
-        <h2 class="chapter-title"><em>Reflection</em></h2>
+      <div class="ch-header">
+        <span class="ch-num">—08</span>
+        <h2 class="ch-title"><em>Reflection</em></h2>
       </div>
 
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>Writing prompt:</strong> For a shipped project, reflection is more valuable than for concept work — because real feedback exists. What did you learn post-launch that you couldn't have known before? What would you change in V2 of the site? And what did building end-to-end — brand, copy direction, Shopify build — teach you about the relationship between brand strategy and conversion design?
+      <div class="reflect">
+        <div class="reflect-col">
+          <div class="reflect-lbl">What worked</div>
+          <p>Working directly with a founder who had done the hard thinking on brand positioning before the design engagement started made every creative decision faster and more precise. Sanika's founding thesis — prevention over reaction — was clear enough to function as a design filter. Every layout choice, photography decision, and content hierarchy question could be resolved by asking: does this communicate a brand that acts before problems appear, or one that waits for them? That kind of clarity at the brief stage is rare, and it compressed what could have been a slow discovery process into sharp, decisive execution.</p>
+        </div>
+        <div class="reflect-col">
+          <div class="reflect-lbl">What I'd do differently</div>
+          <p>The Shopify platform constraint shaped more decisions than I would have liked without naming them explicitly upfront. Section structures that would have been cleaner with a custom build required workarounds within theme architecture — and some of those workarounds are visible if you look closely. In retrospect, I'd surface the platform constraints earlier in the brief — not to lower expectations, but to route design decisions through the constraint deliberately rather than discovering its limits mid-execution. Working within constraints is fine. Being surprised by them mid-build is not.</p>
         </div>
       </div>
 
-      <div class="reflection-two-col">
-        <div class="reflection-col">
-          <div class="reflection-col-label">What worked</div>
-          <p>[ The specific decision that paid off post-launch — something the data or feedback validated. The system framing? The problem-first homepage? The clean ingredient aesthetic? Be specific. ]</p>
-        </div>
-        <div class="reflection-col">
-          <div class="reflection-col-label">What I'd change in V2</div>
-          <p>[ One specific thing you'd do differently — ideally informed by real post-launch data or feedback. "The product page converts lower than expected — I'd test moving the ingredient callouts above the fold" is worth ten generic reflections. ]</p>
-        </div>
-      </div>
     </section>
 
   </main>
 </div>
 
-<!-- NEXT PROJECT -->
-<div class="next-project">
+<!-- NEXT -->
+<div class="next">
   <div>
-    <p class="next-label">Next Project</p>
-    <p class="next-title">Praan<br><em>Air Ecosystem</em></p>
+    <p class="next-lbl">Previous Project</p>
+    <p class="next-title">Praan —<br><em>Air Ecosystem</em></p>
   </div>
-  <a href="percept.html" class="btn-outline"><span>View Case Study →</span></a>
+  <a href="praan.html" class="btn"><span>View Case Study →</span></a>
 </div>
 
 <!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker">
-    <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Product Design</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>Travel Photography</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Hardware Ecosystems</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>House / Techno</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Spatial Computing</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>Tennis Court</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Industrial Design</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>Consumer Electronics</div>
-    <div class="ticker-item"><span class="ticker-dot"></span>Motion Design</div>
-    <div class="ticker-item amber"><span class="ticker-dot"></span>DJ Sets</div>
+    <div class="ti"><span class="td"></span>Product Design</div>
+    <div class="ti a"><span class="td"></span>D2C Brand Strategy</div>
+    <div class="ti"><span class="td"></span>Shopify</div>
+    <div class="ti a"><span class="td"></span>Preventive Pet Care</div>
+    <div class="ti"><span class="td"></span>Photography Art Direction</div>
+    <div class="ti a"><span class="td"></span>Content Architecture</div>
+    <div class="ti"><span class="td"></span>Brand Identity</div>
+    <div class="ti a"><span class="td"></span>Habit Design</div>
+    <div class="ti"><span class="td"></span>Industrial Design</div>
+    <div class="ti a"><span class="td"></span>House / Techno</div>
+    <div class="ti"><span class="td"></span>Product Design</div>
+    <div class="ti a"><span class="td"></span>D2C Brand Strategy</div>
+    <div class="ti"><span class="td"></span>Shopify</div>
+    <div class="ti a"><span class="td"></span>Preventive Pet Care</div>
+    <div class="ti"><span class="td"></span>Photography Art Direction</div>
+    <div class="ti a"><span class="td"></span>Content Architecture</div>
+    <div class="ti"><span class="td"></span>Brand Identity</div>
+    <div class="ti a"><span class="td"></span>Habit Design</div>
+    <div class="ti"><span class="td"></span>Industrial Design</div>
+    <div class="ti a"><span class="td"></span>House / Techno</div>
   </div>
 </div>
 
 <footer class="footer">
-  <span class="footer-copy">© 2026 Manav Hemnani</span>
-  <span class="footer-center">Sol & Sky</span>
-  <ul class="footer-links">
+  <span class="fc">© 2026 Manav Hemnani</span>
+  <span class="fm">Sol &amp; Sky — Preventive Pet Care</span>
+  <ul class="fl">
     <li><a href="https://www.linkedin.com/in/manavhemnani22/">LinkedIn ↗</a></li>
     <li><a href="https://www.instagram.com/manav.hemnani/">Instagram ↗</a></li>
-    <li><a href="mailto:HEMNANIMANAV@GMAIL.COM">Email ↗</a></li>
+    <li><a href="mailto:hemnanimanav@gmail.com">Email ↗</a></li>
   </ul>
 </footer>
 
 <script>
 const chapters = document.querySelectorAll('.chapter');
-const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-const progressFill = document.getElementById('progressFill');
-const progressLabel = document.getElementById('progressLabel');
+const links = document.querySelectorAll('#sbNav a');
+const fill = document.getElementById('sbFill');
+const pct = document.getElementById('sbPct');
 
 window.addEventListener('scroll', () => {
-  const docH = document.documentElement.scrollHeight - window.innerHeight;
-  const pct = Math.round((window.scrollY / docH) * 100);
-  progressFill.style.width = pct + '%';
-  progressLabel.textContent = pct + '% read';
-  let current = '';
-  chapters.forEach(ch => {
-    if (ch.getBoundingClientRect().top < window.innerHeight * 0.4) current = ch.id;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const p = Math.round((window.scrollY / h) * 100);
+  fill.style.width = p + '%';
+  pct.textContent = p + '% read';
+
+  let cur = '';
+  chapters.forEach(c => {
+    if (c.getBoundingClientRect().top < window.innerHeight * 0.38) cur = c.id;
   });
-  sidebarLinks.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-  });
+  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+
+  document.getElementById('nav').style.borderBottomColor =
+    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
 }, { passive: true });
 
-sidebarLinks.forEach(a => {
+links.forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
@@ -992,17 +1207,10 @@ const obs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.06 });
 
-document.querySelectorAll('.chapter, .decision-block, .outcomes-grid, .scope-table, .live-callout').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(18px)';
-  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+document.querySelectorAll('.chapter, .decision, .failed, .outcomes, .fq, .learning, .collab').forEach(el => {
+  el.style.cssText += 'opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease;';
   obs.observe(el);
 });
-
-window.addEventListener('scroll', () => {
-  document.querySelector('.nav').style.borderBottomColor =
-    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
-}, { passive: true });
 </script>
 </body>
 </html>
