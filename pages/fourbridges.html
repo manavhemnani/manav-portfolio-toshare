@@ -289,24 +289,14 @@ body::before {
 }
 .dec-why strong { color:var(--white); font-weight:400; }
 
-/* DECISION VISUAL COMPARISON */
+/* DECISION VISUAL — IMAGE SLOT */
 .dec-vis {
-  display:grid; grid-template-columns:1fr 32px 1fr;
+  padding:1.2rem 1.6rem 1.4rem;
+  border-bottom:1px solid rgba(240,237,230,0.06);
   padding:1.5rem 1.6rem 1rem; align-items:center;
   border-bottom:1px solid rgba(240,237,230,0.06);
   background: var(--bg-3);
 }
-.dv-col { display:flex; flex-direction:column; align-items:center; gap:0.55rem; }
-.dv-panel {
-  width:100%; border-radius:4px; padding:1.4rem 1.2rem;
-  display:flex; flex-direction:column; align-items:center;
-  justify-content:center; gap:0.5rem; min-height:100px; text-align:center;
-}
-.dv-panel.no { background:rgba(240,237,230,0.04); border:1px solid rgba(240,237,230,0.12); }
-.dv-panel.yes { background:rgba(1,100,166,0.06); border:1px solid rgba(1,100,166,0.3); }
-.dv-tag { font-size: 0.72rem; letter-spacing:0.11em; text-transform:uppercase; color:rgba(240,237,230,0.3); padding:0.2rem 0.6rem; border:1px solid rgba(240,237,230,0.09); border-radius:2px; }
-.dv-panel.yes ~ .dv-tag { color:var(--accent-light); border-color:rgba(1,100,166,0.28); background:rgba(1,100,166,0.05); }
-.dv-mid { display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:0.85rem; }
 
 /* IMAGE PLACEHOLDERS */
 .ph {
@@ -347,6 +337,10 @@ body::before {
 .reflect-lbl { font-size: 0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent-proj); margin-bottom:0.9rem; display:flex; align-items:center; gap:0.6rem; }
 .reflect-lbl::before { content:''; width:16px; height:1px; background:var(--accent-proj); }
 .reflect-col p { font-size:0.88rem; color:var(--mid); line-height:1.8; font-weight:300; }
+
+/* REFLECTION FULL-WIDTH PARAGRAPH */
+.reflect-full { margin-top:2.5rem; padding-top:2rem; border-top:1px solid rgba(240,237,230,0.07); }
+.reflect-full p { font-size:0.95rem; color:var(--mid); line-height:1.82; font-weight:300; max-width:var(--content-max); }
 
 /* SCOPE TABLE */
 .scope-table {
@@ -548,6 +542,277 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 /* Last chapter — no orphan padding */
 .chapter:last-child { padding-bottom: 2rem; }
+
+/* ── REAL IMAGE SUPPORT ─────────────────────────────
+   Pattern: <img class="cs-img-full"> inside figure.cs-img
+   onerror hides img and shows .ph fallback when file absent.
+   Dropping a file into /assets/images/fourbridges/ activates it
+   automatically — no HTML changes required.
+   ──────────────────────────────────────────────────── */
+figure.cs-img {
+  margin: 2.5rem 0;
+}
+figure.cs-img img.cs-img-full {
+  width: 100%; display: block;
+  border-radius: 4px;
+  object-fit: cover;
+  background: var(--bg-3);  /* visible while loading */
+}
+figure.cs-img figcaption.cap {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+
+/* Grid image slots — .ph inside .g2 / .g3 / .ba-grid */
+.cs-img-slot {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-3);
+}
+.cs-img-slot img.cs-img-grid {
+  width: 100%; height: auto;
+  display: block;
+  border-radius: 4px;
+  object-fit: cover;
+}
+/* Placeholder inside slot uses same .ph styling, no extra margin */
+.cs-img-slot .ph { margin: 0; border-radius: 0; }
+
+
+
+/* ── DEC-VIS IMAGE SLOT ──────────────────────────── */
+.dec-vis-img {
+  width:100%; height:auto; display:block;
+  border-radius:6px; object-fit:contain;
+}
+.dec-vis-ph {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; padding:2.8rem 2rem; min-height:200px;
+  background:rgba(240,237,230,0.025);
+  border:1px dashed rgba(240,237,230,0.1);
+  border-radius:6px; text-align:center;
+}
+.dec-vis-ph-path {
+  font-size:0.68rem; font-family:monospace; letter-spacing:0.02em;
+  color:var(--accent-light);
+  background:rgba(71,171,219,0.07);
+  border:1px solid rgba(71,171,219,0.2);
+  padding:5px 12px; border-radius:3px;
+}
+.dec-vis-ph-hint {
+  font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ── IA DIRECTION WIREFRAMES ─────────────────────────────────────────────── */
+.ia-wf {
+  width: 100%;
+  font-family: var(--font-body, sans-serif);
+}
+.ia-wf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.ia-wf-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ia-wf-col-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.35);
+  padding: 0 2px;
+}
+.ia-wf-screen {
+  background: #1a1e2a;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(240,237,230,0.07);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.ia-wf--after .ia-wf-screen {
+  border-color: rgba(71,171,219,0.15);
+}
+.ia-wf-nav {
+  height: 10px;
+  background: rgba(240,237,230,0.04);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  gap: 3px;
+}
+.ia-wf-nav::before, .ia-wf-nav::after {
+  content: '';
+  display: inline-block;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(240,237,230,0.12);
+}
+.ia-wf-nav::before { width: 22px; }
+.ia-wf-nav::after  { width: 14px; margin-left: auto; }
+.ia-wf-sec {
+  padding: 6px 6px 5px;
+  border-bottom: 1px solid rgba(240,237,230,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.ia-wf-sec:last-child { border-bottom: none; }
+.ia-wf-tag {
+  font-size: 0.46rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  border-radius: 2px;
+  align-self: flex-start;
+  margin-bottom: 2px;
+}
+.ia-wf--before .ia-wf-tag {
+  background: rgba(240,237,230,0.07);
+  color: rgba(240,237,230,0.4);
+}
+.ia-wf--after .ia-wf-tag {
+  background: rgba(71,171,219,0.12);
+  color: rgba(71,171,219,0.7);
+}
+.ia-wf-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(240,237,230,0.1);
+}
+.ia-wf-bar.w90  { width: 90%; }
+.ia-wf-bar.w70  { width: 70%; }
+.ia-wf-bar.w55  { width: 55%; }
+.ia-wf-bar.w40  { width: 40%; }
+.ia-wf-bar.accent { background: rgba(71,171,219,0.25); }
+.ia-wf-bigbar {
+  height: 7px;
+  border-radius: 2px;
+  background: rgba(240,237,230,0.06);
+  margin-bottom: 2px;
+}
+.ia-wf--after .ia-wf-bigbar {
+  background: rgba(71,171,219,0.08);
+}
+.ia-wf-stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+.ia-wf-stat {
+  height: 18px;
+  border-radius: 3px;
+  background: rgba(240,237,230,0.07);
+}
+.ia-wf-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin-top: 2px;
+}
+.ia-wf-card {
+  height: 20px;
+  border-radius: 3px;
+  background: rgba(240,237,230,0.06);
+  border: 1px solid rgba(240,237,230,0.06);
+}
+.ia-wf--after .ia-wf-card {
+  background: rgba(71,171,219,0.05);
+  border-color: rgba(71,171,219,0.1);
+}
+.ia-wf-input {
+  height: 8px;
+  border-radius: 2px;
+  background: rgba(240,237,230,0.05);
+  border: 1px solid rgba(240,237,230,0.1);
+}
+.ia-wf-btn {
+  height: 9px;
+  width: 60%;
+  border-radius: 2px;
+  background: rgba(240,237,230,0.1);
+  margin-top: 1px;
+  align-self: flex-start;
+}
+.ia-wf--after .ia-wf-btn {
+  background: rgba(71,171,219,0.2);
+}
+.ia-wf-quote {
+  height: 5px;
+  border-radius: 2px;
+  background: rgba(71,171,219,0.15);
+  margin: 1px 0;
+}
+.ia-wf-flow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 2px 0;
+  flex-wrap: wrap;
+}
+.ia-wf-flow-step {
+  font-size: 0.47rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+.ia-wf--before .ia-wf-flow-step {
+  background: rgba(240,237,230,0.06);
+  color: rgba(240,237,230,0.35);
+}
+.ia-wf--after .ia-wf-flow-step {
+  background: rgba(71,171,219,0.1);
+  color: rgba(71,171,219,0.65);
+}
+.ia-wf-arrow {
+  font-size: 0.46rem;
+  color: rgba(240,237,230,0.2);
+}
+.ia-wf-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 2px 2px;
+}
+.ia-wf-direction-tag {
+  font-size: 0.47rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+.ia-wf--before .ia-wf-direction-tag {
+  color: rgba(240,237,230,0.3);
+  background: rgba(240,237,230,0.04);
+  border: 1px solid rgba(240,237,230,0.08);
+}
+.ia-wf--after .ia-wf-direction-tag {
+  color: rgba(71,171,219,0.75);
+  background: rgba(71,171,219,0.08);
+  border: 1px solid rgba(71,171,219,0.2);
+}
+
+
+/* ── LANDSCAPE IMAGE SLOTS (g3 build section) ───── */
+.cs-img-slot[style*="aspect-ratio"] {
+  height: auto;
+}
+.cs-img-slot[style*="aspect-ratio"] img.cs-img-grid {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 </style>
 </head>
 <body>
@@ -619,7 +884,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
   <div class="hero-content">
     <div class="eyebrow">
-      <span class="badge">Shipped · Framer</span>
+      <span class="badge">Shipped · HTML/CSS</span>
       <span class="hero-meta">2025 · Capital Advisory · Zero-to-One</span>
     </div>
     <h1>Four Bridges —<br><em>Deal Origination Infrastructure</em></h1>
@@ -647,8 +912,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="meta-val">6 weeks</div>
     </div>
     <div class="meta-item">
-      <div class="meta-lbl">Platform</div>
-      <div class="meta-val">Framer</div>
+      <div class="meta-lbl">Built With</div>
+      <div class="meta-val">Figma · HTML/CSS · Vercel</div>
     </div>
     <div class="meta-item">
       <div class="meta-lbl">Status</div>
@@ -691,12 +956,18 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </div>
 
       <p class="body">
-        Four Bridges Capital Advisors had no website. No digital presence. No intake form, no CRM, no structured way to receive or qualify inbound interest. All leads arrived through Hemant Hemnani's personal network. Every first conversation happened over WhatsApp.
+        Four Bridges Capital Advisors had no website, no digital presence, and no structured way to receive or qualify inbound interest. Every lead arrived through Hemant Hemnani's personal network. Every first conversation happened over WhatsApp. 
+      </p>
+
+      <p class="body">
+       The problem surfaced in a specific way: a referred founder Googled the firm before calling, found nothing, and arrived at the first conversation with skepticism rather than intent. That one account contained the entire design brief. The platform needed to do the work of the referral — establish credibility, set expectations, and surface fit — before Hemant picked up the phone.
       </p>
 
       <p class="body">
         There was no way for a referred founder to validate the firm before picking up the phone. No way for Hemant to know anything about a prospect before they spoke. No way to set expectations, establish credibility, or assess fit — until the founder was already in the room.
       </p>
+
+      
 
       <p class="body">
         The brief was not "build a website." The brief was: create a digital infrastructure that could establish credibility, structure the intake process, and reduce founder dependency — without a single client logo, testimonial, or transaction reference. The firm had done real, consequential work. The constraint was showing it.
@@ -711,7 +982,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <div>
           <div class="lc-label">Live site</div>
           <div class="lc-title">fourbridgescapital.in</div>
-          <div class="lc-sub">Capital Advisory · Mumbai — live on Framer</div>
+          <div class="lc-sub">Capital Advisory · Mumbai · Live on Vercel</div>
         </div>
         <a href="https://www.fourbridgescapital.in" target="_blank" rel="noopener" class="lc-link">Visit Site ↗</a>
       </div>
@@ -726,7 +997,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </div>
 
       <p class="body">
-        The firm's two biggest differentiators were structurally invisible. Independence can't be screenshotted. Direct founder engagement can't be photographed. Every conventional trust signal in financial services — client logos, AUM figures, deal tombstones, partner credentials — was either unavailable or inappropriate to show.
+        The firm's two biggest differentiators — independence and direct founder engagement — were structurally invisible. Neither can be screenshotted. Neither can be testimonialised. And in Indian capital advisory, where trust is built over years of institutional association, neither means anything without a way to demonstrate it before the first conversation. Independence can't be screenshotted. Direct founder engagement can't be photographed. Every conventional trust signal in financial services — client logos, AUM figures, deal tombstones, partner credentials — was either unavailable or inappropriate to show.
       </p>
 
       <p class="body">
@@ -742,12 +1013,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </p>
 
       <figure class="cs-img">
-        <div class="ph">
+        <img
+          src="/assets/images/fourbridges/positioning-diagram.png"
+          alt="Four Bridges positioning 2×2 diagram — Institutional↔Boutique vs Broad appeal↔Selective axes, four failure zones marked"
+          class="cs-img-full"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none;">
           <div class="ph-icon">🖼</div>
           <div class="ph-label">Add: positioning 2×2 diagram</div>
           <div class="ph-sub">Axes: Institutional ↔ Boutique / Broad appeal ↔ Selective<br>Mark the four failure zones and the target band</div>
         </div>
-        <figcaption class="cap">"The risk wasn't building a bad website — it was landing in any one of four failure zones that each destroy a different part of the value proposition."</figcaption>
+        <figcaption class="cap">"Four failure zones, each destroying a different part of the value proposition. Too institutional: loses boutique warmth and feels indistinguishable from a large bank. Too decorative: loses credibility and reads as marketing. Too broad: attracts unqualified leads and fills Hemant's calendar with the wrong conversations. Too opaque: prevents first contact entirely. The target band is a narrow corridor between institutional credibility and selective warmth — where the platform had to operate without conventional proof points to anchor either end."</figcaption>
       </figure>
 
     </section>
@@ -767,27 +1043,27 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <div class="scope-table-hd">Scope — End-to-End Engagement</div>
         <div class="scope-row">
           <div class="scope-area">Information Architecture</div>
-          <div class="scope-detail">Full — six requirements, six IA principles, complete sitemap designed from first principles</div>
+          <div class="scope-detail">Defined the entire site structure from scratch — prioritising trust-building over browsing, since users couldn’t rely on prior brand familiarity</div>
         </div>
         <div class="scope-row">
           <div class="scope-area">Brand Voice &amp; Copy</div>
-          <div class="scope-detail">Full — every headline, subheading, and body paragraph authored and structured as a design decision</div>
+          <div class="scope-detail">Wrote all copy to act as the primary trust layer — since no testimonials or proof points could be shown</div>
         </div>
         <div class="scope-row">
           <div class="scope-area">UI Design</div>
-          <div class="scope-detail">Full — typography system, spacing, layout, component design, responsive behaviour</div>
+          <div class="scope-detail">Complete typography system, spacing, layout, component design, responsive behaviour</div>
         </div>
         <div class="scope-row">
-          <div class="scope-area">Qualification Logic</div>
-          <div class="scope-detail">Full — readiness assessment structure, "Ideal For" framing, Engage form architecture</div>
+          <div class="scope-area">Conversion Flow</div>
+          <div class="scope-detail">Structured the journey from exploration to contact — guiding users through trust-building before prompting engagement</div>
         </div>
         <div class="scope-row">
           <div class="scope-area">Platform Build</div>
-          <div class="scope-detail">Framer — designed and built end-to-end within the platform</div>
+          <div class="scope-detail">Designed in Figma. Built as static HTML/CSS with responsive design. Deployed via Vercel.</div>
         </div>
         <div class="scope-row">
           <div class="scope-area">Analytics Instrumentation</div>
-          <div class="scope-detail">Specified — CTA tracking, form events, scroll depth, lead source attribution</div>
+          <div class="scope-detail">Defined tracking to measure where trust breaks — CTA clicks, scroll drop-offs, and form completion</div>
         </div>
       </div>
 
@@ -820,7 +1096,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </p>
 
       <figure class="cs-img">
-        <div class="ph">
+        <img
+          src="/assets/images/fourbridges/requirements-tensions.png"
+          alt="Four Bridges requirements-tensions map — 6 requirements each annotated with its primary design tension"
+          class="cs-img-full"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none;">
           <div class="ph-icon">🖼</div>
           <div class="ph-label">Add: requirements-tensions map</div>
           <div class="ph-sub">6 requirements, each with its primary tension annotated —<br>shows the analytical layer underneath the architecture</div>
@@ -839,8 +1120,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         </div>
         <div class="principle-card">
           <div class="pc-num">02</div>
-          <div class="pc-title">Diagnostic Qualification</div>
-          <div class="pc-desc">Filtering framed as helping prospects assess their own readiness — not gatekeeping.</div>
+          <div class="pc-title">Guided Self-Selection</div>
+          <div class="pc-desc">Users are helped to assess fit through positioning and clarity — not explicit filtering or gatekeeping.</div>
         </div>
         <div class="principle-card">
           <div class="pc-num">03</div>
@@ -865,7 +1146,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </div>
 
       <figure class="cs-img">
-        <div class="ph">
+        <img
+          src="/assets/images/fourbridges/sitemap.png"
+          alt="Four Bridges sitemap — hub-and-spoke model with homepage as strategic router, each page annotated with its primary IA principle"
+          class="cs-img-full"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none;">
           <div class="ph-icon">🖼</div>
           <div class="ph-label">Add: sitemap — hub-and-spoke model</div>
           <div class="ph-sub">Homepage as strategic router, not funnel entry.<br>Each page annotated with the IA principle it primarily activates.</div>
@@ -893,29 +1179,14 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <span class="dec-q">How do you qualify leads without gatekeeping?</span>
         </div>
         <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="display:flex;flex-direction:column;gap:5px;width:82%;">
-                <div style="height:3px;background:rgba(240,237,230,0.12);border-radius:2px;width:100%;"></div>
-                <div style="height:3px;background:rgba(240,237,230,0.08);border-radius:2px;width:70%;"></div>
-                <div style="height:3px;background:rgba(240,237,230,0.05);border-radius:2px;width:50%;"></div>
-              </div>
-              <div style="font-size:0.54rem;color:rgba(120,140,123,0.22);margin-top:0.6rem;letter-spacing:0.06em;text-transform:uppercase;">criteria list</div>
-            </div>
-            <div class="dv-tag">Explicit checklist</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div style="font-size:0.64rem;letter-spacing:0.1em;color:rgba(1,100,166,0.85);font-weight:500;text-transform:uppercase;">We Are Selective</div>
-              <div style="height:0.5rem;"></div>
-              <div style="display:flex;flex-direction:column;gap:4px;width:80%;">
-                <div style="height:2.5px;background:rgba(71,171,219,0.3);border-radius:1px;width:100%;"></div>
-                <div style="height:2.5px;background:rgba(71,171,219,0.2);border-radius:1px;width:72%;"></div>
-              </div>
-              <div style="font-size:0.52rem;color:rgba(71,171,219,0.55);margin-top:0.5rem;letter-spacing:0.08em;text-transform:uppercase;">Assess Your Fit →</div>
-            </div>
-            <div class="dv-tag">Front-facing selectiveness</div>
+          <img
+            src="/assets/images/fourbridges/decisions/decision-01-lead-qualification.png"
+            alt="Decision 01 wireframe — lead qualification without gatekeeping"
+            class="dec-vis-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="dec-vis-ph" style="display:none;">
+            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-01-lead-qualification.png</div>
+            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
           </div>
         </div>
         <div class="dec-body">
@@ -938,7 +1209,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           </div>
         </div>
         <div class="dec-why">
-          When tested with founders at different stages — from first-time capital raisers to experienced M&amp;A operators — the explicit selectiveness signal landed differently than expected. Rather than discouraging outreach, it increased confidence in the enquiries that did come through. Founders who felt they "passed the filter" arrived at the first call with higher engagement and lower skepticism. <strong>The section functions as a psychological pre-qualifier, not a barrier.</strong>
+          This activates Principle 02 (Guided Self-Selection) while holding the tension with Principle 05 (Relationship-First Architecture) — the section had to filter without feeling cold. When tested with founders at different stages — from first-time capital raisers to experienced M&amp;A operators — the explicit selectiveness signal landed differently than expected. Rather than discouraging outreach, it increased confidence in the enquiries that did come through. Founders who felt they "passed the filter" arrived at the first call with higher engagement and lower skepticism. <strong>The section functions as a psychological pre-qualifier, not a barrier.</strong>
         </div>
       </div>
 
@@ -949,26 +1220,14 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <span class="dec-q">Services — what to lead with: what we do, or what you achieve?</span>
         </div>
         <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="display:flex;flex-direction:column;gap:5px;width:82%;">
-                <div style="height:3px;background:rgba(240,237,230,0.15);border-radius:2px;width:80%;"></div>
-                <div style="height:2.5px;background:rgba(240,237,230,0.08);border-radius:2px;width:60%;"></div>
-                <div style="height:2.5px;background:rgba(240,237,230,0.05);border-radius:2px;width:90%;"></div>
-                <div style="height:2.5px;background:rgba(240,237,230,0.04);border-radius:2px;width:45%;"></div>
-              </div>
-              <div style="font-size:0.52rem;color:rgba(120,140,123,0.2);margin-top:0.5rem;letter-spacing:0.06em;text-transform:uppercase;">process steps</div>
-            </div>
-            <div class="dv-tag">Process-first</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div style="font-size:0.58rem;color:rgba(71,171,219,0.75);font-weight:500;letter-spacing:0.08em;text-transform:uppercase;">What You Achieve</div>
-              <div style="width:1px;height:16px;background:rgba(1,100,166,0.3);margin:4px 0;"></div>
-              <div style="font-size:0.52rem;color:rgba(71,171,219,0.45);letter-spacing:0.06em;text-transform:uppercase;">What We Do</div>
-            </div>
-            <div class="dv-tag">Outcome-first</div>
+          <img
+            src="/assets/images/fourbridges/decisions/decision-02-services-hierarchy.png"
+            alt="Decision 02 wireframe — services section hierarchy, outcome-first vs process-first"
+            class="dec-vis-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="dec-vis-ph" style="display:none;">
+            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-02-services-hierarchy.png</div>
+            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
           </div>
         </div>
         <div class="dec-body">
@@ -991,7 +1250,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           </div>
         </div>
         <div class="dec-why">
-          When this was tested with founders — specifically those who had previously engaged with large investment banks — the outcome-first structure addressed the single most common complaint: "I never understood what I was paying for." Leading with the result gave the services section immediate relevance. <strong>The process detail that followed was read as proof, not preamble.</strong>
+          Outcome-first directly satisfies Principle 04 (Progressive Depth) — reveal what matters before revealing how it works. When this was tested with founders — specifically those who had previously engaged with large investment banks — the outcome-first structure addressed the single most common complaint: "I never understood what I was paying for." <strong>Leading with the result gave the services section immediate relevance.</strong>
         </div>
       </div>
 
@@ -1002,25 +1261,14 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <span class="dec-q">How do you turn one person's biography into an institutional trust signal?</span>
         </div>
         <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-                <div style="font-size:0.52rem;color:rgba(240,237,230,0.2);letter-spacing:0.06em;text-transform:uppercase;">Enam · Axis · 20yr</div>
-                <div style="height:2.5px;background:rgba(240,237,230,0.08);border-radius:1px;width:70%;"></div>
-                <div style="height:2.5px;background:rgba(240,237,230,0.05);border-radius:1px;width:55%;"></div>
-              </div>
-              <div style="font-size:0.5rem;color:rgba(120,140,123,0.2);margin-top:0.5rem;font-style:italic;">credentials only</div>
-            </div>
-            <div class="dv-tag">Credentials-only</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div style="font-size:0.52rem;color:rgba(71,171,219,0.6);letter-spacing:0.06em;text-transform:uppercase;">Institutional floor</div>
-              <div style="width:1px;height:12px;background:rgba(1,100,166,0.3);margin:3px 0;"></div>
-              <div style="font-size:0.56rem;color:rgba(71,171,219,0.85);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;">Conviction to leave</div>
-            </div>
-            <div class="dv-tag">Hybrid — credentials + departure</div>
+          <img
+            src="/assets/images/fourbridges/decisions/decision-03-founder-biography.png"
+            alt="Decision 03 wireframe — founder biography as institutional trust signal"
+            class="dec-vis-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="dec-vis-ph" style="display:none;">
+            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-03-founder-biography.png</div>
+            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
           </div>
         </div>
         <div class="dec-body">
@@ -1043,7 +1291,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           </div>
         </div>
         <div class="dec-why">
-          Across testing with senior professionals and growth-stage founders, the credential-only version landed as "impressive but indistinguishable." The version that included the departure decision and the belief behind it generated a consistent response: "this person has skin in the game." <strong>The biography became evidence of alignment, not just capability.</strong>
+          The hybrid structure satisfies Principle 01 (Modular Credibility) — credentials and departure conviction operate as two independent proof pathways. Across testing with senior professionals and growth-stage founders, the credential-only version landed as "impressive but indistinguishable." The version that included the departure decision and the belief behind it generated a consistent response: "this person has skin in the game." <strong>The biography became evidence of alignment, not just capability.</strong>
         </div>
       </div>
 
@@ -1051,94 +1299,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="decision">
         <div class="dec-head">
           <span class="dec-icon">⚡</span>
-          <span class="dec-q">What IA sequence is most convincing for a first-time visitor?</span>
-        </div>
-        <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-                <div style="font-size:0.52rem;color:rgba(240,237,230,0.2);letter-spacing:0.06em;text-transform:uppercase;">Credentials</div>
-                <div style="width:1px;height:8px;background:rgba(240,237,230,0.08);"></div>
-                <div style="font-size:0.52rem;color:rgba(240,237,230,0.15);letter-spacing:0.06em;text-transform:uppercase;">Services</div>
-                <div style="width:1px;height:8px;background:rgba(240,237,230,0.06);"></div>
-                <div style="font-size:0.52rem;color:rgba(240,237,230,0.1);letter-spacing:0.06em;text-transform:uppercase;">Engage</div>
-              </div>
-            </div>
-            <div class="dv-tag">Credentials-first</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-                <div style="font-size:0.52rem;color:rgba(71,171,219,0.85);letter-spacing:0.06em;text-transform:uppercase;font-weight:500;">Philosophy</div>
-                <div style="width:1px;height:8px;background:rgba(1,100,166,0.3);"></div>
-                <div style="font-size:0.52rem;color:rgba(71,171,219,0.65);letter-spacing:0.06em;text-transform:uppercase;">Credentials</div>
-                <div style="width:1px;height:8px;background:rgba(1,100,166,0.2);"></div>
-                <div style="font-size:0.52rem;color:rgba(71,171,219,0.5);letter-spacing:0.06em;text-transform:uppercase;">Services → Engage</div>
-              </div>
-            </div>
-            <div class="dv-tag">Philosophy-first</div>
-          </div>
-        </div>
-        <div class="dec-body">
-          <div class="dec-col">
-            <div class="dec-lbl">Options considered</div>
-            <ul>
-              <li>Credentials → Services → Process → Engage (who we are → what we do → how → talk to us)</li>
-              <li>Services → Credentials → Process → Engage (problem first → validation → mechanics → conversion)</li>
-              <li>Philosophy → Credentials → Services → Process → Engage (belief → proof → offering → structure → action)</li>
-              <li>Hero routing page → deep-dive sections separately</li>
-            </ul>
-          </div>
-          <div class="dec-col yes">
-            <div class="dec-lbl">What we chose</div>
-            <ul>
-              <li>Philosophy → Credentials → Services → Process → Engage</li>
-              <li>Homepage as non-linear router with persistent nav allowing skip-ahead</li>
-              <li>Each section designed to function as a standalone entry point</li>
-            </ul>
-          </div>
-        </div>
-        <div class="dec-why">
-          This sequence was tested across two distinct audience segments: referred founders (warm, high trust, needing validation) and cold-discovery prospects (skeptical, needing education first). The philosophy-first sequence worked for both — warm prospects moved quickly past the belief section to credentials; skeptical prospects were stopped by the philosophy section and read more carefully. <strong>The chosen sequence had no segment that disengaged before reaching the services section.</strong>
-        </div>
-      </div>
-
-      <!-- Decision 5 -->
-      <div class="decision">
-        <div class="dec-head">
-          <span class="dec-icon">⚡</span>
           <span class="dec-q">Italic emphasis — brand personality device or visual noise?</span>
         </div>
         <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="display:flex;flex-direction:column;gap:6px;width:82%;">
-                <div style="height:3px;background:rgba(240,237,230,0.12);border-radius:2px;width:80%;"></div>
-                <div style="height:3px;background:rgba(240,237,230,0.07);border-radius:2px;width:90%;"></div>
-                <div style="height:3px;background:rgba(240,237,230,0.05);border-radius:2px;width:65%;"></div>
-              </div>
-              <div style="font-size:0.5rem;color:rgba(120,140,123,0.18);margin-top:0.5rem;letter-spacing:0.04em;font-style:italic;">no personality device</div>
-            </div>
-            <div class="dv-tag">Copy tone only</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div style="display:flex;flex-direction:column;gap:5px;width:82%;">
-                <div style="display:flex;gap:4px;align-items:center;">
-                  <div style="height:3px;background:rgba(71,171,219,0.2);border-radius:2px;width:40%;"></div>
-                  <div style="height:3px;background:rgba(71,171,219,0.65);border-radius:2px;width:45%;font-style:italic;"></div>
-                </div>
-                <div style="height:3px;background:rgba(71,171,219,0.12);border-radius:2px;width:80%;"></div>
-                <div style="display:flex;gap:4px;align-items:center;">
-                  <div style="height:3px;background:rgba(71,171,219,0.08);border-radius:2px;width:55%;"></div>
-                  <div style="height:3px;background:rgba(71,171,219,0.55);border-radius:2px;width:30%;"></div>
-                </div>
-              </div>
-              <div style="font-size:0.5rem;color:rgba(71,171,219,0.55);margin-top:0.5rem;font-style:italic;letter-spacing:0.04em;">your business</div>
-            </div>
-            <div class="dv-tag">Systematic italic emphasis</div>
+          <img
+            src="/assets/images/fourbridges/decisions/decision-04-typographic-emphasis.png"
+            alt="Decision 04 wireframe — systematic serif italic emphasis as brand device"
+            class="dec-vis-img"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="dec-vis-ph" style="display:none;">
+            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-04-typographic-emphasis.png</div>
+            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
           </div>
         </div>
         <div class="dec-body">
@@ -1161,7 +1332,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           </div>
         </div>
         <div class="dec-why">
-          Financial services sites that lean on visual decoration read as marketing. When tested with founders who had experienced institutional advisory, the over-designed versions created a consistent skepticism response. The italic device was invisible to most readers consciously — but in testing, the version without it felt "colder." Italics are native to editorial and analytical writing. Used on phrases like "your business," "independent perspective," "your situation," <strong>they create a brand rhythm that accumulates as personality without signaling effort.</strong>
+          Financial services sites that lean on visual decoration read as marketing. When tested with founders who had experienced institutional advisory, over-designed versions created a consistent skepticism response. The italic device was invisible to most readers consciously — but the version without it felt colder in every test. Italics are native to editorial and analytical writing. Used on phrases like "your business" and "your situation," <strong>they accumulate as personality without advertising it.</strong>
         </div>
       </div>
 
@@ -1178,8 +1349,27 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         Five pages. One narrative sequence. Every section designed to either advance trust, activate self-qualification, or route the right prospect toward engagement. The moments below are the ones where design decisions are most visible — and most consequential.
       </p>
 
+       <figure class="cs-img">
+        <img
+          src="/assets/images/fourbridges/ia-before.png"
+          alt="Four Bridges homepage annotated — three routing paths: skeptic → About, researcher → Services, qualified prospect → Engage. We Are Selective marked as filter point."
+          class="cs-img-full"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none;">
+          <div class="ph-icon">🖼</div>
+          <div class="ph-label">Add: homepage — full annotated screenshot</div>
+          <div class="ph-sub">Three routing paths visible: skeptic → About, researcher → Services, qualified prospect → Engage.<br>"We Are Selective" position annotated as filter point.</div>
+        </div>
+        <figcaption class="cap">"The sequence change looks minor on paper. In testing, it changed when skeptical prospects stopped scrolling. Belief before proof — qualification happens before contact"</figcaption>
+      </figure>
+
       <figure class="cs-img">
-        <div class="ph">
+        <img
+          src="/assets/images/fourbridges/homepage-annotated.png"
+          alt="Four Bridges homepage annotated — three routing paths: skeptic → About, researcher → Services, qualified prospect → Engage. We Are Selective marked as filter point."
+          class="cs-img-full"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none;">
           <div class="ph-icon">🖼</div>
           <div class="ph-label">Add: homepage — full annotated screenshot</div>
           <div class="ph-sub">Three routing paths visible: skeptic → About, researcher → Services, qualified prospect → Engage.<br>"We Are Selective" position annotated as filter point.</div>
@@ -1187,52 +1377,58 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <figcaption class="cap">"The homepage doesn't sell. It sorts."</figcaption>
       </figure>
 
-      <div class="ba">
-        <div class="ba-labels">
-          <div class="ba-lbl">Early IA direction (credentials-first)</div>
-          <div class="ba-lbl after">Final IA (philosophy-first)</div>
-        </div>
-        <div class="ba-grid">
-          <div class="ph" style="margin:0;">
+      <div class="g3" style="grid-template-columns:1fr;">
+        <div class="cs-img-slot" style="margin:0;">
+          <img
+            src="/assets/images/fourbridges/services-outcome-first.png"
+            alt="Four Bridges Services page — outcome-first structure with What You Achieve before What We Do, annotated"
+            class="cs-img-grid"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ph" style="display:none;">
             <div class="ph-icon">🖼</div>
-            <div class="ph-label">Early section sequence — credentials as homepage anchor</div>
-            <div class="ph-sub">What the structure looked like before founder testing</div>
-          </div>
-          <div class="ph" style="margin:0;">
-            <div class="ph-icon">🖼</div>
-            <div class="ph-label">Final sequence — belief before proof</div>
-            <div class="ph-sub">The sequence that survived testing across both audience segments</div>
+            <div class="ph-label">Services page — outcome-first structure</div>
+            <div class="ph-sub">"What You Achieve" before "What We Do" — annotated</div>
           </div>
         </div>
-      </div>
-      <p class="cap">"The sequence change looks minor on paper. In testing, it changed when skeptical prospects stopped scrolling."</p>
-
-      <div class="g3">
-        <div class="ph" style="margin:0;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Services page — outcome-first structure</div>
-          <div class="ph-sub">"What You Achieve" before "What We Do" — annotated</div>
+        <div class="cs-img-slot" style="margin:0;">
+          <img
+            src="/assets/images/fourbridges/about-proof-types.png"
+            alt="Four Bridges About page — four proof types: credentials, founder story, philosophy, client profile"
+            class="cs-img-grid"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ph" style="display:none;">
+            <div class="ph-icon">🖼</div>
+            <div class="ph-label">About page — four proof types</div>
+            <div class="ph-sub">Credentials / founder story / philosophy / client profile</div>
+          </div>
         </div>
-        <div class="ph" style="margin:0;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">About page — four proof types</div>
-          <div class="ph-sub">Credentials / founder story / philosophy / client profile</div>
-        </div>
-        <div class="ph" style="margin:0;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Engage page — framing as primary design</div>
-          <div class="ph-sub">The first visible text is not a form — it's an expectation setter</div>
+        <div class="cs-img-slot" style="margin:0;">
+          <img
+            src="/assets/images/fourbridges/engage-framing.png"
+            alt="Four Bridges Engage page — framing copy as primary design, expectation-setting text before the form"
+            class="cs-img-grid"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ph" style="display:none;">
+            <div class="ph-icon">🖼</div>
+            <div class="ph-label">Engage page — framing as primary design</div>
+            <div class="ph-sub">The first visible text is not a form — it's an expectation setter</div>
+          </div>
         </div>
       </div>
       <p class="cap">"Three pages. Each built around a different trust mechanism."</p>
 
       <figure class="cs-img">
-        <div class="ph">
+        <img
+          src="/assets/images/fourbridges/mobile-process.png"
+          alt="Four Bridges Process page at mobile width — collapsed accordion phases with touch-friendly spacing"
+          class="cs-img-full"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="ph" style="display:none;">
           <div class="ph-icon">🖼</div>
           <div class="ph-label">Add: mobile view — Process section</div>
           <div class="ph-sub">Phases at mobile width — collapsed accordion, touch-friendly spacing</div>
         </div>
-        <figcaption class="cap">"Mobile-first for a client base that first encounters the firm via a forwarded link on WhatsApp."</figcaption>
+        <figcaption class="cap">"Two mobile-specific decisions: the nav surfaces the highest-intent CTA on first tap; the form leads with context before contact details — both designed for a user arriving cold from a forwarded link."</figcaption>
       </figure>
 
     </section>
@@ -1246,21 +1442,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
       <div class="outcomes">
         <div class="oc">
-          <div class="oc-num">Zero → <em>One</em></div>
-          <div class="oc-label">From no digital infrastructure to a fully structured credibility and intake platform</div>
+          <div class="oc-num">Pre-call context time → <em>eliminated</em></div>
+          <div class="oc-label">The Process page and intake form now set expectations Hemant previously needed a full first call to establish</div>
         </div>
         <div class="oc">
-          <div class="oc-num"><em>6</em></div>
-          <div class="oc-label">IA principles, each stress-tested against 6 business requirements before a single page was designed</div>
-        </div>
-        <div class="oc">
-          <div class="oc-num"><em>0</em></div>
-          <div class="oc-label">Generic CTAs, placeholder copy, or untested structural decisions anywhere on the platform</div>
+          <div class="oc-num">The only metric that matters → <em>quality</em></div>
+          <div class="oc-label">For a one-person firm, one wrong engagement costs more than ten missed ones. The platform was designed to filter, not funnel.</div>
         </div>
       </div>
 
       <p class="body">
-        The operational change is the outcome that matters. Before: every enquiry arrived through Hemant's personal network, with no context, no qualification, and no way to assess fit before a call. After: the platform pre-qualifies by design. The "We Are Selective" section filters at the point of highest engagement. The Engage form surfaces context before any human interaction begins. The Process page sets expectations that previously required a 30-minute conversation to establish.
+        Before: every enquiry arrived through Hemant's personal network, with no context, no qualification, and no way to assess fit before a call. After: the platform pre-qualifies by design. The "We Are Selective" section filters at the point of highest engagement. The Engage form surfaces context before any human interaction begins. The Process page sets expectations that previously required a 30-minute conversation to establish.
       </p>
 
       <p class="body">
@@ -1269,8 +1461,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
       <div class="live-callout">
         <div>
-          <div class="lc-label">Live &amp; active</div>
-          <div class="lc-title">fourbridgescapital.in</div>
+          <div class="lc-label">The site is live at </div>
+          <div class="lc-title">fourbridgescapital.in ↗</div>
           <div class="lc-sub">Capital Advisory · Mumbai</div>
         </div>
         <a href="https://www.fourbridgescapital.in" target="_blank" rel="noopener" class="lc-link">Visit Site ↗</a>
@@ -1296,6 +1488,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         </div>
       </div>
 
+      <!-- Full-width reflection paragraph -->
+      <div class="reflect-full">
+      <p>The constraint that shaped every decision in this project — showing credibility without conventional proof — is also what made the platform interesting to design. The absence of logos and testimonials forced a more rigorous argument. That argument is the product.</p>
+      </div>
+
     </section>
 
   </main>
@@ -1316,7 +1513,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <div class="ti"><span class="td"></span>Information Architecture</div>
     <div class="ti a"><span class="td"></span>Capital Advisory</div>
     <div class="ti"><span class="td"></span>Brand Strategy</div>
-    <div class="ti a"><span class="td"></span>Framer</div>
+    <div class="ti a"><span class="td"></span>HTML/CSS</div>
     <div class="ti"><span class="td"></span>UI Design</div>
     <div class="ti a"><span class="td"></span>Zero-to-One Platform</div>
     <div class="ti"><span class="td"></span>Copy as Design</div>
@@ -1326,7 +1523,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <div class="ti"><span class="td"></span>Information Architecture</div>
     <div class="ti a"><span class="td"></span>Capital Advisory</div>
     <div class="ti"><span class="td"></span>Brand Strategy</div>
-    <div class="ti a"><span class="td"></span>Framer</div>
+    <div class="ti a"><span class="td"></span>Responsive Design</div>
     <div class="ti"><span class="td"></span>UI Design</div>
     <div class="ti a"><span class="td"></span>Zero-to-One Platform</div>
     <div class="ti"><span class="td"></span>Copy as Design</div>

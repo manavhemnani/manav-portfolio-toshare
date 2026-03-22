@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WF-01 — Lead Qualification Without Gatekeeping</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #eceae6; font-family: 'Inter', system-ui, sans-serif; color: #1a1a1a; padding: 40px 32px 64px; }
+
+  /* ── Header ── */
+  .wf-header { max-width: 1160px; margin: 0 auto 36px; }
+  .wf-eyebrow { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+  .wf-title { font-size: 20px; font-weight: 600; color: #111; margin-bottom: 4px; }
+  .wf-q { font-size: 13px; color: #555; font-style: italic; }
+  .wf-meta { display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
+  .wf-chip { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; background: #d8d6d0; color: #555; padding: 3px 9px; border-radius: 2px; }
+
+  /* ── Canvas ── */
+  .wf-canvas { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 56px 1fr; gap: 0; }
+  .wf-col-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-bottom: 10px; }
+  .wf-col-label.chosen { color: #1a1a1a; font-weight: 600; }
+  .wf-arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: #aaa; padding-top: 24px; }
+
+  /* ── Page frame ── */
+  .wf-page {
+    background: #f8f7f4;
+    border: 1.5px solid #c8c6c0;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .wf-page.rejected { opacity: 0.72; }
+  .wf-page.chosen { border-color: #1a1a1a; box-shadow: 0 2px 16px rgba(0,0,0,0.1); }
+
+  /* ── Page Nav ── */
+  .wf-nav {
+    height: 30px; background: #e4e2de;
+    border-bottom: 1px solid #ccc;
+    display: flex; align-items: center;
+    padding: 0 12px; gap: 12px;
+  }
+  .wf-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: #bbb; }
+  .wf-nav-logo { width: 52px; height: 6px; background: #bbb; border-radius: 1px; margin-right: auto; }
+  .wf-nav-link { width: 28px; height: 5px; background: #ccc; border-radius: 1px; }
+
+  /* ── Sections ── */
+  .wf-section { padding: 14px 16px; border-bottom: 1px solid #e0deda; }
+  .wf-section:last-child { border-bottom: none; }
+  .wf-annotation {
+    font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase;
+    color: #c0392b; background: rgba(192,57,43,0.08);
+    border: 1px solid rgba(192,57,43,0.25);
+    padding: 2px 6px; border-radius: 2px;
+    display: inline-block; margin-bottom: 6px;
+  }
+  .wf-annotation.ok { color: #1a6b2a; background: rgba(26,107,42,0.07); border-color: rgba(26,107,42,0.25); }
+
+  /* ── Wireframe primitives ── */
+  .wf-h1 { height: 11px; background: #c0beb8; border-radius: 2px; margin-bottom: 5px; }
+  .wf-h2 { height: 9px; background: #ccc; border-radius: 2px; margin-bottom: 4px; }
+  .wf-body-line { height: 6px; background: #d8d6d0; border-radius: 1px; margin-bottom: 3px; }
+  .wf-body-line.short { width: 72%; }
+  .wf-body-line.mid { width: 88%; }
+  .wf-divider { height: 1px; background: #d0ceca; margin: 10px 0; }
+  .wf-box { border: 1px solid #ccc; border-radius: 3px; padding: 8px 10px; background: #f0eeea; margin-bottom: 6px; }
+  .wf-box-label { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #999; margin-bottom: 5px; }
+  .wf-check-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .wf-check { width: 10px; height: 10px; border: 1.5px solid #aaa; border-radius: 2px; flex-shrink: 0; }
+  .wf-check.filled { background: #888; border-color: #888; }
+  .wf-check-label { height: 5px; background: #d0d0cc; border-radius: 1px; flex: 1; }
+
+  .wf-cta {
+    display: inline-block; padding: 7px 14px;
+    background: #1a1a1a; color: #f0f0ee;
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    border-radius: 2px; margin-top: 6px;
+  }
+  .wf-cta.ghost {
+    background: transparent; color: #555;
+    border: 1.5px solid #aaa;
+  }
+  .wf-cta.primary-chosen {
+    background: #1a1a1a; color: white;
+    border: none;
+  }
+
+  .wf-badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .wf-badge { height: 18px; background: #e0deda; border: 1px solid #ccc; border-radius: 9px; padding: 0 8px; display: flex; align-items: center; }
+  .wf-badge span { display: block; height: 5px; background: #bbb; border-radius: 1px; width: 32px; }
+
+  .wf-statement {
+    background: #ece9e3;
+    border-left: 3px solid #888;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+  .wf-statement-text { font-size: 9px; color: #555; font-style: italic; line-height: 1.5; }
+  .wf-statement-text strong { color: #1a1a1a; font-style: normal; }
+
+  .wf-rule-block {
+    border: 1px solid #d0cdc8;
+    border-radius: 3px;
+    padding: 9px 10px;
+    margin-bottom: 6px;
+    background: #f4f2ee;
+  }
+  .wf-rule-num { font-size: 9px; color: #888; margin-bottom: 4px; }
+  .wf-rule-line { height: 6px; background: #d4d2cc; border-radius: 1px; margin-bottom: 3px; }
+  .wf-rule-line.short { width: 65%; }
+
+  /* ── Critique strip ── */
+  .wf-critique {
+    background: #fff8f6; border: 1px solid #f0ccc8;
+    border-radius: 4px; padding: 12px 14px;
+    margin-top: 16px; font-size: 11px; color: #555; line-height: 1.6;
+  }
+  .wf-critique strong { color: #c0392b; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+  .wf-rationale {
+    background: #f4faf5; border: 1px solid #c0dcc4;
+    border-radius: 4px; padding: 12px 14px;
+    margin-top: 16px; font-size: 11px; color: #444; line-height: 1.6;
+  }
+  .wf-rationale strong { color: #1a6b2a; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+  .wf-notes { max-width: 1160px; margin: 28px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ── Footer ── */
+  .wf-footer { max-width: 1160px; margin: 32px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .wf-final-section {
+    background: #f8f7f4; border: 1.5px solid #c8c6c0; border-radius: 6px; padding: 16px;
+  }
+  .wf-final-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+  .wf-translation-point { font-size: 11px; color: #444; line-height: 1.6; padding: 6px 0; border-bottom: 1px solid #e8e6e0; }
+  .wf-translation-point:last-child { border-bottom: none; }
+  .wf-translation-point::before { content: '→'; color: #888; margin-right: 6px; }
+</style>
+</head>
+<body>
+
+<div class="wf-header">
+  <div class="wf-eyebrow">Four Bridges Capital — Key Decision 01 / Wireframe Reference</div>
+  <div class="wf-title">Lead Qualification Without Gatekeeping</div>
+  <div class="wf-q">"How do you qualify leads without gatekeeping?"</div>
+  <div class="wf-meta">
+    <span class="wf-chip">Homepage</span>
+    <span class="wf-chip">Lead Qualification</span>
+    <span class="wf-chip">IA Principle: Guided Self-Selection</span>
+    <span class="wf-chip">Affects: Engage CTA conversion</span>
+  </div>
+</div>
+
+<div class="wf-canvas">
+
+  <!-- LEFT: REJECTED -->
+  <div>
+    <div class="wf-col-label">✕ Rejected — Explicit Checklist</div>
+    <div class="wf-page rejected">
+      <div class="wf-nav">
+        <div class="wf-nav-logo"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link"></div>
+      </div>
+
+      <!-- Hero (collapsed) -->
+      <div class="wf-section" style="padding:10px 16px; background:#e8e6e2;">
+        <div class="wf-annotation">Hero Section</div>
+        <div class="wf-h1" style="width:70%;"></div>
+        <div class="wf-body-line mid"></div>
+      </div>
+
+      <!-- Qualification: Criteria checklist -->
+      <div class="wf-section">
+        <div class="wf-annotation">Who We Work With</div>
+        <div class="wf-h2" style="width:55%; margin-bottom:10px;"></div>
+        <div class="wf-box-label">We work best with companies that...</div>
+
+        <div class="wf-check-row">
+          <div class="wf-check filled"></div>
+          <div class="wf-check-label"></div>
+        </div>
+        <div class="wf-check-row">
+          <div class="wf-check filled"></div>
+          <div class="wf-check-label" style="width:75%;"></div>
+        </div>
+        <div class="wf-check-row">
+          <div class="wf-check filled"></div>
+          <div class="wf-check-label" style="width:85%;"></div>
+        </div>
+        <div class="wf-check-row">
+          <div class="wf-check filled"></div>
+          <div class="wf-check-label" style="width:60%;"></div>
+        </div>
+
+        <div style="margin-top:4px;">
+          <div class="wf-cta ghost">Contact Us</div>
+        </div>
+      </div>
+
+      <!-- Services (collapsed) -->
+      <div class="wf-section" style="background:#eeecE8;">
+        <div class="wf-annotation">Services Overview</div>
+        <div class="wf-h2" style="width:40%;"></div>
+        <div class="wf-body-line" style="width:90%;"></div>
+        <div class="wf-body-line short"></div>
+      </div>
+
+      <!-- Engage CTA -->
+      <div class="wf-section">
+        <div class="wf-annotation">Engage</div>
+        <div class="wf-h2" style="width:45%;"></div>
+        <div class="wf-cta" style="opacity:0.5;">Get In Touch</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARROW -->
+  <div class="wf-arrow">→</div>
+
+  <!-- RIGHT: CHOSEN -->
+  <div>
+    <div class="wf-col-label chosen">✓ Chosen — Front-Facing Selectiveness</div>
+    <div class="wf-page chosen">
+      <div class="wf-nav">
+        <div class="wf-nav-logo"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link"></div>
+      </div>
+
+      <!-- Hero (collapsed) -->
+      <div class="wf-section" style="padding:10px 16px; background:#e8e6e2;">
+        <div class="wf-annotation ok">Hero — Philosophy Statement</div>
+        <div class="wf-h1" style="width:70%;"></div>
+        <div class="wf-body-line mid"></div>
+      </div>
+
+      <!-- Credentials (collapsed) -->
+      <div class="wf-section" style="background:#eeece8;">
+        <div class="wf-annotation ok">Credentials + Process</div>
+        <div class="wf-body-line" style="width:55%;"></div>
+      </div>
+
+      <!-- "We Are Selective" — KEY SECTION -->
+      <div class="wf-section" style="background:#fff; border-left: 3px solid #1a1a1a;">
+        <div class="wf-annotation ok">★ "We Are Selective" — Named Section</div>
+        <div style="margin-top:4px;">
+          <div class="wf-h2" style="width:42%; background:#888; margin-bottom:8px;"></div>
+          <div class="wf-statement">
+            <div class="wf-statement-text"><strong>"We Are Selective"</strong> — Named as a section heading, not buried in copy. Communicates before the user has to ask.</div>
+          </div>
+
+          <div class="wf-rule-block">
+            <div class="wf-rule-num">01</div>
+            <div class="wf-rule-line"></div>
+          </div>
+          <div class="wf-rule-block">
+            <div class="wf-rule-num">02</div>
+            <div class="wf-rule-line" style="width:80%;"></div>
+          </div>
+          <div class="wf-rule-block">
+            <div class="wf-rule-num">03</div>
+            <div class="wf-rule-line short"></div>
+          </div>
+
+          <div style="margin-top:8px;">
+            <div class="wf-cta primary-chosen">Assess Your Fit →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Engage CTA — after filter -->
+      <div class="wf-section">
+        <div class="wf-annotation ok">Engage — High-Intent CTA</div>
+        <div class="wf-h2" style="width:45%;"></div>
+        <div class="wf-body-line short"></div>
+        <div style="margin-top:6px;">
+          <div class="wf-cta">Begin a Conversation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /canvas -->
+
+<!-- Notes -->
+<div class="wf-notes">
+  <div class="wf-critique">
+    <strong>Why the checklist fails</strong>
+    A "We work best with…" criteria list frames the section as a <em>filter</em> — something the firm imposes. It positions selectiveness as an operational constraint, not a strategic choice. The CTA "Contact Us" has no qualifier: anyone reads it and wonders if they should. High-quality prospects are most sensitive to wasted meetings.
+  </div>
+  <div class="wf-rationale">
+    <strong>Why front-facing selectiveness works</strong>
+    Naming a section "We Are Selective" makes the filter explicit and <em>prestigious</em> — like a club that admits not everyone. The "Assess Your Fit" CTA routes high-intent users to a structured intake form. Founders who pass feel pre-qualified; the firm wastes zero discovery calls on misaligned mandates. The section functions as a <em>psychological pre-qualifier</em>, not a barrier.
+  </div>
+</div>
+
+<!-- Final UI Translation -->
+<div class="wf-footer">
+  <div class="wf-final-section">
+    <div class="wf-final-label">How this translated to final UI</div>
+    <div class="wf-translation-point">Section named "We Are Selective" placed prominently before the Engage CTA in homepage scroll</div>
+    <div class="wf-translation-point">Criteria presented as positive declarations, not exclusionary checkboxes</div>
+    <div class="wf-translation-point">"Assess Your Fit" button routes to structured intake form — not a generic contact page</div>
+    <div class="wf-translation-point">Placement before the CTA ensures only filtered, confident prospects click Engage</div>
+  </div>
+  <div class="wf-final-section">
+    <div class="wf-final-label">What this decision improves</div>
+    <div class="wf-translation-point"><strong>Credibility:</strong> Selectiveness signals quality of client relationship, not scale</div>
+    <div class="wf-translation-point"><strong>Conversion:</strong> Higher-intent contacts arrive at first call pre-qualified</div>
+    <div class="wf-translation-point"><strong>Clarity:</strong> Visitor knows immediately whether they're the right fit</div>
+    <div class="wf-translation-point"><strong>Trust:</strong> Founders feel vetted, not rejected — engagement increases</div>
+  </div>
+</div>
+
+</body>
+</html>

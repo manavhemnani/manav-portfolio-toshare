@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Four Bridges — Hub-and-Spoke IA Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #07080f;
+      font-family: 'DM Sans', sans-serif;
+      color: #f0ede6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 32px 72px;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #47ABDB;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 2rem;
+      color: #f0ede6;
+      margin-bottom: 10px;
+    }
+
+    .sub {
+      font-size: 0.82rem;
+      color: #697585;
+      font-weight: 300;
+      max-width: 480px;
+      line-height: 1.65;
+    }
+
+    .diagram-wrap {
+      width: 100%;
+      max-width: 1100px;
+      position: relative;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Legend */
+    .legend-wrap {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .legend-label {
+      font-size: 0.67rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #4a5568;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 40px;
+      padding: 24px 32px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.015);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .legend-text {
+      font-size: 0.72rem;
+      color: #a0aab8;
+      font-weight: 300;
+    }
+
+    .legend-num {
+      color: #4a5568;
+      margin-right: 2px;
+    }
+
+    /* Footer note */
+    .diagram-note {
+      margin-top: 28px;
+      font-size: 0.72rem;
+      color: #4a5568;
+      text-align: center;
+      max-width: 620px;
+      line-height: 1.75;
+    }
+
+    .diagram-note strong {
+      color: #697585;
+      font-weight: 400;
+    }
+
+    /* Figma annotation strip */
+    .figma-note {
+      margin-top: 40px;
+      padding: 16px 24px;
+      border: 1px dashed rgba(71,171,219,0.2);
+      border-radius: 6px;
+      font-size: 0.71rem;
+      color: #47ABDB;
+      max-width: 780px;
+      text-align: center;
+      line-height: 1.7;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="eyebrow">04 — Strategy &amp; Information Architecture</div>
+    <h1>Hub-and-Spoke Architecture</h1>
+    <p class="sub">Homepage as strategic router, not funnel entry. Each page annotated with the IA principle it primarily activates.</p>
+  </header>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 1100 740" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+
+        <!-- Background dot pattern -->
+        <pattern id="bgdots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="20" cy="20" r="0.9" fill="#1e2535" opacity="0.8"/>
+        </pattern>
+
+        <!-- Hub radial glow -->
+        <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#0164A6" stop-opacity="0.22"/>
+          <stop offset="70%" stop-color="#0164A6" stop-opacity="0.06"/>
+          <stop offset="100%" stop-color="#0164A6" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Hub circle gradient -->
+        <radialGradient id="hubCircle" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#1a7fc4"/>
+          <stop offset="100%" stop-color="#0164A6"/>
+        </radialGradient>
+
+        <!-- Spoke gradients — one per direction -->
+        <!-- Top spoke (to Services) -->
+        <linearGradient id="sg-top" x1="550" y1="288" x2="550" y2="105" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#0164A6" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#0164A6" stop-opacity="0.12"/>
+        </linearGradient>
+
+        <!-- Top-right spoke (to About) -->
+        <linearGradient id="sg-tr" x1="612" y1="318" x2="793" y2="281" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#7B6FBE" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#7B6FBE" stop-opacity="0.12"/>
+        </linearGradient>
+
+        <!-- Bottom-right spoke (to Process) -->
+        <linearGradient id="sg-br" x1="596" y1="424" x2="700" y2="566" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#3D9E8E" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#3D9E8E" stop-opacity="0.12"/>
+        </linearGradient>
+
+        <!-- Bottom-left spoke (to Outcomes) -->
+        <linearGradient id="sg-bl" x1="504" y1="424" x2="400" y2="566" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#5E8BC4" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#5E8BC4" stop-opacity="0.12"/>
+        </linearGradient>
+
+        <!-- Top-left spoke (to Engage) -->
+        <linearGradient id="sg-tl" x1="488" y1="318" x2="308" y2="281" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#A87050" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#A87050" stop-opacity="0.12"/>
+        </linearGradient>
+
+        <!-- Node box subtle fills -->
+        <!-- Services node glow -->
+        <radialGradient id="ng-services" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#0164A6" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="#0164A6" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Drop shadow filter for hub -->
+        <filter id="hubShadow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur"/>
+          <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.01  0 0 0 0 0.39  0 0 0 0 0.65  0 0 0 0.5 0" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+
+        <!-- Node glow filter -->
+        <filter id="nodeGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+
+        <!-- Arrow marker -->
+        <marker id="arrow-blue" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0 1, 6 3.5, 0 6" fill="#47ABDB" opacity="0.5"/>
+        </marker>
+
+        <marker id="arrow-cross" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0 1, 6 3.5, 0 6" fill="#697585" opacity="0.4"/>
+        </marker>
+
+      </defs>
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- BACKGROUND                                       -->
+      <!-- ─────────────────────────────────────────────── -->
+      <rect width="1100" height="740" fill="#07080f"/>
+      <rect width="1100" height="740" fill="url(#bgdots)"/>
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- HUB RADIAL GLOW                                  -->
+      <!-- ─────────────────────────────────────────────── -->
+      <circle cx="550" cy="370" r="220" fill="url(#hubGlow)"/>
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- ORBITAL RING (dashed)                            -->
+      <!-- ─────────────────────────────────────────────── -->
+      <circle cx="550" cy="370" r="308"
+              stroke="#1a2535" stroke-width="1"
+              stroke-dasharray="3 9"
+              fill="none"
+              opacity="0.6"/>
+
+      <!-- Secondary inner ring (very subtle) -->
+      <circle cx="550" cy="370" r="170"
+              stroke="#111828" stroke-width="1"
+              stroke-dasharray="2 12"
+              fill="none"
+              opacity="0.5"/>
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- SPOKES                                           -->
+      <!-- ─────────────────────────────────────────────── -->
+
+      <!-- Services (top) -->
+      <line x1="550" y1="298" x2="550" y2="150"
+            stroke="url(#sg-top)" stroke-width="1.5"/>
+
+      <!-- About (top-right) -->
+      <line x1="611" y1="325" x2="760" y2="281"
+            stroke="url(#sg-tr)" stroke-width="1.5"/>
+
+      <!-- Process (bottom-right) -->
+      <line x1="594" y1="430" x2="681" y2="526"
+            stroke="url(#sg-br)" stroke-width="1.5"/>
+
+      <!-- Outcomes (bottom-left) -->
+      <line x1="506" y1="430" x2="419" y2="526"
+            stroke="url(#sg-bl)" stroke-width="1.5"/>
+
+      <!-- Engage (top-left) -->
+      <line x1="489" y1="325" x2="340" y2="281"
+            stroke="url(#sg-tl)" stroke-width="1.5"/>
+
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- CROSS-CONNECTIONS (non-linear nav, dashed)       -->
+      <!-- ─────────────────────────────────────────────── -->
+
+      <!-- Cross 1: Services → About (right arc) -->
+      <path d="M 646 130 Q 820 160 793 240"
+            stroke="#697585" stroke-width="1" stroke-dasharray="4 6"
+            fill="none" opacity="0.35"
+            marker-end="url(#arrow-cross)"/>
+
+      <!-- Cross 2: Engage → Outcomes (left arc) -->
+      <path d="M 262 310 Q 220 450 365 525"
+            stroke="#697585" stroke-width="1" stroke-dasharray="4 6"
+            fill="none" opacity="0.35"
+            marker-end="url(#arrow-cross)"/>
+
+      <!-- Cross 3: About → Process (outer right arc) -->
+      <path d="M 840 318 Q 890 440 746 568"
+            stroke="#697585" stroke-width="1" stroke-dasharray="4 6"
+            fill="none" opacity="0.25"
+            marker-end="url(#arrow-cross)"/>
+
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- EXTERNAL ENTRY ARROWS (SEO / direct)             -->
+      <!-- ─────────────────────────────────────────────── -->
+
+      <!-- Entry to Services from top -->
+      <line x1="550" y1="52" x2="550" y2="82"
+            stroke="#47ABDB" stroke-width="1" stroke-dasharray="3 4"
+            opacity="0.4"
+            marker-end="url(#arrow-blue)"/>
+      <text x="550" y="46" text-anchor="middle"
+            font-family="'DM Sans', sans-serif" font-size="9.5" fill="#47ABDB" opacity="0.45"
+            letter-spacing="1.5">DIRECT / SEO ENTRY</text>
+
+      <!-- Entry to About from right -->
+      <line x1="890" y1="281" x2="858" y2="281"
+            stroke="#47ABDB" stroke-width="1" stroke-dasharray="3 4"
+            opacity="0.35"
+            marker-end="url(#arrow-blue)"/>
+      <text x="900" y="278" text-anchor="start"
+            font-family="'DM Sans', sans-serif" font-size="9.5" fill="#47ABDB" opacity="0.4"
+            letter-spacing="1">REFERRAL</text>
+
+      <!-- Entry to Outcomes from bottom -->
+      <line x1="400" y1="686" x2="400" y2="654"
+            stroke="#47ABDB" stroke-width="1" stroke-dasharray="3 4"
+            opacity="0.35"
+            marker-end="url(#arrow-blue)"/>
+      <text x="400" y="698" text-anchor="middle"
+            font-family="'DM Sans', sans-serif" font-size="9.5" fill="#47ABDB" opacity="0.4"
+            letter-spacing="1">REFERRAL</text>
+
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- HUB — HOMEPAGE                                   -->
+      <!-- ─────────────────────────────────────────────── -->
+
+      <!-- Hub outer ring glow -->
+      <circle cx="550" cy="370" r="85"
+              fill="none" stroke="#0164A6" stroke-width="1"
+              opacity="0.2"/>
+      <circle cx="550" cy="370" r="78"
+              fill="none" stroke="#0164A6" stroke-width="1"
+              opacity="0.15"/>
+
+      <!-- Hub main circle -->
+      <circle cx="550" cy="370" r="70"
+              fill="url(#hubCircle)"
+              filter="url(#hubShadow)"/>
+
+      <!-- Hub inner ring accent -->
+      <circle cx="550" cy="370" r="70"
+              fill="none" stroke="#47ABDB" stroke-width="1.5"
+              opacity="0.4"/>
+
+      <!-- Hub label: HOMEPAGE -->
+      <text x="550" y="362"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="11" font-weight="500"
+            fill="#f0ede6" letter-spacing="2.5">HOMEPAGE</text>
+
+      <!-- Hub sublabel: principle -->
+      <text x="550" y="379"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" font-weight="300"
+            fill="#a8d8ef" letter-spacing="0.5">Guided Self-Selection</text>
+
+      <!-- Hub badge: ROUTER -->
+      <rect x="519" y="386" width="62" height="15" rx="7.5"
+            fill="rgba(71,171,219,0.18)" stroke="#47ABDB" stroke-width="0.75"
+            opacity="0.8"/>
+      <text x="550" y="397"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="7.5" font-weight="500"
+            fill="#47ABDB" letter-spacing="1.2">ROUTER</text>
+
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- NODES                                            -->
+      <!-- ─────────────────────────────────────────────── -->
+
+      <!-- ── NODE 1: SERVICES (top, 550, 105) ────────── -->
+      <!-- Node glow -->
+      <rect x="450" y="58" width="200" height="92" rx="10"
+            fill="rgba(1,100,166,0.05)"
+            filter="url(#nodeGlow)"/>
+      <!-- Node border -->
+      <rect x="450" y="58" width="200" height="92" rx="10"
+            fill="rgba(1,100,166,0.07)"
+            stroke="#0164A6" stroke-width="1.2" opacity="0.85"/>
+      <!-- Top accent line -->
+      <rect x="450" y="58" width="200" height="3" rx="1.5"
+            fill="#0164A6" opacity="0.6"/>
+      <!-- Page name -->
+      <text x="550" y="90"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="13.5" font-weight="500"
+            fill="#f0ede6" letter-spacing="1.8">SERVICES</text>
+      <!-- Principle tag -->
+      <rect x="488" y="100" width="124" height="17" rx="8.5"
+            fill="rgba(1,100,166,0.25)" stroke="#0164A6" stroke-width="0.8"/>
+      <text x="550" y="112.5"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8" font-weight="400"
+            fill="#7ab8e8" letter-spacing="0.4">Modular Credibility</text>
+      <!-- Node connector dot -->
+      <circle cx="550" cy="150" r="3.5" fill="#0164A6" opacity="0.7"/>
+
+
+      <!-- ── NODE 2: ABOUT (top-right, 793, 281) ─────── -->
+      <rect x="697" y="237" width="192" height="88" rx="10"
+            fill="rgba(123,111,190,0.05)"
+            filter="url(#nodeGlow)"/>
+      <rect x="697" y="237" width="192" height="88" rx="10"
+            fill="rgba(123,111,190,0.07)"
+            stroke="#7B6FBE" stroke-width="1.2" opacity="0.85"/>
+      <rect x="697" y="237" width="192" height="3" rx="1.5"
+            fill="#7B6FBE" opacity="0.6"/>
+      <text x="793" y="269"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="13.5" font-weight="500"
+            fill="#f0ede6" letter-spacing="1.8">ABOUT</text>
+      <rect x="717" y="279" width="152" height="17" rx="8.5"
+            fill="rgba(123,111,190,0.22)" stroke="#7B6FBE" stroke-width="0.8"/>
+      <text x="793" y="291.5"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8" font-weight="400"
+            fill="#b3a8de" letter-spacing="0.4">Founder as Proof</text>
+      <circle cx="760" cy="281" r="3.5" fill="#7B6FBE" opacity="0.7"/>
+
+
+      <!-- ── NODE 3: PROCESS (bottom-right, 700, 566) ── -->
+      <rect x="604" y="522" width="192" height="88" rx="10"
+            fill="rgba(61,158,142,0.05)"
+            filter="url(#nodeGlow)"/>
+      <rect x="604" y="522" width="192" height="88" rx="10"
+            fill="rgba(61,158,142,0.07)"
+            stroke="#3D9E8E" stroke-width="1.2" opacity="0.85"/>
+      <rect x="604" y="522" width="192" height="3" rx="1.5"
+            fill="#3D9E8E" opacity="0.6"/>
+      <text x="700" y="554"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="13.5" font-weight="500"
+            fill="#f0ede6" letter-spacing="1.8">PROCESS</text>
+      <rect x="630" y="564" width="140" height="17" rx="8.5"
+            fill="rgba(61,158,142,0.22)" stroke="#3D9E8E" stroke-width="0.8"/>
+      <text x="700" y="576.5"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="7.5" font-weight="400"
+            fill="#82c8be" letter-spacing="0.4">Progressive Disclosure</text>
+      <circle cx="681" cy="526" r="3.5" fill="#3D9E8E" opacity="0.7"/>
+
+
+      <!-- ── NODE 4: OUTCOMES (bottom-left, 400, 566) ── -->
+      <rect x="304" y="522" width="192" height="88" rx="10"
+            fill="rgba(94,139,196,0.05)"
+            filter="url(#nodeGlow)"/>
+      <rect x="304" y="522" width="192" height="88" rx="10"
+            fill="rgba(94,139,196,0.07)"
+            stroke="#5E8BC4" stroke-width="1.2" opacity="0.85"/>
+      <rect x="304" y="522" width="192" height="3" rx="1.5"
+            fill="#5E8BC4" opacity="0.6"/>
+      <text x="400" y="554"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="13.5" font-weight="500"
+            fill="#f0ede6" letter-spacing="1.8">OUTCOMES</text>
+      <rect x="308" y="564" width="184" height="17" rx="8.5"
+            fill="rgba(94,139,196,0.22)" stroke="#5E8BC4" stroke-width="0.8"/>
+      <text x="400" y="576.5"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="7.3" font-weight="400"
+            fill="#9ab8dc" letter-spacing="0.4">Outcome-Oriented Measurement</text>
+      <circle cx="419" cy="526" r="3.5" fill="#5E8BC4" opacity="0.7"/>
+
+
+      <!-- ── NODE 5: ENGAGE (top-left, 308, 281) ──────── -->
+      <rect x="212" y="237" width="192" height="88" rx="10"
+            fill="rgba(168,112,80,0.05)"
+            filter="url(#nodeGlow)"/>
+      <rect x="212" y="237" width="192" height="88" rx="10"
+            fill="rgba(168,112,80,0.07)"
+            stroke="#A87050" stroke-width="1.2" opacity="0.85"/>
+      <rect x="212" y="237" width="192" height="3" rx="1.5"
+            fill="#A87050" opacity="0.6"/>
+      <text x="308" y="269"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="13.5" font-weight="500"
+            fill="#f0ede6" letter-spacing="1.8">ENGAGE</text>
+      <rect x="222" y="279" width="172" height="17" rx="8.5"
+            fill="rgba(168,112,80,0.22)" stroke="#A87050" stroke-width="0.8"/>
+      <text x="308" y="291.5"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="7.8" font-weight="400"
+            fill="#d4a880" letter-spacing="0.4">Relationship-First Structure</text>
+      <circle cx="340" cy="281" r="3.5" fill="#A87050" opacity="0.7"/>
+
+
+      <!-- ─────────────────────────────────────────────── -->
+      <!-- ANNOTATIONS                                      -->
+      <!-- ─────────────────────────────────────────────── -->
+
+      <!-- "Hub principle" annotation near hub -->
+      <line x1="625" y1="355" x2="672" y2="340"
+            stroke="#697585" stroke-width="0.8" stroke-dasharray="2 4" opacity="0.5"/>
+      <text x="678" y="337"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" fill="#697585" opacity="0.7" font-style="italic">Routes by intent,</text>
+      <text x="678" y="350"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" fill="#697585" opacity="0.7" font-style="italic">not funnel position</text>
+
+      <!-- Cross-connection annotation -->
+      <text x="878" y="418"
+            font-family="'DM Sans', sans-serif"
+            font-size="8" fill="#4a5568" opacity="0.85" font-style="italic">Multi-directional nav</text>
+      <text x="878" y="430"
+            font-family="'DM Sans', sans-serif"
+            font-size="8" fill="#4a5568" opacity="0.85" font-style="italic">(dashed = cross-path)</text>
+
+      <!-- Orbital ring annotation -->
+      <text x="550" y="694"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8" fill="#4a5568" opacity="0.7" letter-spacing="0.5">
+        Each spoke activates a distinct IA principle — pages are non-sequential and self-contained
+      </text>
+
+      <!-- Numbers on spoke lines (principle index) -->
+      <!-- #1 Services -->
+      <circle cx="550" cy="215" r="9" fill="#07080f" stroke="#0164A6" stroke-width="0.8" opacity="0.7"/>
+      <text x="550" y="219"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" fill="#0164A6" font-weight="500">1</text>
+
+      <!-- #2 About -->
+      <circle cx="696" cy="305" r="9" fill="#07080f" stroke="#7B6FBE" stroke-width="0.8" opacity="0.7"/>
+      <text x="696" y="309"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" fill="#7B6FBE" font-weight="500">2</text>
+
+      <!-- #3 Process -->
+      <circle cx="648" cy="490" r="9" fill="#07080f" stroke="#3D9E8E" stroke-width="0.8" opacity="0.7"/>
+      <text x="648" y="494"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" fill="#3D9E8E" font-weight="500">3</text>
+
+      <!-- #4 Outcomes -->
+      <circle cx="452" cy="490" r="9" fill="#07080f" stroke="#5E8BC4" stroke-width="0.8" opacity="0.7"/>
+      <text x="452" y="494"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" fill="#5E8BC4" font-weight="500">4</text>
+
+      <!-- #5 Engage -->
+      <circle cx="404" cy="305" r="9" fill="#07080f" stroke="#A87050" stroke-width="0.8" opacity="0.7"/>
+      <text x="404" y="309"
+            text-anchor="middle"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5" fill="#A87050" font-weight="500">5</text>
+
+    </svg>
+  </div>
+
+
+  <!-- Legend -->
+  <div class="legend-wrap">
+    <div class="legend-label">IA Principles Map</div>
+    <div class="legend-grid">
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#47ABDB;"></div>
+        <div class="legend-text">
+          <span class="legend-num">0 ·</span> Guided Self-Selection
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#0164A6;"></div>
+        <div class="legend-text">
+          <span class="legend-num">1 ·</span> Modular Credibility
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#7B6FBE;"></div>
+        <div class="legend-text">
+          <span class="legend-num">2 ·</span> Founder as Proof
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#3D9E8E;"></div>
+        <div class="legend-text">
+          <span class="legend-num">3 ·</span> Progressive Disclosure
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#5E8BC4;"></div>
+        <div class="legend-text">
+          <span class="legend-num">4 ·</span> Outcome-Oriented Measurement
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#A87050;"></div>
+        <div class="legend-text">
+          <span class="legend-num">5 ·</span> Relationship-First Structure
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="diagram-note">
+    <strong>Hub-and-Spoke model:</strong> the Homepage acts as a dispatcher —
+    it reads visitor intent and routes them to the relevant spoke.
+    Each spoke page is self-contained and can serve as a direct entry point via SEO, referral, or LinkedIn share.
+    Dashed curves indicate lateral navigation users take without returning to the hub.
+  </p>
+
+  <div class="figma-note">
+    Figma reference — recreate using Auto Layout frames at 1100 × 740px, navy fill #07080f.
+    Hub = 140px circle · Spokes = 1.5px strokes with opacity gradient ·
+    Node cards = 192 × 88px, 10px corner radius, 3px top accent bar.
+    Color tokens: hub #0164A6 · cross-paths #697585 @ 35% opacity · entry arrows #47ABDB @ 40% opacity.
+  </div>
+
+</body>
+</html>

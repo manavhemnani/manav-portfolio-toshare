@@ -294,65 +294,16 @@ body::before {
 }
 .dec-why strong { color:var(--white); font-weight:400; }
 
-/* DECISION VISUAL COMPARISON */
-.dec-vis {
-  display:grid; grid-template-columns:1fr 32px 1fr;
-  padding:1.5rem 1.6rem 1rem; align-items:center;
-  border-bottom:1px solid rgba(240,237,230,0.06);
+/* DECISION VISUAL — full-bleed image */
+.dec-vis-img {
+  border-bottom: 1px solid rgba(240,237,230,0.06);
 }
-.dv-col { display:flex; flex-direction:column; align-items:center; gap:0.55rem; }
-.dv-panel {
-  width:100%; border-radius:4px; padding:1.4rem 1.2rem;
-  display:flex; flex-direction:column; align-items:center;
-  justify-content:center; gap:0.5rem; min-height:100px; text-align:center;
+.dec-vis-img img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
-.dv-panel.no {
-  background:rgba(240,237,230,0.018); border:1px dashed rgba(240,237,230,0.07);
-}
-.dv-panel.yes {
-  background:rgba(61,184,122,0.05); border:1px solid rgba(61,184,122,0.18);
-}
-.dv-tag {
-  font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted);
-}
-.dv-panel.yes + .dv-tag { color:rgba(61,184,122,0.65); }
-.dv-mid { display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:0.85rem; }
 
-/* Breathing ring for decision 1 */
-.dv-ring {
-  width:38px; height:38px; border-radius:50%;
-  border:1.5px solid rgba(61,184,122,0.55); position:relative;
-  animation:dvBreathe 3s ease-in-out infinite;
-}
-.dv-ring::after {
-  content:''; position:absolute; inset:7px; border-radius:50%;
-  background:rgba(61,184,122,0.14); animation:dvBreathe 3s ease-in-out infinite;
-}
-@keyframes dvBreathe { 0%,100%{transform:scale(1);opacity:0.6;} 50%{transform:scale(1.12);opacity:1;} }
-
-/* Spec bars (redacted wireframe) for decision 2 */
-.dv-bars { display:flex; flex-direction:column; gap:5px; width:82%; }
-.dv-bar { height:4px; border-radius:2px; background:rgba(240,237,230,0.08); }
-.dv-bar.s { width:50%; } .dv-bar.m { width:72%; } .dv-bar.l { width:90%; }
-
-/* IA boxes / funnel for decision 3 */
-.dv-boxes { display:flex; gap:4px; justify-content:center; flex-wrap:wrap; }
-.dv-box {
-  font-size: 0.72rem; letter-spacing:0.07em; text-transform:uppercase;
-  padding:0.22rem 0.55rem; border-radius:2px;
-  border:1px solid rgba(240,237,230,0.08); color:rgba(240,237,230,0.22);
-}
-.dv-funnel { display:flex; flex-direction:column; align-items:center; gap:5px; }
-.dv-funnel-in {
-  font-size: 0.72rem; letter-spacing:0.08em; text-transform:uppercase;
-  padding:0.22rem 0.7rem; border-radius:2px;
-  border:1px solid rgba(61,184,122,0.3); color:rgba(61,184,122,0.65);
-}
-.dv-funnel-depths { display:flex; gap:4px; margin-top:2px; }
-.dv-depth { height:4px; border-radius:1px; background:rgba(61,184,122,0.2); }
-.dv-depth:nth-child(1){ width:22px; }
-.dv-depth:nth-child(2){ width:16px; opacity:0.65; }
-.dv-depth:nth-child(3){ width:10px; opacity:0.4; }
 
 /* IMAGE PLACEHOLDERS */
 .ph {
@@ -504,12 +455,6 @@ body::before {
 .ia-chosen-sep { padding:0.5rem 1.6rem; border-top:1px solid rgba(61,184,122,0.12); background:rgba(61,184,122,0.015); }
 .ia-chosen-sep span { font-size: 0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(61,184,122,0.35); }
 
-/* ─── UPGRADED DEC-VIS THEME ─────────────────────── */
-.dec-vis { background:var(--bg-3); }
-.dv-panel.no { background:rgba(240,237,230,0.04); border:1px solid rgba(240,237,230,0.12); }
-.dv-panel.yes { background:rgba(61,184,122,0.07); border:1px solid rgba(61,184,122,0.28); }
-.dv-tag { font-size: 0.72rem; letter-spacing:0.11em; text-transform:uppercase; color:rgba(240,237,230,0.3); padding:0.2rem 0.6rem; border:1px solid rgba(240,237,230,0.09); border-radius:2px; }
-.dv-panel.yes + .dv-tag { color:var(--accent-amber); border-color:rgba(200,169,110,0.25); background:rgba(200,169,110,0.04); }
 
 /* ── Accessibility: focus states ─────────────────────────────── */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
@@ -527,6 +472,68 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* 18 ── DESIGN EXPLORATION CARDS — card layout for section 04 */
+.dec-explore-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0;
+  margin: 2rem 0;
+}
+.decision-card {
+  border-radius: 6px;
+  border: 1px solid rgba(240,237,230,0.08);
+  background: var(--bg-2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.decision-card.dead { opacity: 0.55; }
+.decision-card.chosen {
+  border-color: rgba(212,160,40,0.22);
+  background: rgba(212,160,40,0.025);
+  opacity: 1;
+}
+.decision-visual {
+  width: 100%;
+  background: var(--bg-3);
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  line-height: 0; /* removes inline gap below img */
+}
+.decision-card.chosen .decision-visual {
+  border-bottom-color: rgba(212,160,40,0.12);
+}
+.decision-visual img {
+  width: 100%;
+  height: auto;   /* natural height — no cropping */
+  display: block;
+}
+.decision-content {
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  flex: 1;
+}
+/* Reuse existing ia-* text classes, override right-aligned styles for card context */
+.decision-content .ia-rowtitle { color: rgba(240,237,230,0.45); }
+.decision-card.chosen .decision-content .ia-rowtitle { color: var(--white); }
+.decision-content .ia-rowwhy {
+  text-align: left;
+  max-width: none;
+  margin-top: 0.1rem;
+}
+.decision-card.chosen .decision-content .ia-rowwhy { color: rgba(212,160,40,0.6); font-style: normal; }
+.decision-card-num {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: rgba(120,140,123,0.3);
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+.decision-card.chosen .decision-card-num { color: var(--accent-proj); }
 </style>
 </head>
 <body>
@@ -605,8 +612,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <p class="sb-label">Contents</p>
     <ul class="sb-nav" id="sbNav">
       <li><a href="#problem" class="active"><span class="sb-num">01</span>The Problem</a></li>
-      <li><a href="#context"><span class="sb-num">02</span>Context & Team</a></li>
-      <li><a href="#constraints"><span class="sb-num">03</span>Constraints</a></li>
+      <li><a href="#constraints"><span class="sb-num">02</span>Constraints</a></li>
+      <li><a href="#context"><span class="sb-num">03</span>Context & Team</a></li>
       <li><a href="#failed"><span class="sb-num">04</span>What Didn't Work</a></li>
       <li><a href="#decisions"><span class="sb-num">05</span>Key Decisions</a></li>
       <li><a href="#ecosystem"><span class="sb-num">06</span>The Ecosystem</a></li>
@@ -641,10 +648,29 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
     </section>
 
-    <!-- 02 — CONTEXT & TEAM -->
-    <section class="chapter" id="context">
+    <!-- 02 — CONSTRAINTS -->
+    <section class="chapter" id="constraints">
       <div class="ch-header">
         <span class="ch-num">—02</span>
+        <h2 class="ch-title"><em>Constraints</em></h2>
+      </div>
+
+      <div class="pills">
+        <span class="pill hard">Target users 35–55 — low IoT literacy, onboarding had to be zero-effort</span>
+        <span class="pill hard">₹80,000 price point — digital presence must match hardware credibility</span>
+        <span class="pill">New product category in India — no existing mental model to build on</span>
+        <span class="pill">App + website must share a coherent visual and motion language</span>
+      </div>
+
+      <p class="body">
+        At ₹80,000 — an aspirational price for a product category with no established mental model in India — the website couldn't just explain Praan. It had to earn the right to ask for that much. Every design decision was weighed against a single question: does this signal a brand that deserves this price, or one that's still justifying it? That pressure ruled out feature density, promotional language, and anything that felt like it was trying too hard. <strong>Restraint wasn't a stylistic choice. It was the only credible one.</strong>
+      </p>
+    </section>
+
+    <!-- 03 — CONTEXT & TEAM -->
+    <section class="chapter" id="context">
+      <div class="ch-header">
+        <span class="ch-num">—03</span>
         <h2 class="ch-title">Context & <em>Team</em></h2>
       </div>
 
@@ -674,29 +700,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         Working without a PM layer changed the nature of design decisions. Every call — an IA structure, a motion direction, a content hierarchy — carried the weight of being trusted outright. That kind of accountability is different from a studio environment where work passes through multiple approval layers. It made the process more structured in one way (clear iteration loops with the founder) and more adaptable in another (engineering and situational changes required real-time pivots rather than formal change requests).
       </p>
 
-      <figure class="cs-img" style="margin-top:2rem;">
-        <img src="/assets/images/praan/manav-on-hive.jpg" alt="Working on the HIVE industrial design in Fusion 360" style="width:100%;border-radius:6px;display:block;">
-        <figcaption class="cap" style="margin-top:0.75rem;">Working on the HIVE in Fusion 360 — the industrial design process ran in parallel with the digital ecosystem, with the same designer shaping both surfaces.</figcaption>
-      </figure>
-    </section>
-
-    <!-- 03 — CONSTRAINTS -->
-    <section class="chapter" id="constraints">
-      <div class="ch-header">
-        <span class="ch-num">—03</span>
-        <h2 class="ch-title"><em>Constraints</em></h2>
-      </div>
-
-      <div class="pills">
-        <span class="pill hard">Target users 35–55 — low IoT literacy, onboarding had to be zero-effort</span>
-        <span class="pill hard">₹80,000 price point — digital presence must match hardware credibility</span>
-        <span class="pill">New product category in India — no existing mental model to build on</span>
-        <span class="pill">App + website must share a coherent visual and motion language</span>
-      </div>
-
-      <p class="body">
-        At ₹80,000 — an aspirational price for a product category with no established mental model in India — the website couldn't just explain Praan. It had to earn the right to ask for that much. Every design decision was weighed against a single question: does this signal a brand that deserves this price, or one that's still justifying it? That pressure ruled out feature density, promotional language, and anything that felt like it was trying too hard. <strong>Restraint wasn't a stylistic choice. It was the only credible one.</strong>
-      </p>
     </section>
 
     <!-- 04 — WHAT DIDN'T WORK -->
@@ -706,48 +709,71 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <h2 class="ch-title">What <em>Didn't Work</em></h2>
       </div>
 
-      <!-- Combined IA exploration diagram -->
-      <div class="ia-diag">
-        <div class="ia-diag-hd">
-          <span class="ia-diag-lbl">Design Exploration Map — 04</span>
-          <span class="ia-diag-sub">2 IA directions explored · 1 shipped</span>
-        </div>
-        <div>
-          <div class="ia-row dead">
-            <div class="ia-rownum">01</div>
-            <div class="ia-rowmain">
-              <div class="ia-rowtitle">Spec-Dense Technology Page</div>
-              <div class="ia-rowsub">Content hierarchy — PM2.5 %, certifications, airflow volumes as primary information layer</div>
-            </div>
-            <div class="ia-rowend">
-              <div class="ia-rowstatus bad">Abandoned</div>
-              <div class="ia-rowwhy">Read like a datasheet — operators needed confidence, not a component list</div>
-            </div>
+      <figure class="cs-img" style="margin-bottom: 2.5rem;">
+        <img src="/assets/images/praan/praan-before.jpg"
+             alt="Praan website — pre-engagement state"
+             style="width:100%; border-radius:6px; display:block; border: 1px solid rgba(240,237,230,0.08);">
+        <figcaption class="cap" style="margin-top:0.75rem;">
+          Praan website — pre-engagement state. Spec-dense hero, audience-agnostic navigation, and no clear content hierarchy between technical and commercial depth.
+        </figcaption>
+      </figure>
+
+      <p class="body">
+        The pre-engagement site led with product specifications — PM2.5 filtration percentages, airflow volumes, certification badges — before establishing any reason for a visitor to care. Navigation was flat: Home, About, Technology, News, Careers, Contact. There was no hierarchy between commercial and technical depth, and no single audience owned the primary narrative. Every page tried to speak to everyone simultaneously. <strong>The result was a site that felt thorough and trusted nothing.</strong>
+      </p>
+
+      <div class="prompt" style="margin-bottom: 2rem;">
+        <span class="prompt-icon">↗</span>
+        <span class="prompt-text">
+          <strong>Process artifacts:</strong> Reconstructed IA comparison (old vs new) and HIVE app wireframes are documented separately.
+          <a href="praan-artifacts.html" style="color: var(--accent-amber); text-decoration: underline; text-underline-offset: 3px;">View process artifacts →</a>
+        </span>
+      </div>
+
+      <div class="dec-explore-grid">
+
+        <!-- Direction 01 — Abandoned -->
+        <div class="decision-card dead">
+          <div class="decision-visual">
+            <img src="/assets/images/praan/exploration-spec-dense.png" alt="Design exploration visual">
           </div>
-          <div class="ia-row dead">
-            <div class="ia-rownum">02</div>
-            <div class="ia-rowmain">
-              <div class="ia-rowtitle">Audience-Segmented Navigation</div>
-              <div class="ia-rowsub">Structural IA — separate content tracks for operators, investors, and engineers on entry</div>
-            </div>
-            <div class="ia-rowend">
-              <div class="ia-rowstatus bad">Abandoned</div>
-              <div class="ia-rowwhy">Three front doors signals brand immaturity — an audience selector is a liability at seed stage</div>
-            </div>
-          </div>
-          <div class="ia-chosen-sep"><span>Final Direction</span></div>
-          <div class="ia-row chosen">
-            <div class="ia-rownum">↓</div>
-            <div class="ia-rowmain">
-              <div class="ia-rowtitle">Unified IA — Outcome First, Depth on Demand</div>
-              <div class="ia-rowsub">Single confident narrative · technical and commercial depth nested, never gated, never leading</div>
-            </div>
-            <div class="ia-rowend">
-              <div class="ia-rowstatus good">Shipped</div>
-              <div class="ia-rowwhy">One front door. Three audiences. Different depths.</div>
-            </div>
+          <div class="decision-content">
+            <div class="decision-card-num">01</div>
+            <div class="ia-rowtitle">Spec-Dense Technology Page</div>
+            <div class="ia-rowsub">Content hierarchy — PM2.5 %, certifications, airflow volumes as primary information layer</div>
+            <div class="ia-rowstatus bad">Abandoned</div>
+            <div class="ia-rowwhy">Read like a datasheet — operators needed confidence, not a component list</div>
           </div>
         </div>
+
+        <!-- Direction 02 — Abandoned -->
+        <div class="decision-card dead">
+          <div class="decision-visual">
+            <img src="/assets/images/praan/exploration-audience-segmented.jpg" alt="Design exploration visual">
+          </div>
+          <div class="decision-content">
+            <div class="decision-card-num">02</div>
+            <div class="ia-rowtitle">Audience-Segmented Navigation</div>
+            <div class="ia-rowsub">Structural IA — separate content tracks for operators, investors, and engineers on entry</div>
+            <div class="ia-rowstatus bad">Abandoned</div>
+            <div class="ia-rowwhy">Three front doors signals brand immaturity — an audience selector is a liability at seed stage</div>
+          </div>
+        </div>
+
+        <!-- Direction 03 — Shipped -->
+        <div class="decision-card chosen">
+          <div class="decision-visual">
+            <img src="/assets/images/praan/exploration-unified-ia.jpg" alt="Design exploration visual">
+          </div>
+          <div class="decision-content">
+            <div class="decision-card-num">↓</div>
+            <div class="ia-rowtitle">Unified IA — Outcome First, Depth on Demand</div>
+            <div class="ia-rowsub">Single confident narrative · technical and commercial depth nested, never gated, never leading</div>
+            <div class="ia-rowstatus good">Shipped</div>
+            <div class="ia-rowwhy">One front door. Three audiences. Different depths.</div>
+          </div>
+        </div>
+
       </div>
 
       <p class="body">
@@ -769,36 +795,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <span class="dec-q">How do you explain a mechanism that works invisibly — static photography or custom motion?</span>
         </div>
 
-        <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="width:52px;height:40px;border:1px solid rgba(240,237,230,0.1);border-radius:2px;background:rgba(240,237,230,0.04);display:flex;align-items:center;justify-content:center;">
-                <div style="font-size:0.6rem;color:rgba(240,237,230,0.14);letter-spacing:0.04em;">IMG</div>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:3px;width:74%;margin-top:0.55rem;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <div style="font-size:0.52rem;color:rgba(240,237,230,0.12);white-space:nowrap;min-width:28px;">PM2.5</div>
-                  <div style="flex:1;height:2px;background:rgba(240,237,230,0.07);border-radius:1px;"></div>
-                </div>
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <div style="font-size:0.52rem;color:rgba(240,237,230,0.09);white-space:nowrap;min-width:28px;">HEPA</div>
-                  <div style="flex:1;height:2px;background:rgba(240,237,230,0.05);border-radius:1px;"></div>
-                </div>
-              </div>
-              <div style="font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(120,140,123,0.2);margin-top:0.4rem;">Photography · Spec copy</div>
-            </div>
-            <div class="dv-tag">Static</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(61,184,122,0.45);display:flex;align-items:center;justify-content:center;animation:dvBreathe 3s ease-in-out infinite;">
-                <div style="width:0;height:0;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:11px solid rgba(61,184,122,0.65);margin-left:3px;"></div>
-              </div>
-              <div style="font-size:0.64rem;color:rgba(61,184,122,0.65);letter-spacing:0.04em;margin-top:0.45rem;">12s · mechanism explained</div>
-            </div>
-            <div class="dv-tag">Motion</div>
-          </div>
+        <div class="dec-vis-img">
+          <img src="/assets/images/praan/dec-1-vis.png" alt="Decision 1 — static photography vs custom motion animation">
         </div>
 
         <div class="dec-body">
@@ -831,46 +829,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <span class="dec-q">Website hero: lead with product specifications or lead with human outcome?</span>
         </div>
 
-        <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="display:flex;flex-direction:column;gap:7px;width:86%;">
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.18);white-space:nowrap;min-width:34px;">PM2.5</div>
-                  <div style="flex:1;height:2px;background:rgba(240,237,230,0.09);border-radius:1px;"></div>
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.12);white-space:nowrap;">99.97%</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.13);white-space:nowrap;min-width:34px;">Airflow</div>
-                  <div style="flex:1;height:2px;background:rgba(240,237,230,0.07);border-radius:1px;"></div>
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.09);white-space:nowrap;">580 m³</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.1);white-space:nowrap;min-width:34px;">HEPA</div>
-                  <div style="flex:1;height:2px;background:rgba(240,237,230,0.06);border-radius:1px;"></div>
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.07);white-space:nowrap;">Grade A</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.08);white-space:nowrap;min-width:34px;">Cert.</div>
-                  <div style="flex:1;height:2px;background:rgba(240,237,230,0.05);border-radius:1px;"></div>
-                  <div style="font-size:0.54rem;color:rgba(240,237,230,0.06);white-space:nowrap;">ISO · BIS</div>
-                </div>
-              </div>
-              <div style="font-size:0.57rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(120,140,123,0.2);margin-top:0.55rem;">Spec-first</div>
-            </div>
-            <div class="dv-tag">Spec-forward</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div style="width:82%;height:3px;background:rgba(61,184,122,0.45);border-radius:1px;"></div>
-              <div style="width:60%;height:3px;background:rgba(61,184,122,0.22);border-radius:1px;margin-top:5px;"></div>
-              <div style="height:0.75rem;"></div>
-              <div style="width:42%;height:2px;background:rgba(200,169,110,0.3);border-radius:1px;"></div>
-              <div style="font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(61,184,122,0.45);margin-top:0.5rem;">Outcome · first</div>
-            </div>
-            <div class="dv-tag">Outcome-forward</div>
-          </div>
+        <div class="dec-vis-img">
+          <img src="/assets/images/praan/dec-2-vis.png" alt="Decision 2 — spec-forward hero vs outcome-forward hero">
         </div>
 
         <div class="dec-body">
@@ -903,41 +863,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <span class="dec-q">How do you design one information architecture to serve three audiences — without a separate website for each?</span>
         </div>
 
-        <div class="dec-vis">
-          <div class="dv-col">
-            <div class="dv-panel no">
-              <div style="display:flex;flex-direction:column;gap:5px;width:88%;">
-                <div style="display:flex;gap:4px;">
-                  <div style="flex:1;border:1px solid rgba(240,237,230,0.1);border-radius:2px;padding:0.3rem 0.4rem;font-size:0.54rem;color:rgba(240,237,230,0.22);letter-spacing:0.06em;text-align:center;">Operator</div>
-                  <div style="flex:1;border:1px solid rgba(240,237,230,0.08);border-radius:2px;padding:0.3rem 0.4rem;font-size:0.54rem;color:rgba(240,237,230,0.16);letter-spacing:0.06em;text-align:center;">Investor</div>
-                  <div style="flex:1;border:1px solid rgba(240,237,230,0.06);border-radius:2px;padding:0.3rem 0.4rem;font-size:0.54rem;color:rgba(240,237,230,0.12);letter-spacing:0.06em;text-align:center;">Engineer</div>
-                </div>
-                <div style="display:flex;gap:4px;opacity:0.5;">
-                  <div style="flex:1;height:20px;background:rgba(240,237,230,0.03);border-radius:2px;"></div>
-                  <div style="flex:1;height:20px;background:rgba(240,237,230,0.03);border-radius:2px;"></div>
-                  <div style="flex:1;height:20px;background:rgba(240,237,230,0.03);border-radius:2px;"></div>
-                </div>
-              </div>
-              <div style="font-size:0.57rem;color:rgba(120,140,123,0.22);margin-top:0.5rem;font-style:italic;letter-spacing:0.04em;">choose your path →</div>
-            </div>
-            <div class="dv-tag">Segmented IA</div>
-          </div>
-          <div class="dv-mid">→</div>
-          <div class="dv-col">
-            <div class="dv-panel yes">
-              <div class="dv-funnel">
-                <div class="dv-funnel-in">One entry</div>
-                <div style="font-size:0.7rem;color:rgba(61,184,122,0.45);">↓</div>
-                <div class="dv-funnel-depths">
-                  <div class="dv-depth"></div>
-                  <div class="dv-depth"></div>
-                  <div class="dv-depth"></div>
-                </div>
-                <div style="font-size:0.56rem;letter-spacing:0.09em;text-transform:uppercase;color:rgba(61,184,122,0.5);margin-top:3px;">Depth on demand</div>
-              </div>
-            </div>
-            <div class="dv-tag">Unified + layered</div>
-          </div>
+        <div class="dec-vis-img">
+          <img src="/assets/images/praan/dec-3-vis.png" alt="Decision 3 — segmented IA vs unified layered IA">
         </div>
 
         <div class="dec-body">
@@ -971,6 +898,15 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <span class="ch-num">—06</span>
         <h2 class="ch-title">The <em>Ecosystem</em></h2>
       </div>
+
+      <figure class="cs-img" style="margin-bottom: 2.5rem;">
+        <img src="/assets/images/praan/manav-on-hive.jpg"
+             alt="HIVE industrial design process in Fusion 360"
+             style="width:100%; border-radius:6px; display:block;">
+        <figcaption class="cap" style="margin-top:0.75rem;">
+          The HIVE in Fusion 360 — the industrial design ran in parallel with the digital ecosystem. The same principles governed both surfaces: material restraint, quiet competence, nothing that needed to justify itself.
+        </figcaption>
+      </figure>
 
       <p class="body">
         The website, motion language, and HIVE product experience were designed as one system — not three separate deliverables. The website persuades the prospect; the HIVE app reassures the owner day-to-day; the motion language connects both and makes them feel like the same brand at different distances. Visual principles that governed the website's restraint — ambient over explicit, outcome before specification, depth available on demand — carried directly into the app's home screen logic and the product's animation design. The result is that a customer moving from the marketing site to the product interface encounters the same signature: unhurried, confident, and technically precise only once that confidence has already been earned.
@@ -1016,24 +952,33 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <h2 class="ch-title">What <em>Changed</em></h2>
       </div>
 
+      <div class="pull">
+        <p>"Translating complex technology for non-technical audiences is fundamentally a trust design problem — not a simplification problem."</p>
+        <cite>The principle that governed every IA, content, and motion decision in this project</cite>
+      </div>
+
+      <p class="body" style="font-size: 0.82rem; color: var(--muted); font-style: italic; margin-bottom: 1.5rem;">
+        This was a zero-to-one engagement — no baseline analytics existed at the time of the redesign. Outcomes below are documented as structural design decisions and measurable system changes, not quantitative metrics.
+      </p>
+
       <div class="outcomes">
         <div class="oc">
-          <div class="oc-num"><em>4</em></div>
-          <div class="oc-label">Months from brief to shipped — website, motion system, and UI assets delivered within a single engagement</div>
+          <div class="oc-num" style="font-size: 1.4rem; line-height: 1.2;">12<em>s</em></div>
+          <div class="oc-label">The filterless mechanism animation replaced approximately 200 words of technical copy — a patent-pending process explained in one loop, not a paragraph</div>
         </div>
         <div class="oc">
-          <div class="oc-num"><em>3</em></div>
-          <div class="oc-label">Distinct audiences served by one visual system — factory operators, investors, and engineers — without separate versions</div>
+          <div class="oc-num"><em>1</em></div>
+          <div class="oc-label">Front door for three audiences — operators, investors, and engineers enter the same narrative and find their depth without being routed or segmented at arrival</div>
         </div>
         <div class="oc">
           <div class="oc-num">Live</div>
-          <div class="oc-label">Website and product ecosystem in production — strengthened investor and stakeholder communication through visual storytelling</div>
+          <div class="oc-label">Website, motion system, and product UI shipped as one cohesive ecosystem — same visual language, same design principles, different distances from the hardware</div>
         </div>
       </div>
 
       <div class="learning">
         <div class="learning-lbl">Key Learning</div>
-        <p class="learning-text">Translating complex technology for non-technical audiences is fundamentally a <strong>trust design problem</strong>, not a simplification problem. Users don't need less information — they need information delivered at the right moment, in the right order, at the right level of confidence. <strong>Layered disclosure</strong> — ambient status first, precision data on demand — is a pattern I'd apply to any IoT, health, or environmental product facing the same tension between completeness and clarity.</p>
+        <p class="learning-text">Users don't need less information — they need information delivered at the right moment, in the right order, at the right level of confidence. <strong>Layered disclosure</strong> — ambient status first, precision data on demand — is a pattern I'd apply to any IoT, health, or environmental product facing the same tension between completeness and clarity.</p>
       </div>
     </section>
 

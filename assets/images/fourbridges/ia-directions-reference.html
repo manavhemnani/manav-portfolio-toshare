@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Four Bridges — IA Direction Flowcharts</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #0c0f16;
+  --surface:      #131720;
+  --surface-2:    #1a1f2e;
+  --surface-3:    #1f2535;
+  --border:       rgba(255,255,255,0.07);
+  --border-2:     rgba(255,255,255,0.12);
+  --muted:        rgba(255,255,255,0.35);
+  --dim:          rgba(255,255,255,0.14);
+  --text:         rgba(255,255,255,0.86);
+  --text-sm:      rgba(255,255,255,0.55);
+
+  /* rejected palette */
+  --rej-node:     #1e2130;
+  --rej-border:   rgba(255,255,255,0.1);
+  --rej-label:    rgba(255,255,255,0.38);
+  --rej-head:     rgba(255,255,255,0.55);
+  --rej-arrow:    rgba(255,255,255,0.18);
+  --rej-chip-bg:  rgba(255,255,255,0.06);
+  --rej-chip-txt: rgba(255,255,255,0.32);
+  --rej-badge:    rgba(220,80,80,0.15);
+  --rej-badge-txt:rgba(220,120,100,0.9);
+
+  /* chosen palette */
+  --cho-accent:   #47ABDB;
+  --cho-node:     #111d2b;
+  --cho-border:   rgba(71,171,219,0.18);
+  --cho-border-2: rgba(71,171,219,0.35);
+  --cho-label:    rgba(71,171,219,0.55);
+  --cho-head:     rgba(71,171,219,0.9);
+  --cho-arrow:    rgba(71,171,219,0.3);
+  --cho-chip-bg:  rgba(71,171,219,0.1);
+  --cho-chip-txt: rgba(71,171,219,0.8);
+  --cho-badge:    rgba(71,171,219,0.12);
+  --cho-badge-txt:rgba(71,171,219,1);
+
+  --font: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  padding: 48px 44px 96px;
+  min-width: 1280px;
+}
+
+/* ═══════════ PAGE HEADER ═══════════════════════════════════════ */
+.page-hd {
+  margin-bottom: 56px;
+}
+.page-eyebrow {
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cho-accent);
+  margin-bottom: 10px;
+}
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.page-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 620px;
+}
+
+/* ═══════════ CHART WRAPPER ══════════════════════════════════════ */
+.chart {
+  margin-bottom: 52px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.chart--chosen {
+  border-color: var(--cho-border);
+  box-shadow: 0 0 40px rgba(71,171,219,0.04);
+}
+
+/* ── Chart header ───────────────────────────────────────────── */
+.chart-hd {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 26px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  gap: 24px;
+}
+.chart--chosen .chart-hd {
+  background: rgba(71,171,219,0.04);
+  border-bottom-color: rgba(71,171,219,0.12);
+}
+.chart-hd-left { display: flex; flex-direction: column; gap: 5px; }
+.chart-number {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.chart--chosen .chart-number { color: var(--cho-label); }
+.chart-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.chart-logic {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+}
+.chart-badge {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.chart-badge--rej {
+  background: var(--rej-badge);
+  color: var(--rej-badge-txt);
+  border: 1px solid rgba(220,80,80,0.2);
+}
+.chart-badge--cho {
+  background: var(--cho-badge);
+  color: var(--cho-badge-txt);
+  border: 1px solid var(--cho-border);
+}
+
+/* ═══════════ SWIMLANE GRID ══════════════════════════════════════ */
+.swimlanes {
+  display: grid;
+  grid-template-columns: 140px repeat(5, 1fr);
+  background: var(--border);
+  gap: 1px;
+}
+
+/* ── Lane header row ────────────────────────────────────────── */
+.lane-headers {
+  display: contents;
+}
+.lane-head {
+  background: var(--surface-2);
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.lane-head-label {
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.lane-head-url {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--dim);
+}
+.chart--chosen .lane-head { background: rgba(71,171,219,0.03); }
+
+/* ── Lane body ──────────────────────────────────────────────── */
+.lane {
+  background: var(--surface-2);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+.lane-entry {
+  background: var(--surface);
+}
+.chart--chosen .lane { background: rgba(10,18,30,0.6); }
+.chart--chosen .lane-entry { background: var(--surface); }
+
+/* ═══════════ NODES ══════════════════════════════════════════════ */
+.node {
+  width: 100%;
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Rect node (page section) */
+.node--rect {
+  border: 1px solid var(--rej-border);
+  background: var(--rej-node);
+}
+.chart--chosen .node--rect {
+  border-color: var(--cho-border);
+  background: var(--cho-node);
+}
+.node--rect.primary {
+  border-color: rgba(255,255,255,0.16);
+  background: #242936;
+}
+.chart--chosen .node--rect.primary {
+  border-color: var(--cho-border-2);
+  background: #0f1e30;
+}
+
+/* Diamond decision node */
+.node--diamond {
+  position: relative;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  align-items: center;
+  text-align: center;
+}
+.diamond-shape {
+  position: absolute;
+  inset: 0;
+  background: #1c2030;
+  border: 1px solid rgba(255,255,255,0.12);
+  transform: rotate(4deg);
+  border-radius: 5px;
+}
+.chart--chosen .diamond-shape {
+  background: #0d1c2e;
+  border-color: var(--cho-border);
+}
+.diamond-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+}
+
+/* Oval entry/exit node */
+.node--oval {
+  border-radius: 40px;
+  border: 1px solid var(--rej-border);
+  background: var(--surface);
+  text-align: center;
+  align-items: center;
+}
+.chart--chosen .node--oval {
+  border-color: var(--cho-border);
+}
+
+/* Parallelogram user-action node */
+.node--action {
+  border: 1px dashed var(--rej-border);
+  background: transparent;
+  border-radius: 4px;
+}
+.chart--chosen .node--action {
+  border-color: var(--cho-border);
+}
+
+/* Node typography */
+.node-type {
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rej-label);
+  font-weight: 600;
+}
+.chart--chosen .node-type { color: var(--cho-label); }
+.node-title {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--rej-head);
+}
+.chart--chosen .node-title { color: var(--cho-head); }
+.node-desc {
+  font-size: 10px;
+  color: var(--text-sm);
+  line-height: 1.45;
+  margin-top: 1px;
+}
+.node-note {
+  font-size: 9px;
+  color: var(--rej-label);
+  font-style: italic;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.chart--chosen .node-note { color: var(--cho-label); }
+
+/* Tags / chips on nodes */
+.node-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 3px;
+}
+.chip {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.chip--rej { background: var(--rej-chip-bg); color: var(--rej-chip-txt); border: 1px solid rgba(255,255,255,0.08); }
+.chip--cho { background: var(--cho-chip-bg); color: var(--cho-chip-txt); border: 1px solid rgba(71,171,219,0.2); }
+.chip--neutral { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.07); }
+.chip--warn { background: rgba(220,160,60,0.1); color: rgba(220,160,60,0.8); border: 1px solid rgba(220,160,60,0.2); }
+.chip--ok { background: rgba(60,180,100,0.1); color: rgba(60,180,100,0.8); border: 1px solid rgba(60,180,100,0.2); }
+
+/* ═══════════ ARROWS ══════════════════════════════════════════════ */
+/* Vertical connector (within lane) */
+.arrow-v {
+  width: 1px;
+  height: 20px;
+  background: var(--rej-arrow);
+  position: relative;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+.arrow-v::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--rej-arrow);
+}
+.chart--chosen .arrow-v { background: var(--cho-arrow); }
+.chart--chosen .arrow-v::after { border-top-color: var(--cho-arrow); }
+
+.arrow-v.tall { height: 30px; }
+.arrow-v.short { height: 12px; }
+
+/* Arrow label */
+.arrow-label {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  padding: 1px 6px;
+  background: var(--bg);
+  border-radius: 2px;
+  position: relative;
+  z-index: 2;
+  margin: -2px auto;
+  white-space: nowrap;
+}
+
+/* ═══════════ DECISION BRANCHES ══════════════════════════════════ */
+/* horizontal connector across lanes */
+.h-connector {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+  padding: 8px 0;
+  position: relative;
+}
+
+/* ═══════════ OUTCOME STRIP ══════════════════════════════════════ */
+.outcome-strip {
+  display: grid;
+  grid-template-columns: 140px repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+}
+.outcome-cell {
+  padding: 14px 16px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.chart--chosen .outcome-cell { background: rgba(71,171,219,0.04); }
+.outcome-label {
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.outcome-val {
+  font-size: 11px;
+  font-weight: 600;
+}
+.outcome-val--rej { color: rgba(220,100,80,0.85); }
+.outcome-val--cho { color: var(--cho-accent); }
+.outcome-sub {
+  font-size: 10px;
+  color: var(--text-sm);
+  line-height: 1.4;
+}
+
+/* ═══════════ FLOW STRIP ══════════════════════════════════════════ */
+.flow-strip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 16px 26px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.chart--chosen .flow-strip {
+  background: rgba(71,171,219,0.03);
+  border-top-color: rgba(71,171,219,0.1);
+}
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 14px;
+  border-radius: 5px;
+}
+.flow-node--rej { background: rgba(255,255,255,0.04); border: 1px solid var(--rej-border); }
+.flow-node--cho { background: var(--cho-chip-bg); border: 1px solid var(--cho-border); }
+.flow-node-step { font-size: 7.5px; letter-spacing: 0.15em; text-transform: uppercase; }
+.flow-node--rej .flow-node-step { color: var(--muted); }
+.flow-node--cho .flow-node-step { color: var(--cho-label); }
+.flow-node-label { font-size: 11.5px; font-weight: 600; }
+.flow-node--rej .flow-node-label { color: rgba(255,255,255,0.55); }
+.flow-node--cho .flow-node-label { color: var(--cho-accent); }
+.flow-arrow {
+  font-size: 14px;
+  color: var(--dim);
+  padding: 0 10px;
+  margin-bottom: 2px;
+}
+
+/* ═══════════ PRINCIPLE ANNOTATION ══════════════════════════════ */
+.principle {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px 26px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.chart--chosen .principle { background: rgba(71,171,219,0.025); border-top-color: rgba(71,171,219,0.1); }
+.principle-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.principle-dot--rej { background: rgba(220,100,80,0.5); }
+.principle-dot--cho { background: var(--cho-accent); }
+.principle-text { font-size: 11.5px; color: var(--muted); line-height: 1.6; font-style: italic; max-width: 900px; }
+
+/* ═══════════ DIVIDER ════════════════════════════════════════════ */
+.vs-divider {
+  text-align: center;
+  padding: 16px 0 24px;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.vs-divider::before, .vs-divider::after { content: '──────'; margin: 0 14px; }
+</style>
+</head>
+<body>
+
+<!-- Page Header -->
+<div class="page-hd">
+  <div class="page-eyebrow">Four Bridges Capital Advisors · Strategy &amp; IA · Figma Reference</div>
+  <div class="page-title">Information Architecture — Direction Flowcharts</div>
+  <div class="page-sub">Two structural directions explored for the site. Each flowchart maps entry points, page-level section order, user decision paths, and conversion logic. Read left → right, top → bottom within each lane.</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CHART 1 — CREDENTIALS FIRST (REJECTED)
+════════════════════════════════════════════════════════════════ -->
+<div class="chart">
+
+  <div class="chart-hd">
+    <div class="chart-hd-left">
+      <div class="chart-number">Direction 01</div>
+      <div class="chart-title">Credentials First</div>
+      <div class="chart-logic">"Show what we've done → explain who we are → invite contact"</div>
+    </div>
+    <div class="chart-badge chart-badge--rej">✕ Rejected Iteration</div>
+  </div>
+
+  <div class="swimlanes">
+
+    <!-- Lane headers -->
+    <div class="lane-head">
+      <div class="lane-head-label">Entry</div>
+      <div class="lane-head-url">—</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Homepage</div>
+      <div class="lane-head-url">fourbridgescapital.in/</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Services</div>
+      <div class="lane-head-url">/services</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">About</div>
+      <div class="lane-head-url">/about</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Engage</div>
+      <div class="lane-head-url">/engage</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Outcome</div>
+      <div class="lane-head-url">—</div>
+    </div>
+
+    <!-- Entry lane -->
+    <div class="lane lane-entry">
+      <div class="node node--oval">
+        <div class="node-type">Entry</div>
+        <div class="node-title">Search / Referral</div>
+      </div>
+      <div class="arrow-v short"></div>
+      <div class="node node--oval">
+        <div class="node-type">Entry</div>
+        <div class="node-title">WhatsApp Link</div>
+      </div>
+      <div class="arrow-v short"></div>
+      <div class="node node--oval">
+        <div class="node-type">Entry</div>
+        <div class="node-title">Direct / LinkedIn</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect" style="text-align:center; align-items:center;">
+        <div class="node-title">All → Homepage</div>
+        <div class="node-desc">Single entry point</div>
+      </div>
+    </div>
+
+    <!-- Homepage lane -->
+    <div class="lane">
+      <!-- Section 1 -->
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1 · Hero</div>
+        <div class="node-title">Track Record &amp; Stats</div>
+        <div class="node-desc">Credentials and numbers shown first — proof before context</div>
+        <div class="node-chips">
+          <span class="chip chip--warn">Proof First</span>
+          <span class="chip chip--neutral">No Belief Frame</span>
+        </div>
+      </div>
+      <div class="arrow-v"></div>
+      <!-- Section 2 -->
+      <div class="node node--rect">
+        <div class="node-type">Section 2</div>
+        <div class="node-title">Who We Are</div>
+        <div class="node-desc">Firm overview, mission statement</div>
+      </div>
+      <div class="arrow-v"></div>
+      <!-- Section 3 -->
+      <div class="node node--rect">
+        <div class="node-type">Section 3</div>
+        <div class="node-title">What We Offer</div>
+        <div class="node-desc">Brief service listing as teaser</div>
+      </div>
+      <div class="arrow-v"></div>
+      <!-- Decision point -->
+      <div class="node node--diamond">
+        <div class="diamond-shape"></div>
+        <div class="diamond-inner">
+          <div class="node-type">User Decision</div>
+          <div class="node-title" style="font-size:10px;">Where does the visitor go?</div>
+        </div>
+      </div>
+      <div class="node-chips" style="justify-content:center; margin-top:6px; gap:4px;">
+        <span class="chip chip--neutral">→ Services</span>
+        <span class="chip chip--neutral">→ About</span>
+        <span class="chip chip--neutral">→ Engage</span>
+      </div>
+      <div class="arrow-v tall"></div>
+      <div class="node node--action">
+        <div class="node-note">⚠ No filter mechanism — all visitors routed equally regardless of fit</div>
+      </div>
+    </div>
+
+    <!-- Services lane -->
+    <div class="lane">
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1 · Hero</div>
+        <div class="node-title">What We Do</div>
+        <div class="node-desc">Process and methodology lead — what the firm does before why it matters</div>
+        <div class="node-chips"><span class="chip chip--warn">Process Led</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 2</div>
+        <div class="node-title">Service Cards (3×)</div>
+        <div class="node-desc">M&amp;A Advisory, Capital Raise, Strategic Structuring</div>
+        <div class="node-chips">
+          <span class="chip chip--neutral">Card 1</span>
+          <span class="chip chip--neutral">Card 2</span>
+          <span class="chip chip--neutral">Card 3</span>
+        </div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 3</div>
+        <div class="node-title">Our Process</div>
+        <div class="node-desc">Step-by-step engagement methodology</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 4</div>
+        <div class="node-title">Past Engagements</div>
+        <div class="node-desc">Track record detail — anonymised case references</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--oval" style="width:100%;">
+        <div class="node-title" style="text-align:center;">→ Engage</div>
+      </div>
+    </div>
+
+    <!-- About lane -->
+    <div class="lane">
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1 · Hero</div>
+        <div class="node-title">Career Biography</div>
+        <div class="node-desc">Chronological history — roles, firms, education first</div>
+        <div class="node-chips"><span class="chip chip--warn">Biography Led</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 2</div>
+        <div class="node-title">Education &amp; Credentials</div>
+        <div class="node-desc">Qualifications, affiliations, institutional proof</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 3</div>
+        <div class="node-title">Philosophy</div>
+        <div class="node-desc">Approach and worldview — placed third, after proof</div>
+        <div class="node-chips"><span class="chip chip--warn">Belief Arrives Late</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 4</div>
+        <div class="node-title">Client Profile</div>
+        <div class="node-desc">Who the firm works with</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--oval" style="width:100%;">
+        <div class="node-title" style="text-align:center;">→ Engage</div>
+      </div>
+    </div>
+
+    <!-- Engage lane -->
+    <div class="lane">
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1</div>
+        <div class="node-title">Contact Form — No Framing</div>
+        <div class="node-desc">Form is the first visible element. No expectation-setting copy above it.</div>
+        <div class="node-chips"><span class="chip chip--warn">Zero Pre-qualification</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Fields</div>
+        <div class="node-title">Name / Company / Message</div>
+        <div class="node-desc">Generic fields — no signal of what a good submission looks like</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--action">
+        <div class="node-type">Action</div>
+        <div class="node-title">Submit</div>
+        <div class="node-desc">All leads treated equally</div>
+        <div class="node-chips"><span class="chip chip--warn">No Filter</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--oval" style="width:100%;">
+        <div class="node-title" style="text-align:center;">Inbox</div>
+        <div class="node-note" style="text-align:center;">Mixed-quality leads require manual triage</div>
+      </div>
+    </div>
+
+    <!-- Outcome lane -->
+    <div class="lane">
+      <div class="node node--rect" style="border-color:rgba(220,100,80,0.2); background:rgba(220,80,80,0.05);">
+        <div class="node-type">Problem</div>
+        <div class="node-title">Skeptic Exits at Hero</div>
+        <div class="node-desc">Visitor with no prior brand knowledge encounters numbers before context. No reason to trust the numbers.</div>
+        <div class="node-chips"><span class="chip chip--warn">High Drop Rate</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect" style="border-color:rgba(220,100,80,0.2); background:rgba(220,80,80,0.05);">
+        <div class="node-type">Problem</div>
+        <div class="node-title">Unqualified Leads</div>
+        <div class="node-desc">No filter mechanism means the engage form receives volume over fit.</div>
+        <div class="node-chips"><span class="chip chip--warn">Noisy Inbox</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect" style="border-color:rgba(220,100,80,0.2); background:rgba(220,80,80,0.05);">
+        <div class="node-type">Problem</div>
+        <div class="node-title">Belief Arrives Too Late</div>
+        <div class="node-desc">Philosophy appears in Section 3 of About — most visitors never reach it.</div>
+        <div class="node-chips"><span class="chip chip--warn">Structure Fails Founders</span></div>
+      </div>
+    </div>
+
+  </div><!-- /swimlanes -->
+
+  <!-- Flow summary -->
+  <div class="flow-strip">
+    <div class="flow-node flow-node--rej">
+      <div class="flow-node-step">01 · Entry</div>
+      <div class="flow-node-label">Track Record</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--rej">
+      <div class="flow-node-step">02 · Services</div>
+      <div class="flow-node-label">What We Do</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--rej">
+      <div class="flow-node-step">03 · About</div>
+      <div class="flow-node-label">Biography</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--rej">
+      <div class="flow-node-step">04 · Engage</div>
+      <div class="flow-node-label">Bare Form</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--rej">
+      <div class="flow-node-step">Result</div>
+      <div class="flow-node-label">Unfiltered Inbox</div>
+    </div>
+  </div>
+
+  <!-- Principle note -->
+  <div class="principle">
+    <div class="principle-dot principle-dot--rej"></div>
+    <div class="principle-text">Why this failed: Without a worldview filter at the top of the homepage, all visitor types — skeptics, researchers, genuinely qualified prospects — receive the same sequence. Credentials that aren't yet trusted create friction rather than credibility. The structure optimises for volume, not fit.</div>
+  </div>
+
+</div><!-- /chart 1 -->
+
+
+<div class="vs-divider">vs</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CHART 2 — PHILOSOPHY FIRST (CHOSEN)
+════════════════════════════════════════════════════════════════ -->
+<div class="chart chart--chosen">
+
+  <div class="chart-hd">
+    <div class="chart-hd-left">
+      <div class="chart-number">Direction 02</div>
+      <div class="chart-title">Philosophy First</div>
+      <div class="chart-logic">"Establish belief → earn curiosity → show proof → invite qualified contact"</div>
+    </div>
+    <div class="chart-badge chart-badge--cho">✓ Chosen Direction</div>
+  </div>
+
+  <div class="swimlanes">
+
+    <!-- Lane headers -->
+    <div class="lane-head">
+      <div class="lane-head-label">Entry</div>
+      <div class="lane-head-url">—</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Homepage</div>
+      <div class="lane-head-url">fourbridgescapital.in/</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Services</div>
+      <div class="lane-head-url">/services</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">About</div>
+      <div class="lane-head-url">/about</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Engage</div>
+      <div class="lane-head-url">/engage</div>
+    </div>
+    <div class="lane-head">
+      <div class="lane-head-label">Outcome</div>
+      <div class="lane-head-url">—</div>
+    </div>
+
+    <!-- Entry lane -->
+    <div class="lane lane-entry">
+      <div class="node node--oval">
+        <div class="node-type">Entry</div>
+        <div class="node-title">Search / Referral</div>
+      </div>
+      <div class="arrow-v short"></div>
+      <div class="node node--oval">
+        <div class="node-type">Entry</div>
+        <div class="node-title">WhatsApp Link</div>
+        <div class="node-note">Primary channel for warm intros</div>
+      </div>
+      <div class="arrow-v short"></div>
+      <div class="node node--oval">
+        <div class="node-type">Entry</div>
+        <div class="node-title">Direct / LinkedIn</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect" style="text-align:center; align-items:center; border-color:var(--cho-border);">
+        <div class="node-title">All → Homepage</div>
+        <div class="node-desc">Non-linear entry supported — any page can be entry</div>
+        <div class="node-chips"><span class="chip chip--cho">Self-Routing</span></div>
+      </div>
+    </div>
+
+    <!-- Homepage lane -->
+    <div class="lane">
+      <!-- Section 1 -->
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1 · Hero</div>
+        <div class="node-title">Belief Statement</div>
+        <div class="node-desc">"Capital is not scarce. Relationships are." — worldview before credentials</div>
+        <div class="node-chips">
+          <span class="chip chip--cho">Philosophy First</span>
+          <span class="chip chip--ok">Immediate Filter</span>
+        </div>
+      </div>
+      <div class="arrow-v"></div>
+      <!-- Section 2 -->
+      <div class="node node--rect primary">
+        <div class="node-type">Section 2 · Filter</div>
+        <div class="node-title">We Are Selective</div>
+        <div class="node-desc">Explicit self-qualification signal. Visitors assess their own fit before proceeding.</div>
+        <div class="node-chips">
+          <span class="chip chip--cho">Passive Gatekeeping</span>
+        </div>
+      </div>
+      <div class="arrow-v"></div>
+      <!-- Decision point -->
+      <div class="node node--diamond">
+        <div class="diamond-shape"></div>
+        <div class="diamond-inner">
+          <div class="node-type">Visitor Decision</div>
+          <div class="node-title" style="font-size:10px;">Does this resonate with me?</div>
+        </div>
+      </div>
+      <div class="arrow-v short"></div>
+      <!-- Branch chips -->
+      <div style="display:flex; gap:4px; justify-content:center; flex-wrap:wrap;">
+        <span class="chip chip--cho">Yes → Explore</span>
+        <span class="chip chip--neutral">No → Exit</span>
+      </div>
+      <div class="arrow-v"></div>
+      <!-- Section 3 -->
+      <div class="node node--rect">
+        <div class="node-type">Section 3 · Routing</div>
+        <div class="node-title">Navigation Paths</div>
+        <div class="node-desc">Services · About · Engage — users self-select based on intent</div>
+        <div class="node-chips">
+          <span class="chip chip--cho">Intent-Driven</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services lane -->
+    <div class="lane">
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1 · Hero</div>
+        <div class="node-title">What You Achieve</div>
+        <div class="node-desc">Outcomes and value to the client are stated before process. Belief → Outcome sequencing.</div>
+        <div class="node-chips"><span class="chip chip--cho">Outcome Led</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 2</div>
+        <div class="node-title">Outcome Cards (3×)</div>
+        <div class="node-desc">Each card states the client result, not the firm's action</div>
+        <div class="node-chips">
+          <span class="chip chip--cho">Card 1</span>
+          <span class="chip chip--cho">Card 2</span>
+          <span class="chip chip--cho">Card 3</span>
+        </div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 3</div>
+        <div class="node-title">How We Work</div>
+        <div class="node-desc">Process and methodology — appears after outcomes are established</div>
+        <div class="node-chips"><span class="chip chip--neutral">Process Second</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 4</div>
+        <div class="node-title">Client Profile</div>
+        <div class="node-desc">Explicit statement of who this is for — reinforces self-qualification</div>
+        <div class="node-chips"><span class="chip chip--cho">Fit Signal</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--oval" style="width:100%; border-color:var(--cho-border);">
+        <div class="node-title" style="text-align:center; color:var(--cho-head);">→ Engage</div>
+      </div>
+    </div>
+
+    <!-- About lane -->
+    <div class="lane">
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1 · Hero</div>
+        <div class="node-title">Why I Built This</div>
+        <div class="node-desc">Founder thesis as the opening — not biography, but decision and belief</div>
+        <div class="node-chips"><span class="chip chip--cho">Thesis Led</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 2</div>
+        <div class="node-title">Founder Story</div>
+        <div class="node-desc">Career context given meaning by the thesis — biography as evidence, not introduction</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 3</div>
+        <div class="node-title">Credentials &amp; Proof</div>
+        <div class="node-desc">Qualifications placed after belief is established — proof that supports the thesis</div>
+        <div class="node-chips"><span class="chip chip--ok">Proof Arrives in Context</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 4</div>
+        <div class="node-title">Philosophy</div>
+        <div class="node-desc">Worldview elaborated — reinforces what the hero introduced</div>
+        <div class="node-chips"><span class="chip chip--cho">Consistent Frame</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--oval" style="width:100%; border-color:var(--cho-border);">
+        <div class="node-title" style="text-align:center; color:var(--cho-head);">→ Engage</div>
+      </div>
+    </div>
+
+    <!-- Engage lane -->
+    <div class="lane">
+      <div class="node node--rect primary">
+        <div class="node-type">Section 1 · Framing</div>
+        <div class="node-title">Before You Apply</div>
+        <div class="node-desc">Expectation-setting copy appears before any form field. Sets the tone for a selective process.</div>
+        <div class="node-chips">
+          <span class="chip chip--cho">Framing First</span>
+          <span class="chip chip--ok">Active Filter</span>
+        </div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Section 2</div>
+        <div class="node-title">Who This Is For</div>
+        <div class="node-desc">Explicit client profile stated above the form — good leads self-identify, poor fits self-select out</div>
+        <div class="node-chips"><span class="chip chip--cho">Pre-Qualification</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect">
+        <div class="node-type">Form Fields</div>
+        <div class="node-title">Structured Enquiry</div>
+        <div class="node-desc">Fields ask about the transaction, not just contact details — signals what a good submission looks like</div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--action" style="border-color:var(--cho-border);">
+        <div class="node-type">Action</div>
+        <div class="node-title">Submit</div>
+        <div class="node-desc">Only qualified, self-filtered leads reach this point</div>
+        <div class="node-chips"><span class="chip chip--ok">High Signal</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--oval" style="width:100%; border-color:var(--cho-border);">
+        <div class="node-title" style="text-align:center; color:var(--cho-head);">Inbox</div>
+        <div class="node-note" style="text-align:center; color:var(--cho-label);">Fit-qualified leads only</div>
+      </div>
+    </div>
+
+    <!-- Outcome lane -->
+    <div class="lane">
+      <div class="node node--rect" style="border-color:rgba(60,180,100,0.2); background:rgba(60,180,100,0.05);">
+        <div class="node-type">Result</div>
+        <div class="node-title">Skeptics Exit Early</div>
+        <div class="node-desc">Visitors who don't resonate with the philosophy disengage at Section 1 — before any resource is spent.</div>
+        <div class="node-chips"><span class="chip chip--ok">Efficient</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect" style="border-color:rgba(60,180,100,0.2); background:rgba(60,180,100,0.05);">
+        <div class="node-type">Result</div>
+        <div class="node-title">Qualified Leads Advance</div>
+        <div class="node-desc">Visitors who resonate proceed through Services and About — arriving at Engage already aligned.</div>
+        <div class="node-chips"><span class="chip chip--ok">High Fit Rate</span></div>
+      </div>
+      <div class="arrow-v"></div>
+      <div class="node node--rect" style="border-color:rgba(60,180,100,0.2); background:rgba(60,180,100,0.05);">
+        <div class="node-type">Result</div>
+        <div class="node-title">Founder Dependency Reduced</div>
+        <div class="node-desc">Structure does the qualification work. Less manual triage. Fewer cold introductions needed.</div>
+        <div class="node-chips"><span class="chip chip--ok">Scalable Intake</span></div>
+      </div>
+    </div>
+
+  </div><!-- /swimlanes -->
+
+  <!-- Flow summary -->
+  <div class="flow-strip">
+    <div class="flow-node flow-node--cho">
+      <div class="flow-node-step">01 · Entry</div>
+      <div class="flow-node-label">Belief Statement</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--cho">
+      <div class="flow-node-step">02 · Filter</div>
+      <div class="flow-node-label">We Are Selective</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--cho">
+      <div class="flow-node-step">03 · Services</div>
+      <div class="flow-node-label">What You Achieve</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--cho">
+      <div class="flow-node-step">04 · About</div>
+      <div class="flow-node-label">Founder Thesis</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--cho">
+      <div class="flow-node-step">05 · Engage</div>
+      <div class="flow-node-label">Framed CTA</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node flow-node--cho">
+      <div class="flow-node-step">Result</div>
+      <div class="flow-node-label">Qualified Inbox</div>
+    </div>
+  </div>
+
+  <!-- Principle note -->
+  <div class="principle">
+    <div class="principle-dot principle-dot--cho"></div>
+    <div class="principle-text">Why this works: The belief statement acts as an immediate, passive filter — visitors self-qualify before any explicit gatekeeping. Those who resonate are already philosophically aligned before they see credentials, so proof lands with weight. The engage page framing continues the same selective logic, ensuring that only genuinely fit prospects reach submission.</div>
+  </div>
+
+</div><!-- /chart 2 -->
+
+</body>
+</html>

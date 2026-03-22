@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WF-02 — Services Section Hierarchy</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #eceae6; font-family: 'Inter', system-ui, sans-serif; color: #1a1a1a; padding: 40px 32px 64px; }
+
+  .wf-header { max-width: 1160px; margin: 0 auto 36px; }
+  .wf-eyebrow { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+  .wf-title { font-size: 20px; font-weight: 600; color: #111; margin-bottom: 4px; }
+  .wf-q { font-size: 13px; color: #555; font-style: italic; }
+  .wf-meta { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .wf-chip { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; background: #d8d6d0; color: #555; padding: 3px 9px; border-radius: 2px; }
+
+  .wf-canvas { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 56px 1fr; }
+  .wf-col-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-bottom: 10px; }
+  .wf-col-label.chosen { color: #1a1a1a; font-weight: 600; }
+  .wf-arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: #aaa; padding-top: 24px; }
+
+  .wf-page { background: #f8f7f4; border: 1.5px solid #c8c6c0; border-radius: 6px; overflow: hidden; }
+  .wf-page.rejected { opacity: 0.72; }
+  .wf-page.chosen { border-color: #1a1a1a; box-shadow: 0 2px 16px rgba(0,0,0,0.1); }
+
+  .wf-nav { height: 30px; background: #e4e2de; border-bottom: 1px solid #ccc; display: flex; align-items: center; padding: 0 12px; gap: 10px; }
+  .wf-nav-logo { width: 52px; height: 6px; background: #bbb; border-radius: 1px; margin-right: auto; }
+  .wf-nav-link { width: 28px; height: 5px; background: #ccc; border-radius: 1px; }
+
+  .wf-section { padding: 14px 16px; border-bottom: 1px solid #e0deda; }
+  .wf-section:last-child { border-bottom: none; }
+  .wf-annotation { font-size: 8.5px; letter-spacing: 1px; text-transform: uppercase; color: #c0392b; background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.25); padding: 2px 6px; border-radius: 2px; display: inline-block; margin-bottom: 6px; }
+  .wf-annotation.ok { color: #1a6b2a; background: rgba(26,107,42,0.07); border-color: rgba(26,107,42,0.25); }
+
+  .wf-h1 { height: 11px; background: #c0beb8; border-radius: 2px; margin-bottom: 5px; }
+  .wf-h2 { height: 9px; background: #ccc; border-radius: 2px; margin-bottom: 4px; }
+  .wf-h3 { height: 7px; background: #d4d2cc; border-radius: 2px; margin-bottom: 4px; }
+  .wf-body-line { height: 6px; background: #d8d6d0; border-radius: 1px; margin-bottom: 3px; }
+  .wf-divider { height: 1px; background: #d0ceca; margin: 10px 0; }
+
+  .wf-cta { display: inline-block; padding: 7px 14px; background: #1a1a1a; color: #f0f0ee; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 2px; margin-top: 6px; }
+  .wf-cta.ghost { background: transparent; color: #777; border: 1.5px solid #aaa; }
+
+  /* Service card components */
+  .wf-service-card {
+    border: 1px solid #d0ceca;
+    border-radius: 4px;
+    background: #f4f2ee;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .wf-card-header {
+    padding: 10px 12px 8px;
+    border-bottom: 1px solid #e0deda;
+    background: #ece9e4;
+  }
+  .wf-card-body { padding: 10px 12px; }
+  .wf-card-label { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #999; margin-bottom: 5px; }
+
+  .wf-step-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .wf-step-num { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #bbb; display: flex; align-items: center; justify-content: center; font-size: 7px; color: #888; flex-shrink: 0; margin-top: 1px; }
+  .wf-step-content { flex: 1; }
+  .wf-step-line { height: 5px; background: #d0ceca; border-radius: 1px; margin-bottom: 3px; }
+  .wf-step-line.short { width: 70%; }
+
+  .wf-outcome-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: flex-start; }
+  .wf-outcome-icon { width: 14px; height: 14px; border-radius: 2px; background: #888; flex-shrink: 0; margin-top: 2px; }
+  .wf-outcome-content { flex: 1; }
+  .wf-outcome-line { height: 5px; background: #888; border-radius: 1px; margin-bottom: 3px; opacity: 0.7; }
+  .wf-outcome-line.sub { background: #bbb; opacity: 0.6; }
+
+  .wf-ideal-for {
+    border-top: 1px solid #d8d6d0;
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+  .wf-ideal-label { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #777; margin-bottom: 5px; }
+  .wf-ideal-tag { display: inline-block; background: #e8e6e0; border: 1px solid #ccc; border-radius: 9px; padding: 2px 7px; margin: 0 3px 4px 0; }
+  .wf-ideal-tag span { display: block; height: 5px; width: 40px; background: #bbb; border-radius: 1px; }
+
+  .wf-separator {
+    display: flex; align-items: center; margin: 8px 0;
+    font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: #aaa; gap: 6px;
+  }
+  .wf-separator::before, .wf-separator::after { content: ''; flex: 1; height: 1px; background: #d8d6d0; }
+
+  .wf-notes { max-width: 1160px; margin: 28px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .wf-critique { background: #fff8f6; border: 1px solid #f0ccc8; border-radius: 4px; padding: 12px 14px; font-size: 11px; color: #555; line-height: 1.6; }
+  .wf-critique strong { color: #c0392b; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .wf-rationale { background: #f4faf5; border: 1px solid #c0dcc4; border-radius: 4px; padding: 12px 14px; font-size: 11px; color: #444; line-height: 1.6; }
+  .wf-rationale strong { color: #1a6b2a; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+  .wf-footer { max-width: 1160px; margin: 28px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .wf-final-section { background: #f8f7f4; border: 1.5px solid #c8c6c0; border-radius: 6px; padding: 16px; }
+  .wf-final-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+  .wf-translation-point { font-size: 11px; color: #444; line-height: 1.6; padding: 6px 0; border-bottom: 1px solid #e8e6e0; }
+  .wf-translation-point:last-child { border-bottom: none; }
+  .wf-translation-point::before { content: '→'; color: #888; margin-right: 6px; }
+</style>
+</head>
+<body>
+
+<div class="wf-header">
+  <div class="wf-eyebrow">Four Bridges Capital — Key Decision 02 / Wireframe Reference</div>
+  <div class="wf-title">Services Section Hierarchy</div>
+  <div class="wf-q">"Services — what to lead with: what we do, or what you achieve?"</div>
+  <div class="wf-meta">
+    <span class="wf-chip">Services Page</span>
+    <span class="wf-chip">Content Hierarchy</span>
+    <span class="wf-chip">IA Principle: Outcome-Oriented Measurement</span>
+    <span class="wf-chip">Affects: Service comprehension + conversion</span>
+  </div>
+</div>
+
+<div class="wf-canvas">
+
+  <!-- LEFT: REJECTED — Process-first -->
+  <div>
+    <div class="wf-col-label">✕ Rejected — Process-First</div>
+    <div class="wf-page rejected">
+      <div class="wf-nav">
+        <div class="wf-nav-logo"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link" style="background:#aaa;"></div>
+        <div class="wf-nav-link"></div>
+      </div>
+
+      <!-- Page header -->
+      <div class="wf-section" style="background:#e8e6e2;">
+        <div class="wf-annotation">Services Page — H1</div>
+        <div class="wf-h1" style="width:55%;"></div>
+        <div class="wf-body-line" style="width:75%;"></div>
+      </div>
+
+      <!-- Service card: process-first -->
+      <div class="wf-section">
+        <div class="wf-annotation">Service: Equity Fundraising Advisory</div>
+
+        <div class="wf-service-card">
+          <div class="wf-card-header">
+            <div class="wf-card-label">Service 01</div>
+            <div class="wf-h2" style="width:65%;"></div>
+          </div>
+          <div class="wf-card-body">
+            <div class="wf-card-label">Our Process</div>
+
+            <div class="wf-step-row">
+              <div class="wf-step-num">1</div>
+              <div class="wf-step-content">
+                <div class="wf-step-line"></div>
+                <div class="wf-step-line short"></div>
+              </div>
+            </div>
+            <div class="wf-step-row">
+              <div class="wf-step-num">2</div>
+              <div class="wf-step-content">
+                <div class="wf-step-line" style="width:80%;"></div>
+                <div class="wf-step-line" style="width:55%;"></div>
+              </div>
+            </div>
+            <div class="wf-step-row">
+              <div class="wf-step-num">3</div>
+              <div class="wf-step-content">
+                <div class="wf-step-line" style="width:90%;"></div>
+              </div>
+            </div>
+            <div class="wf-step-row">
+              <div class="wf-step-num">4</div>
+              <div class="wf-step-content">
+                <div class="wf-step-line" style="width:70%;"></div>
+              </div>
+            </div>
+
+            <div style="margin-top:6px;">
+              <div class="wf-cta ghost">Learn More</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second card preview -->
+        <div class="wf-service-card" style="opacity:0.5;">
+          <div class="wf-card-header">
+            <div class="wf-card-label">Service 02</div>
+            <div class="wf-h2" style="width:50%;"></div>
+          </div>
+          <div class="wf-card-body">
+            <div class="wf-step-row">
+              <div class="wf-step-num">1</div>
+              <div class="wf-step-content"><div class="wf-step-line"></div></div>
+            </div>
+            <div class="wf-step-row">
+              <div class="wf-step-num">2</div>
+              <div class="wf-step-content"><div class="wf-step-line short"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARROW -->
+  <div class="wf-arrow">→</div>
+
+  <!-- RIGHT: CHOSEN — Outcome-first -->
+  <div>
+    <div class="wf-col-label chosen">✓ Chosen — Outcome-First</div>
+    <div class="wf-page chosen">
+      <div class="wf-nav">
+        <div class="wf-nav-logo"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link"></div>
+        <div class="wf-nav-link" style="background:#555;"></div>
+        <div class="wf-nav-link"></div>
+      </div>
+
+      <!-- Page header -->
+      <div class="wf-section" style="background:#e8e6e2;">
+        <div class="wf-annotation ok">Services Page — H1</div>
+        <div class="wf-h1" style="width:55%;"></div>
+        <div class="wf-body-line" style="width:75%;"></div>
+      </div>
+
+      <!-- Service card: outcome-first -->
+      <div class="wf-section">
+        <div class="wf-annotation ok">★ Service Card — Outcome Leads</div>
+
+        <div class="wf-service-card" style="border-color:#888;">
+          <div class="wf-card-header" style="background:#1a1a1a;">
+            <div class="wf-card-label" style="color:#999;">What You Achieve</div>
+            <div class="wf-outcome-row">
+              <div class="wf-outcome-icon"></div>
+              <div class="wf-outcome-content">
+                <div class="wf-outcome-line" style="width:75%; background:#ddd;"></div>
+                <div class="wf-outcome-line sub" style="width:55%; background:#999;"></div>
+              </div>
+            </div>
+            <div class="wf-outcome-row">
+              <div class="wf-outcome-icon"></div>
+              <div class="wf-outcome-content">
+                <div class="wf-outcome-line" style="width:85%; background:#ddd;"></div>
+              </div>
+            </div>
+            <div class="wf-outcome-row">
+              <div class="wf-outcome-icon"></div>
+              <div class="wf-outcome-content">
+                <div class="wf-outcome-line" style="width:65%; background:#ddd;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-card-body">
+            <div class="wf-separator">What We Do</div>
+
+            <div class="wf-step-row">
+              <div class="wf-step-num">1</div>
+              <div class="wf-step-content">
+                <div class="wf-step-line"></div>
+                <div class="wf-step-line short"></div>
+              </div>
+            </div>
+            <div class="wf-step-row">
+              <div class="wf-step-num">2</div>
+              <div class="wf-step-content">
+                <div class="wf-step-line" style="width:80%;"></div>
+              </div>
+            </div>
+            <div class="wf-step-row">
+              <div class="wf-step-num">3</div>
+              <div class="wf-step-content">
+                <div class="wf-step-line" style="width:70%;"></div>
+              </div>
+            </div>
+
+            <div class="wf-ideal-for">
+              <div class="wf-ideal-label">Ideal For</div>
+              <div>
+                <div class="wf-ideal-tag"><span style="width:52px;"></span></div>
+                <div class="wf-ideal-tag"><span style="width:36px;"></span></div>
+                <div class="wf-ideal-tag"><span style="width:44px;"></span></div>
+              </div>
+            </div>
+
+            <div style="margin-top:8px;">
+              <div class="wf-cta">Explore This Service</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second card preview -->
+        <div class="wf-service-card" style="opacity:0.55; border-color:#aaa;">
+          <div class="wf-card-header" style="background:#333;">
+            <div class="wf-card-label" style="color:#999;">What You Achieve</div>
+            <div class="wf-outcome-row">
+              <div class="wf-outcome-icon"></div>
+              <div class="wf-outcome-content"><div class="wf-outcome-line" style="width:70%; background:#ccc;"></div></div>
+            </div>
+          </div>
+          <div class="wf-card-body">
+            <div class="wf-separator">What We Do</div>
+            <div class="wf-step-row">
+              <div class="wf-step-num">1</div>
+              <div class="wf-step-content"><div class="wf-step-line"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /canvas -->
+
+<div class="wf-notes">
+  <div class="wf-critique">
+    <strong>Why process-first fails</strong>
+    Starting with "Our Process" puts the advisory firm's operations before the client's problem. Founders who have worked with investment banks cite "I never understood what I was paying for" as the most common frustration. A process-first layout requires the reader to translate advisory activities into personal outcomes — cognitive work that creates friction at highest-stakes evaluation moments.
+  </div>
+  <div class="wf-rationale">
+    <strong>Why outcome-first works</strong>
+    Leading with "What You Achieve" creates immediate relevance — the visitor recognises their problem and the resolution before reading a single process step. When process detail follows, it reads as evidence of <em>how</em> the outcome is delivered, not a description of the service. The "Ideal For" qualifier provides self-selection without exclusionary framing. Process becomes proof, not preamble.
+  </div>
+</div>
+
+<div class="wf-footer">
+  <div class="wf-final-section">
+    <div class="wf-final-label">How this translated to final UI</div>
+    <div class="wf-translation-point">Every service section on the live site opens with "What You Achieve" as the primary heading</div>
+    <div class="wf-translation-point">Process steps appear below, visually de-emphasised as supporting evidence</div>
+    <div class="wf-translation-point">"Ideal For" tags at base of each card allow self-qualification without exclusion language</div>
+    <div class="wf-translation-point">Dark card header for outcomes makes the benefit visually distinct from the mechanism</div>
+  </div>
+  <div class="wf-final-section">
+    <div class="wf-final-label">What this decision improves</div>
+    <div class="wf-translation-point"><strong>Clarity:</strong> Visitor immediately knows if this service solves their problem</div>
+    <div class="wf-translation-point"><strong>Conversion:</strong> Reduced friction — no translation required from process to value</div>
+    <div class="wf-translation-point"><strong>Credibility:</strong> Process detail reads as capability proof, not sales copy</div>
+    <div class="wf-translation-point"><strong>Self-qualification:</strong> "Ideal For" routes correct mandates without gatekeeping</div>
+  </div>
+</div>
+
+</body>
+</html>

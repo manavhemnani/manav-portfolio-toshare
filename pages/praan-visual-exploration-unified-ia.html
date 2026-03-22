@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual — Exploration 03: Unified IA — Outcome First, Depth on Demand</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0a0a;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #c0c0c0;
+  padding: 2rem;
+}
+.artifact-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #222;
+}
+.artifact-meta { display: flex; flex-direction: column; gap: 0.2rem; }
+.artifact-tag { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; }
+.artifact-name { font-size: 0.8rem; color: #888; }
+.artifact-badge {
+  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  border: 1px solid #2a3a2a; color: #3a6645; padding: 0.25rem 0.6rem; border-radius: 2px;
+  background: rgba(30,60,35,0.2);
+}
+
+.wf-container {
+  background: #111; border: 1px solid #222; border-radius: 4px;
+  overflow: hidden; max-width: 760px; margin: 0 auto;
+}
+.wf-nav {
+  background: #161616; border-bottom: 1px solid #222;
+  padding: 0.7rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.wf-logo { width: 56px; height: 8px; background: #333; border-radius: 1px; }
+.wf-nav-links { display: flex; gap: 1rem; }
+.wf-nav-link { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: #555; }
+.wf-nav-link.active { color: #888; }
+
+/* ANNOTATION — positive */
+.wf-note-good {
+  background: #111d13; border-left: 2px solid #2a4a2e;
+  padding: 0.5rem 1rem;
+  font-size: 0.63rem; color: #3a6045; font-style: italic;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.wf-note-good::before { content: '✓'; font-style: normal; font-size: 0.58rem; color: #3a6045; }
+
+/* OUTCOME-FIRST HERO */
+.wf-hero {
+  padding: 2.5rem 2rem 2rem;
+  border-bottom: 1px solid #1e1e1e;
+  background: #0e0e0e;
+}
+.wf-hero-eyebrow {
+  font-size: 0.56rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #3a5040; margin-bottom: 0.65rem;
+}
+.wf-hero-headline {
+  font-size: 1.1rem; color: #888; font-weight: 400;
+  line-height: 1.35; margin-bottom: 0.5rem;
+}
+.wf-hero-sub {
+  font-size: 0.68rem; color: #444; line-height: 1.5; margin-bottom: 1.5rem; max-width: 420px;
+}
+.wf-hero-cta {
+  display: inline-block;
+  padding: 0.4rem 1.1rem;
+  border: 1px solid #2a3a2e;
+  font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #3a5a45; border-radius: 2px;
+}
+.wf-hero-img {
+  width: 100%; height: 100px; margin-top: 1.5rem;
+  background: #161616; border: 1px dashed #1e2e22;
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.58rem; color: #2a3a2e; letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* LAYERED SECTIONS — depth on demand */
+.wf-layer {
+  border-bottom: 1px solid #1a1a1a;
+}
+.wf-layer-head {
+  padding: 0.75rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+}
+.wf-layer-title {
+  font-size: 0.68rem; color: #555; font-weight: 400; letter-spacing: 0.03em;
+}
+.wf-layer-depth {
+  font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: #2a3a30;
+}
+.wf-layer-expand { font-size: 0.65rem; color: #2a2a2a; }
+
+.wf-layer-body {
+  padding: 0 2rem 1rem;
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+}
+.wf-layer-tag {
+  font-size: 0.58rem; color: #333;
+  border: 1px solid #1e1e1e; padding: 0.2rem 0.5rem; border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+.wf-layer-tag.active { color: #3a5040; border-color: #2a3a2e; }
+
+/* DEPTH INDICATOR */
+.wf-depth-bar {
+  padding: 0.5rem 2rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  border-top: 1px solid #1a1a1a;
+}
+.wf-depth-label { font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: #2a2a2a; }
+.wf-depth-dots { display: flex; gap: 4px; align-items: center; }
+.wf-depth-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #1e2e22;
+}
+.wf-depth-dot.filled { background: #3a5040; }
+.wf-depth-desc { font-size: 0.56rem; color: #2a3a2e; font-style: italic; margin-left: auto; }
+
+.artifact-footer {
+  margin-top: 1rem; font-size: 0.6rem; color: #333;
+  text-align: center; letter-spacing: 0.06em;
+}
+</style>
+</head>
+<body>
+
+<div class="artifact-header">
+  <div class="artifact-meta">
+    <span class="artifact-tag">Exploration 03 — Shipped · exploration-unified-ia.jpg</span>
+    <span class="artifact-name">Unified IA — Outcome First, Depth on Demand · Section 04 — What Didn't Work</span>
+  </div>
+  <span class="artifact-badge">↓ Shipped direction</span>
+</div>
+
+<div class="wf-container">
+
+  <div class="wf-nav">
+    <div class="wf-logo"></div>
+    <div class="wf-nav-links">
+      <span class="wf-nav-link active">Home</span>
+      <span class="wf-nav-link">Technology</span>
+      <span class="wf-nav-link">Products</span>
+      <span class="wf-nav-link">About</span>
+      <span class="wf-nav-link">Contact</span>
+    </div>
+  </div>
+
+  <div class="wf-note-good">One front door. Universal outcome statement. No audience selector — everyone enters the same narrative.</div>
+
+  <div class="wf-hero">
+    <div class="wf-hero-eyebrow">Praan — Industrial Air Purification</div>
+    <div class="wf-hero-headline">Make your factory healthier and safer today</div>
+    <div class="wf-hero-sub">One confident statement. No spec, no jargon — just the outcome. Technical and commercial depth follows for whoever needs it.</div>
+    <div class="wf-hero-cta">See how it works →</div>
+    <div class="wf-hero-img">[ Device visual — establishes credibility without leading with it ]</div>
+  </div>
+
+  <div class="wf-note-good">Hero earns attention before asking for trust. Outcome first — not "99.97% PM2.5" but "healthier, safer factory."</div>
+
+  <div class="wf-layer">
+    <div class="wf-layer-head">
+      <div class="wf-layer-title">How it works — the mechanism</div>
+      <div class="wf-layer-depth">Primary depth</div>
+    </div>
+    <div class="wf-layer-body">
+      <span class="wf-layer-tag active">Filterless technology</span>
+      <span class="wf-layer-tag active">12s animation</span>
+      <span class="wf-layer-tag active">Mechanism explained visually</span>
+    </div>
+  </div>
+
+  <div class="wf-layer">
+    <div class="wf-layer-head">
+      <div class="wf-layer-title">Technical specifications — for engineers</div>
+      <div class="wf-layer-depth">Secondary depth</div>
+    </div>
+    <div class="wf-layer-body">
+      <span class="wf-layer-tag">PM2.5 99.97%</span>
+      <span class="wf-layer-tag">580 m³/hr</span>
+      <span class="wf-layer-tag">ISO 16890</span>
+      <span class="wf-layer-tag">Patent documentation</span>
+    </div>
+  </div>
+
+  <div class="wf-layer">
+    <div class="wf-layer-head">
+      <div class="wf-layer-title">Commercial proof — for investors &amp; operators</div>
+      <div class="wf-layer-depth">Tertiary depth</div>
+    </div>
+    <div class="wf-layer-body">
+      <span class="wf-layer-tag">Deployments</span>
+      <span class="wf-layer-tag">Client logos</span>
+      <span class="wf-layer-tag">Case studies</span>
+      <span class="wf-layer-tag">ROI framing</span>
+    </div>
+  </div>
+
+  <div class="wf-layer">
+    <div class="wf-layer-head">
+      <div class="wf-layer-title">Compliance &amp; certifications — for procurement</div>
+      <div class="wf-layer-depth">Quaternary depth</div>
+    </div>
+    <div class="wf-layer-body">
+      <span class="wf-layer-tag">BIS Approved</span>
+      <span class="wf-layer-tag">NABL Tested</span>
+      <span class="wf-layer-tag">Compliance docs</span>
+    </div>
+  </div>
+
+  <div class="wf-depth-bar">
+    <span class="wf-depth-label">Depth layers:</span>
+    <div class="wf-depth-dots">
+      <div class="wf-depth-dot filled"></div>
+      <div class="wf-depth-dot filled"></div>
+      <div class="wf-depth-dot filled"></div>
+      <div class="wf-depth-dot filled"></div>
+    </div>
+    <span class="wf-depth-desc">Available on demand — never gated, never leading.</span>
+  </div>
+
+  <div class="wf-note-good">One coherent narrative. Three audiences find what they need by going deeper, not by being routed separately at arrival. Depth is available — not imposed.</div>
+
+</div>
+
+<div class="artifact-footer">Wireframe reconstruction — Exploration 03: Unified IA, Outcome First · exploration-unified-ia.jpg</div>
+
+</body>
+</html>

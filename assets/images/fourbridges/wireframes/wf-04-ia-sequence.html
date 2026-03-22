@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WF-04 — Homepage IA Sequence</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #eceae6; font-family: 'Inter', system-ui, sans-serif; color: #1a1a1a; padding: 40px 32px 64px; }
+
+  .wf-header { max-width: 1160px; margin: 0 auto 36px; }
+  .wf-eyebrow { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+  .wf-title { font-size: 20px; font-weight: 600; color: #111; margin-bottom: 4px; }
+  .wf-q { font-size: 13px; color: #555; font-style: italic; }
+  .wf-meta { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .wf-chip { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; background: #d8d6d0; color: #555; padding: 3px 9px; border-radius: 2px; }
+
+  .wf-canvas { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1fr 56px 1fr; }
+  .wf-col-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-bottom: 10px; }
+  .wf-col-label.chosen { color: #1a1a1a; font-weight: 600; }
+  .wf-arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: #aaa; padding-top: 24px; }
+
+  /* Scroll map: each option is shown as a vertically stacked sequence of sections */
+  .wf-scroll-map {
+    background: #f8f7f4; border: 1.5px solid #c8c6c0; border-radius: 6px; overflow: hidden;
+  }
+  .wf-scroll-map.rejected { opacity: 0.72; }
+  .wf-scroll-map.chosen { border-color: #1a1a1a; box-shadow: 0 2px 16px rgba(0,0,0,0.1); }
+
+  .wf-nav { height: 30px; background: #e4e2de; border-bottom: 1px solid #ccc; display: flex; align-items: center; padding: 0 12px; gap: 10px; position: sticky; top: 0; z-index: 2; }
+  .wf-nav-logo { width: 52px; height: 6px; background: #bbb; border-radius: 1px; margin-right: auto; }
+  .wf-nav-link { height: 5px; background: #ccc; border-radius: 1px; }
+
+  /* Section block in scroll map */
+  .sm-section {
+    border-bottom: 1px solid #e0deda; position: relative;
+    display: flex; align-items: stretch;
+  }
+  .sm-section:last-child { border-bottom: none; }
+
+  /* Sequence number on the left */
+  .sm-num {
+    width: 28px; background: #e8e6e2; border-right: 1px solid #d8d6d0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 600; color: #999; flex-shrink: 0;
+  }
+  .sm-num.active { background: #1a1a1a; color: #fff; }
+
+  .sm-body { padding: 10px 12px; flex: 1; }
+  .sm-label { font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; color: #bbb; margin-bottom: 4px; }
+  .sm-label.strong { color: #555; font-weight: 600; }
+  .sm-label.keystone { color: #1a1a1a; font-weight: 600; }
+  .sm-h { height: 7px; background: #d4d2cc; border-radius: 1px; margin-bottom: 3px; }
+  .sm-h.dark { background: #888; }
+  .sm-h.primary { background: #555; }
+  .sm-line { height: 5px; background: #deded8; border-radius: 1px; margin-bottom: 2px; }
+
+  .sm-cta { display: inline-block; margin-top: 5px; padding: 4px 10px; font-size: 8px; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 2px; }
+  .sm-cta.ghost { border: 1px solid #bbb; color: #888; }
+  .sm-cta.primary { background: #1a1a1a; color: white; }
+
+  .sm-connector {
+    width: 28px; display: flex; flex-direction: column; align-items: center;
+    padding: 4px 0;
+  }
+  .sm-arrow { font-size: 10px; color: #aaa; }
+
+  .sm-badge {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    font-size: 8px; letter-spacing: 1px; text-transform: uppercase;
+    background: #e8e6e0; border: 1px solid #ccc; color: #888;
+    padding: 2px 6px; border-radius: 2px;
+  }
+  .sm-badge.risk { background: rgba(192,57,43,0.1); border-color: rgba(192,57,43,0.3); color: #c0392b; }
+  .sm-badge.ok { background: rgba(26,107,42,0.08); border-color: rgba(26,107,42,0.25); color: #1a6b2a; }
+
+  /* Audience test grid */
+  .wf-test-grid { max-width: 1160px; margin: 24px auto 0; }
+  .wf-test-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 12px; }
+  .wf-test-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .wf-test-table th { background: #e0deda; padding: 7px 10px; text-align: left; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #666; font-weight: 500; border: 1px solid #ccc; }
+  .wf-test-table td { padding: 8px 10px; border: 1px solid #d8d6d0; color: #444; vertical-align: top; line-height: 1.5; background: #f8f7f4; }
+  .wf-test-table td.bad { background: #fff8f6; color: #c0392b; }
+  .wf-test-table td.good { background: #f4faf5; color: #1a6b2a; }
+
+  .wf-notes { max-width: 1160px; margin: 20px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .wf-critique { background: #fff8f6; border: 1px solid #f0ccc8; border-radius: 4px; padding: 12px 14px; font-size: 11px; color: #555; line-height: 1.6; }
+  .wf-critique strong { color: #c0392b; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .wf-rationale { background: #f4faf5; border: 1px solid #c0dcc4; border-radius: 4px; padding: 12px 14px; font-size: 11px; color: #444; line-height: 1.6; }
+  .wf-rationale strong { color: #1a6b2a; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+  .wf-footer { max-width: 1160px; margin: 24px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .wf-final-section { background: #f8f7f4; border: 1.5px solid #c8c6c0; border-radius: 6px; padding: 16px; }
+  .wf-final-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #888; margin-bottom: 10px; }
+  .wf-translation-point { font-size: 11px; color: #444; line-height: 1.6; padding: 6px 0; border-bottom: 1px solid #e8e6e0; }
+  .wf-translation-point:last-child { border-bottom: none; }
+  .wf-translation-point::before { content: '→'; color: #888; margin-right: 6px; }
+</style>
+</head>
+<body>
+
+<div class="wf-header">
+  <div class="wf-eyebrow">Four Bridges Capital — Key Decision 04 / Wireframe Reference</div>
+  <div class="wf-title">Homepage IA Sequence</div>
+  <div class="wf-q">"What IA sequence is most convincing for a first-time visitor?"</div>
+  <div class="wf-meta">
+    <span class="wf-chip">Homepage</span>
+    <span class="wf-chip">Section Sequence</span>
+    <span class="wf-chip">IA Principle: Guided Self-Selection + Progressive Disclosure</span>
+    <span class="wf-chip">Affects: Both warm and cold visitor journeys</span>
+  </div>
+</div>
+
+<div class="wf-canvas">
+
+  <!-- LEFT: REJECTED — Credentials-first -->
+  <div>
+    <div class="wf-col-label">✕ Rejected — Credentials-First Sequence</div>
+    <div class="wf-scroll-map rejected">
+      <div class="wf-nav">
+        <div class="wf-nav-logo"></div>
+        <div class="wf-nav-link" style="width:22px;"></div>
+        <div class="wf-nav-link" style="width:22px;"></div>
+        <div class="wf-nav-link" style="width:22px;"></div>
+        <div class="wf-nav-link" style="width:22px;"></div>
+      </div>
+
+      <!-- 01 Hero -->
+      <div class="sm-section">
+        <div class="sm-num">01</div>
+        <div class="sm-body">
+          <div class="sm-label strong">Hero</div>
+          <div class="sm-h dark" style="width:65%;"></div>
+          <div class="sm-h" style="width:45%;"></div>
+          <div class="sm-line" style="width:80%;"></div>
+        </div>
+      </div>
+
+      <!-- 02 Credentials — TOO EARLY -->
+      <div class="sm-section">
+        <div class="sm-num">02</div>
+        <div class="sm-body">
+          <div class="sm-label">Credentials — Enam, Axis, 20yr</div>
+          <div class="sm-h" style="width:40%;"></div>
+          <div class="sm-line"></div>
+          <div class="sm-line" style="width:70%;"></div>
+        </div>
+        <div class="sm-badge risk">⚠ Too early — "who are you?"</div>
+      </div>
+
+      <!-- 03 Services -->
+      <div class="sm-section">
+        <div class="sm-num">03</div>
+        <div class="sm-body">
+          <div class="sm-label">Services</div>
+          <div class="sm-h" style="width:50%;"></div>
+          <div class="sm-line"></div>
+          <div class="sm-line" style="width:80%;"></div>
+          <div class="sm-line" style="width:60%;"></div>
+        </div>
+        <div class="sm-badge risk">⚠ Dropped before this</div>
+      </div>
+
+      <!-- 04 Process -->
+      <div class="sm-section">
+        <div class="sm-num">04</div>
+        <div class="sm-body">
+          <div class="sm-label">Process</div>
+          <div class="sm-line"></div>
+          <div class="sm-line" style="width:75%;"></div>
+        </div>
+      </div>
+
+      <!-- 05 Engage -->
+      <div class="sm-section">
+        <div class="sm-num">05</div>
+        <div class="sm-body">
+          <div class="sm-label">Engage CTA</div>
+          <div class="sm-cta ghost">Contact Us</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARROW -->
+  <div class="wf-arrow">→</div>
+
+  <!-- RIGHT: CHOSEN — Philosophy-first -->
+  <div>
+    <div class="wf-col-label chosen">✓ Chosen — Philosophy-First, Non-Linear Router</div>
+    <div class="wf-scroll-map chosen">
+      <div class="wf-nav" style="background:#1a1a1a; border-color:#333;">
+        <div class="wf-nav-logo" style="background:#555;"></div>
+        <div class="wf-nav-link" style="width:22px; background:#444;"></div>
+        <div class="wf-nav-link" style="width:22px; background:#444;"></div>
+        <div class="wf-nav-link" style="width:22px; background:#444;"></div>
+        <div class="wf-nav-link" style="width:22px; background:#444;"></div>
+        <div class="wf-nav-link" style="width:38px; background:#555; border-radius:1px;"></div>
+      </div>
+      <div style="background:#1a1a1a; padding:2px 12px; font-size:7.5px; letter-spacing:1.5px; text-transform:uppercase; color:#555;">Persistent nav — skip-ahead always available</div>
+
+      <!-- 01 Hero (Philosophy statement) -->
+      <div class="sm-section" style="background:#fff; border-left:3px solid #1a1a1a;">
+        <div class="sm-num active">01</div>
+        <div class="sm-body">
+          <div class="sm-label keystone">★ Hero — Philosophy Statement</div>
+          <div class="sm-h primary" style="width:70%;"></div>
+          <div class="sm-h dark" style="width:50%;"></div>
+          <div class="sm-line" style="width:85%;"></div>
+          <div class="sm-line" style="width:65%;"></div>
+        </div>
+        <div class="sm-badge ok">Stops cold visitors</div>
+      </div>
+
+      <!-- 02 Credentials (proof) -->
+      <div class="sm-section">
+        <div class="sm-num active">02</div>
+        <div class="sm-body">
+          <div class="sm-label strong">Credentials — Institutional Proof</div>
+          <div class="sm-h dark" style="width:45%;"></div>
+          <div class="sm-line"></div>
+          <div class="sm-line" style="width:70%;"></div>
+        </div>
+        <div class="sm-badge ok">Warm visitors confirm</div>
+      </div>
+
+      <!-- 03 Services + Process -->
+      <div class="sm-section">
+        <div class="sm-num active">03</div>
+        <div class="sm-body">
+          <div class="sm-label strong">Services — Outcome-first</div>
+          <div class="sm-h dark" style="width:55%;"></div>
+          <div class="sm-line"></div>
+          <div class="sm-line" style="width:80%;"></div>
+          <div class="sm-line" style="width:60%;"></div>
+        </div>
+        <div class="sm-badge ok">All segments reach this</div>
+      </div>
+
+      <!-- 04 We Are Selective -->
+      <div class="sm-section" style="background:#f8f7f4; border-left:2px solid #888;">
+        <div class="sm-num active">04</div>
+        <div class="sm-body">
+          <div class="sm-label keystone">We Are Selective — Filter</div>
+          <div class="sm-h dark" style="width:42%;"></div>
+          <div class="sm-line"></div>
+          <div class="sm-cta primary" style="font-size:7.5px; padding:3px 8px; margin-top:4px;">Assess Your Fit →</div>
+        </div>
+        <div class="sm-badge ok">Qualifies intent</div>
+      </div>
+
+      <!-- 05 Engage -->
+      <div class="sm-section">
+        <div class="sm-num active">05</div>
+        <div class="sm-body">
+          <div class="sm-label strong">Engage — High-Intent CTA</div>
+          <div class="sm-cta primary">Begin a Conversation</div>
+        </div>
+        <div class="sm-badge ok">Pre-qualified arrivals</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /canvas -->
+
+<!-- Audience Test Grid -->
+<div class="wf-test-grid">
+  <div class="wf-test-label">Audience Segment Test — Sequence Performance</div>
+  <table class="wf-test-table">
+    <thead>
+      <tr>
+        <th style="width:20%;">Visitor Type</th>
+        <th>Credentials-First sequence</th>
+        <th>Philosophy-First sequence</th>
+        <th style="width:20%;">Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Warm referral</strong><br><span style="color:#999;font-size:10px;">High trust, needs validation</span></td>
+        <td class="bad">Credentials land but feel expected. No early signal of what makes this firm different. Scrolls for differentiation, may not find it.</td>
+        <td class="good">Philosophy confirmed quickly. Credentials validate. Moves rapidly to services. High engagement on first call.</td>
+        <td class="good">Philosophy-first ✓</td>
+      </tr>
+      <tr>
+        <td><strong>Cold prospect</strong><br><span style="color:#999;font-size:10px;">Skeptical, needs education</span></td>
+        <td class="bad">Credentials before belief = "another advisory firm." No reason to trust the specific thesis. Disengages before services section.</td>
+        <td class="good">Philosophy section creates a stop. "I've never seen a firm say this explicitly." Reads carefully. Credentials confirm. Services become relevant.</td>
+        <td class="good">Philosophy-first ✓</td>
+      </tr>
+      <tr>
+        <td><strong>Sector specialist</strong><br><span style="color:#999;font-size:10px;">Knows the market, comparing</span></td>
+        <td class="bad">Credentials match competitors. Process reads as standard. Nothing memorable.</td>
+        <td class="good">Uses persistent nav to skip to Services directly. Outcome-first cards immediately differentiate. Reaches Engage section with high intent.</td>
+        <td class="good">Non-linear nav ✓</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="wf-notes">
+  <div class="wf-critique">
+    <strong>Why credentials-first fails</strong>
+    Opening with credentials requires the visitor to supply their own reason to care. The implicit question — "so what?" — is unanswered until the services section, but most skeptical visitors disengage before reaching it. The credentials-first sequence had no segment that moved all three visitor types through to services engagement.
+  </div>
+  <div class="wf-rationale">
+    <strong>Why philosophy-first works for all segments</strong>
+    Warm visitors move past the philosophy section quickly — it confirms what they already suspected. Skeptical visitors stop at the philosophy section and read carefully — it gives them a reason to continue. The persistent nav means sector specialists bypass any section and use the site as a reference tool. The philosophy-first sequence had no segment that disengaged before reaching the services section.
+  </div>
+</div>
+
+<div class="wf-footer">
+  <div class="wf-final-section">
+    <div class="wf-final-label">How this translated to final UI</div>
+    <div class="wf-translation-point">Homepage hero leads with a philosophy statement, not credentials or a tagline</div>
+    <div class="wf-translation-point">Persistent sticky nav allows skip-ahead at any scroll depth</div>
+    <div class="wf-translation-point">Each section designed as a standalone entry point for direct-URL visitors</div>
+    <div class="wf-translation-point">"We Are Selective" placed at position 4, just before Engage — filters only at highest intent</div>
+  </div>
+  <div class="wf-final-section">
+    <div class="wf-final-label">What this decision improves</div>
+    <div class="wf-translation-point"><strong>Warm visitors:</strong> Faster path to confirmation — less friction to first call</div>
+    <div class="wf-translation-point"><strong>Cold visitors:</strong> Philosophy creates an information stop before bounce</div>
+    <div class="wf-translation-point"><strong>Specialists:</strong> Non-linear nav respects their prior knowledge</div>
+    <div class="wf-translation-point"><strong>Overall:</strong> No audience segment disengages before reaching Services</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual — Exploration 01: Spec-Dense Technology Page</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0a0a;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #c0c0c0;
+  padding: 2rem;
+}
+.artifact-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #222;
+}
+.artifact-meta { display: flex; flex-direction: column; gap: 0.2rem; }
+.artifact-tag { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: #555; }
+.artifact-name { font-size: 0.8rem; color: #888; }
+.artifact-badge {
+  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  border: 1px solid #3a2a2a; color: #663333; padding: 0.25rem 0.6rem; border-radius: 2px;
+  background: rgba(80,30,30,0.15);
+}
+
+.wf-container {
+  background: #111; border: 1px solid #222; border-radius: 4px;
+  overflow: hidden; max-width: 760px; margin: 0 auto;
+}
+.wf-nav {
+  background: #161616; border-bottom: 1px solid #222;
+  padding: 0.7rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.wf-logo { width: 56px; height: 8px; background: #2a2a2a; border-radius: 1px; }
+.wf-nav-links { display: flex; gap: 1rem; }
+.wf-nav-link { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: #444; }
+
+/* HERO — leads with the tech claim */
+.wf-hero {
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 1px solid #1e1e1e;
+  background: #0e0e0e;
+}
+.wf-hero-label {
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #444; margin-bottom: 0.5rem;
+}
+.wf-hero-h {
+  font-size: 1rem; color: #666; font-weight: 400; margin-bottom: 0.4rem; line-height: 1.35;
+}
+.wf-hero-sub {
+  font-size: 0.68rem; color: #3a3a3a; margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+/* Data table style — the "datasheet" look */
+.wf-data-table {
+  border: 1px solid #222; border-radius: 2px; overflow: hidden;
+  margin-bottom: 1rem;
+}
+.wf-data-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid #1e1e1e;
+}
+.wf-data-row:last-child { border-bottom: none; }
+.wf-data-cell {
+  padding: 0.6rem 0.9rem;
+  border-right: 1px solid #1e1e1e;
+  display: flex; flex-direction: column; gap: 0.2rem;
+}
+.wf-data-cell:last-child { border-right: none; }
+.wf-data-val { font-size: 0.88rem; font-weight: 500; color: #666; }
+.wf-data-lbl { font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: #333; }
+
+.wf-cert-strip {
+  display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem;
+}
+.wf-cert {
+  padding: 0.2rem 0.55rem; border: 1px solid #252525;
+  font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #333; border-radius: 2px;
+}
+
+/* SECTIONS — spec sections, one after another */
+.wf-section {
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid #1a1a1a;
+}
+.wf-section-title {
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #444; margin-bottom: 0.75rem;
+}
+.wf-spec-list {
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.wf-spec-item {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.wf-spec-bullet {
+  width: 4px; height: 4px; border-radius: 50%; background: #2a2a2a; flex-shrink: 0;
+}
+.wf-spec-text { font-size: 0.67rem; color: #3a3a3a; }
+
+.wf-img-ph {
+  width: 100%; height: 80px; background: #161616;
+  border: 1px dashed #222; border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.58rem; color: #2a2a2a; letter-spacing: 0.1em; text-transform: uppercase;
+  margin-top: 0.75rem;
+}
+
+/* ANNOTATION */
+.wf-note {
+  background: #161616; border-left: 2px solid #3a2a2a;
+  padding: 0.5rem 1rem;
+  font-size: 0.63rem; color: #553333; font-style: italic;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.wf-note::before { content: '✕'; font-style: normal; font-size: 0.58rem; }
+
+.artifact-footer {
+  margin-top: 1rem; font-size: 0.6rem; color: #333;
+  text-align: center; letter-spacing: 0.06em;
+}
+</style>
+</head>
+<body>
+
+<div class="artifact-header">
+  <div class="artifact-meta">
+    <span class="artifact-tag">Exploration 01 — Abandoned · exploration-spec-dense.png</span>
+    <span class="artifact-name">Spec-Dense Technology Page · Section 04 — What Didn't Work</span>
+  </div>
+  <span class="artifact-badge">Abandoned direction</span>
+</div>
+
+<div class="wf-container">
+
+  <div class="wf-nav">
+    <div class="wf-logo"></div>
+    <div class="wf-nav-links">
+      <span class="wf-nav-link">Technology</span>
+      <span class="wf-nav-link">Products</span>
+      <span class="wf-nav-link">Specs</span>
+      <span class="wf-nav-link">Contact</span>
+    </div>
+  </div>
+
+  <div class="wf-hero">
+    <div class="wf-hero-label">Filterless Technology — Technical Specifications</div>
+    <div class="wf-hero-h">PM2.5 filtration at 99.97% efficiency — no replacement filter required</div>
+    <div class="wf-hero-sub">Electrostatic field purification. ISO 16890 compliant. BIS approved for industrial deployment.</div>
+
+    <div class="wf-data-table">
+      <div class="wf-data-row">
+        <div class="wf-data-cell">
+          <div class="wf-data-val">99.97%</div>
+          <div class="wf-data-lbl">PM2.5 removal rate</div>
+        </div>
+        <div class="wf-data-cell">
+          <div class="wf-data-val">580 m³/hr</div>
+          <div class="wf-data-lbl">Airflow volume</div>
+        </div>
+        <div class="wf-data-cell">
+          <div class="wf-data-val">85W</div>
+          <div class="wf-data-lbl">Power draw</div>
+        </div>
+      </div>
+      <div class="wf-data-row">
+        <div class="wf-data-cell">
+          <div class="wf-data-val">HEPA A</div>
+          <div class="wf-data-lbl">Filter classification</div>
+        </div>
+        <div class="wf-data-cell">
+          <div class="wf-data-val">2,000 sqft</div>
+          <div class="wf-data-lbl">Coverage area</div>
+        </div>
+        <div class="wf-data-cell">
+          <div class="wf-data-val">0 months</div>
+          <div class="wf-data-lbl">Filter replacement cycle</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-cert-strip">
+      <span class="wf-cert">ISO 16890</span>
+      <span class="wf-cert">BIS Approved</span>
+      <span class="wf-cert">NABL Tested</span>
+      <span class="wf-cert">CE Mark</span>
+      <span class="wf-cert">RoHS Compliant</span>
+    </div>
+  </div>
+
+  <div class="wf-note">Hero opens with PM2.5% and certification badges — no established reason for a visitor to care about the numbers yet.</div>
+
+  <div class="wf-section">
+    <div class="wf-section-title">Electrostatic mechanism — how it works</div>
+    <div class="wf-spec-list">
+      <div class="wf-spec-item"><div class="wf-spec-bullet"></div><div class="wf-spec-text">High-voltage ionisation field: 6kV at entry stage</div></div>
+      <div class="wf-spec-item"><div class="wf-spec-bullet"></div><div class="wf-spec-text">Collection plate efficiency: 98.4% at 0.3 micron particle size</div></div>
+      <div class="wf-spec-item"><div class="wf-spec-bullet"></div><div class="wf-spec-text">Ozone emission: 0.005 ppm — below CPCB limits</div></div>
+      <div class="wf-spec-item"><div class="wf-spec-bullet"></div><div class="wf-spec-text">Maintenance cycle: monthly wash, no consumable parts</div></div>
+    </div>
+    <div class="wf-img-ph">[ Technical diagram placeholder ]</div>
+  </div>
+
+  <div class="wf-note">Section 2 adds more specs before establishing trust. A non-technical operator reads "6kV ionisation field" and feels uncertainty, not confidence.</div>
+
+  <div class="wf-section">
+    <div class="wf-section-title">Certifications &amp; compliance documentation</div>
+    <div class="wf-spec-list">
+      <div class="wf-spec-item"><div class="wf-spec-bullet"></div><div class="wf-spec-text">ISO 16890 — International standard for air filtration</div></div>
+      <div class="wf-spec-item"><div class="wf-spec-bullet"></div><div class="wf-spec-text">BIS IS 15683 — Indian standard for air purifiers</div></div>
+      <div class="wf-spec-item"><div class="wf-spec-bullet"></div><div class="wf-spec-text">NABL accredited test reports available on request</div></div>
+    </div>
+  </div>
+
+  <div class="wf-note">Reads like a datasheet — operators needed confidence and business outcome, not a component list. This direction was abandoned.</div>
+
+</div>
+
+<div class="artifact-footer">Wireframe reconstruction — Exploration 01: Spec-Dense Technology Page · exploration-spec-dense.png</div>
+
+</body>
+</html>
