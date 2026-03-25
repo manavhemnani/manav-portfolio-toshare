@@ -179,42 +179,15 @@ body::before {
 .meta-val.green { color:var(--accent-proj); }
 
 /* ─── BODY GRID ───────────────────────────────────── */
-.cs-body {
-  display:grid; grid-template-columns:var(--sidebar-w) 1fr;
-  max-width:1100px; margin:0 auto; padding:0 3rem; gap:6rem; align-items:start;
-  line-height: 1.7;}
 
 /* ─── SIDEBAR ─────────────────────────────────────── */
-.cs-sidebar {
-  position:sticky; top:calc(var(--nav-h) + 3rem);
-  padding-top:5rem; padding-bottom:2rem;
-}
-.sb-label { font-size: 0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:1.4rem; }
-.sb-nav { list-style:none; }
+
 .sb-nav li { margin-bottom:0.08rem; }
-.sb-nav a {
-  display:flex; align-items:center; gap:0.7rem;
-  font-size:0.74rem; letter-spacing:0.04em; color:var(--muted);
-  padding:0.42rem 0 0.42rem 0.8rem; margin-left:-0.8rem;
-  border-left:2px solid transparent; transition:color 0.2s, border-color 0.2s;
-}
-.sb-nav a:hover { color:var(--white); }
-.sb-nav a.active { color:var(--white); border-left-color:var(--accent-proj); }
-.sb-num { font-size: 0.72rem; color:var(--muted); letter-spacing:0.1em; min-width:1.4rem; transition:color 0.2s; }
-.sb-nav a.active .sb-num { color:var(--accent-proj); }
-.sb-progress { margin-top:2.5rem; height:2px; background:rgba(240,237,230,0.06); border-radius:2px; overflow:hidden; }
-.sb-fill { height:100%; background:var(--accent-proj); width:0%; transition:width 0.12s ease; border-radius:2px; }
-.sb-pct { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:0.55rem; }
+
+.sb-nav a.active 
 
 /* ─── CONTENT ─────────────────────────────────────── */
-.cs-content { padding-top:5rem; padding-bottom:8rem; }
 
-.chapter { padding-bottom:7rem; border-bottom:1px solid rgba(240,237,230,0.06); margin-bottom:7rem; }
-.chapter:last-child { border-bottom:none; margin-bottom:0; }
-
-.ch-header { display:flex; align-items:baseline; gap:1.2rem; margin-bottom:2.5rem; }
-.ch-num { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-proj); font-weight:500; white-space:nowrap; }
-.ch-title { font-size:1.55rem; font-weight:400; letter-spacing:-0.016em; line-height:1.2; }
 .ch-title em { font-family:var(--serif); font-style:italic; color:var(--accent-amber); }
 
 .body { font-size:0.95rem; color:var(--mid); line-height:1.9; font-weight:300; margin-bottom:1.4rem; max-width:var(--content-max); }
@@ -303,7 +276,6 @@ body::before {
   height: auto;
   display: block;
 }
-
 
 /* IMAGE PLACEHOLDERS */
 .ph {
@@ -414,9 +386,8 @@ body::before {
   --content-max: 720px;
   --nav-h:       68px;
 }
-  .cs-body{grid-template-columns:1fr;padding:0 1.5rem;gap:0;
-  line-height: 1.7;}
-  .cs-sidebar{display:none;}
+  
+  
   .nav,.hero-content,.meta-strip{padding-left:1.5rem;padding-right:1.5rem;}
   .hero-aqi,.particles{display:none;}
   .collab,.reflect,.ba-grid,.ba-labels,.dec-body,.g2,.g3{grid-template-columns:1fr;}
@@ -454,7 +425,6 @@ body::before {
 .ia-row.chosen .ia-rowwhy { color:rgba(61,184,122,0.55); font-style:normal; }
 .ia-chosen-sep { padding:0.5rem 1.6rem; border-top:1px solid rgba(61,184,122,0.12); background:rgba(61,184,122,0.015); }
 .ia-chosen-sep span { font-size: 0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(61,184,122,0.35); }
-
 
 /* ── Accessibility: focus states ─────────────────────────────── */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
@@ -534,10 +504,289 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   margin-bottom: 0.1rem;
 }
 .decision-card.chosen .decision-card-num { color: var(--accent-proj); }
+
+
+/* ─── FAST SCAN WRAPPER ──────────────────────────── */
+.fast-scan {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ─── SNAPSHOT (3-col quick overview) ────────────── */
+.snapshot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  margin: 3rem 0 0;
+  overflow: hidden;
+}
+.snapshot-cell {
+  padding: 1.6rem 1.8rem;
+  border-right: 1px solid rgba(240,237,230,0.1);
+}
+.snapshot-cell:last-child { border-right: none; }
+.snapshot-lbl {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-light, var(--accent-proj));
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.snapshot-val {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+/* ─── SECTION BLOCKS (fast scan) ─────────────────── */
+.section-block {
+  padding: 4rem 0;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+}
+.section-block:last-of-type { border-bottom: none; }
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+.section-num {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-proj);
+  font-weight: 500;
+}
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(240,237,230,0.07);
+  max-width: 60px;
+}
+.section-block h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+.section-block h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent-light, var(--accent-proj));
+}
+
+/* ─── CONSTRAINT FEATURE CARD ─────────────────────── */
+.constraint-feature {
+  margin: 2rem 0;
+  padding: 1.8rem 2rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  max-width: var(--content-max, 720px);
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.cf-icon { font-size: 1.1rem; line-height: 1; margin-top: 0.15rem; flex-shrink: 0; }
+.cf-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.45rem; font-weight: 500;
+}
+.cf-text { font-size: 0.9rem; color: var(--mid); line-height: 1.72; font-weight: 300; }
+.cf-text strong { color: var(--white); font-weight: 400; }
+
+/* ─── FAST-SCAN DECISION CARD ────────────────────── */
+.fs-decision {
+  margin: 2rem 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-2);
+  max-width: var(--content-max, 720px);
+}
+.fsd-head {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.fsd-icon { font-size: 0.85rem; }
+.fsd-q { font-size: 0.82rem; font-weight: 500; color: var(--white); letter-spacing: -0.005em; }
+.fsd-chosen { padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(240,237,230,0.07); }
+.fsd-chosen-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.6rem; font-weight: 500;
+}
+.fsd-chosen p { font-size: 0.85rem; color: var(--mid); line-height: 1.7; font-weight: 300; }
+.fsd-chosen p strong { color: var(--white); font-weight: 400; }
+.fsd-why {
+  padding: 1.1rem 1.5rem;
+  background: rgba(61,184,122,0.04);
+  font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
+}
+.fsd-why strong { color: var(--white); font-weight: 400; }
+
+/* ─── SOLUTION IMAGES ─────────────────────────────── */
+.solution-img-full {
+  border-radius: 4px; overflow: hidden;
+  background: var(--bg-3);
+  border: 1px solid rgba(240,237,230,0.07);
+  margin: 2rem 0;
+}
+.solution-img-full img { width: 100%; display: block; }
+.solution-img-full figcaption {
+  font-size: 0.7rem; color: var(--muted);
+  padding: 0.6rem 0.9rem; font-style: italic; line-height: 1.5;
+}
+.solution-grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin: 2rem 0; }
+.sg-item {
+  border-radius: 4px; overflow: hidden;
+  background: var(--bg-3); border: 1px solid rgba(240,237,230,0.07);
+}
+.sg-item img { width: 100%; height: auto; display: block; }
+.sg-cap { font-size: 0.7rem; color: var(--muted); padding: 0.55rem 0.75rem; line-height: 1.4; font-style: italic; }
+
+/* ─── IMPACT TILE ─────────────────────────────────── */
+.impact-tile {
+  margin: 2rem 0;
+  padding: 2.2rem 2.4rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(61,184,122,0.22);
+  border-radius: 6px;
+  max-width: var(--content-max, 720px);
+}
+.impact-tile-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 1rem; font-weight: 500;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.impact-tile-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.impact-headline {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  font-weight: 300; letter-spacing: -0.02em;
+  color: var(--white); line-height: 1.35; margin-bottom: 0.9rem;
+}
+.impact-headline em {
+  font-family: var(--serif); font-style: italic; color: var(--accent-light, var(--accent-proj));
+}
+.impact-body { font-size: 0.88rem; color: var(--mid); line-height: 1.78; font-weight: 300; max-width: 54ch; }
+
+/* ─── DEEP DIVE TOGGLE ───────────────────────────── */
+.deep-dive-toggle-wrap {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto;
+  padding: 0 3rem 5rem;
+}
+.deep-dive-cta {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(240,237,230,0.1);
+}
+.deep-dive-cta::before, .deep-dive-cta::after {
+  content: ''; flex: 1; height: 1px; background: rgba(240,237,230,0.07);
+}
+.toggle-btn {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.12);
+  color: var(--mid);
+  font-family: var(--sans);
+  font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.85rem 1.8rem; border-radius: 2px;
+  cursor: pointer; transition: all 0.25s; white-space: nowrap;
+  position: relative; overflow: hidden;
+}
+.toggle-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent-proj);
+  transform: translateX(-101%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.toggle-btn:hover { color: var(--white); border-color: rgba(61,184,122,0.4); }
+.toggle-btn:hover::before { transform: translateX(0); }
+.toggle-btn span { position: relative; z-index: 1; }
+.toggle-arrow {
+  position: relative; z-index: 1; display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); font-size: 0.9rem;
+}
+.toggle-btn.open .toggle-arrow { transform: rotate(180deg); }
+
+/* ─── DEEP DIVE SECTION ──────────────────────────── */
+.deep-dive {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto; padding: 0 3rem;
+  overflow: hidden; max-height: 0;
+  transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+  opacity: 0;
+}
+.deep-dive.open {
+  max-height: 9999px; opacity: 1;
+  transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease 0.1s;
+}
+.deep-dive-inner { padding-bottom: 4rem; border-top: 1px solid rgba(240,237,230,0.1); }
+.dd-grid {
+  display: grid; grid-template-columns: 180px 1fr;
+  gap: 5rem; align-items: start;
+}
+.dd-sidebar { position: sticky; top: calc(var(--nav-h, 68px) + 2rem); padding-top: 3.5rem; }
+.dd-sb-label {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.2rem;
+}
+.dd-sb-nav { list-style: none; }
+.dd-sb-nav li { margin-bottom: 0.05rem; }
+.dd-sb-nav a {
+  display: flex; align-items: center; gap: 0.65rem;
+  font-size: 0.74rem; letter-spacing: 0.06em; color: var(--muted);
+  padding: 0.38rem 0 0.38rem 0.75rem; margin-left: -0.75rem;
+  border-left: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.dd-sb-nav a:hover { color: var(--white); }
+.dd-sb-nav a.active { color: var(--white); border-left-color: var(--accent-proj); }
+.dd-sb-num { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; min-width: 1.3rem; transition: color 0.2s; }
+.dd-sb-nav a.active .dd-sb-num { color: var(--accent-proj); }
+.dd-content { padding-top: 3.5rem; }
+.dd-chapter {
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+  margin-bottom: 3.5rem;
+}
+.dd-chapter:last-child { border-bottom: none; margin-bottom: 0; }
+.dd-ch-header { display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 1.8rem; }
+.dd-ch-num {
+  font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent-proj); font-weight: 500; white-space: nowrap;
+}
+.dd-ch-title { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+.dd-ch-title em { font-family: var(--serif); font-style: italic; color: var(--accent-light, var(--accent-proj)); }
+.dd-tldr {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+  margin-top: 0.4rem; margin-bottom: 1.6rem; max-width: 52ch;
+}
+
+/* ─── REFLECT (deep dive F) ──────────────────────── */
+.reflect { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.2rem; }
+.reflect-lbl {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.reflect-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.reflect-col p { font-size: 0.87rem; color: var(--mid); line-height: 1.78; font-weight: 300; }
+.reflect-full { margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid rgba(240,237,230,0.07); }
+.reflect-full p { font-size: 0.95rem; color: var(--mid); line-height: 1.82; font-weight: 300; max-width: var(--content-max, 720px); }
+
+/* ─── SCROLL REVEAL ───────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
-
 <nav class="nav" id="nav">
   <a href="/" class="nav-name">Manav Hemnani</a>
   <div class="nav-right">
@@ -604,36 +853,175 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   </div>
 </div>
 
-<!-- BODY -->
-<div class="cs-body">
+<!-- ════════════════════════════════════════════
+     FAST SCAN
+     ════════════════════════════════════════════ -->
+<div class="fast-scan">
 
-  <!-- SIDEBAR -->
-  <aside class="cs-sidebar">
-    <p class="sb-label">Contents</p>
-    <ul class="sb-nav" id="sbNav">
-      <li><a href="#problem" class="active"><span class="sb-num">01</span>The Problem</a></li>
-      <li><a href="#constraints"><span class="sb-num">02</span>Constraints</a></li>
-      <li><a href="#context"><span class="sb-num">03</span>Context & Team</a></li>
-      <li><a href="#failed"><span class="sb-num">04</span>What Didn't Work</a></li>
-      <li><a href="#decisions"><span class="sb-num">05</span>Key Decisions</a></li>
-      <li><a href="#ecosystem"><span class="sb-num">06</span>The Ecosystem</a></li>
-      <li><a href="#outcomes"><span class="sb-num">07</span>What Changed</a></li>
-      <li><a href="#reflection"><span class="sb-num">08</span>Reflection</a></li>
-    </ul>
-    <div class="sb-progress"><div class="sb-fill" id="sbFill"></div></div>
-    <div class="sb-pct" id="sbPct">0% read</div>
-  </aside>
+  <!-- SNAPSHOT -->
+  <div class="snapshot reveal">
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">The problem</p>
+      <p class="snapshot-val">Air quality is invisible. The harder problem is that "technically impressive" is exactly the wrong place to start with a buyer who doesn't yet believe they have a problem.</p>
+    </div>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">What I did</p>
+      <p class="snapshot-val">Website redesign, companion app IA, motion language, and industrial design for the HIVE — all as one coherent design system across a 4-month engagement.</p>
+    </div>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">What changed</p>
+      <p class="snapshot-val">Three distinct audiences (operators, investors, engineers) served by one entry point. Launched within 4 months. The system is live and in production.</p>
+    </div>
+  </div>
 
-  <main class="cs-content">
+  <!-- 01 — PROBLEM -->
+  <div class="section-block reveal" id="fs-problem">
+    <div class="section-eyebrow">
+      <span class="section-num">01 — Problem</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Build credibility with<br><em>no conventional proof</em></h2>
+    <p class="body">The brief wasn't a UI problem. It was a belief problem. Air quality is invisible — people don't see it, don't feel it, and rarely think about it until something is already wrong. Praan builds patent-pending, filterless air purification technology deployed across factories and large industrial spaces. Technically, it's impressive. But technically impressive is exactly the wrong place to start with a buyer who doesn't yet believe they have a problem worth solving.</p>
+    <div class="pull">
+      <p>"How do you make people care about something they can't see — and then trust a solution they can't fully understand?"</p>
+      <cite>The question that shaped every major decision in this project</cite>
+    </div>
+    <p class="body">The design challenge wasn't simplifying deep tech — it was making it aspirational, relatable, and believable across three very different audiences: factory operators who needed compliance reassurance, investors who needed to see a credible business, and engineers who needed technical confidence. A single digital ecosystem had to carry all of that simultaneously.</p>
+  </div>
 
-    <!-- 01 — THE PROBLEM (leads with tension, not context) -->
-    <section class="chapter" id="problem">
-      <div class="ch-header">
-        <span class="ch-num">—01</span>
-        <h2 class="ch-title">The <em>Problem</em></h2>
+  <!-- 02 — KEY CONSTRAINT -->
+  <div class="section-block reveal" id="fs-constraint">
+    <div class="section-eyebrow">
+      <span class="section-num">02 — Key Constraint</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>A price point that<br><em>demands restraint</em></h2>
+    <p class="body">At ₹80,000 — an aspirational price for a product category with no established mental model in India — the website couldn't just explain Praan. It had to earn the right to ask for that much.</p>
+    <div class="constraint-feature reveal">
+      <div class="cf-icon">⚡</div>
+      <div>
+        <div class="cf-lbl">The binding constraint</div>
+        <p class="cf-text">No filter system. No established category. No existing Indian mental model for ₹80,000 air purification. The website couldn't justify the price — it had to earn the right to charge it. <strong>Restraint wasn't a stylistic choice. It was the only credible one.</strong></p>
       </div>
+    </div>
+    <div class="pills">
+      <span class="pill hard">Target users 35–55 — low IoT literacy, onboarding had to be zero-effort</span>
+      <span class="pill hard">₹80,000 price point — digital presence must match hardware credibility</span>
+      <span class="pill">New product category in India — no existing mental model to build on</span>
+      <span class="pill">App + website must share a coherent visual and motion language</span>
+    </div>
+  </div>
 
-      <p class="body">
+  <!-- 03 — KEY DECISION -->
+  <div class="section-block reveal" id="fs-decision">
+    <div class="section-eyebrow">
+      <span class="section-num">03 — Key Decision</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Explain the invisible<br><em>with motion</em></h2>
+    <p class="body">The filterless mechanism — removing particulates using electrostatic fields, without a physical filter — is genuinely counterintuitive. "No filter" sounds like a claim that needs to be earned. Static photography proves the device exists; it proves nothing about how it works.</p>
+    <div class="fs-decision reveal">
+      <div class="fsd-head">
+        <span class="fsd-icon">⚡</span>
+        <span class="fsd-q">How do you explain a mechanism that works invisibly — static photography or custom motion?</span>
+      </div>
+      <div class="fsd-chosen">
+        <div class="fsd-chosen-lbl">What we chose</div>
+        <p><strong>Custom filterless technology animation as the primary explanation mechanism.</strong> One 12-second loop replaced approximately 200 words of technical copy. Photography and written specs were repositioned to a supporting layer below the fold.</p>
+      </div>
+      <div class="fsd-why">Motion isn't a stylistic choice here. <strong>It's the only format that closes the proof gap.</strong> A 12-second animation lets a sceptical buyer watch the mechanism operate and arrive at their own conclusion — that shift from persuasion to demonstration changed the credibility pathway entirely.</div>
+    </div>
+  </div>
+
+  <!-- 04 — SOLUTION -->
+  <div class="section-block reveal" id="fs-solution">
+    <div class="section-eyebrow">
+      <span class="section-num">04 — Solution</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>One ecosystem,<br><em>three audiences</em></h2>
+    <p class="body">The website, motion language, and HIVE product experience were designed as one system — not three separate deliverables. The website persuades the prospect; the HIVE app reassures the owner day-to-day; the motion language connects both and makes them feel like the same brand at different distances.</p>
+    <figure class="solution-img-full reveal">
+      <img src="/assets/images/praan/website-visual-1.jpg" alt="Praan website homepage — outcome-forward hero">
+      <figcaption>"The homepage leads with outcome, not specification — 'Make your factory healthier and safer today' before any technical detail."</figcaption>
+    </figure>
+    <p class="body">Visual principles that governed the website's restraint — ambient over explicit, outcome before specification, depth available on demand — carried directly into the app's home screen logic and the product's animation design.</p>
+    <div class="solution-grid reveal">
+      <div class="sg-item">
+       <video src="/assets/videos/praan/filterless-tech.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
+        <div class="sg-cap">Filterless animation — the mechanism explained in 12 seconds, without text</div>
+      </div>
+      <div class="sg-item">
+        <video src="/assets/videos/praan/material-reusability.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
+        <div class="sg-cap">Filterless animation — the mechanism explained in 12 seconds, without text</div>
+      </div>
+      <div class="sg-item">
+        <video src="/assets/videos/praan/scaling-factory.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
+        <div class="sg-cap">Filterless animation — the mechanism explained in 12 seconds, without text</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 — IMPACT -->
+  <div class="section-block reveal" id="fs-impact">
+    <div class="section-eyebrow">
+      <span class="section-num">05 — Impact</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Three audiences,<br><em>one entry point</em></h2>
+    <div class="impact-tile reveal">
+      <div class="impact-tile-lbl">What changed</div>
+      <p class="impact-headline">Three audiences. One entry point.<br><em>No one asked to choose.</em></p>
+      <p class="impact-body">Operators, investors, and engineers enter the same narrative and find their depth without being routed or segmented at arrival. One coherent narrative starting with the universal outcome — cleaner air, healthier spaces — makes deeper content available to whoever wants it.</p>
+    </div>
+    <p class="body" style="margin-top:1.8rem;">This was a zero-to-one engagement — no baseline analytics existed at the time of the redesign. The outcomes are structural design decisions and measurable system changes: a 12-second animation replaced ~200 words of technical copy, and the full digital ecosystem shipped live within four months.</p>
+  </div>
+
+</div><!-- /fast-scan -->
+
+<!-- ════════════════════════════════════════════
+     DEEP DIVE TOGGLE
+     ════════════════════════════════════════════ -->
+<div class="deep-dive-toggle-wrap">
+  <div class="deep-dive-cta">
+    <button class="toggle-btn" id="deepDiveToggle" aria-expanded="false" aria-controls="deepDive">
+      <span>Explore Full Process</span>
+      <span class="toggle-arrow">↓</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     DEEP DIVE
+     ════════════════════════════════════════════ -->
+<section class="deep-dive" id="deepDive" aria-hidden="true">
+  <div class="deep-dive-inner">
+    <div class="dd-grid">
+
+      <!-- Sidebar -->
+      <aside class="dd-sidebar">
+        <p class="dd-sb-label">Full Process</p>
+        <ul class="dd-sb-nav" id="ddNav">
+          <li><a href="#dd-brief" class="active"><span class="dd-sb-num">A</span>Brief &amp; Problem</a></li>
+          <li><a href="#dd-constraints"><span class="dd-sb-num">B</span>Scope &amp; Constraints</a></li>
+          <li><a href="#dd-process"><span class="dd-sb-num">C</span>Process</a></li>
+          <li><a href="#dd-decisions"><span class="dd-sb-num">D</span>All Decisions</a></li>
+          <li><a href="#dd-build"><span class="dd-sb-num">E</span>The Build</a></li>
+          <li><a href="#dd-reflection"><span class="dd-sb-num">F</span>Reflection</a></li>
+        </ul>
+      </aside>
+
+      <!-- Content -->
+      <div class="dd-content">
+
+        <!-- A — BRIEF & PROBLEM -->
+        <div class="dd-chapter" id="dd-brief">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—A</span>
+            <h3 class="dd-ch-title">Brief &amp; <em>Problem</em></h3>
+          </div>
+          <p class="dd-tldr">The brief was a website redesign. The actual problem was making an invisible phenomenon feel real enough to pay ₹80,000 for.</p>
+    <p class="body">
         The brief wasn't a UI problem. It was a belief problem. Air quality is invisible — people don't see it, don't feel it, and rarely think about it until something is already wrong. Praan builds patent-pending, filterless air purification technology deployed across factories and large industrial spaces. Technically, it's impressive. But technically impressive is exactly the wrong place to start with a buyer who doesn't yet believe they have a problem worth solving.
       </p>
 
@@ -645,36 +1033,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <p class="body">
         The design challenge wasn't simplifying deep tech — it was making it aspirational, relatable, and believable across three very different audiences: factory operators who needed compliance reassurance, investors who needed to see a credible business, and engineers who needed technical confidence. A single digital ecosystem — website, motion language, and product experience — had to carry all of that simultaneously, without collapsing under the weight of trying to speak to everyone.
       </p>
-
-    </section>
-
-    <!-- 02 — CONSTRAINTS -->
-    <section class="chapter" id="constraints">
-      <div class="ch-header">
-        <span class="ch-num">—02</span>
-        <h2 class="ch-title"><em>Constraints</em></h2>
-      </div>
-
-      <div class="pills">
-        <span class="pill hard">Target users 35–55 — low IoT literacy, onboarding had to be zero-effort</span>
-        <span class="pill hard">₹80,000 price point — digital presence must match hardware credibility</span>
-        <span class="pill">New product category in India — no existing mental model to build on</span>
-        <span class="pill">App + website must share a coherent visual and motion language</span>
-      </div>
-
-      <p class="body">
-        At ₹80,000 — an aspirational price for a product category with no established mental model in India — the website couldn't just explain Praan. It had to earn the right to ask for that much. Every design decision was weighed against a single question: does this signal a brand that deserves this price, or one that's still justifying it? That pressure ruled out feature density, promotional language, and anything that felt like it was trying too hard. <strong>Restraint wasn't a stylistic choice. It was the only credible one.</strong>
-      </p>
-    </section>
-
-    <!-- 03 — CONTEXT & TEAM -->
-    <section class="chapter" id="context">
-      <div class="ch-header">
-        <span class="ch-num">—03</span>
-        <h2 class="ch-title">Context & <em>Team</em></h2>
-      </div>
-
-      <p class="body">
+    <h4 style="font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-proj);margin:2rem 0 1rem;font-weight:500;">Context &amp; Team</h4>
+    <p class="body">
         I joined Praan in February 2023 as a full-stack designer, working directly under the founder for four months. The starting brief was a website redesign — but the scope expanded quickly to cover everything the brand touched digitally: information architecture, content hierarchy, high-fidelity UI, motion language, and visual storytelling for investor and stakeholder communication. I also mentored a junior designer on digital asset development throughout the engagement.
       </p>
 
@@ -699,17 +1059,35 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <p class="body">
         Working without a PM layer changed the nature of design decisions. Every call — an IA structure, a motion direction, a content hierarchy — carried the weight of being trusted outright. That kind of accountability is different from a studio environment where work passes through multiple approval layers. It made the process more structured in one way (clear iteration loops with the founder) and more adaptable in another (engineering and situational changes required real-time pivots rather than formal change requests).
       </p>
+        </div>
 
-    </section>
-
-    <!-- 04 — WHAT DIDN'T WORK -->
-    <section class="chapter" id="failed">
-      <div class="ch-header">
-        <span class="ch-num">—04</span>
-        <h2 class="ch-title">What <em>Didn't Work</em></h2>
+        <!-- B — SCOPE & CONSTRAINTS -->
+        <div class="dd-chapter" id="dd-constraints">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—B</span>
+            <h3 class="dd-ch-title">Scope &amp; <em>Constraints</em></h3>
+          </div>
+          <p class="dd-tldr">End-to-end scope across four months — website, motion system, IA, UI — all constrained by a price point with no category precedent.</p>
+    <div class="pills">
+        <span class="pill hard">Target users 35–55 — low IoT literacy, onboarding had to be zero-effort</span>
+        <span class="pill hard">₹80,000 price point — digital presence must match hardware credibility</span>
+        <span class="pill">New product category in India — no existing mental model to build on</span>
+        <span class="pill">App + website must share a coherent visual and motion language</span>
       </div>
 
-      <figure class="cs-img" style="margin-bottom: 2.5rem;">
+      <p class="body">
+        At ₹80,000 — an aspirational price for a product category with no established mental model in India — the website couldn't just explain Praan. It had to earn the right to ask for that much. Every design decision was weighed against a single question: does this signal a brand that deserves this price, or one that's still justifying it? That pressure ruled out feature density, promotional language, and anything that felt like it was trying too hard. <strong>Restraint wasn't a stylistic choice. It was the only credible one.</strong>
+      </p>
+        </div>
+
+        <!-- C — PROCESS -->
+        <div class="dd-chapter" id="dd-process">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—C</span>
+            <h3 class="dd-ch-title">Process &amp; <em>What Didn't Work</em></h3>
+          </div>
+          <p class="dd-tldr">Two directions abandoned — spec-density and audience segmentation both failed for the same reason: they prioritised the brand's need to demonstrate thoroughness over the visitor's need to feel something first.</p>
+    <figure class="cs-img" style="margin-bottom: 2.5rem;">
         <img src="/assets/images/praan/praan-before.png"
              alt="Praan website — pre-engagement state"
              style="width:100%; border-radius:6px; display:block; border: 1px solid rgba(240,237,230,0.08);">
@@ -725,8 +1103,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="prompt" style="margin-bottom: 2rem;">
         <span class="prompt-icon">↗</span>
         <span class="prompt-text">
-          <strong>Process artifacts:</strong> Reconstructed IA comparison (old vs new) and HIVE app wireframes are documented separately.
-          <a href="praan-artifacts.html" style="color: var(--accent-amber); text-decoration: underline; text-underline-offset: 3px;">View process artifacts →</a>
+          <strong>Process artifacts:</strong> Reconstructed IA comparison (old vs new) and HIVE app wireframes are documented separately in the deep-dive below.
         </span>
       </div>
 
@@ -779,17 +1156,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <p class="body">
         Both directions — spec-density and audience segmentation — failed for the same underlying reason: they prioritised the brand's need to demonstrate thoroughness over the visitor's need to feel something first. A spec-dense page reads as defensive; an audience selector reads as unsure. The alternative was harder to design but more confident to experience: one narrative that started with the universal outcome — cleaner air, healthier spaces — and made deeper content available to whoever wanted it. <strong>Operators, investors, and engineers all entered the same front door. They left by different routes. None of them were ever asked to declare who they were at the threshold.</strong>
       </p>
+        </div>
 
-    </section>
-
-    <!-- 05 — KEY DECISIONS -->
-    <section class="chapter" id="decisions">
-      <div class="ch-header">
-        <span class="ch-num">—05</span>
-        <h2 class="ch-title">Key <em>Decisions</em></h2>
-      </div>
-
-      <div class="decision">
+        <!-- D — ALL KEY DECISIONS -->
+        <div class="dd-chapter" id="dd-decisions">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—D</span>
+            <h3 class="dd-ch-title">All Key <em>Decisions</em></h3>
+          </div>
+          <p class="dd-tldr">Three decisions that determined how Praan communicates credibility across three audiences — each resolved through the same lens: demonstrate, don't persuade.</p>
+    <div class="decision">
         <div class="dec-head">
           <span class="dec-icon">▶</span>
           <span class="dec-q">How do you explain a mechanism that works invisibly — static photography or custom motion?</span>
@@ -893,16 +1269,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <strong>Why:</strong> A spec sheet answers "Does this meet my needs?" but doesn't create engagement. The animation captures attention. Once curious, each benefit becomes a revelation: "Oh, *that's* why no maintenance cost — no filters." Trust comes from understanding the logic, not from being handed a list.
         </div>
       </div>
-    </section>
+        </div>
 
-    <!-- 06 — THE ECOSYSTEM -->
-    <section class="chapter" id="ecosystem">
-      <div class="ch-header">
-        <span class="ch-num">—06</span>
-        <h2 class="ch-title">The <em>Ecosystem</em></h2>
-      </div>
-
-      <figure class="cs-img" style="margin-bottom: 2.5rem;">
+        <!-- E — THE BUILD -->
+        <div class="dd-chapter" id="dd-build">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—E</span>
+            <h3 class="dd-ch-title">The <em>Build</em></h3>
+          </div>
+          <p class="dd-tldr">Website, motion language, and HIVE app designed as one system — same visual principles, different distances from the hardware.</p>
+    <figure class="cs-img" style="margin-bottom: 2.5rem;">
         <img src="/assets/images/praan/manav-on-hive.jpg"
              alt="HIVE industrial design process in Fusion 360"
              style="width:100%; border-radius:6px; display:block;">
@@ -939,71 +1315,39 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 
     <!-- 07 — WHAT CHANGED -->
-    <section class="chapter" id="outcomes">
-      <div class="ch-header">
-        <span class="ch-num">—07</span>
-        <h2 class="ch-title">What <em>Changed</em></h2>
-      </div>
-
-      <div class="pull">
-        <p>"Translating complex technology for non-technical audiences is fundamentally a trust design problem — not a simplification problem."</p>
-        <cite>The principle that governed every IA, content, and motion decision in this project</cite>
-      </div>
-
-      <p class="body" style="font-size: 0.82rem; color: var(--muted); font-style: italic; margin-bottom: 1.5rem;">
-        This was a zero-to-one engagement — no baseline analytics existed at the time of the redesign. Outcomes below are documented as structural design decisions and measurable system changes, not quantitative metrics.
-      </p>
-
-      <div class="outcomes">
-        <div class="oc">
-          <div class="oc-num" style="font-size: 1.4rem; line-height: 1.2;">12<em>s</em></div>
-          <div class="oc-label">The filterless mechanism animation replaced approximately 200 words of technical copy — a patent-pending process explained in one loop, not a paragraph</div>
         </div>
-        <div class="oc">
-          <div class="oc-num"><em>1</em></div>
-          <div class="oc-label">Front door for three audiences — operators, investors, and engineers enter the same narrative and find their depth without being routed or segmented at arrival</div>
-        </div>
-        <div class="oc">
-          <div class="oc-num">Live</div>
-          <div class="oc-label">Website, motion system, and product UI shipped as one cohesive ecosystem — same visual language, same design principles, different distances from the hardware</div>
-        </div>
-      </div>
 
-      <div class="learning">
-        <div class="learning-lbl">Key Learning</div>
-        <p class="learning-text">Users don't need less information — they need information delivered at the right moment, in the right order, at the right level of confidence. <strong>Layered disclosure</strong> — ambient status first, precision data on demand — is a pattern I'd apply to any IoT, health, or environmental product facing the same tension between completeness and clarity.</p>
-      </div>
-    </section>
-
-    <!-- 08 — REFLECTION -->
-    <section class="chapter" id="reflection">
-      <div class="ch-header">
-        <span class="ch-num">—08</span>
-        <h2 class="ch-title"><em>Reflection</em></h2>
-      </div>
-
-      <div class="reflect">
-        <div class="reflect-col">
-          <div class="reflect-lbl">What worked</div>
-          <p>Working directly under a founder — rather than through the approval layers of a studio — created a fundamentally different kind of ownership. Every IA decision, motion direction, and content call was trusted and shipped as proposed. That accountability sharpened judgment quickly. The iteration loops were structured enough to be productive, and adaptable enough to absorb real engineering and situational changes without derailing the work. It's a way of working I'd choose again for early-stage product design.</p>
+        <!-- F — REFLECTION -->
+        <div class="dd-chapter" id="dd-reflection">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—F</span>
+            <h3 class="dd-ch-title"><em>Reflection</em></h3>
+          </div>
+          <div class="reflect">
+            <div class="reflect-col">
+              <div class="reflect-lbl">What worked</div>
+              <p>Working directly under a founder — rather than through the approval layers of a studio — created a fundamentally different kind of ownership. Every IA decision, motion direction, and content call was trusted and shipped as proposed. That accountability sharpened judgment quickly. The iteration loops were structured enough to be productive, and adaptable enough to absorb real engineering and situational changes without derailing the work. It's a way of working I'd choose again for early-stage product design.</p>
+            </div>
+            <div class="reflect-col">
+              <div class="reflect-lbl">What I'd change in V2</div>
+              <p>The hardest thing about this project — and the thing I underestimated — was reviewing the work through lenses that weren't mine. Investors, engineers, and factory operators all process credibility differently, and in a fast-paced founder-led environment, there wasn't always time for deep perspective-shifting. I'd build lighter, faster feedback cycles into the process earlier: shorter stakeholder check-ins at each milestone rather than waiting for full presentation reviews. Designing for multiple audiences in parallel requires more frequent reality checks than designing for one.</p>
+            </div>
+          </div>
+          <div class="reflect-full"><p>Translating complex technology for non-technical audiences is fundamentally a trust design problem, not a simplification problem. Layered disclosure — ambient status first, precision data on demand — is a pattern I'd apply to any IoT, health, or environmental product facing the same tension between completeness and clarity.</p></div>
         </div>
-        <div class="reflect-col">
-          <div class="reflect-lbl">What I'd do differently</div>
-          <p>The hardest thing about this project — and the thing I underestimated — was reviewing the work through lenses that weren't mine. Investors, engineers, and factory operators all process credibility differently, and in a fast-paced founder-led environment, there wasn't always time for deep perspective-shifting. I'd build lighter, faster feedback cycles into the process earlier: shorter stakeholder check-ins at each milestone rather than waiting for full presentation reviews. Designing for multiple audiences in parallel requires more frequent reality checks than designing for one.</p>
-        </div>
-      </div>
-    </section>
 
-  </main>
-</div>
+      </div><!-- /dd-content -->
+    </div><!-- /dd-grid -->
+  </div><!-- /deep-dive-inner -->
+</section><!-- /deep-dive -->
 
 <!-- NEXT -->
 <div class="next">
   <div>
     <p class="next-lbl">Next Project</p>
-    <p class="next-title">Sol & Sky —<br><em>Preventive Pet Care</em></p>
+    <p class="next-title">Four Bridges Capital —<br><em>Capital Advisory Site</em></p>
   </div>
-  <a href="solsky.html" class="btn"><span>View Case Study →</span></a>
+  <a href="fourbridgescapital.html" class="btn"><span>View Case Study →</span></a>
 </div>
 
 <!-- TICKER -->
@@ -1043,48 +1387,105 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 </footer>
 
 <script>
-const chapters = document.querySelectorAll('.chapter');
-const links = document.querySelectorAll('#sbNav a');
-const fill = document.getElementById('sbFill');
-const pct = document.getElementById('sbPct');
 
+// ─── Nav scroll effect
+const navEl = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - window.innerHeight;
-  const p = Math.round((window.scrollY / h) * 100);
-  fill.style.width = p + '%';
-  pct.textContent = p + '% read';
-
-  let cur = '';
-  chapters.forEach(c => {
-    if (c.getBoundingClientRect().top < window.innerHeight * 0.38) cur = c.id;
-  });
-  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
-
-  document.getElementById('nav').style.borderBottomColor =
-    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
+  navEl.style.borderBottomColor = window.scrollY > 20
+    ? 'rgba(240,237,230,0.1)'
+    : 'rgba(240,237,230,0.06)';
 }, { passive: true });
 
-links.forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-const obs = new IntersectionObserver(entries => {
+// ─── Scroll reveal
+const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-      obs.unobserve(e.target);
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
     }
   });
-}, { threshold: 0.06 });
+}, { threshold: 0.05 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-document.querySelectorAll('.chapter, .decision, .failed, .outcomes, .fq, .learning, .collab').forEach(el => {
-  el.style.cssText += 'opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease;';
-  obs.observe(el);
+// ─── Viewport-aware video autoplay
+// Browsers suspend autoplay for off-screen / opacity-0 videos.
+// Explicitly call play() when the video enters the viewport so it reliably
+// starts regardless of scroll position or parent opacity state.
+const videoObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.play().catch(() => {});
+    } else {
+      e.target.pause();
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('video[autoplay]').forEach(vid => {
+  vid.muted = true; // ensure muted so browsers permit autoplay
+  videoObs.observe(vid);
 });
+
+// ─── Deep dive toggle
+// After the open animation completes, overflow is released so:
+//   • position:sticky on the inner sidebar actually works
+//   • window-level scrollIntoView reliably reaches every section
+const toggleBtn = document.getElementById('deepDiveToggle');
+const deepDive  = document.getElementById('deepDive');
+let isOpen = false;
+
+toggleBtn.addEventListener('click', () => {
+  isOpen = !isOpen;
+  toggleBtn.classList.toggle('open', isOpen);
+  deepDive.classList.toggle('open', isOpen);
+  deepDive.setAttribute('aria-hidden', String(!isOpen));
+  toggleBtn.setAttribute('aria-expanded', String(isOpen));
+  toggleBtn.querySelector('span:first-child').textContent =
+    isOpen ? 'Collapse Full Process' : 'Explore Full Process';
+
+  if (isOpen) {
+    deepDive.addEventListener('transitionend', function onOpen(e) {
+      if (e.propertyName !== 'max-height') return;
+      deepDive.style.overflow = 'visible';
+      deepDive.style.maxHeight = 'none';
+      deepDive.removeEventListener('transitionend', onOpen);
+    });
+    setTimeout(() => deepDive.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  } else {
+    const actualH = deepDive.scrollHeight;
+    deepDive.style.overflow = 'hidden';
+    deepDive.style.maxHeight = actualH + 'px';
+    void deepDive.offsetHeight;
+    deepDive.style.maxHeight = '0';
+    deepDive.addEventListener('transitionend', function onClose(e) {
+      if (e.propertyName !== 'max-height') return;
+      deepDive.style.maxHeight = '';
+      deepDive.style.overflow = '';
+      deepDive.removeEventListener('transitionend', onClose);
+    });
+  }
+});
+
+// ─── Deep dive sidebar active state
+const ddChapters = document.querySelectorAll('.dd-chapter');
+const ddLinks    = document.querySelectorAll('#ddNav a');
+
+window.addEventListener('scroll', () => {
+  if (!isOpen) return;
+  let cur = '';
+  ddChapters.forEach(c => {
+    if (c.getBoundingClientRect().top < window.innerHeight * 0.4) cur = c.id;
+  });
+  ddLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive: true });
+
+ddLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.getElementById(a.getAttribute('href').slice(1));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
 </script>
 </body>
 </html>

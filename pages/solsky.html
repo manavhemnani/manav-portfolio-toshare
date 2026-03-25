@@ -179,42 +179,15 @@ body::before {
 .meta-val.green { color:var(--accent-proj); }
 
 /* ─── BODY GRID ───────────────────────────────────── */
-.cs-body {
-  display:grid; grid-template-columns:var(--sidebar-w) 1fr;
-  max-width:1100px; margin:0 auto; padding:0 3rem; gap:6rem; align-items:start;
-  line-height: 1.7;}
 
 /* ─── SIDEBAR ─────────────────────────────────────── */
-.cs-sidebar {
-  position:sticky; top:calc(var(--nav-h) + 3rem);
-  padding-top:5rem; padding-bottom:2rem;
-}
-.sb-label { font-size: 0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:1.4rem; }
-.sb-nav { list-style:none; }
+
 .sb-nav li { margin-bottom:0.08rem; }
-.sb-nav a {
-  display:flex; align-items:center; gap:0.7rem;
-  font-size:0.74rem; letter-spacing:0.04em; color:var(--muted);
-  padding:0.42rem 0 0.42rem 0.8rem; margin-left:-0.8rem;
-  border-left:2px solid transparent; transition:color 0.2s, border-color 0.2s;
-}
-.sb-nav a:hover { color:var(--white); }
-.sb-nav a.active { color:var(--white); border-left-color:var(--accent-proj); }
-.sb-num { font-size: 0.72rem; color:var(--muted); letter-spacing:0.1em; min-width:1.4rem; transition:color 0.2s; }
-.sb-nav a.active .sb-num { color:var(--accent-proj); }
-.sb-progress { margin-top:2.5rem; height:2px; background:rgba(240,237,230,0.06); border-radius:2px; overflow:hidden; }
-.sb-fill { height:100%; background:var(--accent-proj); width:0%; transition:width 0.12s ease; border-radius:2px; }
-.sb-pct { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:0.55rem; }
+
+.sb-nav a.active 
 
 /* ─── CONTENT ─────────────────────────────────────── */
-.cs-content { padding-top:5rem; padding-bottom:8rem; }
 
-.chapter { padding-bottom:7rem; border-bottom:1px solid rgba(240,237,230,0.06); margin-bottom:7rem; }
-.chapter:last-child { border-bottom:none; margin-bottom:0; }
-
-.ch-header { display:flex; align-items:baseline; gap:1.2rem; margin-bottom:2.5rem; }
-.ch-num { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-proj); font-weight:500; white-space:nowrap; }
-.ch-title { font-size:1.55rem; font-weight:400; letter-spacing:-0.016em; line-height:1.2; }
 .ch-title em { font-family:var(--serif); font-style:italic; color:var(--accent-amber); }
 
 .body { font-size:0.95rem; color:var(--mid); line-height:1.9; font-weight:300; margin-bottom:1.4rem; max-width:var(--content-max); }
@@ -462,8 +435,8 @@ body::before {
   --content-max: 720px;
   --nav-h:       68px;
 }
-  .cs-body{grid-template-columns:1fr;padding:0 1.5rem;gap:0;line-height: 1.7;}
-  .cs-sidebar{display:none;}
+  
+  
   .nav,.hero-content,.meta-strip{padding-left:1.5rem;padding-right:1.5rem;}
   .hero-aqi,.particles{display:none;}
   .collab,.reflect,.ba-grid,.ba-labels,.dec-body,.g2,.g3{grid-template-columns:1fr;}
@@ -649,7 +622,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .hero-sub { font-weight: 400; }
 
 /* 15 ── SIDEBAR PROGRESS — warm ambient glow on fill */
-.sb-fill { box-shadow: 0 0 8px rgba(212,160,40,0.28); }
 
 /* 16 ── REFLECTION — personal writing gets reading space */
 .reflect-col p { font-size: 0.92rem; line-height: 1.85; }
@@ -740,10 +712,289 @@ figure.cs-img figcaption.cap {
   margin-bottom: 0.1rem;
 }
 .decision-card.chosen .decision-card-num { color: var(--accent-proj); }
+
+
+/* ─── FAST SCAN WRAPPER ──────────────────────────── */
+.fast-scan {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ─── SNAPSHOT (3-col quick overview) ────────────── */
+.snapshot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  margin: 3rem 0 0;
+  overflow: hidden;
+}
+.snapshot-cell {
+  padding: 1.6rem 1.8rem;
+  border-right: 1px solid rgba(240,237,230,0.1);
+}
+.snapshot-cell:last-child { border-right: none; }
+.snapshot-lbl {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-light, var(--accent-proj));
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.snapshot-val {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+/* ─── SECTION BLOCKS (fast scan) ─────────────────── */
+.section-block {
+  padding: 4rem 0;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+}
+.section-block:last-of-type { border-bottom: none; }
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+.section-num {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-proj);
+  font-weight: 500;
+}
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(240,237,230,0.07);
+  max-width: 60px;
+}
+.section-block h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+.section-block h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent-light, var(--accent-proj));
+}
+
+/* ─── CONSTRAINT FEATURE CARD ─────────────────────── */
+.constraint-feature {
+  margin: 2rem 0;
+  padding: 1.8rem 2rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  max-width: var(--content-max, 720px);
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.cf-icon { font-size: 1.1rem; line-height: 1; margin-top: 0.15rem; flex-shrink: 0; }
+.cf-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.45rem; font-weight: 500;
+}
+.cf-text { font-size: 0.9rem; color: var(--mid); line-height: 1.72; font-weight: 300; }
+.cf-text strong { color: var(--white); font-weight: 400; }
+
+/* ─── FAST-SCAN DECISION CARD ────────────────────── */
+.fs-decision {
+  margin: 2rem 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-2);
+  max-width: var(--content-max, 720px);
+}
+.fsd-head {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.fsd-icon { font-size: 0.85rem; }
+.fsd-q { font-size: 0.82rem; font-weight: 500; color: var(--white); letter-spacing: -0.005em; }
+.fsd-chosen { padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(240,237,230,0.07); }
+.fsd-chosen-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.6rem; font-weight: 500;
+}
+.fsd-chosen p { font-size: 0.85rem; color: var(--mid); line-height: 1.7; font-weight: 300; }
+.fsd-chosen p strong { color: var(--white); font-weight: 400; }
+.fsd-why {
+  padding: 1.1rem 1.5rem;
+  background: rgba(212,130,74,0.04);
+  font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
+}
+.fsd-why strong { color: var(--white); font-weight: 400; }
+
+/* ─── SOLUTION IMAGES ─────────────────────────────── */
+.solution-img-full {
+  border-radius: 4px; overflow: hidden;
+  background: var(--bg-3);
+  border: 1px solid rgba(240,237,230,0.07);
+  margin: 2rem 0;
+}
+.solution-img-full img { width: 100%; display: block; }
+.solution-img-full figcaption {
+  font-size: 0.7rem; color: var(--muted);
+  padding: 0.6rem 0.9rem; font-style: italic; line-height: 1.5;
+}
+.solution-grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin: 2rem 0; }
+.sg-item {
+  border-radius: 4px; overflow: hidden;
+  background: var(--bg-3); border: 1px solid rgba(240,237,230,0.07);
+}
+.sg-item img { width: 100%; height: auto; display: block; }
+.sg-cap { font-size: 0.7rem; color: var(--muted); padding: 0.55rem 0.75rem; line-height: 1.4; font-style: italic; }
+
+/* ─── IMPACT TILE ─────────────────────────────────── */
+.impact-tile {
+  margin: 2rem 0;
+  padding: 2.2rem 2.4rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(212,130,74,0.22);
+  border-radius: 6px;
+  max-width: var(--content-max, 720px);
+}
+.impact-tile-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 1rem; font-weight: 500;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.impact-tile-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.impact-headline {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  font-weight: 300; letter-spacing: -0.02em;
+  color: var(--white); line-height: 1.35; margin-bottom: 0.9rem;
+}
+.impact-headline em {
+  font-family: var(--serif); font-style: italic; color: var(--accent-light, var(--accent-proj));
+}
+.impact-body { font-size: 0.88rem; color: var(--mid); line-height: 1.78; font-weight: 300; max-width: 54ch; }
+
+/* ─── DEEP DIVE TOGGLE ───────────────────────────── */
+.deep-dive-toggle-wrap {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto;
+  padding: 0 3rem 5rem;
+}
+.deep-dive-cta {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(240,237,230,0.1);
+}
+.deep-dive-cta::before, .deep-dive-cta::after {
+  content: ''; flex: 1; height: 1px; background: rgba(240,237,230,0.07);
+}
+.toggle-btn {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.12);
+  color: var(--mid);
+  font-family: var(--sans);
+  font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.85rem 1.8rem; border-radius: 2px;
+  cursor: pointer; transition: all 0.25s; white-space: nowrap;
+  position: relative; overflow: hidden;
+}
+.toggle-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent-proj);
+  transform: translateX(-101%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.toggle-btn:hover { color: var(--white); border-color: rgba(212,130,74,0.4); }
+.toggle-btn:hover::before { transform: translateX(0); }
+.toggle-btn span { position: relative; z-index: 1; }
+.toggle-arrow {
+  position: relative; z-index: 1; display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); font-size: 0.9rem;
+}
+.toggle-btn.open .toggle-arrow { transform: rotate(180deg); }
+
+/* ─── DEEP DIVE SECTION ──────────────────────────── */
+.deep-dive {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto; padding: 0 3rem;
+  overflow: hidden; max-height: 0;
+  transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+  opacity: 0;
+}
+.deep-dive.open {
+  max-height: 9999px; opacity: 1;
+  transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease 0.1s;
+}
+.deep-dive-inner { padding-bottom: 4rem; border-top: 1px solid rgba(240,237,230,0.1); }
+.dd-grid {
+  display: grid; grid-template-columns: 180px 1fr;
+  gap: 5rem; align-items: start;
+}
+.dd-sidebar { position: sticky; top: calc(var(--nav-h, 68px) + 2rem); padding-top: 3.5rem; }
+.dd-sb-label {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.2rem;
+}
+.dd-sb-nav { list-style: none; }
+.dd-sb-nav li { margin-bottom: 0.05rem; }
+.dd-sb-nav a {
+  display: flex; align-items: center; gap: 0.65rem;
+  font-size: 0.74rem; letter-spacing: 0.06em; color: var(--muted);
+  padding: 0.38rem 0 0.38rem 0.75rem; margin-left: -0.75rem;
+  border-left: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.dd-sb-nav a:hover { color: var(--white); }
+.dd-sb-nav a.active { color: var(--white); border-left-color: var(--accent-proj); }
+.dd-sb-num { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; min-width: 1.3rem; transition: color 0.2s; }
+.dd-sb-nav a.active .dd-sb-num { color: var(--accent-proj); }
+.dd-content { padding-top: 3.5rem; }
+.dd-chapter {
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+  margin-bottom: 3.5rem;
+}
+.dd-chapter:last-child { border-bottom: none; margin-bottom: 0; }
+.dd-ch-header { display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 1.8rem; }
+.dd-ch-num {
+  font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent-proj); font-weight: 500; white-space: nowrap;
+}
+.dd-ch-title { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+.dd-ch-title em { font-family: var(--serif); font-style: italic; color: var(--accent-light, var(--accent-proj)); }
+.dd-tldr {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+  margin-top: 0.4rem; margin-bottom: 1.6rem; max-width: 52ch;
+}
+
+/* ─── REFLECT (deep dive F) ──────────────────────── */
+.reflect { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.2rem; }
+.reflect-lbl {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.reflect-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.reflect-col p { font-size: 0.87rem; color: var(--mid); line-height: 1.78; font-weight: 300; }
+.reflect-full { margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid rgba(240,237,230,0.07); }
+.reflect-full p { font-size: 0.95rem; color: var(--mid); line-height: 1.82; font-weight: 300; max-width: var(--content-max, 720px); }
+
+/* ─── SCROLL REVEAL ───────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
-
 <nav class="nav" id="nav">
   <a href="/" class="nav-name">Manav Hemnani</a>
   <div class="nav-right">
@@ -759,7 +1010,7 @@ figure.cs-img figcaption.cap {
 <!-- HERO -->
 <section class="cs-hero">
   <div class="hero-bg">
-    <img src="/assets/images/solsky/solsky-homepage-new.png" alt="Sol & Sky — preventive pet care Shopify homepage" style="width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.45;">
+    <img src="/assets/images/solsky/project-cover.png" alt="Sol & Sky — preventive pet care Shopify homepage" style="width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.45;">
   </div>
   <div class="hero-fade"></div>
   <div class="particles">
@@ -810,36 +1061,179 @@ figure.cs-img figcaption.cap {
   </div>
 </div>
 
-<!-- BODY -->
-<div class="cs-body">
+<!-- ════════════════════════════════════════════
+     FAST SCAN
+     ════════════════════════════════════════════ -->
+<div class="fast-scan">
 
-  <!-- SIDEBAR -->
-  <aside class="cs-sidebar">
-    <p class="sb-label">Contents</p>
-    <ul class="sb-nav" id="sbNav">
-      <li><a href="#problem" class="active"><span class="sb-num">01</span>The Problem</a></li>
-      <li><a href="#context"><span class="sb-num">02</span>Context &amp; Brief</a></li>
-      <li><a href="#constraints"><span class="sb-num">03</span>Constraints</a></li>
-      <li><a href="#failed"><span class="sb-num">04</span>What Didn't Work</a></li>
-      <li><a href="#decisions"><span class="sb-num">05</span>Key Decisions</a></li>
-      <li><a href="#ecosystem"><span class="sb-num">06</span>The System</a></li>
-      <li><a href="#outcomes"><span class="sb-num">07</span>What Changed</a></li>
-      <li><a href="#reflection"><span class="sb-num">08</span>Reflection</a></li>
-    </ul>
-    <div class="sb-progress"><div class="sb-fill" id="sbFill"></div></div>
-    <div class="sb-pct" id="sbPct">0% read</div>
-  </aside>
+  <!-- SNAPSHOT -->
+  <div class="snapshot reveal">
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">The problem</p>
+      <p class="snapshot-val">Indian pet care runs on panic — the product ecosystem is built on symptoms. Sol & Sky entered with a different premise: the three most common issues dog parents face are entirely preventable.</p>
+    </div>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">What I did</p>
+      <p class="snapshot-val">Brand strategy, Shopify design, and photography art direction — from founding brief to live launch. A daily habit framework built as the site's primary navigational logic.</p>
+    </div>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">What changed</p>
+      <p class="snapshot-val">10 products live. Three categories unified by one daily routine. Site live at petsofsolandsky.com — from brief to shipped in 12 weeks.</p>
+    </div>
+  </div>
 
-  <main class="cs-content">
+  <!-- 01 — PROBLEM -->
+  <div class="section-block reveal" id="fs-problem">
+    <div class="section-eyebrow">
+      <span class="section-num">01 — Problem</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Sell prevention to customers<br><em>who've never needed it yet</em></h2>
+    <p class="body">Indian pet care runs on panic. A dog scratches more than usual — parents buy anti-itch shampoo. A dog's coat dulls — parents buy a coat supplement. The entire product ecosystem is built on symptoms, which means it's built on waiting. By the time a product enters the picture, something has already gone wrong.</p>
+    <div class="pull">
+      <p>"How do you sell a product whose entire value proposition is that you'll never need to prove it worked?"</p>
+      <cite>A question that came out of the first brief conversation — and ended up shaping every content hierarchy decision on the site.</cite>
+    </div>
+    <p class="body">Sol &amp; Sky was built on a different premise: that the three most common issues Indian dog parents face — gut problems, damaged paw pads, skin barrier breakdown — are entirely preventable. The design problem wasn't how to explain that logic. It was how to make a first-time visitor <em>feel</em> that logic before they'd ever experienced the alternative.</p>
+  </div>
 
-    <!-- 01 — THE PROBLEM -->
-    <section class="chapter" id="problem">
-      <div class="ch-header">
-        <span class="ch-num">—01</span>
-        <h2 class="ch-title">The <em>Problem</em></h2>
+  <!-- 02 — KEY CONSTRAINT -->
+  <div class="section-block reveal" id="fs-constraint">
+    <div class="section-eyebrow">
+      <span class="section-num">02 — Key Constraint</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>₹399. Zero brand recognition.<br><em>No category precedent.</em></h2>
+    <p class="body">At ₹349–₹399 with zero brand recognition at launch and no existing mental model for "preventive pet care" in India, Sol &amp; Sky couldn't compete on price. The customer who buys a ₹399 single-ingredient treat instead of a ₹99 filler-heavy one is making a values-based decision, not an economic one.</p>
+    <div class="constraint-feature reveal">
+      <div class="cf-icon">⚡</div>
+      <div>
+        <div class="cf-lbl">The binding constraint</div>
+        <p class="cf-text">No social proof. No category precedent. No existing mental model to borrow from. The website's job isn't to justify the price — it's to earn the values alignment. <strong>Every design decision was filtered through one question: does this feel like a brand that takes its ingredients as seriously as it claims?</strong></p>
       </div>
+    </div>
+    <div class="pills">
+      <span class="pill hard">Shopify theme architecture — every decision had to work within template constraints</span>
+      <span class="pill hard">First-to-category — no existing mental model for "preventive pet care" in India</span>
+      <span class="pill">Urban Indian millennial dog parents — high emotional investment, low patience for jargon</span>
+      <span class="pill">₹349–₹399 price point — must feel considered and premium, not cheap D2C</span>
+      <span class="pill">Zero social proof at launch — credibility built structurally, not through reviews</span>
+    </div>
+  </div>
 
-      <p class="body">
+  <!-- 03 — KEY DECISION -->
+  <div class="section-block reveal" id="fs-decision">
+    <div class="section-eyebrow">
+      <span class="section-num">03 — Key Decision</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Products aren't separate items —<br><em>they're a daily habit</em></h2>
+    <p class="body">The most important design decision wasn't about visual language or layout — it was about product architecture. Selling individual products is a standard e-commerce problem. Selling a daily routine is a brand-building problem. The distinction determined the entire homepage structure.</p>
+    <div class="fs-decision reveal">
+      <div class="fsd-head">
+        <span class="fsd-icon">⚡</span>
+        <span class="fsd-q">Sell products individually or frame them as a daily system?</span>
+      </div>
+      <div class="fsd-chosen">
+        <div class="fsd-chosen-lbl">What we chose</div>
+        <p><strong>Three-step daily routine (Morning → Post-Walk → Bath Time), each mapped to one product.</strong> Products are introduced as components of the habit, not as individual items to browse. Collections architecture is retained for users who want to search, but is never the primary entry point.</p>
+      </div>
+      <div class="fsd-why">Brand loyalty in preventive care depends on habit formation, not repeat impulse. <strong>The system framing is a lifetime value decision disguised as a homepage design decision.</strong> A customer who adopts the routine is structurally retained — the product is embedded in their daily behaviour.</div>
+    </div>
+  </div>
+
+  <!-- 04 — SOLUTION -->
+  <div class="section-block reveal" id="fs-solution">
+    <div class="section-eyebrow">
+      <span class="section-num">04 — Solution</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>One entry point.<br><em>Three products. One habit.</em></h2>
+    <p class="body">The website, naming convention, and photography were designed as a single coherent system. The homepage leads with the problem before showing a single product. The daily routine converts the product range from a catalogue into a habit. Ingredient-forward photography makes the brand's most important claim — clean formulation, no fillers — visual without requiring the visitor to read anything.</p>
+    <figure class="solution-img-full reveal">
+      <img src="/assets/images/solsky/project-cover.png" alt="Sol &amp; Sky homepage annotated — problem → daily system → product reveal">
+      <figcaption>"The homepage leads with the problem statement before showing a single product. Problem → system → product reveal is a deliberate narrative architecture, not a default Shopify layout."</figcaption>
+    </figure>
+    <p class="body">The hardest part of this system was the tension between ingredient-forward photography — which signals clinical trust — and the emotional warmth that dog parents respond to. The resolution: lead with ingredients in product and hero shots, and reserve dog-interaction photography for secondary carousel images.</p>
+    <div class="solution-grid reveal">
+      <div class="sg-item">
+        <img src="/assets/images/solsky/system-full.png" alt="Sol &amp; Sky product trio — ingredient-forward photography">
+        <div class="sg-cap">Ingredient-forward photography — the brand's clean formulation claim made visual without requiring the visitor to read anything</div>
+      </div>
+      <div class="sg-item">
+        <img src="/assets/images/solsky/product-full.png" alt="Sol &amp; Sky daily routine section — Morning, Post-Walk, Bath Time">
+        <div class="sg-cap">The daily routine — three separate products converted into one habit, embedding the brand in the customer's day</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 — IMPACT -->
+  <div class="section-block reveal" id="fs-impact">
+    <div class="section-eyebrow">
+      <span class="section-num">05 — Impact</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>10 products. One system.<br><em>Live at launch.</em></h2>
+    <div class="impact-tile reveal">
+      <div class="impact-tile-lbl">What changed</div>
+      <p class="impact-headline">Three categories. One daily routine.<br><em>No one asked to choose.</em></p>
+      <p class="impact-body">10 products live across internal care, grooming, accessories, and gifting — all under one brand and design system. The problem-first homepage architecture makes the preventive care category legible to a first-time visitor before a single product is shown.</p>
+    </div>
+    <p class="body" style="margin-top:1.8rem;">From brief to shipped in 12 weeks. Brand, website, and product system in production as a single engagement with one founder and no PM layer.</p>
+    <div class="live-callout reveal" style="margin-top:2rem;padding:1.5rem 2rem;background:var(--bg-2);border:1px solid rgba(212,130,74,0.22);border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:2rem;max-width:var(--content-max,720px);">
+      <div>
+        <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-proj);margin-bottom:0.4rem;font-weight:500;">Live Site</div>
+        <div style="font-size:0.9rem;color:var(--white);">Sol &amp; Sky — Preventive Pet Care</div>
+      </div>
+      <a href="https://petsofsolandsky.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--accent-proj);border:1px solid rgba(212,130,74,0.3);padding:0.65rem 1.2rem;border-radius:2px;text-decoration:none;white-space:nowrap;transition:all 0.2s;">Visit petsofsolandsky.com ↗</a>
+    </div>
+  </div>
+
+</div><!-- /fast-scan -->
+
+<!-- ════════════════════════════════════════════
+     DEEP DIVE TOGGLE
+     ════════════════════════════════════════════ -->
+<div class="deep-dive-toggle-wrap">
+  <div class="deep-dive-cta">
+    <button class="toggle-btn" id="deepDiveToggle" aria-expanded="false" aria-controls="deepDive">
+      <span>Explore Full Process</span>
+      <span class="toggle-arrow">↓</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     DEEP DIVE
+     ════════════════════════════════════════════ -->
+<section class="deep-dive" id="deepDive" aria-hidden="true">
+  <div class="deep-dive-inner">
+    <div class="dd-grid">
+
+      <!-- Sidebar -->
+      <aside class="dd-sidebar">
+        <p class="dd-sb-label">Full Process</p>
+        <ul class="dd-sb-nav" id="ddNav">
+          <li><a href="#dd-brief" class="active"><span class="dd-sb-num">A</span>Brief &amp; Problem</a></li>
+          <li><a href="#dd-constraints"><span class="dd-sb-num">B</span>Scope &amp; Constraints</a></li>
+          <li><a href="#dd-process"><span class="dd-sb-num">C</span>Process</a></li>
+          <li><a href="#dd-decisions"><span class="dd-sb-num">D</span>All Decisions</a></li>
+          <li><a href="#dd-build"><span class="dd-sb-num">E</span>The Build</a></li>
+          <li><a href="#dd-reflection"><span class="dd-sb-num">F</span>Reflection</a></li>
+        </ul>
+      </aside>
+
+      <!-- Content -->
+      <div class="dd-content">
+
+        <!-- A — BRIEF & PROBLEM -->
+        <div class="dd-chapter" id="dd-brief">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—A</span>
+            <h3 class="dd-ch-title">Brief &amp; <em>Problem</em></h3>
+          </div>
+          <p class="dd-tldr">A preventive pet care brand entering a category with no mental model in India — the brief was brand strategy, Shopify build, and photography art direction as a single engagement.</p>
+    <p class="body">
         Indian pet care runs on panic. A dog scratches more than usual — parents buy anti-itch shampoo. A dog's coat dulls — parents buy a coat supplement. The entire product ecosystem is built on symptoms, which means it's built on waiting. By the time a product enters the picture, something has already gone wrong.
       </p>
 
@@ -852,17 +1246,8 @@ figure.cs-img figcaption.cap {
         <cite>A question that came out of the first brief conversation — and ended up shaping every content hierarchy decision on the site.</cite>
         <cite>It's why the homepage leads with a problem statement before showing a single product.</cite>
       </div>
-
-    </section>
-
-    <!-- 02 — CONTEXT & BRIEF -->
-    <section class="chapter" id="context">
-      <div class="ch-header">
-        <span class="ch-num">—02</span>
-        <h2 class="ch-title">Context &amp; <em>Brief</em></h2>
-      </div>
-
-      <p class="body">
+    <h4 style="font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-proj);margin:2rem 0 1rem;font-weight:500;">Context &amp; Team</h4>
+    <p class="body">
         Sol &amp; Sky came to me with a clear founding thesis — prevention over reaction — but needed a digital expression that could carry that idea to a customer who had never heard it before. The founder had spent months fostering dogs, reading ingredient labels, and talking to vets before launching. The brand thinking was sharp. What it needed was a design system and a Shopify build that could translate that thinking into a purchase decision within a single scroll session.
       </p>
 
@@ -895,17 +1280,16 @@ figure.cs-img figcaption.cap {
         <img src="/assets/images/solsky/process-shopify.png" alt="Shopify theme editor open during Sol & Sky build" class="cs-img-full">
         <figcaption class="cap">Working within Shopify's theme architecture — every layout and content hierarchy decision was made against real platform constraints, not a greenfield canvas.</figcaption>
       </figure>
+        </div>
 
-    </section>
-
-    <!-- 03 — CONSTRAINTS -->
-    <section class="chapter" id="constraints">
-      <div class="ch-header">
-        <span class="ch-num">—03</span>
-        <h2 class="ch-title"><em>Constraints</em></h2>
-      </div>
-
-      <div class="pills">
+        <!-- B — SCOPE & CONSTRAINTS -->
+        <div class="dd-chapter" id="dd-constraints">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—B</span>
+            <h3 class="dd-ch-title">Scope &amp; <em>Constraints</em></h3>
+          </div>
+          <p class="dd-tldr">Shopify architecture, first-to-category, zero social proof, and a price point that requires trust before conversion — four constraints that shaped every design decision.</p>
+    <div class="pills">
         <span class="pill hard">Shopify theme architecture — no custom front-end, every decision had to work within template constraints</span>
         <span class="pill hard">First-to-category — no existing mental model for "preventive pet care" in India to borrow from</span>
         <span class="pill">Urban Indian millennial dog parents — high emotional investment, low patience for jargon</span>
@@ -920,17 +1304,16 @@ figure.cs-img figcaption.cap {
       <p class="body">
        Two distinct mindsets in the same audience — first-time pet parents actively seeking education, and experienced owners looking for cleaner alternatives to what they already use. The site had to educate without being condescending, and signal premium quality without requiring prior category knowledge.
       </p>
+        </div>
 
-    </section>
-
-    <!-- 04 — WHAT DIDN'T WORK -->
-    <section class="chapter" id="failed">
-      <div class="ch-header">
-        <span class="ch-num">—04</span>
-        <h2 class="ch-title">What <em>Didn't Work</em></h2>
-      </div>
-
-      <div class="dec-explore-grid">
+        <!-- C — PROCESS -->
+        <div class="dd-chapter" id="dd-process">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—C</span>
+            <h3 class="dd-ch-title">Process &amp; <em>What Didn't Work</em></h3>
+          </div>
+          <p class="dd-tldr">Two directions abandoned for the same reason: both led with what the brand wanted to show rather than what the visitor needed to understand first.</p>
+    <div class="dec-explore-grid">
 
         <!-- Direction 01 — Abandoned -->
         <div class="decision-card dead">
@@ -979,17 +1362,16 @@ figure.cs-img figcaption.cap {
       <p class="body">
         The abandoned directions share the same failure: they led with what the brand wanted to show rather than what the visitor needed to understand first. A product grid without context is just noise. Benefit claims without a framework are just marketing copy. The alternative — naming the problem before showing a single product, and framing every product as part of a system — is harder to earn confidence in. But it's the only structure that makes the category legible to someone encountering it for the first time.
       </p>
+        </div>
 
-    </section>
-
-    <!-- 05 — KEY DECISIONS -->
-    <section class="chapter" id="decisions">
-      <div class="ch-header">
-        <span class="ch-num">—05</span>
-        <h2 class="ch-title">Key <em>Decisions</em></h2>
-      </div>
-
-      <!-- Decision 1 -->
+        <!-- D — ALL KEY DECISIONS -->
+        <div class="dd-chapter" id="dd-decisions">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—D</span>
+            <h3 class="dd-ch-title">All Key <em>Decisions</em></h3>
+          </div>
+          <p class="dd-tldr">Three decisions that determined how the site establishes trust, structures product architecture, and communicates formulation quality — each resolved through the same lens: earn belief before asking for purchase.</p>
+    <!-- Decision 1 -->
       <div class="decision">
         <div class="dec-head">
           <span class="dec-icon">▶</span>
@@ -1093,17 +1475,16 @@ figure.cs-img figcaption.cap {
           The brand's single most important claim is clean formulation — no fillers, single-ingredient, plant-based. Any photography convention that doesn't foreground the ingredients leaves that claim to the copy, which requires reading. Ingredient-forward photography makes the claim visual. <strong>For a new brand with zero social proof at launch, visual credibility is more valuable than visual warmth.</strong>
         </div>
       </div>
+        </div>
 
-    </section>
-
-    <!-- 06 — THE SYSTEM -->
-    <section class="chapter" id="ecosystem">
-      <div class="ch-header">
-        <span class="ch-num">—06</span>
-        <h2 class="ch-title">The <em>System</em></h2>
-      </div>
-
-      <p class="body">
+        <!-- E — THE BUILD -->
+        <div class="dd-chapter" id="dd-build">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—E</span>
+            <h3 class="dd-ch-title">The <em>Build</em></h3>
+          </div>
+          <p class="dd-tldr">Website, daily routine framework, and ingredient-forward photography designed as one system — the naming convention, photography style, and page hierarchy all reinforce the same single idea.</p>
+    <p class="body">
         The website, product naming, and visual language were designed as a single coherent system. The naming convention — "Smoothening Dog Shampoo," "Nourishing Paw Balm" — mirrors the ingredient-first brand philosophy: functional, honest, no marketing abstraction. The three-step daily routine maps each product to a specific daily moment, converting the product range from a collection into a habit. The ingredient-hero photography signals clean formulation through visual convention rather than copy claims.
       </p>
 
@@ -1132,17 +1513,7 @@ figure.cs-img figcaption.cap {
         <img src="/assets/images/solsky/daily-routine-section.png" alt="Sol & Sky three-step daily routine — Morning, Post-Walk, Bath Time — from the live site" class="cs-img-full">
         <figcaption class="cap">The daily routine converts three separate products into one habit. A customer who adopts the routine becomes structurally retained — the product is embedded in their day, not competing for attention at re-purchase time.</figcaption>
       </figure>
-
-    </section>
-
-    <!-- 07 — WHAT CHANGED -->
-    <section class="chapter" id="outcomes">
-      <div class="ch-header">
-        <span class="ch-num">—07</span>
-        <h2 class="ch-title">What <em>Changed</em></h2>
-      </div>
-
-      <div class="outcomes">
+    <div class="outcomes">
         <div class="oc">
           <div class="oc-num"><em>10</em></div>
           <div class="oc-label">Products live across internal care, grooming, accessories, and gifting — all under one brand and design system</div>
@@ -1171,39 +1542,39 @@ figure.cs-img figcaption.cap {
         <div class="learning-lbl">Key Learning</div>
         <p class="learning-text">Selling a new category is fundamentally a <strong>narrative design problem</strong>, not a product design problem. The customer doesn't need to be convinced the products work — they need to understand why prevention matters before they'll consider the category at all. <strong>Leading with the problem, then offering the system, then revealing the products</strong> is a content architecture pattern I'd apply to any early-stage D2C brand entering an underserved or newly defined market.</p>
       </div>
-
-    </section>
-
-    <!-- 08 — REFLECTION -->
-    <section class="chapter" id="reflection">
-      <div class="ch-header">
-        <span class="ch-num">—08</span>
-        <h2 class="ch-title"><em>Reflection</em></h2>
-      </div>
-
-      <div class="reflect">
-        <div class="reflect-col">
-          <div class="reflect-lbl">What worked</div>
-          <p>Working directly with a founder who had done the hard thinking on brand positioning before the design engagement started made every creative decision faster and more precise. Sanika's founding thesis — prevention over reaction — was clear enough to function as a design filter. Every layout choice, photography decision, and content hierarchy question could be resolved by asking: does this communicate a brand that acts before problems appear, or one that waits for them? That kind of clarity at the brief stage is rare, and it compressed what could have been a slow discovery process into sharp, decisive execution.</p>
         </div>
-        <div class="reflect-col">
-          <div class="reflect-lbl">What I'd do differently</div>
-          <p>The Shopify platform constraint shaped more decisions than I would have liked without naming them explicitly upfront. Section structures that would have been cleaner with a custom build required workarounds within theme architecture — and some of those workarounds are visible if you look closely. In retrospect, I'd surface the platform constraints earlier in the brief — not to lower expectations, but to route design decisions through the constraint deliberately rather than discovering its limits mid-execution. Working within constraints is fine. Being surprised by them mid-build is not.</p>
+
+        <!-- F — REFLECTION -->
+        <div class="dd-chapter" id="dd-reflection">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—F</span>
+            <h3 class="dd-ch-title"><em>Reflection</em></h3>
+          </div>
+          <div class="reflect">
+            <div class="reflect-col">
+              <div class="reflect-lbl">What worked</div>
+              <p>Working directly with a founder who had done the hard thinking on brand positioning before the design engagement started made every creative decision faster and more precise. Sanika's founding thesis — prevention over reaction — was clear enough to function as a design filter. Every layout choice, photography decision, and content hierarchy question could be resolved by asking: does this communicate a brand that acts before problems appear, or one that waits for them? That kind of clarity at the brief stage is rare, and it compressed what could have been a slow discovery process into sharp, decisive execution.</p>
+            </div>
+            <div class="reflect-col">
+              <div class="reflect-lbl">What I'd change in V2</div>
+              <p>The Shopify platform constraint shaped more decisions than I would have liked without naming them explicitly upfront. Section structures that would have been cleaner with a custom build required workarounds within theme architecture — and some of those workarounds are visible if you look closely. In retrospect, I'd surface the platform constraints earlier in the brief — not to lower expectations, but to route design decisions through the constraint deliberately rather than discovering its limits mid-execution. Working within constraints is fine. Being surprised by them mid-build is not.</p>
+            </div>
+          </div>
+          <div class="reflect-full"><p>Selling a new category is fundamentally a narrative design problem, not a product design problem. The customer doesn't need to be convinced the products work — they need to understand why prevention matters before they'll consider the category at all. Leading with the problem, then offering the system, then revealing the products is a content architecture pattern I'd apply to any early-stage D2C brand entering an underserved or newly defined market.</p></div>
         </div>
-      </div>
 
-    </section>
-
-  </main>
-</div>
+      </div><!-- /dd-content -->
+    </div><!-- /dd-grid -->
+  </div><!-- /deep-dive-inner -->
+</section><!-- /deep-dive -->
 
 <!-- NEXT -->
 <div class="next">
   <div>
-    <p class="next-lbl">Previous Project</p>
-    <p class="next-title">Praan —<br><em>Air Ecosystem</em></p>
+    <p class="next-lbl">Next Project</p>
+    <p class="next-title">Percept —<br><em>Photography Learning App</em></p>
   </div>
-  <a href="praan.html" class="btn"><span>View Case Study →</span></a>
+  <a href="percept.html" class="btn"><span>View Case Study →</span></a>
 </div>
 
 <!-- TICKER -->
@@ -1243,48 +1614,87 @@ figure.cs-img figcaption.cap {
 </footer>
 
 <script>
-const chapters = document.querySelectorAll('.chapter');
-const links = document.querySelectorAll('#sbNav a');
-const fill = document.getElementById('sbFill');
-const pct = document.getElementById('sbPct');
 
+// ─── Nav scroll effect
+const navEl = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - window.innerHeight;
-  const p = Math.round((window.scrollY / h) * 100);
-  fill.style.width = p + '%';
-  pct.textContent = p + '% read';
-
-  let cur = '';
-  chapters.forEach(c => {
-    if (c.getBoundingClientRect().top < window.innerHeight * 0.38) cur = c.id;
-  });
-  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
-
-  document.getElementById('nav').style.borderBottomColor =
-    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
+  navEl.style.borderBottomColor = window.scrollY > 20
+    ? 'rgba(240,237,230,0.1)'
+    : 'rgba(240,237,230,0.06)';
 }, { passive: true });
 
-links.forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-const obs = new IntersectionObserver(entries => {
+// ─── Scroll reveal
+const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-      obs.unobserve(e.target);
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
     }
   });
-}, { threshold: 0.06 });
+}, { threshold: 0.05 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-document.querySelectorAll('.chapter, .decision, .failed, .outcomes, .fq, .learning, .collab').forEach(el => {
-  el.style.cssText += 'opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease;';
-  obs.observe(el);
+// ─── Deep dive toggle
+// After the open animation completes, overflow is released so:
+//   • position:sticky on the inner sidebar actually works
+//   • window-level scrollIntoView reliably reaches every section
+const toggleBtn = document.getElementById('deepDiveToggle');
+const deepDive  = document.getElementById('deepDive');
+let isOpen = false;
+
+toggleBtn.addEventListener('click', () => {
+  isOpen = !isOpen;
+  toggleBtn.classList.toggle('open', isOpen);
+  deepDive.classList.toggle('open', isOpen);
+  deepDive.setAttribute('aria-hidden', String(!isOpen));
+  toggleBtn.setAttribute('aria-expanded', String(isOpen));
+  toggleBtn.querySelector('span:first-child').textContent =
+    isOpen ? 'Collapse Full Process' : 'Explore Full Process';
+
+  if (isOpen) {
+    deepDive.addEventListener('transitionend', function onOpen(e) {
+      if (e.propertyName !== 'max-height') return;
+      deepDive.style.overflow = 'visible';
+      deepDive.style.maxHeight = 'none';
+      deepDive.removeEventListener('transitionend', onOpen);
+    });
+    setTimeout(() => deepDive.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  } else {
+    const actualH = deepDive.scrollHeight;
+    deepDive.style.overflow = 'hidden';
+    deepDive.style.maxHeight = actualH + 'px';
+    void deepDive.offsetHeight;
+    deepDive.style.maxHeight = '0';
+    deepDive.addEventListener('transitionend', function onClose(e) {
+      if (e.propertyName !== 'max-height') return;
+      deepDive.style.maxHeight = '';
+      deepDive.style.overflow = '';
+      deepDive.removeEventListener('transitionend', onClose);
+    });
+  }
 });
+
+// ─── Deep dive sidebar active state
+const ddChapters = document.querySelectorAll('.dd-chapter');
+const ddLinks    = document.querySelectorAll('#ddNav a');
+
+window.addEventListener('scroll', () => {
+  if (!isOpen) return;
+  let cur = '';
+  ddChapters.forEach(c => {
+    if (c.getBoundingClientRect().top < window.innerHeight * 0.4) cur = c.id;
+  });
+  ddLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive: true });
+
+ddLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.getElementById(a.getAttribute('href').slice(1));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
 </script>
 </body>
 </html>

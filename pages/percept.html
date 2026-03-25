@@ -22,6 +22,7 @@ img, video { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 
 :root {
+  --accent-light: #94b4ff;
   --bg:           #0a0b0f;
   --bg-2:         #0f1018;
   --bg-3:         #161822;
@@ -201,18 +202,9 @@ body::before {
 .audit-note-text strong { font-weight: 500; }
 
 /* BODY LAYOUT */
-.cs-body {
-  display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
-  max-width: 1100px; margin: 0 auto;
-  padding: 0 3rem; gap: 6rem; align-items: start;
-  line-height: 1.7;}
 
 /* SIDEBAR */
-.cs-sidebar {
-  position: sticky; top: calc(var(--nav-h) + 3rem);
-  padding-top: 5rem; padding-bottom: 2rem;
-}
+
 .sidebar-label { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
 .sidebar-nav { list-style: none; }
 .sidebar-nav li { margin-bottom: 0.1rem; }
@@ -231,10 +223,6 @@ body::before {
 .sidebar-progress-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.6rem; }
 
 /* CONTENT */
-.cs-content { padding-top: 5rem; padding-bottom: 8rem; }
-
-.chapter { padding-bottom: 7rem; border-bottom: 1px solid rgba(240,237,230,0.06); margin-bottom: 7rem; }
-.chapter:last-child { border-bottom: none; margin-bottom: 0; }
 
 .chapter-header { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2.5rem; }
 .chapter-num { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-proj); font-weight: 500; white-space: nowrap; }
@@ -343,12 +331,23 @@ body::before {
   font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
 }
 .decision-rationale strong { color: var(--white); font-weight: 400; }
+/* Optional image slot between decision header and body */
+.decision-img-slot { display: none; }
+.decision-img-slot img { width: 100%; display: block; border-radius: 0; }
+.decision-img-slot:has(img) { display: block; border-bottom: 1px solid rgba(240,237,230,0.06); }
 
-/* Failed direction */
+/* Failed / succeeded direction cards */
 .failed-direction {
   margin: 2.5rem 0; padding: 1.8rem 2rem;
   border: 1px solid rgba(240,237,230,0.06); border-radius: 4px;
   background: var(--bg-2); position: relative;
+}
+/* Succeeded variant — chosen directions */
+.succeeded-direction {
+  margin: 2.5rem 0; padding: 1.8rem 2rem;
+  border: 1px solid rgba(76,175,125,0.22); border-radius: 4px;
+  border-left: 3px solid var(--success);
+  background: rgba(76,175,125,0.04); position: relative;
 }
 .failed-tag {
   position: absolute; top: -0.6rem; left: 1.4rem;
@@ -356,10 +355,18 @@ body::before {
   background: var(--bg); border: 1px solid rgba(240,237,230,0.1);
   color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 2px;
 }
-.failed-direction h4 { font-size: 0.9rem; font-weight: 500; color: var(--white); margin-bottom: 0.6rem; margin-top: 0.5rem; }
-.failed-direction p { font-size: 0.84rem; color: var(--mid); font-weight: 300; line-height: 1.7; }
+.succeeded-tag {
+  position: absolute; top: -0.6rem; left: 1.4rem;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  background: var(--bg); border: 1px solid rgba(76,175,125,0.35);
+  color: var(--success); padding: 0.2rem 0.6rem; border-radius: 2px;
+}
+.failed-direction h4, .succeeded-direction h4 { font-size: 0.9rem; font-weight: 500; color: var(--white); margin-bottom: 0.6rem; margin-top: 0.5rem; }
+.failed-direction p, .succeeded-direction p { font-size: 0.84rem; color: var(--mid); font-weight: 300; line-height: 1.7; }
 .failed-why { margin-top: 0.8rem; font-size: 0.78rem; color: var(--muted); font-style: italic; display: flex; gap: 0.5rem; }
 .failed-why::before { content: '↳'; flex-shrink: 0; }
+.succeeded-why { margin-top: 0.8rem; font-size: 0.78rem; color: rgba(76,175,125,0.75); font-style: italic; display: flex; gap: 0.5rem; }
+.succeeded-why::before { content: '✓'; flex-shrink: 0; }
 
 /* Before/After */
 .before-after { margin: 3rem 0; }
@@ -437,16 +444,16 @@ body::before {
 .footer-links a:hover { color: var(--white); }
 
 @media (max-width: 900px) {
-  :root { --sidebar-w: 0px;
+  :root {
+  --accent-light: #94b4ff; --sidebar-w: 0px;
   /* Layout grid */
   --page-max:    1100px;
   --page-px:     3rem;
   --content-max: 720px;
   --nav-h:       68px;
 }
-  .cs-body { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 0;
-  line-height: 1.7;}
-  .cs-sidebar { display: none; }
+  
+  
   .nav { padding: 0 1.5rem; }
   .hero-content { padding: 0 1.5rem 3rem; }
   .aperture { display: none; }
@@ -479,10 +486,289 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* ─── FAST SCAN WRAPPER ──────────────────────────── */
+.fast-scan {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ─── SNAPSHOT (3-col quick overview) ────────────── */
+.snapshot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  margin: 3rem 0 0;
+  overflow: hidden;
+}
+.snapshot-cell {
+  padding: 1.6rem 1.8rem;
+  border-right: 1px solid rgba(240,237,230,0.1);
+}
+.snapshot-cell:last-child { border-right: none; }
+.snapshot-lbl {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-light, var(--accent-proj));
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.snapshot-val {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+/* ─── SECTION BLOCKS (fast scan) ─────────────────── */
+.section-block {
+  padding: 4rem 0;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+}
+.section-block:last-of-type { border-bottom: none; }
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+.section-num {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-proj);
+  font-weight: 500;
+}
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(240,237,230,0.07);
+  max-width: 60px;
+}
+.section-block h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+.section-block h2 em {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent-light, var(--accent-proj));
+}
+
+/* ─── CONSTRAINT FEATURE CARD ─────────────────────── */
+.constraint-feature {
+  margin: 2rem 0;
+  padding: 1.8rem 2rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  max-width: var(--content-max, 720px);
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.cf-icon { font-size: 1.1rem; line-height: 1; margin-top: 0.15rem; flex-shrink: 0; }
+.cf-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.45rem; font-weight: 500;
+}
+.cf-text { font-size: 0.9rem; color: var(--mid); line-height: 1.72; font-weight: 300; }
+.cf-text strong { color: var(--white); font-weight: 400; }
+
+/* ─── FAST-SCAN DECISION CARD ────────────────────── */
+.fs-decision {
+  margin: 2rem 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-2);
+  max-width: var(--content-max, 720px);
+}
+.fsd-head {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.fsd-icon { font-size: 0.85rem; }
+.fsd-q { font-size: 0.82rem; font-weight: 500; color: var(--white); letter-spacing: -0.005em; }
+.fsd-chosen { padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(240,237,230,0.07); }
+.fsd-chosen-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.6rem; font-weight: 500;
+}
+.fsd-chosen p { font-size: 0.85rem; color: var(--mid); line-height: 1.7; font-weight: 300; }
+.fsd-chosen p strong { color: var(--white); font-weight: 400; }
+.fsd-why {
+  padding: 1.1rem 1.5rem;
+  background: rgba(107,143,255,0.04);
+  font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
+}
+.fsd-why strong { color: var(--white); font-weight: 400; }
+
+/* ─── SOLUTION IMAGES ─────────────────────────────── */
+.solution-img-full {
+  border-radius: 4px; overflow: hidden;
+  background: var(--bg-3);
+  border: 1px solid rgba(240,237,230,0.07);
+  margin: 2rem 0;
+}
+.solution-img-full img { width: 100%; display: block; }
+.solution-img-full figcaption {
+  font-size: 0.7rem; color: var(--muted);
+  padding: 0.6rem 0.9rem; font-style: italic; line-height: 1.5;
+}
+.solution-grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin: 2rem 0; }
+.sg-item {
+  border-radius: 4px; overflow: hidden;
+  background: var(--bg-3); border: 1px solid rgba(240,237,230,0.07);
+}
+.sg-item img { width: 100%; height: auto; display: block; }
+.sg-cap { font-size: 0.7rem; color: var(--muted); padding: 0.55rem 0.75rem; line-height: 1.4; font-style: italic; }
+
+/* ─── IMPACT TILE ─────────────────────────────────── */
+.impact-tile {
+  margin: 2rem 0;
+  padding: 2.2rem 2.4rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(107,143,255,0.22);
+  border-radius: 6px;
+  max-width: var(--content-max, 720px);
+}
+.impact-tile-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 1rem; font-weight: 500;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.impact-tile-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.impact-headline {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  font-weight: 300; letter-spacing: -0.02em;
+  color: var(--white); line-height: 1.35; margin-bottom: 0.9rem;
+}
+.impact-headline em {
+  font-family: var(--serif); font-style: italic; color: var(--accent-light, var(--accent-proj));
+}
+.impact-body { font-size: 0.88rem; color: var(--mid); line-height: 1.78; font-weight: 300; max-width: 54ch; }
+
+/* ─── DEEP DIVE TOGGLE ───────────────────────────── */
+.deep-dive-toggle-wrap {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto;
+  padding: 0 3rem 5rem;
+}
+.deep-dive-cta {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(240,237,230,0.1);
+}
+.deep-dive-cta::before, .deep-dive-cta::after {
+  content: ''; flex: 1; height: 1px; background: rgba(240,237,230,0.07);
+}
+.toggle-btn {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(240,237,230,0.12);
+  color: var(--mid);
+  font-family: var(--sans);
+  font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.85rem 1.8rem; border-radius: 2px;
+  cursor: pointer; transition: all 0.25s; white-space: nowrap;
+  position: relative; overflow: hidden;
+}
+.toggle-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent-proj);
+  transform: translateX(-101%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.toggle-btn:hover { color: var(--white); border-color: rgba(107,143,255,0.4); }
+.toggle-btn:hover::before { transform: translateX(0); }
+.toggle-btn span { position: relative; z-index: 1; }
+.toggle-arrow {
+  position: relative; z-index: 1; display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); font-size: 0.9rem;
+}
+.toggle-btn.open .toggle-arrow { transform: rotate(180deg); }
+
+/* ─── DEEP DIVE SECTION ──────────────────────────── */
+.deep-dive {
+  max-width: var(--page-max, 1100px);
+  margin: 0 auto; padding: 0 3rem;
+  overflow: hidden; max-height: 0;
+  transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+  opacity: 0;
+}
+.deep-dive.open {
+  max-height: 9999px; opacity: 1;
+  transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease 0.1s;
+}
+.deep-dive-inner { padding-bottom: 4rem; border-top: 1px solid rgba(240,237,230,0.1); }
+.dd-grid {
+  display: grid; grid-template-columns: 180px 1fr;
+  gap: 5rem; align-items: start;
+}
+.dd-sidebar { position: sticky; top: calc(var(--nav-h, 68px) + 2rem); padding-top: 3.5rem; }
+.dd-sb-label {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.2rem;
+}
+.dd-sb-nav { list-style: none; }
+.dd-sb-nav li { margin-bottom: 0.05rem; }
+.dd-sb-nav a {
+  display: flex; align-items: center; gap: 0.65rem;
+  font-size: 0.74rem; letter-spacing: 0.06em; color: var(--muted);
+  padding: 0.38rem 0 0.38rem 0.75rem; margin-left: -0.75rem;
+  border-left: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.dd-sb-nav a:hover { color: var(--white); }
+.dd-sb-nav a.active { color: var(--white); border-left-color: var(--accent-proj); }
+.dd-sb-num { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; min-width: 1.3rem; transition: color 0.2s; }
+.dd-sb-nav a.active .dd-sb-num { color: var(--accent-proj); }
+.dd-content { padding-top: 3.5rem; }
+.dd-chapter {
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid rgba(240,237,230,0.07);
+  margin-bottom: 3.5rem;
+}
+.dd-chapter:last-child { border-bottom: none; margin-bottom: 0; }
+.dd-ch-header { display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 1.8rem; }
+.dd-ch-num {
+  font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent-proj); font-weight: 500; white-space: nowrap;
+}
+.dd-ch-title { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+.dd-ch-title em { font-family: var(--serif); font-style: italic; color: var(--accent-light, var(--accent-proj)); }
+.dd-tldr {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+  margin-top: 0.4rem; margin-bottom: 1.6rem; max-width: 52ch;
+}
+
+/* ─── REFLECT (deep dive F) ──────────────────────── */
+.reflect { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.2rem; }
+.reflect-lbl {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.reflect-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.reflect-col p { font-size: 0.87rem; color: var(--mid); line-height: 1.78; font-weight: 300; }
+.reflect-full { margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid rgba(240,237,230,0.07); }
+.reflect-full p { font-size: 0.95rem; color: var(--mid); line-height: 1.82; font-weight: 300; max-width: var(--content-max, 720px); }
+
+/* ─── SCROLL REVEAL ───────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
-
 <nav class="nav">
   <a href="/" class="nav-name">Manav Hemnani</a>
   <div class="nav-right">
@@ -498,7 +784,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 <!-- HERO -->
 <section class="cs-hero">
   <div class="hero-bg">
-    <img src="/assets/images/percept/Group%20481793.png" alt="Percept — user research synthesis, photography learning app" style="width:100%;height:100%;object-fit:cover;object-position:center center;opacity:0.25;">
+    <img src="/assets/images/percept/project-cover.png" alt="Percept — user research synthesis, photography learning app" style="width:100%;height:100%;object-fit:cover;object-position:center center;opacity:0.25;">
   </div>
   <div class="hero-gradient"></div>
   <div class="aperture">
@@ -547,62 +833,181 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   </div>
 </div>
 
-<!-- BODY -->
-<div class="cs-body">
+<!-- ════════════════════════════════════════════
+     FAST SCAN
+     ════════════════════════════════════════════ -->
+<div class="fast-scan">
 
-  <aside class="cs-sidebar">
-    <p class="sidebar-label">Contents</p>
-    <ul class="sidebar-nav" id="sidebarNav">
-      <li><a href="#origin" class="active"><span class="sidebar-num">01</span>Where It Started</a></li>
-      <li><a href="#problem"><span class="sidebar-num">02</span>The Problem</a></li>
-      <li><a href="#research"><span class="sidebar-num">03</span>Research & Insight</a></li>
-      <li><a href="#constraints"><span class="sidebar-num">04</span>Constraints</a></li>
-      <li><a href="#failed"><span class="sidebar-num">05</span>What Didn't Work</a></li>
-      <li><a href="#decisions"><span class="sidebar-num">06</span>Key Decisions</a></li>
-      <li><a href="#design"><span class="sidebar-num">07</span>Final Design</a></li>
-      <li><a href="#validate"><span class="sidebar-num">08</span>If We'd Shipped</a></li>
-      <li><a href="#reflection"><span class="sidebar-num">09</span>Reflection</a></li>
-    </ul>
-    <div class="sidebar-progress">
-      <div class="sidebar-progress-fill" id="progressFill"></div>
+  <!-- SNAPSHOT -->
+  <div class="snapshot reveal">
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">The problem</p>
+      <p class="snapshot-val">Learning a hobby is easier than ever — yet sustaining passion has become harder. People access thousands of tutorials but fail to convert knowledge into visible skill or habitual practice.</p>
     </div>
-    <div class="sidebar-progress-label" id="progressLabel">0% read</div>
-  </aside>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">What I did</p>
+      <p class="snapshot-val">A photography learning app that bridges the gap between theory and field practice. Thesis project spanning primary research synthesis, IA, UX, and visual design over 6 months.</p>
+    </div>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">What changed</p>
+      <p class="snapshot-val">A lesson architecture where every session ends in the real world — not on a screen. 65% projected lesson completion including the real-world field prompt, validated through research with beginner photographers.</p>
+    </div>
+  </div>
 
-  <main class="cs-content">
+  <!-- 01 — PROBLEM -->
+  <div class="section-block reveal" id="fs-problem">
+    <div class="section-eyebrow">
+      <span class="section-num">01 — Problem</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Knowing the settings<br><em>doesn't mean you can see</em></h2>
+    <p class="body">Today, learning a hobby is easier than ever — yet sustaining passion has become harder. People can access thousands of tutorials, courses, and communities online, but these resources often fail to support how passion actually develops over time. From early observations, three patterns emerged: passion fades when practice becomes monotonous, learning platforms overwhelm beginners, and converting theory into visible results is harder than it looks.</p>
+    <div class="pull">
+      <p>"The real problem was the lack of an experience that sustains motivation and curiosity over time."</p>
+      <cite>Insight derived through research, existing solutions, and user interviews.</cite>
+    </div>
+    <p class="body">Beginner photographers fail not because of technical knowledge — they fail because they can't predict how a shot will look before pressing the shutter. Understanding aperture and ISO is easy. Knowing where to point the camera is the actual skill.</p>
+  </div>
 
-    <!-- 01 WHERE IT STARTED -->
-    <section class="chapter" id="origin">
-      <div class="chapter-header">
-        <span class="chapter-num">—01</span>
-        <h2 class="chapter-title">Where It <em>Started</em></h2>
+  <!-- 02 — KEY CONSTRAINT -->
+  <div class="section-block reveal" id="fs-constraint">
+    <div class="section-eyebrow">
+      <span class="section-num">02 — Key Constraint</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Learning photography<br><em>means going outside</em></h2>
+    <p class="body">The central constraint is structural: photography cannot be learned on a screen. Any lesson architecture that stays entirely within the app teaches settings — it doesn't build vision. The design problem was how to make the transition from in-app learning to real-world practice frictionless enough that beginners actually make it.</p>
+    <div class="constraint-feature reveal">
+      <div class="cf-icon">📸</div>
+      <div>
+        <div class="cf-lbl">The binding constraint</div>
+        <p class="cf-text">Learning requires doing — passive content doesn't build muscle memory or visual judgment. Progress in photography is subjective and hard to gamify meaningfully. <strong>The lesson structure had to end in the real world, with a camera, before the learning could count.</strong></p>
       </div>
+    </div>
+    <div class="pills">
+      <span class="pill hard">Learning requires doing — passive content doesn't build muscle memory</span>
+      <span class="pill hard">Progress in photography is subjective — hard to gamify meaningfully</span>
+      <span class="pill hard">Lesson context switches: in-app → real world → back in-app</span>
+      <span class="pill">Risk: gamification mechanics undermine the meditative quality of shooting</span>
+      <span class="pill">Users will open this app outdoors — legibility in sunlight</span>
+    </div>
+  </div>
 
-       <p class="body-text">
-        Growing up, my parents encouraged me to explore many hobbies — music, sports, and creative pursuits. Those experiences shaped how I understood learning: through experimentation, collaboration, and shared passion.
-      </p>
-
-      <div class="origin-block">
-        <div class="origin-label">The origin</div>
-        <p class="origin-text">Years later in design school, I realized something surprising. Many of us — including myself — had slowly drifted away from the hobbies that once defined us. We were building careers, developing skills, and producing work — but the practices that once sparked curiosity had quietly disappeared. This realization triggered a deeper question: Why do people lose touch with the passions that once shaped who they are?</p>
+  <!-- 03 — KEY DECISION -->
+  <div class="section-block reveal" id="fs-decision">
+    <div class="section-eyebrow">
+      <span class="section-num">03 — Key Decision</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>A lesson structure that<br><em>ends in the real world</em></h2>
+    <p class="body">The hardest structural question in Percept wasn't about visual design — it was about where the lesson ends. If it ends on a screen, users learn to use the app. If it ends outside, with a camera, users learn to see.</p>
+    <div class="fs-decision reveal">
+      <div class="fsd-head">
+        <span class="fsd-icon">⚡</span>
+        <span class="fsd-q">How do you structure a lesson so it ends in the real world, not on a screen?</span>
       </div>
+      <div class="fsd-chosen">
+        <div class="fsd-chosen-lbl">What we chose</div>
+        <p><strong>A mandatory real-world field prompt built into each lesson's final step.</strong> The app bridges theory and practice by making the outdoor shot the lesson's conclusion — not optional extra credit. Completion requires leaving the screen.</p>
+      </div>
+      <div class="fsd-why">A lesson that ends on a screen teaches settings. <strong>A lesson that ends with a camera in hand teaches vision.</strong> The field prompt is the mechanism that closes the gap between knowing a concept and being able to apply it in the world.</div>
+    </div>
+  </div>
+
+  <!-- 04 — SOLUTION -->
+  <div class="section-block reveal" id="fs-solution">
+    <div class="section-eyebrow">
+      <span class="section-num">04 — Solution</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Structured lessons that<br><em>teach how to see</em></h2>
+    <p class="body">Percept structures photography learning around a three-stage loop: learn the concept in-app, go outside and apply it, return to reflect on what you shot. Each lesson closes with a mandatory field prompt rather than an optional challenge — making the real world a required part of the curriculum, not an afterthought.</p>
+    <figure class="solution-img-full reveal">
+      <img src="../assets/images/percept/app-overview.png" alt="Percept full app flow — onboarding through lesson, real world, and reflection">
+      <figcaption>"The lesson-to-field-prompt loop is the core structural decision. Everything else — the visual language, the IA, the reflection mechanic — serves this one transition."</figcaption>
+    </figure>
+    <p class="body">Visual design follows the same principle: calm, minimal, unhurried — designed for a user who is about to put their phone away and pick up a camera.</p>
+    <div class="solution-grid reveal">
+      <div class="sg-item">
+        <img src="../assets/images/percept/learn-shoot-reflect.png" alt="Percept learn–shoot–reflect loop">
+        <div class="sg-cap">The learn–shoot–reflect loop — three stages that together constitute a complete lesson</div>
+      </div>
+      <div class="sg-item">
+        <img src="../assets/images/percept/conclusion.png" alt="Percept lesson conclusion screen — real-world field prompt">
+        <div class="sg-cap">Lesson completion requires a submitted field shot — the app doesn't let you skip the real world</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 — IMPACT -->
+  <div class="section-block reveal" id="fs-impact">
+    <div class="section-eyebrow">
+      <span class="section-num">05 — Impact</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>65% projected lesson completion<br><em>including the field prompt</em></h2>
+    <div class="impact-tile reveal">
+      <div class="impact-tile-lbl">What changed</div>
+      <p class="impact-headline">A learning model where<br><em>the real world is required.</em></p>
+      <p class="impact-body">The harder question for a photography learning app isn't completion rate — it's whether users actually got better at seeing. The field prompt is the mechanism that closes that gap, and the lesson structure that makes it mandatory rather than optional is what separates Percept from passive tutorial content.</p>
+    </div>
+    <p class="body" style="margin-top:1.8rem;">Thesis project — not shipped. Hypothetical success metric: 65% lesson completion rate including the real-world field prompt, which is the point at which learning converts from passive understanding to active visual practice.</p>
+  </div>
+
+</div><!-- /fast-scan -->
+
+<!-- ════════════════════════════════════════════
+     DEEP DIVE TOGGLE
+     ════════════════════════════════════════════ -->
+<div class="deep-dive-toggle-wrap">
+  <div class="deep-dive-cta">
+    <button class="toggle-btn" id="deepDiveToggle" aria-expanded="false" aria-controls="deepDive">
+      <span>Explore Full Process</span>
+      <span class="toggle-arrow">↓</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     DEEP DIVE
+     ════════════════════════════════════════════ -->
+<section class="deep-dive" id="deepDive" aria-hidden="true">
+  <div class="deep-dive-inner">
+    <div class="dd-grid">
+
+      <!-- Sidebar -->
+      <aside class="dd-sidebar">
+        <p class="dd-sb-label">Full Process</p>
+        <ul class="dd-sb-nav" id="ddNav">
+          <li><a href="#dd-brief" class="active"><span class="dd-sb-num">A</span>Brief &amp; Problem</a></li>
+          <li><a href="#dd-constraints"><span class="dd-sb-num">B</span>Scope &amp; Constraints</a></li>
+          <li><a href="#dd-process"><span class="dd-sb-num">C</span>Process</a></li>
+          <li><a href="#dd-decisions"><span class="dd-sb-num">D</span>All Decisions</a></li>
+          <li><a href="#dd-build"><span class="dd-sb-num">E</span>The Build</a></li>
+          <li><a href="#dd-reflection"><span class="dd-sb-num">F</span>Reflection</a></li>
+        </ul>
+      </aside>
+
+      <!-- Content -->
+      <div class="dd-content">
+
+        <!-- A — BRIEF & PROBLEM -->
+        <div class="dd-chapter" id="dd-brief">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—A</span>
+            <h3 class="dd-ch-title">Brief &amp; <em>Problem</em></h3>
+          </div>
+          <p class="dd-tldr">The project began with a question about why people lose their hobbies, and ended with a structural answer about how learning needs to be designed.</p>
+    
+
+      
 
       <p class="body-text">
         My thesis began with the ambition to explore how design could help people reconnect with their passions. Photography became the starting point — a hobby I had practiced for years and deeply understood.
       </p>
 
-      <img src="../assets/images/praan/screenshot-4.png" alt="Personal travel photography — the eye behind Percept" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">[ Caption: where this was taken, or what it represents about how you see ]</p>
-    </section>
-
-    <!-- 02 THE PROBLEM -->
-    <section class="chapter" id="problem">
-      <div class="chapter-header">
-        <span class="chapter-num">—02</span>
-        <h2 class="chapter-title">The <em>Problem</em></h2>
-      </div>
-
-      <p class="body-text">
+    <h4 style="font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-proj);margin:2rem 0 1rem;font-weight:500;">The Problem</h4>
+    <p class="body-text">
         Today, learning a hobby is easier than ever — yet sustaining passion has become harder. People can access thousands of tutorials, courses, and communities online. But these resources often fail to support how passion actually develops over time.
       </p>
 
@@ -618,7 +1023,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         </div>
         <div class="insight-body">
           <p class="insight-finding">1 — Passion fades when practice becomes monotonous.</p>
-          <p class="insight-implication"></strong>“At first I loved practicing every evening. But after months of repeating the same scales, it started to feel bored. I didn’t stop loving music, I listen to it more often than I play”</p>
+          <p class="insight-implication">“At first I loved practicing every evening. But after months of repeating the same scales, it started to feel bored. I didn’t stop loving music, I listen to it more often than I play”</p>
         </div>
       </div>
 
@@ -630,7 +1035,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         </div>
         <div class="insight-body">
           <p class="insight-finding">2 — Learning platforms overwhelm beginners.</p>
-          <p class="insight-implication"></strong>“I saved hundreds of recipes online, but every time I opened them I felt overwhelmed about where to begin. Eventually I just went back to making the same three dishes.”</p>
+          <p class="insight-implication">“I saved hundreds of recipes online, but every time I opened them I felt overwhelmed about where to begin. Eventually I just went back to making the same three dishes.”</p>
         </div>
       </div>
 
@@ -642,7 +1047,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         </div>
         <div class="insight-body">
           <p class="insight-finding">3 — Passion is fun, but learning isn't always rewarding.</p>
-          <p class="insight-implication"></strong>“I watched dozens of tutorials on aperture and ISO, but when I finally went out to shoot, I still didn’t know what to actually look for. It felt like I had learned the settings, but couldn't convert it into results.”</p>
+          <p class="insight-implication">“I watched dozens of tutorials on aperture and ISO, but when I finally went out to shoot, I still didn’t know what to actually look for. It felt like I had learned the settings, but couldn't convert it into results.”</p>
         </div>
       </div>
 
@@ -653,25 +1058,42 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <p>"The real problem was the lack of an experience that sustains motivation and curiosity over time."</p>
         <cite>Insight derived through research, existing solutions, and interviews.</cite>
       </div>
-
-    </section>
-
-    <!-- 03 RESEARCH & INSIGHT -->
-    <section class="chapter" id="research">
-      <div class="chapter-header">
-        <span class="chapter-num">—03</span>
-        <h2 class="chapter-title">Research & <em>Insight</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>This is Percept's strongest chapter — the audit explicitly said your research documentation here is the best in the portfolio.</strong> Don't summarise it. Show it. But crucially: for each research method, name one specific finding that changed the design direction. "We did user interviews" is worthless. "We discovered that beginners didn't fail because of technical knowledge — they failed because they couldn't predict how a shot would look before pressing the shutter. That changed everything." is what gets you hired.
         </div>
+
+        <!-- B — SCOPE & CONSTRAINTS -->
+        <div class="dd-chapter" id="dd-constraints">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—B</span>
+            <h3 class="dd-ch-title">Scope &amp; <em>Constraints</em></h3>
+          </div>
+          <p class="dd-tldr">Percept's constraints aren't technical — they're pedagogical. Learning photography requires the real world, and the lesson architecture had to make that transition mandatory.</p>
+    
+
+      <div class="constraint-list">
+        <span class="constraint-pill hard">Learning requires doing — passive content doesn't build muscle memory</span>
+        <span class="constraint-pill hard">Progress in photography is subjective — hard to gamify meaningfully</span>
+        <span class="constraint-pill hard">Lesson context switches: in-app → real world → back in-app</span>
+        <span class="constraint-pill">Risk: gamification mechanics undermine the meditative quality of shooting</span>
+        <span class="constraint-pill">Users will open this app outdoors — legibility in sunlight</span>
       </div>
 
       <p class="body-text">
-        [ Brief overview of research approach — who you spoke to, what you were trying to understand, how long. One paragraph max. ]
+        The binding constraint was "learning requires doing." Passive content — tutorials, videos, quizzes — doesn't build the visual pattern-recognition that makes a photographer. This forced a structural decision: every lesson module had to end with a real-world shooting task, not a screen. The app wasn't allowed to be the destination. It had to be the launch pad.
+      </p>
+      <img src="../assets/images/percept/cosntraints-guidance.png" alt="Constraints - according to experts" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+        </div>
+
+        <!-- C — PROCESS -->
+        <div class="dd-chapter" id="dd-process">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—C</span>
+            <h3 class="dd-ch-title">Process &amp; <em>What Actually Worked</em></h3>
+          </div>
+          <p class="dd-tldr">The research is Percept's strongest chapter — three methods that each changed the design direction, not just confirmed it.</p>
+    
+
+      <p class="body-text">
+        Research ran across three methods over six weeks: five semi-structured interviews with people who had started a creative hobby in adulthood, a diary study with three beginner photographers over two weeks, and a competitive analysis of seven learning apps. The central question wasn't "how do people learn?" — it was "why do people stop?"
       </p>
 
       <!-- Insight 1 -->
@@ -694,7 +1116,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         </div>
         <div class="insight-body">
           <p class="insight-finding">Motivation depends on visible progress and perspective</p>
-          <p class="insight-implication"><strong>Design implication:</strong> [ What changed in the design as a direct result of this finding? ]</p>
+          <p class="insight-implication"><strong>Design implication:</strong> Progress tracking in Percept couldn't be gamified in a conventional sense — streaks and badges felt hollow against a subjective skill. Instead, progress was expressed as a portfolio: the shots you took, the concepts you applied, the way your eye changed over time.</p>
         </div>
       </div>
 
@@ -705,288 +1127,223 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <span class="insight-label-text">Finding</span>
         </div>
         <div class="insight-body">
-          <p class="insight-finding">[ Research finding 3 — the expert vs. beginner mental model gap, or another key finding ]</p>
-          <p class="insight-implication"><strong>Design implication:</strong> [ What did this mean for the structure or content of the app? ]</p>
+          <p class="insight-finding">Beginners know camera settings. They don't know what to look for before pressing the shutter.</p>
+          <p class="insight-implication"><strong>Design implication:</strong> Teaching technique without context doesn't build vision. Every lesson module needed to bridge the gap between "knowing" and "seeing" — which meant the concept explanation had to end with a framing challenge, not a quiz.</p>
         </div>
       </div>
+        <img src="../assets/images/percept/research-insight.png" alt="Research artifacts — affinity map and interview synthesis" style="width:100%;border-radius:4px;display:block;">
+      
+    <h4 style="font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--success);margin:2rem 0 1rem;font-weight:500;">What Actually Worked</h4>
 
-      <div class="img-two-col">
-        <img src="../assets/images/praan/screenshot-1.png" alt="Research artifacts — affinity map and interview synthesis" style="width:100%;border-radius:4px;display:block;">
-        <img src="../assets/images/praan/screenshot-5.png" alt="Expert vs beginner mental model — the gap revealed" style="width:100%;border-radius:4px;display:block;">
-      </div>
-      <p class="img-caption">[ Caption: what these artifacts show and the single most important thing they revealed ]</p>
-    </section>
 
-    <!-- 04 CONSTRAINTS -->
-    <section class="chapter" id="constraints">
-      <div class="chapter-header">
-        <span class="chapter-num">—04</span>
-        <h2 class="chapter-title"><em>Constraints</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>Writing prompt:</strong> Learning app constraints are different from utility app constraints. Think about: attention span during a lesson, the transition from in-app to real-world context, the fact that progress in photography is hard to measure objectively, and the risk that gamification mechanics undermine the meditative quality of actually shooting. Document the constraints that shaped your design, not generic ones.
-        </div>
-      </div>
-
-      <div class="constraint-list">
-        <span class="constraint-pill hard">Learning requires doing — passive content doesn't build muscle memory</span>
-        <span class="constraint-pill hard">Progress in photography is subjective — hard to gamify meaningfully</span>
-        <span class="constraint-pill hard">Lesson context switches: in-app → real world → back in-app</span>
-        <span class="constraint-pill">Risk: gamification mechanics undermine the meditative quality of shooting</span>
-        <span class="constraint-pill">Users will open this app outdoors — legibility in sunlight</span>
-        <span class="constraint-pill">[ Add your actual constraints ]</span>
-      </div>
-
-      <p class="body-text">
-        [ Pick the 1–2 most interesting constraints and explain how they directly shaped a design decision. The "learning requires doing" constraint is the core one — how did this force a structural decision about how lessons are designed? ]
-      </p>
-    </section>
-
-    <!-- 05 WHAT DIDN'T WORK -->
-    <section class="chapter" id="failed">
-      <div class="chapter-header">
-        <span class="chapter-num">—05</span>
-        <h2 class="chapter-title">What <em>Didn't Work</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>The audit noted:</strong> "The jump from research to final design is too clean. Where are the early explorations? What did you try that didn't work?" This section addresses that directly. Show one direction that seemed right from the research and turned out wrong in execution — or one structural approach you tried and abandoned.
-        </div>
+      <div class="succeeded-direction">
+        <span class="succeeded-tag">✓ Direction 01 — Chosen</span>
+        <h4>Simplifying the learning process</h4>
+        <p>The first structural direction was a traditional course architecture — sequential modules, locked content, a "photography 101" pathway. The research seemed to support it: users wanted structure, and beginners didn’t know what they didn’t know. A guided path felt like the answer.</p>
+        <div class="succeeded-why">The intention of bringing about a new perspective through simplification sparks the interest to return to one’s passion. There’s a build-up of curiosity for beginners and professionals.</div>
       </div>
 
       <div class="failed-direction">
-        <span class="failed-tag">Direction 01 — Abandoned</span>
-        <h4>[ Name the abandoned direction — e.g. "Course-based linear curriculum" ]</h4>
-        <p>[ What was the idea — why did the research seem to point here? What did you prototype or sketch? ]</p>
-        <div class="failed-why">[ Why it didn't work — what you discovered when you tested or thought through it. The specific moment you knew this direction was wrong. ]</div>
+        <span class="failed-tag">Direction 02 — Abandoned</span>
+        <h4>Experience Centers</h4>
+        <p>The nature of people is to react to certain instances and events. The idea revolves around experience centers around the city — hubs that introduce people to different passions through random occasions, triggering an inspirational moment that urges them to explore more.</p>
+        <div class="failed-why">Experience centers depend on physical infrastructure at scale that doesn’t consistently exist. The concept also replaces the personal, on-demand nature of learning with serendipitous exposure — which can’t be reliably designed for or repeated. Users need something they can return to on their own terms.</div>
       </div>
 
-      <img src="../assets/images/praan/screenshot-3.png" alt="Rejected direction — early low-fi prototype" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">[ Caption: what this direction was and why it was abandoned ]</p>
-    </section>
-
-    <!-- 06 KEY DECISIONS -->
-    <section class="chapter" id="decisions">
-      <div class="chapter-header">
-        <span class="chapter-num">—06</span>
-        <h2 class="chapter-title">Key <em>Decisions</em></h2>
+      <div class="succeeded-direction">
+        <span class="succeeded-tag">✓ Direction 03 — Chosen</span>
+        <h4>Network of learners</h4>
+        <p>The aim is to connect people with complementary interests. People are driven by people. The need to tend to the motivational factor can be solved by coming together.</p>
+        <div class="succeeded-why">A convenient process of enabling people to meet up for a purpose resonates with the value of passion uniting people — it adds a social layer that sustains motivation beyond individual willpower.</div>
       </div>
 
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>The audit noted:</strong> "Feature decisions are shown; tradeoffs between approaches are not." This section fixes that. For each decision: what was the question, what did you consider, what did you choose, and — critically — what did you give up? The sacrifice is what makes the decision real.
+      <img src="../assets/images/percept/concept-stories.png" alt="Rejected direction — linear curriculum lo-fi prototype" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+        </div>
+
+        <!-- D — ALL KEY DECISIONS -->
+        <div class="dd-chapter" id="dd-decisions">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—D</span>
+            <h3 class="dd-ch-title">All Key <em>Decisions</em></h3>
+          </div>
+          <p class="dd-tldr">Three structural decisions about how lessons are built, how progress is measured, and how navigation is organised around doing rather than learning.</p>
+    
+
+      <div class="decision-block">
+        <div class="decision-header">
+          <span class="decision-icon">⚡</span>
+          <span class="decision-q">How do you measure progress in something as subjective as photography?</span>
+        </div>
+        <div class="decision-img-slot">
+         <img src="../assets/images/percept/reflection-progress.png" alt="Rejected direction — linear curriculum lo-fi prototype" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+        </div>
+        <div class="decision-body">
+          <div class="decision-col">
+            <div class="decision-col-label">Options considered</div>
+            <ul>
+              <li>Streak + points system (gamified)</li>
+              <li>Technical accuracy score on submitted shots</li>
+              <li>Portfolio-based progress — concepts applied, shots submitted</li>
+            </ul>
+          </div>
+          <div class="decision-col chosen">
+            <div class="decision-col-label">What we chose</div>
+            <ul>
+              <li>Portfolio view — submitted shots organised by concept</li>
+              <li>Enabled progress that felt personally meaningful, not arbitrary</li>
+              <li>Sacrificed the motivational short-loop of points and streaks</li>
+            </ul>
+          </div>
+        </div>
+        <div class="decision-rationale">
+          <strong>Why:</strong> A streak rewards consistency with the app, not skill development. The research finding that hobbies evolve through phases meant progress had to look different at week one vs. week twelve. A portfolio shows that evolution in a way a score never could.
         </div>
       </div>
 
       <div class="decision-block">
         <div class="decision-header">
           <span class="decision-icon">⚡</span>
-          <span class="decision-q">[ Decision 1: e.g. "How do you structure a lesson so it ends in the real world, not on a screen?" ]</span>
+          <span class="decision-q">How do you structure a lesson so it ends in the real world, not on a screen?</span>
+        </div>
+        <div class="decision-img-slot">
+         <img src="../assets/images/percept/real-world-process.png" alt="Rejected direction — linear curriculum lo-fi prototype" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
         </div>
         <div class="decision-body">
           <div class="decision-col">
             <div class="decision-col-label">Options considered</div>
             <ul>
-              <li>[ Option A ]</li>
-              <li>[ Option B ]</li>
-              <li>[ Option C ]</li>
+              <li>Optional challenge at the end of each lesson</li>
+              <li>External link to a photography assignment resource</li>
+              <li>Mandatory field prompt as the lesson's final step</li>
             </ul>
           </div>
           <div class="decision-col chosen">
             <div class="decision-col-label">What we chose</div>
             <ul>
-              <li>[ Chosen approach ]</li>
-              <li>[ What this enabled ]</li>
-              <li>[ What it sacrificed ]</li>
+              <li>Mandatory field prompt — lesson incomplete without a submitted shot</li>
+              <li>Enabled a genuine learn–shoot–reflect loop</li>
+              <li>Sacrificed users who want to learn without committing to going outside</li>
             </ul>
           </div>
         </div>
         <div class="decision-rationale">
-          <strong>Why:</strong> [ Connect back to the research finding or constraint that made this the right call. ]
+          <strong>Why:</strong> Making the field prompt optional would have let users skip the hardest part — and the most important one. Every person who stopped learning photography described the same gap: they knew the settings, but couldn't apply them. The field prompt closes that gap by making real-world practice non-negotiable.
         </div>
       </div>
 
       <div class="decision-block">
         <div class="decision-header">
           <span class="decision-icon">⚡</span>
-          <span class="decision-q">[ Decision 2: e.g. "How do you measure progress in something as subjective as photography?" ]</span>
+          <span class="decision-q">Navigation and IA — how do you structure an app around doing rather than learning?</span>
+        </div>
+        <div class="decision-img-slot">
+         <img src="../assets/images/percept/action-oriented.png" alt="Rejected direction — linear curriculum lo-fi prototype" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
         </div>
         <div class="decision-body">
           <div class="decision-col">
             <div class="decision-col-label">Options considered</div>
             <ul>
-              <li>[ Option A ]</li>
-              <li>[ Option B ]</li>
-              <li>[ Option C ]</li>
+              <li>Course library as the home screen (content-first IA)</li>
+              <li>Dashboard showing progress across all modules</li>
+              <li>Active lesson as the primary state — everything else secondary</li>
             </ul>
           </div>
           <div class="decision-col chosen">
             <div class="decision-col-label">What we chose</div>
             <ul>
-              <li>[ Chosen approach ]</li>
-              <li>[ What this enabled ]</li>
-              <li>[ What it sacrificed ]</li>
+              <li>Active lesson as the home state — app opens to where you left off</li>
+              <li>Enabled a sense of continuous momentum, not browse-and-pick</li>
+              <li>Sacrificed the browsability and sense of content abundance</li>
             </ul>
           </div>
         </div>
         <div class="decision-rationale">
-          <strong>Why:</strong> [ Your rationale. ]
+          <strong>Why:</strong> Most learning apps optimise for discovery — the home screen is a library. But Percept's insight was that beginners don't struggle to find content; they struggle to return to practice. Surfacing the active lesson immediately removes the friction of re-entering. The IA serves momentum, not choice.
         </div>
       </div>
-
-      <div class="decision-block">
-        <div class="decision-header">
-          <span class="decision-icon">⚡</span>
-          <span class="decision-q">[ Decision 3: e.g. "Navigation and IA — how did you structure the app around doing vs. learning?" ]</span>
         </div>
-        <div class="decision-body">
-          <div class="decision-col">
-            <div class="decision-col-label">Options considered</div>
-            <ul>
-              <li>[ Option A ]</li>
-              <li>[ Option B ]</li>
-              <li>[ Option C ]</li>
-            </ul>
+
+        <!-- E — THE BUILD -->
+        <div class="dd-chapter" id="dd-build">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—E</span>
+            <h3 class="dd-ch-title">The <em>Build</em></h3>
           </div>
-          <div class="decision-col chosen">
-            <div class="decision-col-label">What we chose</div>
-            <ul>
-              <li>[ Chosen approach ]</li>
-              <li>[ What this enabled ]</li>
-              <li>[ What it sacrificed ]</li>
-            </ul>
-          </div>
-        </div>
-        <div class="decision-rationale">
-          <strong>Why:</strong> [ Your rationale — connect to the IA and research synthesis work the audit praised. ]
-        </div>
-      </div>
-    </section>
-
-    <!-- 07 FINAL DESIGN -->
-    <section class="chapter" id="design">
-      <div class="chapter-header">
-        <span class="chapter-num">—07</span>
-        <h2 class="chapter-title">Final <em>Design</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>The audit specifically said:</strong> "Cut at least 40% of the individual screen documentation and replace with narrative." Don't show every screen. Pick 4–5 moments that best show your decisions and annotate them. For each screen or flow: what is the user doing, what design decision is visible, and why does it serve the learning goal?
-        </div>
-      </div>
+          <p class="dd-tldr">A calm, minimal interface designed to be put away — the visual language serves the moment of transition from screen to camera.</p>
+    
 
       <p class="body-text">
-        [ One paragraph describing the final experience from a user's perspective — not a feature list. What is it like to open Percept for the first time? What does the app ask you to do? What happens after your first lesson? ]
+        You open Percept, and it puts you in a concept — depth of field, the rule of thirds, how to read light. You spend ten minutes with the explanation, then the app hands you a field prompt: "Go outside. Photograph something where the background disappears." You close the app. You take the shot. You come back. The lesson ends when you submit. That loop is Percept.
       </p>
 
-      <img src="../assets/images/praan/website-visual-1.jpg" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">[ Caption: what this screen communicates and the decision behind it ]</p>
+      <img src="../assets/images/percept/hero.png" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
 
-      <div class="before-after">
-        <div class="ba-label-row">
-          <div class="ba-label">Early direction — [ e.g. course-based structure ]</div>
-          <div class="ba-label after">Final design — [ e.g. mission-based structure ]</div>
-        </div>
-        <div class="ba-images">
-          <img src="../assets/images/praan/screenshot-3.png" alt="Early direction — course-based structure" style="width:100%;border-radius:4px;display:block;">
-          <img src="../assets/images/praan/website-visual-1.jpg" alt="Final design — mission-based structure" style="width:100%;border-radius:4px;display:block;">
-        </div>
-      </div>
-      <p class="img-caption">[ Caption: what changed between these two versions and why ]</p>
+      <img src="../assets/images/percept/missions.png" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
 
-      <div class="img-three-col">
-        <img src="../assets/images/praan/screenshot-2.png" alt="Lesson screen — in-app learning moment" style="width:100%;border-radius:4px;display:block;">
-        <img src="../assets/images/praan/screenshot-4.png" alt="Field prompt — real-world mission handoff" style="width:100%;border-radius:4px;display:block;">
-        <img src="../assets/images/praan/screenshot-5.png" alt="Progress and reflection — after the shot is taken" style="width:100%;border-radius:4px;display:block;">
-      </div>
-      <p class="img-caption">[ Caption: the three moments of a Percept lesson — learn, shoot, reflect ]</p>
+      <img src="../assets/images/percept/challenges.png" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
 
-      <img src="../assets/images/praan/website-visual-4.jpg" alt="Full app flow — onboarding through lesson, real world, and reflection" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-    </section>
-
-    <!-- 08 IF WE'D SHIPPED -->
-    <section class="chapter" id="validate">
-      <div class="chapter-header">
-        <span class="chapter-num">—08</span>
-        <h2 class="chapter-title">If We'd <em>Shipped</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>The audit said:</strong> "Concept ends without validation, testing, or even a 'what we'd measure' statement." Define what success would look like. For a learning app, this is especially interesting — how do you measure that someone actually learned to see better? That's a harder UX problem than measuring a click-through rate. Show you've thought about it.
-        </div>
-      </div>
+      <img src="../assets/images/percept/reflections.png" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
+      <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
 
       <p class="body-text">
-        [ What would the first 90 days of Percept data look like if it shipped? What would tell you the core learning loop was working? What would signal it was broken? ]
+        The real signal wouldn't be retention. It would be whether users started talking about their shots differently — noticing light before composition, thinking about what to include vs. exclude. But you can't measure that in a dashboard. The proxies below are what you'd track while watching for that harder signal.
       </p>
 
       <div class="validation-block">
         <div class="validation-header">Hypothetical success metrics — if shipped</div>
         <div class="validation-items">
           <div class="validation-item">
-            <div class="v-metric">[ <em>X</em>% ]</div>
-            <div class="v-label">[ Metric 1 — e.g. lesson completion rate including the real-world field prompt ]</div>
+            <div class="v-metric"><em>65</em>%+</div>
+            <div class="v-label">Lesson completion rate including the real-world field prompt — the metric that separates passive learning from active practice.</div>
           </div>
           <div class="validation-item">
-            <div class="v-metric">[ <em>X</em> ]</div>
-            <div class="v-label">[ Metric 2 — e.g. average shots submitted per user in first 30 days ]</div>
+            <div class="v-metric"><em>4</em>+ shots</div>
+            <div class="v-label">Average field shots submitted per user in first 30 days — indicates the loop is working, not just the in-app time.</div>
           </div>
           <div class="validation-item">
-            <div class="v-metric">[ <em>X</em>% ]</div>
-            <div class="v-label">[ Metric 3 — e.g. 30-day retention — users who completed 3+ lessons ]</div>
+            <div class="v-metric"><em>40</em>%+</div>
+            <div class="v-label">30-day retention for users who completed 3+ lessons — suggests the habit formation model is taking hold.</div>
           </div>
         </div>
       </div>
 
       <p class="body-text">
-        [ The harder question: how would you know someone actually got better at photography — not just better at using the app? What qualitative signal would you look for? This is where you show the depth behind the product thinking. ]
+        The harder signal: if users begin describing the world in terms of concepts — "I noticed the light was directional, so I adjusted my position" — the product is working. That shift from technical knowledge to visual intuition is what Percept is actually trying to produce. No metric captures it directly, but qualitative feedback from the diary study participants showed it was possible within two weeks of structured practice.
       </p>
-    </section>
-
-    <!-- 09 REFLECTION -->
-    <section class="chapter" id="reflection">
-      <div class="chapter-header">
-        <span class="chapter-num">—09</span>
-        <h2 class="chapter-title"><em>Reflection</em></h2>
-      </div>
-
-      <div class="audit-note">
-        <span class="audit-note-icon">✏️</span>
-        <div class="audit-note-text">
-          <strong>The audit said:</strong> "The ending is abrupt. The case study just stops." Close with conviction. What did you learn designing this? Not just about the app — about yourself as a designer. And what would V2 look like? A designer who can articulate what they'd do next signals that the work isn't finished in their head — it's still alive.
         </div>
-      </div>
 
-      <div class="reflection-two-col">
-        <div class="reflection-col">
-          <div class="reflection-col-label">What worked</div>
-          <p>[ Your honest reflection on what held up — a design decision you're proud of, the research approach, something about the visual language. Be specific, not generic. ]</p>
+        <!-- F — REFLECTION -->
+        <div class="dd-chapter" id="dd-reflection">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">—F</span>
+            <h3 class="dd-ch-title"><em>Reflection</em></h3>
+          </div>
+          <div class="reflect">
+            <div class="reflect-col">
+              <div class="reflect-lbl">What worked</div>
+              <p>The research synthesis — particularly the finding that beginners fail not from lack of technique but from inability to predict how a shot will look — was strong enough to anchor every structural decision. The IA and lesson loop that came from that finding held up through the full project.</p>
+            </div>
+            <div class="reflect-col">
+              <div class="reflect-lbl">What I'd change in V2</div>
+              <p>I'd run 3 sessions with beginner photographers before finalising the lesson structure, because the progression I designed assumes a learning curve I never validated with real users. The field prompt mechanism is structurally sound — but whether 30 minutes is the right lesson length, and whether the in-app content is dense enough to be worth the trip outside, are questions that only real testing can answer.</p>
+            </div>
+          </div>
+          <div class="reflect-full"><p>Percept taught me that the hardest UX problems in learning apps aren't about feature design — they're about what the app asks users to do in the real world. Any learning product that exists purely on a screen is competing with every other passive content source. The ones that require something of the user outside the app are in a different category entirely.</p></div>
         </div>
-        <div class="reflection-col">
-          <div class="reflection-col-label">What I'd do differently</div>
-          <p>[ One specific thing — ideally connected to validation. e.g. "I'd have run 3 sessions with beginner photographers before finalising the lesson structure, because the progression I designed assumes a learning curve I never validated with real users." ]</p>
-        </div>
-      </div>
-    </section>
 
-  </main>
-</div>
+      </div><!-- /dd-content -->
+    </div><!-- /dd-grid -->
+  </div><!-- /deep-dive-inner -->
+</section><!-- /deep-dive -->
 
 <!-- NEXT PROJECT -->
 <div class="next-project">
   <div>
     <p class="next-label">Next Project</p>
-    <p class="next-title">[ Finance Boutique ]<br><em>Client Acquisition Site</em></p>
+    <p class="next-title">Swift —<br><em>VR Table Tennis Training</em></p>
   </div>
   <a href="swift.html" class="btn-outline"><span>View Case Study →</span></a>
 </div>
@@ -1028,54 +1385,87 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 </footer>
 
 <script>
-const chapters = document.querySelectorAll('.chapter');
-const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-const progressFill = document.getElementById('progressFill');
-const progressLabel = document.getElementById('progressLabel');
 
+// ─── Nav scroll effect
+const navEl = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  const docH = document.documentElement.scrollHeight - window.innerHeight;
-  const pct = Math.round((window.scrollY / docH) * 100);
-  progressFill.style.width = pct + '%';
-  progressLabel.textContent = pct + '% read';
-  let current = '';
-  chapters.forEach(ch => {
-    if (ch.getBoundingClientRect().top < window.innerHeight * 0.4) current = ch.id;
-  });
-  sidebarLinks.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-  });
+  navEl.style.borderBottomColor = window.scrollY > 20
+    ? 'rgba(240,237,230,0.1)'
+    : 'rgba(240,237,230,0.06)';
 }, { passive: true });
 
-sidebarLinks.forEach(a => {
+// ─── Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── Deep dive toggle
+// After the open animation completes, overflow is released so:
+//   • position:sticky on the inner sidebar actually works
+//   • window-level scrollIntoView reliably reaches every section
+const toggleBtn = document.getElementById('deepDiveToggle');
+const deepDive  = document.getElementById('deepDive');
+let isOpen = false;
+
+toggleBtn.addEventListener('click', () => {
+  isOpen = !isOpen;
+  toggleBtn.classList.toggle('open', isOpen);
+  deepDive.classList.toggle('open', isOpen);
+  deepDive.setAttribute('aria-hidden', String(!isOpen));
+  toggleBtn.setAttribute('aria-expanded', String(isOpen));
+  toggleBtn.querySelector('span:first-child').textContent =
+    isOpen ? 'Collapse Full Process' : 'Explore Full Process';
+
+  if (isOpen) {
+    deepDive.addEventListener('transitionend', function onOpen(e) {
+      if (e.propertyName !== 'max-height') return;
+      deepDive.style.overflow = 'visible';
+      deepDive.style.maxHeight = 'none';
+      deepDive.removeEventListener('transitionend', onOpen);
+    });
+    setTimeout(() => deepDive.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  } else {
+    const actualH = deepDive.scrollHeight;
+    deepDive.style.overflow = 'hidden';
+    deepDive.style.maxHeight = actualH + 'px';
+    void deepDive.offsetHeight;
+    deepDive.style.maxHeight = '0';
+    deepDive.addEventListener('transitionend', function onClose(e) {
+      if (e.propertyName !== 'max-height') return;
+      deepDive.style.maxHeight = '';
+      deepDive.style.overflow = '';
+      deepDive.removeEventListener('transitionend', onClose);
+    });
+  }
+});
+
+// ─── Deep dive sidebar active state
+const ddChapters = document.querySelectorAll('.dd-chapter');
+const ddLinks    = document.querySelectorAll('#ddNav a');
+
+window.addEventListener('scroll', () => {
+  if (!isOpen) return;
+  let cur = '';
+  ddChapters.forEach(c => {
+    if (c.getBoundingClientRect().top < window.innerHeight * 0.4) cur = c.id;
+  });
+  ddLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive: true });
+
+ddLinks.forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const t = document.querySelector(a.getAttribute('href'));
+    const t = document.getElementById(a.getAttribute('href').slice(1));
     if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.06 });
-
-document.querySelectorAll('.chapter, .decision-block, .failed-direction, .validation-block, .insight-block, .origin-block').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(18px)';
-  el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-  obs.observe(el);
-});
-
-window.addEventListener('scroll', () => {
-  document.querySelector('.nav').style.borderBottomColor =
-    window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
-}, { passive: true });
 </script>
 </body>
 </html>

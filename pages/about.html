@@ -112,29 +112,55 @@ body::before {
 .meta-val.open { color:var(--green); display:flex; align-items:center; gap:0.45rem; }
 .meta-val.open::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:blink 2.5s ease-in-out infinite; flex-shrink:0; }
 
-/* PHOTOS — portrait + two side cells */
+/* PHOTOS — two-column row on top, landscape hero below */
 .photo-wrap {
   margin:5rem 0;
-  display:grid; grid-template-columns:5fr 4fr; gap:0.8rem;
+  display:flex; flex-direction:column; gap:0.8rem;
   animation:fadeUp 0.9s 0.2s ease both;
 }
 .photo-main {
-  aspect-ratio:3/4; background:var(--bg-3);
+  aspect-ratio:16/9; width:100%; background:var(--bg-3);
   border:1px dashed rgba(240,237,230,0.07); border-radius:2px;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem;
-  overflow:hidden;
+  overflow:hidden; position:relative;
+  order:2; /* landscape sits below the two-column row */
 }
-.photo-main img { width:100%; height:100%; object-fit:cover; }
-.photo-side { display:flex; flex-direction:column; gap:0.8rem; }
+.photo-main img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+.photo-side {
+  display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;
+  order:1; /* two-column row appears on top */
+}
 .photo-cell {
-  flex:1; background:var(--bg-3);
+  aspect-ratio:4/3; background:var(--bg-3);
   border:1px dashed rgba(240,237,230,0.07); border-radius:2px;
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem;
-  overflow:hidden;
+  overflow:hidden; position:relative;
 }
-.photo-cell img { width:100%; height:100%; object-fit:cover; }
+.photo-cell img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+/* Hide placeholder text when image is loaded */
+.photo-main img ~ .ph-icon,
+.photo-main img ~ .ph-label,
+.photo-cell img ~ .ph-icon,
+.photo-cell img ~ .ph-label { display:none; }
 .ph-icon { font-size:1.2rem; opacity:0.14; }
 .ph-label { font-size: 0.72rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--muted); text-align:center; padding:0 1rem; line-height:1.5; }
+
+/* ABOUT VISUAL — inline image in content blocks */
+.about-visual {
+  margin:2.2rem 0;
+  border-radius:3px; overflow:hidden;
+  border:1px solid rgba(240,237,230,0.07);
+}
+.about-visual img {
+  width:100%; display:block; object-fit:cover;
+  aspect-ratio:16/9;
+}
+.about-visual-caption {
+  font-size: 0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--muted); padding:0.75rem 0.9rem;
+  border-top:1px solid rgba(240,237,230,0.06);
+  background:var(--bg-3);
+}
 
 /* BLOCKS — label + prose, no frills */
 .content { animation:fadeUp 0.9s 0.3s ease both; }
@@ -221,9 +247,8 @@ body::before {
   .nav { padding:0 1.5rem; }
   .page { padding-left:1.5rem; padding-right:1.5rem; }
   .hero { grid-template-columns:1fr; gap:2.5rem; padding-top:5rem; }
-  .photo-wrap { grid-template-columns:1fr; }
-  .photo-side { flex-direction:row; height:200px; }
-  .photo-main { aspect-ratio:4/3; }
+  .photo-side { grid-template-columns:1fr 1fr; }
+  .photo-cell { aspect-ratio:1/1; }
   .block { grid-template-columns:1fr; gap:1.2rem; }
   .block-label { position:static; }
   .cta-block { flex-direction:column; align-items:flex-start; }
@@ -277,7 +302,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="meta">
         <div class="meta-row">
           <span class="meta-key">Based</span>
-          <span class="meta-val">[ City, Country ]</span>
+          <span class="meta-val">Mumbai, India</span>
         </div>
         <div class="meta-row">
           <span class="meta-key">Background</span>
@@ -294,15 +319,18 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   <!-- PHOTOS -->
   <div class="photo-wrap">
     <div class="photo-main">
+     <img src="../assets/images/about/landscape-main.jpeg" alt="Manav Hemnani — product designer">
       <span class="ph-icon">🖼</span>
       <span class="ph-label">Portrait or working photo</span>
     </div>
     <div class="photo-side">
       <div class="photo-cell">
+        <img src="../assets/images/about/portrait-work.jpg" alt="Travel photography"> -->
         <span class="ph-icon">🖼</span>
         <span class="ph-label">Travel / photography shot</span>
       </div>
       <div class="photo-cell">
+        <img src="../assets/images/about/photo-other-2.jpeg" alt="Court, studio, anywhere"> -->
         <span class="ph-icon">🖼</span>
         <span class="ph-label">Court, studio, anywhere</span>
       </div>
@@ -321,6 +349,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <p>
           I'm drawn to products where the digital layer has to <strong>earn trust quickly</strong> — where the person using it is sceptical, overwhelmed, or dealing with something that actually matters. The design has to be worth the attention it asks for.
         </p>
+        <!-- Drop work-process.jpg into assets/images/about/ to add a process/sketchbook image here -->
+        <!-- <div class="about-visual">
+          <img src="../assets/images/about/work-process.jpg" alt="Design process — sketching or working">
+          <div class="about-visual-caption">Process</div>
+        </div> -->
       </div>
     </div>
 
@@ -331,6 +364,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <p>
           Industrial design training is not about making things look good. It is about understanding how things are made, how they break, how a person picks them up without thinking, and how a system holds together at scale. That foundation changed how I approach digital design — I start with the physical or behavioral constraint, not the screen. At Praan, that meant designing the digital face of a hardware company whose users didn't trust complexity. At Havells, it meant building enough knowledge of how physical products are engineered that I could design digital systems around them with credibility. That background is not something I left behind. It's the reason I design differently.
         </p>
+        <!-- Drop background-studio.jpg into assets/images/about/ to add an industrial design / studio image -->
+        <!-- <div class="about-visual">
+          <img src="../assets/images/about/background-studio.jpg" alt="Industrial design background — sketching or model-making">
+          <div class="about-visual-caption">Industrial Design → UX / Product</div>
+        </div> -->
       </div>
     </div>
 
@@ -341,19 +379,15 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <ul class="interests">
           <li>
             <span class="i-tag">Photography</span>
-            <span class="i-val">Travel and landscape — <em>[ camera / format ]</em> — [ where you've shot ]</span>
+            <span class="i-val">Travel and landscape — <em>Nikon D5500</em></span>
           </li>
           <li>
             <span class="i-tag">Music</span>
-            <span class="i-val">House / techno — <em>[ a set, artist, or club that matters to you ]</em></span>
+            <span class="i-val">House / techno — Listening to <em>Elderbrook</em> on repeat</span>
           </li>
           <li>
             <span class="i-tag">Sport</span>
-            <span class="i-val">Tennis — <em>[ how seriously, what level ]</em></span>
-          </li>
-          <li>
-            <span class="i-tag">Reading</span>
-            <span class="i-val"><em>[ Current book ]</em> — [ one sentence on why ]</span>
+            <span class="i-val">Tennis — <em>Always trying to win one point at a time</em></span>
           </li>
           <li>
             <span class="i-tag">Thinking about</span>

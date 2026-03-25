@@ -247,6 +247,20 @@ nav {
   text-shadow: 0 0 14px rgba(200,169,110,0.7);
   padding: 0.28rem 0.55rem;
 }
+@media (max-width: 768px) {
+  .ball-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.10em;
+    padding: 0.18rem 0.35rem;
+  }
+}
+@media (max-width: 480px) {
+  .ball-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    padding: 0.15rem 0.28rem;
+  }
+}
 
 /* Flash overlay for page-transition animation */
 #court-flash {
@@ -704,8 +718,7 @@ nav {
   overflow: hidden;
 }
 
-.project-card.featured .project-visual { height: 420px; }
-.project-card:not(.featured) .project-visual { height: 280px; }
+.project-visual { aspect-ratio: 16 / 9; }
 
 .project-img-placeholder {
   width: 100%; height: 100%;
@@ -788,7 +801,7 @@ nav {
 }
 
 .project-info {
-  padding: 1.8rem 2rem 2rem;
+  padding: 1.8rem 2rem 5rem;
   display: flex; flex-direction: column; gap: 0.6rem;
   border-top: 1px solid rgba(240,237,230,0.06);
   position: relative;
@@ -1159,7 +1172,6 @@ footer {
   .section-work { padding: 5rem 1.5rem; }
   .projects { grid-template-columns: 1fr; }
   .project-card.featured { grid-column: auto; }
-  .project-card.featured .project-visual { height: 280px; }
   .section-about { padding: 5rem 1.5rem; }
   .about-inner { grid-template-columns: 1fr; gap: 4rem; }
   .section-interests { padding: 3rem 1.5rem; }
@@ -1301,9 +1313,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     </a>
 
     <!-- FOUR BRIDGES -->
-    <a href="/pages/fourbridges.html" class="project-card">
+    <a href="/pages/fourbridgescapital.html" class="project-card">
       <div class="project-visual">
-        <img src="/assets/images/fourbridges/fourbridges-homepage.png" alt="Four Bridges Capital — homepage design" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+        <img src="/assets/images/fourbridges/project-cover.png" alt="Four Bridges Capital — homepage design" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
         <span class="project-visual-label shipped">Shipped</span>
         <span class="project-coord">Zero-to-One · Capital Advisory</span>
       </div>
@@ -1325,7 +1337,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="project-info">
         <span class="project-number">—03 / Web & Commerce</span>
         <h2 class="project-name">Sol & Sky</h2>
-        <p class="project-hook">A DTC pet care brand competing on prevention, not treatment — where the product photography and editorial framing had to do the convincing.</p>
+        <p class="project-hook">A DTC pet care brand competing on prevention, not treatment — where the behavioral challenge is changing how pet owners think, not just what they buy. Trust built through clarity, not conversion tactics.</p>
         <div class="project-arrow">↗</div>
       </div>
     </a>

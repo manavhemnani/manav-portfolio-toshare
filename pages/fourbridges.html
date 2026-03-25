@@ -242,12 +242,13 @@ body::before {
 /* ─── CONTENT ─────────────────────────────────────── */
 .cs-content { padding-top:5rem; padding-bottom:8rem; }
 
-.chapter { padding-bottom:7rem; border-bottom:1px solid rgba(240,237,230,0.09); margin-bottom:7rem; }
+.chapter { padding-bottom:4.5rem; border-bottom:1px solid rgba(240,237,230,0.09); margin-bottom:4.5rem; }
 .chapter:last-child { border-bottom:none; margin-bottom:0; }
 
 .ch-header { display:flex; align-items:baseline; gap:1.2rem; margin-bottom:2.5rem; }
 .ch-num { font-size: 0.7rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent-proj); font-weight:500; white-space:nowrap; }
-.ch-title { font-size:1.5rem; font-weight:400; letter-spacing:-0.02em; line-height:1.2; }
+.ch-title { font-size:1.5rem; font-weight:500; letter-spacing:-0.02em; line-height:1.2; }
+.ch-tldr { font-size:0.85rem; color:var(--muted); line-height:1.6; margin-top:0.5rem; margin-bottom:0; max-width:52ch; }
 .ch-title em { font-family:var(--serif); font-style:italic; color:var(--accent-light); }
 
 .body { font-size:0.95rem; color:var(--mid); line-height:1.82; font-weight:300; margin-bottom:1.6rem; max-width:var(--content-max); }
@@ -803,6 +804,63 @@ figure.cs-img figcaption.cap {
 }
 
 
+/* ── FULL PROCESS DIVIDER ───────────────────────── */
+.process-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.6rem 0 2.8rem;
+  margin-bottom: 0;
+}
+.process-divider::before, .process-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(240,237,230,0.1);
+}
+.process-divider-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* ── SNAPSHOT BLOCK ─────────────────────────────── */
+.snapshot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  margin: 0 0 3rem;
+  overflow: hidden;
+}
+.snapshot-cell {
+  padding: 1.6rem 1.8rem;
+  border-right: 1px solid rgba(240,237,230,0.1);
+}
+.snapshot-cell:last-child { border-right: none; }
+.snapshot-lbl {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.snapshot-val {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.65;
+}
+@media (max-width: 700px) {
+  .snapshot { grid-template-columns: 1fr; }
+  .snapshot-cell { border-right: none; border-bottom: 1px solid rgba(240,237,230,0.1); }
+  .snapshot-cell:last-child { border-bottom: none; }
+}
+
 /* ── LANDSCAPE IMAGE SLOTS (g3 build section) ───── */
 .cs-img-slot[style*="aspect-ratio"] {
   height: auto;
@@ -812,6 +870,80 @@ figure.cs-img figcaption.cap {
   height: auto;
   object-fit: contain;
 }
+
+/* ── QUICK OVERVIEW ─────────────────────────────── */
+.qo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  margin: 0 0 3rem;
+  overflow: hidden;
+}
+.qo-cell {
+  padding: 1.6rem 1.8rem;
+  border-right: 1px solid rgba(240,237,230,0.1);
+}
+.qo-cell:last-child { border-right: none; }
+.qo-lbl {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-light, #47abdb);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.qo-val {
+  font-size: 0.85rem;
+  color: rgba(240,237,230,0.65);
+  line-height: 1.65;
+}
+@media (max-width: 700px) {
+  .qo-grid { grid-template-columns: 1fr; }
+  .qo-cell { border-right: none; border-bottom: 1px solid rgba(240,237,230,0.1); }
+  .qo-cell:last-child { border-bottom: none; }
+}
+/* ── DEEP DIVE DROPDOWN ─────────────────────────── */
+.deep-dive { margin: 0 0 4.5rem; }
+.dp-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.2rem 1.6rem;
+  background: rgba(240,237,230,0.03);
+  border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  color: rgba(240,237,230,0.6);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+.dp-toggle:hover { background: rgba(240,237,230,0.06); color: rgba(240,237,230,0.9); }
+.dp-toggle.open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+  color: rgba(240,237,230,0.9);
+  background: rgba(240,237,230,0.04);
+}
+.dp-icon { font-size: 0.85rem; transition: transform 0.3s ease; display: inline-block; line-height: 1; }
+.dp-toggle.open .dp-icon { transform: rotate(180deg); }
+.dp-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1);
+  border: 1px solid rgba(240,237,230,0.1);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+.dp-body.open { max-height: 9999px; }
+.dp-inner { padding: 2rem 0 0.5rem; }
 
 </style>
 </head>
@@ -928,6 +1060,31 @@ figure.cs-img figcaption.cap {
   </div>
 </div>
 
+<!-- QUICK OVERVIEW -->
+<div class="qo-grid">
+  <div class="qo-cell">
+    <p class="qo-lbl">Problem</p>
+    <p class="qo-val">Indian investment advisory runs entirely on personal networks — no digital layer, no intake process, and no way to qualify a prospect before a call.</p>
+  </div>
+  <div class="qo-cell">
+    <p class="qo-lbl">What I did</p>
+    <p class="qo-val">Zero-to-one platform design in 6 weeks — information architecture, brand strategy, copy, UI, and full HTML/CSS build.</p>
+  </div>
+  <div class="qo-cell">
+    <p class="qo-lbl">What changed</p>
+    <p class="qo-val">The platform now pre-qualifies leads by design: 'We Are Selective' filters at the point of highest intent before any human interaction begins.</p>
+  </div>
+</div>
+  <div class="snapshot-cell">
+    <p class="snapshot-lbl">What I did</p>
+    <p class="snapshot-val">Zero-to-one platform design in 6 weeks — information architecture, brand strategy, copy, UI, and full Framer build.</p>
+  </div>
+  <div class="snapshot-cell">
+    <p class="snapshot-lbl">What changed</p>
+    <p class="snapshot-val">The platform now pre-qualifies leads by design: the 'We Are Selective' section filters at the point of highest intent before any human interaction begins.</p>
+  </div>
+</div>
+
 <!-- BODY -->
 <div class="cs-body">
 
@@ -935,41 +1092,157 @@ figure.cs-img figcaption.cap {
   <aside class="cs-sidebar">
     <p class="sb-label">Contents</p>
     <ul class="sb-nav" id="sbNav">
-      <li><a href="#brief" class="active"><span class="sb-num">01</span>The Brief</a></li>
-      <li><a href="#problem"><span class="sb-num">02</span>The Problem</a></li>
-      <li><a href="#constraints"><span class="sb-num">03</span>Scope &amp; Constraints</a></li>
-      <li><a href="#strategy"><span class="sb-num">04</span>Strategy &amp; IA</a></li>
-      <li><a href="#decisions"><span class="sb-num">05</span>Key Decisions</a></li>
-      <li><a href="#build"><span class="sb-num">06</span>The Build</a></li>
-      <li><a href="#outcomes"><span class="sb-num">07</span>Outcomes</a></li>
-      <li><a href="#reflection"><span class="sb-num">08</span>Reflection</a></li>
+      <li><a href="#brief" class="active"><span class="sb-num">01</span>Brief &amp; Problem</a></li>
+      <li><a href="#constraints"><span class="sb-num">02</span>Scope &amp; Constraints</a></li>
+      <li><a href="#strategy"><span class="sb-num">03</span>Strategy &amp; IA</a></li>
+      <li><a href="#decisions"><span class="sb-num">04</span>Key Decisions</a></li>
+      <li><a href="#build"><span class="sb-num">05</span>The Build</a></li>
+      <li><a href="#outcomes"><span class="sb-num">06</span>Outcomes</a></li>
+      <li><a href="#reflection"><span class="sb-num">07</span>Reflection</a></li>
     </ul>
     <div class="sb-progress"><div class="sb-fill" id="sbFill"></div></div>
     <div class="sb-pct" id="sbPct">0% read</div>
   </aside>
 
   <main class="cs-content">
-
-    <!-- 01 — THE BRIEF -->
-    <section class="chapter" id="brief">
+<section class="chapter" id="decisions">
       <div class="ch-header">
-        <span class="ch-num">—01</span>
-        <h2 class="ch-title">The <em>Brief</em></h2>
+        <span class="ch-num">—04</span>
+        <h2 class="ch-title">Key <em>Decisions</em></h2>
+      </div>
+      <p class="ch-tldr">Four structural choices — lead qualification, services hierarchy, biography framing, typographic personality — each validated against real founders before shipping.</p>
+
+      <p class="body">
+        Each major decision went through the same validation process: structural options were mapped, stress-tested against the six IA principles, and — critically — walked through with founders and business principals across different sectors and capital sophistication levels. The test was not "does this look good?" It was "does this make you trust it?" and "does this make you pick up the phone?" The architecture that survived that testing is what shipped.
+      </p>
+
+      <!-- Decision 1 -->
+      <div class="decision">
+        <div class="dec-head">
+          <span class="dec-icon">⚡</span>
+          <span class="dec-q">How do you qualify leads without gatekeeping?</span>
+        </div>
+        <div class="dec-vis">
+          <img
+            src="/assets/images/fourbridges/decisions/decision-01-lead-qualification.png"
+            alt="Decision 01 wireframe — lead qualification without gatekeeping"
+            class="dec-vis-img">
+        </div>
+        <div class="dec-body" style="grid-template-columns:1fr;">
+          <div class="dec-col yes">
+            <div class="dec-lbl">What we chose</div>
+            <ul>
+              <li>"We Are Selective" as a named, prominent homepage section</li>
+              <li>Placed before the Engage CTA — filtering at highest intent</li>
+              <li>"Assess Your Fit" CTA routing to structured intake form</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dec-why">
+          This activates Principle 02 (Guided Self-Selection) while holding the tension with Principle 05 (Relationship-First Architecture) — the section had to filter without feeling cold. When tested with founders at different stages — from first-time capital raisers to experienced M&amp;A operators — the explicit selectiveness signal landed differently than expected. Rather than discouraging outreach, it increased confidence in the enquiries that did come through. Founders who felt they "passed the filter" arrived at the first call with higher engagement and lower skepticism. <strong>The section functions as a psychological pre-qualifier, not a barrier.</strong>
+        </div>
       </div>
 
-      <p class="body">
-        Four Bridges Capital Advisors had no website, no digital presence, and no structured way to receive or qualify inbound interest. Every lead arrived through Hemant Hemnani's personal network. Every first conversation happened over WhatsApp. 
-      </p>
+      <!-- Decision 2 -->
+      <div class="decision">
+        <div class="dec-head">
+          <span class="dec-icon">⚡</span>
+          <span class="dec-q">Services — what to lead with: what we do, or what you achieve?</span>
+        </div>
+        <div class="dec-vis">
+          <img
+            src="/assets/images/fourbridges/decisions/decision-02-services-hierarchy.png"
+            alt="Decision 02 wireframe — services section hierarchy, outcome-first vs process-first"
+            class="dec-vis-img">
+        </div>
+        <div class="dec-body" style="grid-template-columns:1fr;">
+          <div class="dec-col yes">
+            <div class="dec-lbl">What we chose</div>
+            <ul>
+              <li>Outcome-first — every service section opens with "What You Achieve"</li>
+              <li>Process detail follows as supporting evidence</li>
+              <li>"Ideal For" section provides self-qualification without exclusionary framing</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dec-why">
+          Outcome-first directly satisfies Principle 04 (Progressive Depth) — reveal what matters before revealing how it works. When this was tested with founders — specifically those who had previously engaged with large investment banks — the outcome-first structure addressed the single most common complaint: "I never understood what I was paying for." <strong>Leading with the result gave the services section immediate relevance.</strong>
+        </div>
+      </div>
+
+      <!-- Decision 3 -->
+      <div class="decision">
+        <div class="dec-head">
+          <span class="dec-icon">⚡</span>
+          <span class="dec-q">How do you turn one person's biography into an institutional trust signal?</span>
+        </div>
+        <div class="dec-vis">
+          <img
+            src="/assets/images/fourbridges/decisions/decision-03-founder-biography.png"
+            alt="Decision 03 wireframe — founder biography as institutional trust signal"
+            class="dec-vis-img">
+        </div>
+        <div class="dec-body" style="grid-template-columns:1fr;">
+          <div class="dec-col yes">
+            <div class="dec-lbl">What we chose</div>
+            <ul>
+              <li>Hybrid structure — institutional credentials establish the floor, the choice to leave establishes the differentiator</li>
+              <li>"He eventually made the decision to build something of his own" positioned as the thesis, not a career step</li>
+              <li>The client profile described in terms of who they are, not what they need</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dec-why">
+          The hybrid structure satisfies Principle 01 (Modular Credibility) — credentials and departure conviction operate as two independent proof pathways. Across testing with senior professionals and growth-stage founders, the credential-only version landed as "impressive but indistinguishable." The version that included the departure decision and the belief behind it generated a consistent response: "this person has skin in the game." <strong>The biography became evidence of alignment, not just capability.</strong>
+        </div>
+      </div>
+
+      <!-- Decision 4 -->
+      <div class="decision">
+        <div class="dec-head">
+          <span class="dec-icon">⚡</span>
+          <span class="dec-q">Italic emphasis — brand personality device or visual noise?</span>
+        </div>
+        <div class="dec-vis">
+          <img
+            src="/assets/images/fourbridges/decisions/decision-04-typographic-emphasis.png"
+            alt="Decision 04 wireframe — systematic serif italic emphasis as brand device"
+            class="dec-vis-img">
+        </div>
+        <div class="dec-body" style="grid-template-columns:1fr;">
+          <div class="dec-col yes">
+            <div class="dec-lbl">What we chose</div>
+            <ul>
+              <li>Systematic italic emphasis on emotionally significant phrases across all major headings sitewide</li>
+              <li>No additional visual elements — no icons, no illustrations, no photography except one (founder portrait on About)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dec-why">
+          Financial services sites that lean on visual decoration read as marketing. When tested with founders who had experienced institutional advisory, over-designed versions created a consistent skepticism response. The italic device was invisible to most readers consciously — but the version without it felt colder in every test. Italics are native to editorial and analytical writing. Used on phrases like "your business" and "your situation," <strong>they accumulate as personality without advertising it.</strong>
+        </div>
+      </div>
+
+    </section>
+
+
+    <div class="deep-dive">
+      <button class="dp-toggle" type="button">
+        <span>Full Process</span>
+        <span class="dp-icon">↓</span>
+      </button>
+      <div class="dp-body">
+        <div class="dp-inner">
+<section class="chapter" id="brief">
+      <div class="ch-header">
+        <span class="ch-num">—01</span>
+        <h2 class="ch-title">Brief &amp; <em>Problem</em></h2>
+      </div>
+      <p class="ch-tldr">No website, no intake process, and two key differentiators that were structurally invisible — with no conventional proof to show either.</p>
 
       <p class="body">
-       The problem surfaced in a specific way: a referred founder Googled the firm before calling, found nothing, and arrived at the first conversation with skepticism rather than intent. That one account contained the entire design brief. The platform needed to do the work of the referral — establish credibility, set expectations, and surface fit — before Hemant picked up the phone.
+        Four Bridges Capital Advisors had no website, no digital presence, and no structured way to receive or qualify inbound interest. Every lead arrived through Hemant Hemnani's personal network. Every first conversation happened over WhatsApp. The problem surfaced in a specific way: a referred founder Googled the firm before calling, found nothing, and arrived at the first conversation with skepticism rather than intent. That one account contained the entire design brief.
       </p>
-
-      <p class="body">
-        There was no way for a referred founder to validate the firm before picking up the phone. No way for Hemant to know anything about a prospect before they spoke. No way to set expectations, establish credibility, or assess fit — until the founder was already in the room.
-      </p>
-
-      
 
       <p class="body">
         The brief was not "build a website." The brief was: create a digital infrastructure that could establish credibility, structure the intake process, and reduce founder dependency — without a single client logo, testimonial, or transaction reference. The firm had done real, consequential work. The constraint was showing it.
@@ -979,6 +1252,22 @@ figure.cs-img figcaption.cap {
         <p>"The brief was not 'build a website.' It was: build a deal origination infrastructure using only structure, language, and one person's biography."</p>
         <cite>Project framing — the distinction that shaped every architectural decision</cite>
       </div>
+
+      <p class="body">
+        The firm's two biggest differentiators — independence and direct founder engagement — were structurally invisible. Neither can be screenshotted. Neither can be testimonialised. Every conventional trust signal in financial services — client logos, AUM figures, deal tombstones, partner credentials — was either unavailable or inappropriate to show. The only raw material available was: one person's career history, a clearly defined set of beliefs about how advisory should work, and the precision of the thinking itself.
+      </p>
+
+      <p class="body">
+        The problem had a second layer. The right client for Four Bridges is very specific — a growth-stage founder with organized financials, a real capital need, and the seriousness to engage properly. Hemant's direct involvement is the product. A calendar full of the wrong conversations would eliminate it. The platform had to do two opposing things simultaneously: invite genuine enquiry, and signal clearly enough who it is not for that the wrong prospects disqualify themselves before making contact.
+      </p>
+
+      <figure class="cs-img">
+        <img
+          src="/assets/images/fourbridges/positioning-diagram.png"
+          alt="Four Bridges positioning 2×2 diagram — Institutional↔Boutique vs Broad appeal↔Selective axes, four failure zones marked"
+          class="cs-img-full">
+        <figcaption class="cap">"Four failure zones, each destroying a different part of the value proposition. The target band is a narrow corridor between institutional credibility and selective warmth — where the platform had to operate without conventional proof points to anchor either end."</figcaption>
+      </figure>
 
       <div class="live-callout">
         <div>
@@ -990,52 +1279,12 @@ figure.cs-img figcaption.cap {
       </div>
 
     </section>
-
-    <!-- 02 — THE PROBLEM -->
-    <section class="chapter" id="problem">
+<section class="chapter" id="constraints">
       <div class="ch-header">
         <span class="ch-num">—02</span>
-        <h2 class="ch-title">The <em>Problem</em></h2>
-      </div>
-
-      <p class="body">
-        The firm's two biggest differentiators — independence and direct founder engagement — were structurally invisible. Neither can be screenshotted. Neither can be testimonialised. And in Indian capital advisory, where trust is built over years of institutional association, neither means anything without a way to demonstrate it before the first conversation. Independence can't be screenshotted. Direct founder engagement can't be photographed. Every conventional trust signal in financial services — client logos, AUM figures, deal tombstones, partner credentials — was either unavailable or inappropriate to show.
-      </p>
-
-      <p class="body">
-        The only raw material available was: one person's career history, a clearly defined set of beliefs about how advisory should work, and the precision of the thinking itself.
-      </p>
-
-      <p class="body">
-        But the problem had a second layer. The right client for Four Bridges is very specific — a growth-stage founder with organized financials, a real capital need, and the seriousness to engage properly. A platform that attracted broad, unqualified interest would actively harm the business. Hemant's direct involvement is the product. A calendar full of the wrong conversations would eliminate it.
-      </p>
-
-      <p class="body">
-        The platform had to do two opposing things simultaneously: feel open and approachable enough to invite genuine enquiry, and signal clearly enough who it is not for that the wrong prospects disqualify themselves before making contact.
-      </p>
-
-      <figure class="cs-img">
-        <img
-          src="/assets/images/fourbridges/positioning-diagram.png"
-          alt="Four Bridges positioning 2×2 diagram — Institutional↔Boutique vs Broad appeal↔Selective axes, four failure zones marked"
-          class="cs-img-full"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="ph" style="display:none;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Add: positioning 2×2 diagram</div>
-          <div class="ph-sub">Axes: Institutional ↔ Boutique / Broad appeal ↔ Selective<br>Mark the four failure zones and the target band</div>
-        </div>
-        <figcaption class="cap">"Four failure zones, each destroying a different part of the value proposition. Too institutional: loses boutique warmth and feels indistinguishable from a large bank. Too decorative: loses credibility and reads as marketing. Too broad: attracts unqualified leads and fills Hemant's calendar with the wrong conversations. Too opaque: prevents first contact entirely. The target band is a narrow corridor between institutional credibility and selective warmth — where the platform had to operate without conventional proof points to anchor either end."</figcaption>
-      </figure>
-
-    </section>
-
-    <!-- 03 — SCOPE & CONSTRAINTS -->
-    <section class="chapter" id="constraints">
-      <div class="ch-header">
-        <span class="ch-num">—03</span>
         <h2 class="ch-title">Scope &amp; <em>Constraints</em></h2>
       </div>
+      <p class="ch-tldr">End-to-end: IA, copy, qualification logic, UI, and build — with no logos, testimonials, or transaction references to draw on.</p>
 
       <p class="body">
         The scope was end-to-end. This was not a visual design applied to someone else's content strategy. The information architecture, the copy, the qualification logic, the engagement structure — all of it was designed. The constraints were not about what we couldn't use. They were about what was actually hard to show.
@@ -1081,13 +1330,12 @@ figure.cs-img figcaption.cap {
       </div>
 
     </section>
-
-    <!-- 04 — STRATEGY & IA -->
-    <section class="chapter" id="strategy">
+<section class="chapter" id="strategy">
       <div class="ch-header">
-        <span class="ch-num">—04</span>
+        <span class="ch-num">—03</span>
         <h2 class="ch-title">Strategy &amp; <em>Information Architecture</em></h2>
       </div>
+      <p class="ch-tldr">Six IA principles emerged from stress-testing conflicting requirements — each a decision filter, not a guideline.</p>
 
       <p class="body">
         Before a page was designed, the project went through a structured deconstruction of what the platform actually needed to do — and why. Six distinct requirements were identified, each stress-tested against the others. They were frequently in conflict.
@@ -1101,13 +1349,7 @@ figure.cs-img figcaption.cap {
         <img
           src="/assets/images/fourbridges/requirements-tensions.png"
           alt="Four Bridges requirements-tensions map — 6 requirements each annotated with its primary design tension"
-          class="cs-img-full"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="ph" style="display:none;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Add: requirements-tensions map</div>
-          <div class="ph-sub">6 requirements, each with its primary tension annotated —<br>shows the analytical layer underneath the architecture</div>
-        </div>
+          class="cs-img-full">
       </figure>
 
       <p class="body">
@@ -1151,201 +1393,17 @@ figure.cs-img figcaption.cap {
         <img
           src="/assets/images/fourbridges/sitemap.png"
           alt="Four Bridges sitemap — hub-and-spoke model with homepage as strategic router, each page annotated with its primary IA principle"
-          class="cs-img-full"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="ph" style="display:none;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Add: sitemap — hub-and-spoke model</div>
-          <div class="ph-sub">Homepage as strategic router, not funnel entry.<br>Each page annotated with the IA principle it primarily activates.</div>
-        </div>
+          class="cs-img-full">
         <figcaption class="cap">"The architecture is non-linear by design — each page can serve as an entry point for a different prospect type, at a different stage of trust."</figcaption>
       </figure>
 
     </section>
-
-    <!-- 05 — KEY DECISIONS -->
-    <section class="chapter" id="decisions">
+<section class="chapter" id="build">
       <div class="ch-header">
         <span class="ch-num">—05</span>
-        <h2 class="ch-title">Key <em>Decisions</em></h2>
-      </div>
-
-      <p class="body">
-        Each major decision went through the same validation process: structural options were mapped, stress-tested against the six IA principles, and — critically — walked through with founders and business principals across different sectors and capital sophistication levels. The test was not "does this look good?" It was "does this make you trust it?" and "does this make you pick up the phone?" The architecture that survived that testing is what shipped.
-      </p>
-
-      <!-- Decision 1 -->
-      <div class="decision">
-        <div class="dec-head">
-          <span class="dec-icon">⚡</span>
-          <span class="dec-q">How do you qualify leads without gatekeeping?</span>
-        </div>
-        <div class="dec-vis">
-          <img
-            src="/assets/images/fourbridges/decisions/decision-01-lead-qualification.png"
-            alt="Decision 01 wireframe — lead qualification without gatekeeping"
-            class="dec-vis-img"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="dec-vis-ph" style="display:none;">
-            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-01-lead-qualification.png</div>
-            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
-          </div>
-        </div>
-        <div class="dec-body">
-          <div class="dec-col">
-            <div class="dec-lbl">Options considered</div>
-            <ul>
-              <li>Explicit checklist: "We work best with companies that..."</li>
-              <li>Gated content requiring form completion before access</li>
-              <li>Self-assessment diagnostic tool</li>
-              <li>Reverse positioning: make selectiveness explicit and front-facing</li>
-            </ul>
-          </div>
-          <div class="dec-col yes">
-            <div class="dec-lbl">What we chose</div>
-            <ul>
-              <li>"We Are Selective" as a named, prominent homepage section</li>
-              <li>Placed before the Engage CTA — filtering at highest intent</li>
-              <li>"Assess Your Fit" CTA routing to structured intake form</li>
-            </ul>
-          </div>
-        </div>
-        <div class="dec-why">
-          This activates Principle 02 (Guided Self-Selection) while holding the tension with Principle 05 (Relationship-First Architecture) — the section had to filter without feeling cold. When tested with founders at different stages — from first-time capital raisers to experienced M&amp;A operators — the explicit selectiveness signal landed differently than expected. Rather than discouraging outreach, it increased confidence in the enquiries that did come through. Founders who felt they "passed the filter" arrived at the first call with higher engagement and lower skepticism. <strong>The section functions as a psychological pre-qualifier, not a barrier.</strong>
-        </div>
-      </div>
-
-      <!-- Decision 2 -->
-      <div class="decision">
-        <div class="dec-head">
-          <span class="dec-icon">⚡</span>
-          <span class="dec-q">Services — what to lead with: what we do, or what you achieve?</span>
-        </div>
-        <div class="dec-vis">
-          <img
-            src="/assets/images/fourbridges/decisions/decision-02-services-hierarchy.png"
-            alt="Decision 02 wireframe — services section hierarchy, outcome-first vs process-first"
-            class="dec-vis-img"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="dec-vis-ph" style="display:none;">
-            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-02-services-hierarchy.png</div>
-            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
-          </div>
-        </div>
-        <div class="dec-body">
-          <div class="dec-col">
-            <div class="dec-lbl">Options considered</div>
-            <ul>
-              <li>Process-first: step-by-step description of advisory activities</li>
-              <li>Feature list: the instruments and services offered</li>
-              <li>Outcome-first: "What You Achieve" before "What We Do"</li>
-              <li>Client-story framing: service explained through a scenario</li>
-            </ul>
-          </div>
-          <div class="dec-col yes">
-            <div class="dec-lbl">What we chose</div>
-            <ul>
-              <li>Outcome-first — every service section opens with "What You Achieve"</li>
-              <li>Process detail follows as supporting evidence</li>
-              <li>"Ideal For" section provides self-qualification without exclusionary framing</li>
-            </ul>
-          </div>
-        </div>
-        <div class="dec-why">
-          Outcome-first directly satisfies Principle 04 (Progressive Depth) — reveal what matters before revealing how it works. When this was tested with founders — specifically those who had previously engaged with large investment banks — the outcome-first structure addressed the single most common complaint: "I never understood what I was paying for." <strong>Leading with the result gave the services section immediate relevance.</strong>
-        </div>
-      </div>
-
-      <!-- Decision 3 -->
-      <div class="decision">
-        <div class="dec-head">
-          <span class="dec-icon">⚡</span>
-          <span class="dec-q">How do you turn one person's biography into an institutional trust signal?</span>
-        </div>
-        <div class="dec-vis">
-          <img
-            src="/assets/images/fourbridges/decisions/decision-03-founder-biography.png"
-            alt="Decision 03 wireframe — founder biography as institutional trust signal"
-            class="dec-vis-img"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="dec-vis-ph" style="display:none;">
-            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-03-founder-biography.png</div>
-            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
-          </div>
-        </div>
-        <div class="dec-body">
-          <div class="dec-col">
-            <div class="dec-lbl">Options considered</div>
-            <ul>
-              <li>Standard credentials list: Enam, Axis Capital, years of experience</li>
-              <li>Narrative founder story focused on origin and motivation</li>
-              <li>Philosophy statement — values without biography</li>
-              <li>Hybrid: credentials anchor institutional legitimacy, departure decision reframes independence as conviction</li>
-            </ul>
-          </div>
-          <div class="dec-col yes">
-            <div class="dec-lbl">What we chose</div>
-            <ul>
-              <li>Hybrid structure — institutional credentials establish the floor, the choice to leave establishes the differentiator</li>
-              <li>"He eventually made the decision to build something of his own" positioned as the thesis, not a career step</li>
-              <li>The client profile described in terms of who they are, not what they need</li>
-            </ul>
-          </div>
-        </div>
-        <div class="dec-why">
-          The hybrid structure satisfies Principle 01 (Modular Credibility) — credentials and departure conviction operate as two independent proof pathways. Across testing with senior professionals and growth-stage founders, the credential-only version landed as "impressive but indistinguishable." The version that included the departure decision and the belief behind it generated a consistent response: "this person has skin in the game." <strong>The biography became evidence of alignment, not just capability.</strong>
-        </div>
-      </div>
-
-      <!-- Decision 4 -->
-      <div class="decision">
-        <div class="dec-head">
-          <span class="dec-icon">⚡</span>
-          <span class="dec-q">Italic emphasis — brand personality device or visual noise?</span>
-        </div>
-        <div class="dec-vis">
-          <img
-            src="/assets/images/fourbridges/decisions/decision-04-typographic-emphasis.png"
-            alt="Decision 04 wireframe — systematic serif italic emphasis as brand device"
-            class="dec-vis-img"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="dec-vis-ph" style="display:none;">
-            <div class="dec-vis-ph-path">/assets/images/fourbridges/decisions/decision-04-typographic-emphasis.png</div>
-            <div class="dec-vis-ph-hint">Drop wireframe image here</div>
-          </div>
-        </div>
-        <div class="dec-body">
-          <div class="dec-col">
-            <div class="dec-lbl">Options considered</div>
-            <ul>
-              <li>Color accent system for brand warmth (brand color in headings)</li>
-              <li>Custom illustration or iconography</li>
-              <li>Photography (founder and/or lifestyle)</li>
-              <li>Typographic variation — italic on key phrases in all headings</li>
-              <li>No personality device — let copy tone carry entirely</li>
-            </ul>
-          </div>
-          <div class="dec-col yes">
-            <div class="dec-lbl">What we chose</div>
-            <ul>
-              <li>Systematic italic emphasis on emotionally significant phrases across all major headings sitewide</li>
-              <li>No additional visual elements — no icons, no illustrations, no photography except one (founder portrait on About)</li>
-            </ul>
-          </div>
-        </div>
-        <div class="dec-why">
-          Financial services sites that lean on visual decoration read as marketing. When tested with founders who had experienced institutional advisory, over-designed versions created a consistent skepticism response. The italic device was invisible to most readers consciously — but the version without it felt colder in every test. Italics are native to editorial and analytical writing. Used on phrases like "your business" and "your situation," <strong>they accumulate as personality without advertising it.</strong>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- 06 — THE BUILD -->
-    <section class="chapter" id="build">
-      <div class="ch-header">
-        <span class="ch-num">—06</span>
         <h2 class="ch-title">The <em>Build</em></h2>
       </div>
+      <p class="ch-tldr">Five pages, one narrative sequence — every section built to advance trust, activate self-qualification, or route the right prospect toward engagement.</p>
 
       <p class="body">
         Five pages. One narrative sequence. Every section designed to either advance trust, activate self-qualification, or route the right prospect toward engagement. The moments below are the ones where design decisions are most visible — and most consequential.
@@ -1355,13 +1413,7 @@ figure.cs-img figcaption.cap {
         <img
           src="/assets/images/fourbridges/ia-before.png"
           alt="Four Bridges homepage annotated — three routing paths: skeptic → About, researcher → Services, qualified prospect → Engage. We Are Selective marked as filter point."
-          class="cs-img-full"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="ph" style="display:none;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Add: homepage — full annotated screenshot</div>
-          <div class="ph-sub">Three routing paths visible: skeptic → About, researcher → Services, qualified prospect → Engage.<br>"We Are Selective" position annotated as filter point.</div>
-        </div>
+          class="cs-img-full">
         <figcaption class="cap">"The sequence change looks minor on paper. In testing, it changed when skeptical prospects stopped scrolling. Belief before proof — qualification happens before contact"</figcaption>
       </figure>
 
@@ -1369,13 +1421,7 @@ figure.cs-img figcaption.cap {
         <img
           src="/assets/images/fourbridges/homepage-annotated.png"
           alt="Four Bridges homepage annotated — three routing paths: skeptic → About, researcher → Services, qualified prospect → Engage. We Are Selective marked as filter point."
-          class="cs-img-full"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="ph" style="display:none;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Add: homepage — full annotated screenshot</div>
-          <div class="ph-sub">Three routing paths visible: skeptic → About, researcher → Services, qualified prospect → Engage.<br>"We Are Selective" position annotated as filter point.</div>
-        </div>
+          class="cs-img-full">
         <figcaption class="cap">"The homepage doesn't sell. It sorts."</figcaption>
       </figure>
 
@@ -1384,37 +1430,19 @@ figure.cs-img figcaption.cap {
           <img
             src="/assets/images/fourbridges/services-outcome-first.png"
             alt="Four Bridges Services page — outcome-first structure with What You Achieve before What We Do, annotated"
-            class="cs-img-grid"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="ph" style="display:none;">
-            <div class="ph-icon">🖼</div>
-            <div class="ph-label">Services page — outcome-first structure</div>
-            <div class="ph-sub">"What You Achieve" before "What We Do" — annotated</div>
-          </div>
+            class="cs-img-grid">
         </div>
         <div class="cs-img-slot" style="margin:0;">
           <img
             src="/assets/images/fourbridges/about-proof-types.png"
             alt="Four Bridges About page — four proof types: credentials, founder story, philosophy, client profile"
-            class="cs-img-grid"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="ph" style="display:none;">
-            <div class="ph-icon">🖼</div>
-            <div class="ph-label">About page — four proof types</div>
-            <div class="ph-sub">Credentials / founder story / philosophy / client profile</div>
-          </div>
+            class="cs-img-grid">
         </div>
         <div class="cs-img-slot" style="margin:0;">
           <img
             src="/assets/images/fourbridges/engage-framing.png"
             alt="Four Bridges Engage page — framing copy as primary design, expectation-setting text before the form"
-            class="cs-img-grid"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="ph" style="display:none;">
-            <div class="ph-icon">🖼</div>
-            <div class="ph-label">Engage page — framing as primary design</div>
-            <div class="ph-sub">The first visible text is not a form — it's an expectation setter</div>
-          </div>
+            class="cs-img-grid">
         </div>
       </div>
       <p class="cap">"Three pages. Each built around a different trust mechanism."</p>
@@ -1423,33 +1451,22 @@ figure.cs-img figcaption.cap {
         <img
           src="/assets/images/fourbridges/mobile-process.png"
           alt="Four Bridges Process page at mobile width — collapsed accordion phases with touch-friendly spacing"
-          class="cs-img-full"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="ph" style="display:none;">
-          <div class="ph-icon">🖼</div>
-          <div class="ph-label">Add: mobile view — Process section</div>
-          <div class="ph-sub">Phases at mobile width — collapsed accordion, touch-friendly spacing</div>
-        </div>
+          class="cs-img-full">
         <figcaption class="cap">"Two mobile-specific decisions: the nav surfaces the highest-intent CTA on first tap; the form leads with context before contact details — both designed for a user arriving cold from a forwarded link."</figcaption>
       </figure>
 
     </section>
-
-    <!-- 07 — OUTCOMES -->
-    <section class="chapter" id="outcomes">
+<section class="chapter" id="outcomes">
       <div class="ch-header">
-        <span class="ch-num">—07</span>
+        <span class="ch-num">—06</span>
         <h2 class="ch-title"><em>Outcomes</em></h2>
       </div>
+      <p class="ch-tldr">The platform pre-qualifies by design — for a one-person firm, one wrong engagement costs more than ten missed ones.</p>
 
-      <div class="outcomes">
+      <div class="outcomes" style="grid-template-columns:1fr;">
         <div class="oc">
-          <div class="oc-num">Pre-call context time → <em>eliminated</em></div>
-          <div class="oc-label">The Process page and intake form now set expectations Hemant previously needed a full first call to establish</div>
-        </div>
-        <div class="oc">
-          <div class="oc-num">The only metric that matters → <em>quality</em></div>
-          <div class="oc-label">For a one-person firm, one wrong engagement costs more than ten missed ones. The platform was designed to filter, not funnel.</div>
+          <div class="oc-num">Qualified by design — <em>before any human interaction</em></div>
+          <div class="oc-label">Pre-call context eliminated. The Process page, intake form, and "We Are Selective" section now do the work of the first 30-minute conversation — filtering at the point of highest intent, not after it.</div>
         </div>
       </div>
 
@@ -1471,13 +1488,16 @@ figure.cs-img figcaption.cap {
       </div>
 
     </section>
+        </div>
+      </div>
+    </div>
 
-    <!-- 08 — REFLECTION -->
-    <section class="chapter" id="reflection">
+<section class="chapter" id="reflection">
       <div class="ch-header">
-        <span class="ch-num">—08</span>
+        <span class="ch-num">—07</span>
         <h2 class="ch-title"><em>Reflection</em></h2>
       </div>
+      <p class="ch-tldr">Copy as primary design output was the right call; the diagnostic intake form was the wrong cut from MVP.</p>
 
       <div class="reflect">
         <div class="reflect-col">
@@ -1496,7 +1516,6 @@ figure.cs-img figcaption.cap {
       </div>
 
     </section>
-
   </main>
 </div>
 
@@ -1587,6 +1606,42 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.chapter, .decision, .outcomes, .learning, .live-callout, .principles-grid, .scope-table').forEach(el => {
   el.style.cssText += 'opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease;';
   obs.observe(el);
+});
+
+// Deep-dive dropdown — overflow released after animation so sticky sidebar
+// works and scrollIntoView targets are reachable via window scroll.
+document.querySelectorAll('.dp-toggle').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var body = btn.nextElementSibling;
+    var opening = !btn.classList.contains('open');
+    btn.classList.toggle('open');
+    body.classList.toggle('open');
+
+    if (opening) {
+      // Once the open animation finishes, lift overflow so the sticky sidebar
+      // works and every section is reachable by window-level scrollIntoView.
+      body.addEventListener('transitionend', function onOpen(e) {
+        if (e.propertyName !== 'max-height') return;
+        body.style.overflow = 'visible';
+        body.style.maxHeight = 'none';
+        body.removeEventListener('transitionend', onOpen);
+      });
+    } else {
+      // Closing: pin to actual rendered height first so the animation starts
+      // from the real content height rather than an arbitrary 9999px.
+      var actualH = body.scrollHeight;
+      body.style.overflow = 'hidden';
+      body.style.maxHeight = actualH + 'px';
+      void body.offsetHeight; // force layout before starting close animation
+      body.style.maxHeight = '0';
+      body.addEventListener('transitionend', function onClose(e) {
+        if (e.propertyName !== 'max-height') return;
+        body.style.maxHeight = '';
+        body.style.overflow = '';
+        body.removeEventListener('transitionend', onClose);
+      });
+    }
+  });
 });
 </script>
 </body>
