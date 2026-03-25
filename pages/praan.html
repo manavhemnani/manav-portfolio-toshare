@@ -647,7 +647,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   border-radius: 4px; overflow: hidden;
   background: var(--bg-3); border: 1px solid rgba(240,237,230,0.07);
 }
-.sg-item img { width: 100%; height: auto; display: block; }
+.sg-item img, .sg-item video { width: 100%; height: auto; display: block; }
 .sg-cap { font-size: 0.7rem; color: var(--muted); padding: 0.55rem 0.75rem; line-height: 1.4; font-style: italic; }
 
 /* ─── IMPACT TILE ─────────────────────────────────── */
@@ -948,16 +948,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <p class="body">Visual principles that governed the website's restraint — ambient over explicit, outcome before specification, depth available on demand — carried directly into the app's home screen logic and the product's animation design.</p>
     <div class="solution-grid reveal">
       <div class="sg-item">
-       <video src="/assets/videos/praan/filterless-tech.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
-        <div class="sg-cap">Filterless animation — the mechanism explained in 12 seconds, without text</div>
+        <video src="/assets/videos/praan/filterless-tech-web.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
+        <div class="sg-cap">Filterless technology — electrostatic purification with no physical filter</div>
       </div>
       <div class="sg-item">
-        <video src="/assets/videos/praan/material-reusability.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
-        <div class="sg-cap">Filterless animation — the mechanism explained in 12 seconds, without text</div>
+        <video src="/assets/videos/praan/material-reusability-web.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
+        <div class="sg-cap">Material reusability — zero-waste operation, no filter replacement required</div>
       </div>
       <div class="sg-item">
-        <video src="/assets/videos/praan/scaling-factory.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
-        <div class="sg-cap">Filterless animation — the mechanism explained in 12 seconds, without text</div>
+        <video src="/assets/videos/praan/scaling-factory-web.mp4" autoplay loop muted playsinline style="width:100%;display:block;background:#000;"></video>
+        <div class="sg-cap">Factory-scale deployment — the HIVE operating across large industrial environments</div>
       </div>
     </div>
   </div>
@@ -1397,23 +1397,37 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // ─── Scroll reveal
+// After making an element visible, also kick any videos nested inside it:
+// the browser blocks autoplay while the parent has opacity:0, so we retry
+// after the CSS transition finishes (0.65s + a small margin → 750ms).
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('visible');
       observer.unobserve(e.target);
+      const innerVids = e.target.querySelectorAll('video[autoplay]');
+      if (innerVids.length) {
+        setTimeout(() => {
+          innerVids.forEach(v => { v.muted = true; v.play().catch(() => {}); });
+        }, 750);
+      }
     }
   });
 }, { threshold: 0.05 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ─── Viewport-aware video autoplay
-// Browsers suspend autoplay for off-screen / opacity-0 videos.
-// Explicitly call play() when the video enters the viewport so it reliably
-// starts regardless of scroll position or parent opacity state.
+// Handles videos that are NOT inside a .reveal wrapper (e.g. deep-dive videos
+// that become visible when the section is opened). Also acts as a safety net
+// for reveal-wrapped videos that are already past their reveal by the time the
+// page finishes loading.
 const videoObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
+    e.target.muted = true;
     if (e.isIntersecting) {
+      // If inside a still-invisible reveal parent, defer until it is visible
+      const revealParent = e.target.closest('.reveal:not(.visible)');
+      if (revealParent) return; // the reveal observer's setTimeout will handle it
       e.target.play().catch(() => {});
     } else {
       e.target.pause();
@@ -1421,7 +1435,7 @@ const videoObs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.15 });
 document.querySelectorAll('video[autoplay]').forEach(vid => {
-  vid.muted = true; // ensure muted so browsers permit autoplay
+  vid.muted = true;
   videoObs.observe(vid);
 });
 
