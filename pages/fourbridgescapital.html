@@ -89,9 +89,16 @@ body::before {
 /* ─── HERO ────────────────────────────────────────── */
 .cs-hero {
   padding-top: var(--nav-h);
-  position: relative; height: 95vh; min-height: 640px;
-  display: flex; flex-direction: column; justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
+}
+.hero-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 72vh;
+  min-height: 460px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 .hero-bg {
   position: absolute; inset: 0;
@@ -144,8 +151,9 @@ body::before {
 }
 
 .hero-content {
-  position: relative; z-index: 1;
-  padding: 0 3rem 4.5rem; max-width: 920px;
+  position: relative;
+  padding: 3.5rem 3rem 2.5rem;
+  max-width: 920px;
   animation: fadeUp 1s 0.15s ease both;
 }
 @keyframes fadeUp {
@@ -918,6 +926,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-blue); o
 
 <!-- HERO -->
 <section class="cs-hero">
+  <div class="hero-image-wrap">
   <div class="hero-bg">
     <img src="/assets/images/fourbridges/project-cover-1.png" alt="Four Bridges Capital — homepage design">
   </div>
@@ -944,8 +953,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-blue); o
       <line x1="230" y1="160" x2="265" y2="160" stroke="rgba(1,100,166,0.15)" stroke-width="1" stroke-dasharray="2 4"/>
     </svg>
   </div>
-
-  <div class="hero-content">
+  </div>
+<div class="hero-content">
     <div class="eyebrow">
       <span class="badge">Shipped · HTML/CSS</span>
       <span class="hero-meta">2025 · Capital Advisory · Zero-to-One</span>

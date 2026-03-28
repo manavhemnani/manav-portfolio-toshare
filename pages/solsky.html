@@ -94,9 +94,16 @@ body::before {
 /* ─── HERO ────────────────────────────────────────── */
 .cs-hero {
   padding-top: var(--nav-h);
-  position: relative; height: 95vh; min-height: 640px;
-  display: flex; flex-direction: column; justify-content: flex-end;
+  display: flex;
+  flex-direction: column;
+}
+.hero-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 72vh;
+  min-height: 460px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 .hero-bg {
   position: absolute; inset: 0;
@@ -146,8 +153,9 @@ body::before {
 .aqi-status{ font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(212,160,40,0.25); }
 
 .hero-content {
-  position: relative; z-index: 1;
-  padding: 0 3rem 4.5rem; max-width: 920px;
+  position: relative;
+  padding: 3.5rem 3rem 2.5rem;
+  max-width: 920px;
   animation: fadeUp 1s 0.15s ease both;
 }
 @keyframes fadeUp {
@@ -1020,6 +1028,7 @@ figure.cs-img figcaption.cap {
 
 <!-- HERO -->
 <section class="cs-hero">
+  <div class="hero-image-wrap">
   <div class="hero-bg">
     <img src="/assets/images/solsky/project-cover.png" alt="Sol & Sky — preventive pet care Shopify homepage" style="width:100%;height:100%;object-fit:cover;object-position:center top;opacity:0.45;">
   </div>
@@ -1034,7 +1043,8 @@ figure.cs-img figcaption.cap {
     <span class="aqi-num">94</span>
     <span class="aqi-status">Thriving ↑</span>
   </div>
-  <div class="hero-content">
+  </div>
+<div class="hero-content">
     <div class="eyebrow">
       <span class="badge">Shipped Product</span>
       <span class="hero-meta">2025 · D2C Brand · Shopify</span>
@@ -1162,17 +1172,20 @@ figure.cs-img figcaption.cap {
     <h2>One entry point.<br><em>Three products. One habit.</em></h2>
     <p class="body">The website, naming convention, and photography were designed as a single coherent system. The homepage leads with the problem before showing a single product. The daily routine converts the product range from a catalogue into a habit. Ingredient-forward photography makes the brand's most important claim — clean formulation, no fillers — visual without requiring the visitor to read anything.</p>
     <figure class="solution-img-full reveal">
-      <img src="/assets/images/solsky/project-cover.png" alt="Sol &amp; Sky homepage annotated — problem → daily system → product reveal">
+      <img src="/assets/images/solsky/homepage-full-browser.png" alt="Sol &amp; Sky homepage annotated — problem → daily system → product reveal">
       <figcaption>"The homepage leads with the problem statement before showing a single product. Problem → system → product reveal is a deliberate narrative architecture, not a default Shopify layout."</figcaption>
     </figure>
-    <p class="body">The hardest part of this system was the tension between ingredient-forward photography — which signals clinical trust — and the emotional warmth that dog parents respond to. The resolution: lead with ingredients in product and hero shots, and reserve dog-interaction photography for secondary carousel images.</p>
     <div class="solution-grid reveal">
       <div class="sg-item">
-        <img src="/assets/images/solsky/system-full.png" alt="Sol &amp; Sky product trio — ingredient-forward photography">
-        <div class="sg-cap">Ingredient-forward photography — the brand's clean formulation claim made visual without requiring the visitor to read anything</div>
+        <img src="/assets/images/solsky/collections-fullpage-integrated.png" alt="Sol &amp; Sky daily routine section — Morning, Post-Walk, Bath Time">
+        <div class="sg-cap">The daily routine — three separate products converted into one habit, embedding the brand in the customer's day</div>
       </div>
       <div class="sg-item">
-        <img src="/assets/images/solsky/product-full.png" alt="Sol &amp; Sky daily routine section — Morning, Post-Walk, Bath Time">
+        <img src="/assets/images/solsky/product-imagery-2state.png" alt="Sol &amp; Sky daily routine section — Morning, Post-Walk, Bath Time">
+        <div class="sg-cap">The daily routine — three separate products converted into one habit, embedding the brand in the customer's day</div>
+      </div>
+      <div class="sg-item">
+        <img src="/assets/images/solsky/product-fullpage-integrated.png" alt="Sol &amp; Sky daily routine section — Morning, Post-Walk, Bath Time">
         <div class="sg-cap">The daily routine — three separate products converted into one habit, embedding the brand in the customer's day</div>
       </div>
     </div>

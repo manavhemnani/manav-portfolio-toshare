@@ -94,10 +94,16 @@ body::before {
 /* HERO */
 .cs-hero {
   padding-top: var(--nav-h);
+  display: flex;
+  flex-direction: column;
+}
+.hero-image-wrap {
   position: relative;
-  height: 92vh; min-height: 600px;
-  display: flex; flex-direction: column; justify-content: flex-end;
+  width: 100%;
+  height: 72vh;
+  min-height: 460px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .hero-bg {
@@ -147,8 +153,8 @@ body::before {
 }
 
 .hero-content {
-  position: relative; z-index: 1;
-  padding: 0 3rem 4rem;
+  position: relative;
+  padding: 3.5rem 3rem 2.5rem;
   max-width: 920px;
   animation: fadeUp 1s 0.2s ease both;
 }
@@ -415,7 +421,7 @@ body::before {
   
   
   .nav { padding: 0 1.5rem; }
-  .hero-content { padding: 0 1.5rem 3rem; }
+  .hero-content { padding: 2.5rem 1.5rem 2rem; }
   .hero-rings { display: none; }
   .meta-strip { padding: 1.5rem; }
   .meta-strip-inner { gap: 2rem; }
@@ -740,6 +746,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 <!-- HERO -->
 <section class="cs-hero">
+  <div class="hero-image-wrap">
   <div class="hero-bg">
     <img src="/assets/images/swift/vr-home-1.jpg" alt="Swift VR — table tennis training home screen in VR environment" style="width:100%;height:100%;object-fit:cover;object-position:center center;opacity:0.4;">
   </div>
@@ -751,7 +758,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <div class="ring"></div>
     <div class="ring"></div>
   </div>
-  <div class="hero-content">
+  </div>
+<div class="hero-content">
     <div class="hero-eyebrow">
       <span class="hero-badge">Academic Project</span>
       <span class="hero-year">2021 · Table Tennis Training Experience</span>
