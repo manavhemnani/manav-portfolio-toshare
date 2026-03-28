@@ -796,6 +796,9 @@ body::before {
 .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin: 1.8rem 0; }
 .cs-img-slot { border-radius: 4px; overflow: hidden; background: var(--bg-3); }
 .cs-img-grid { width: 100%; height: auto; display: block; }
+.cs-img-3col { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin: 1.8rem 0; }
+.cs-img-3col__item { margin: 0; }
+.cs-img-3col__item img { width: 100%; display: block; border-radius: 4px; background: var(--bg-3); }
 
 /* ─── NEXT PROJECT ────────────────────────────────── */
 .next {
@@ -867,6 +870,7 @@ body::before {
   .scope-row { grid-template-columns: 1fr; }
   .scope-area { border-right: none; border-bottom: 1px solid rgba(240,237,230,0.045); }
   .g3 { grid-template-columns: 1fr; }
+  .cs-img-3col { grid-template-columns: 1fr; }
   .meta-inner { gap: 2rem; }
   .footer { grid-template-columns: 1fr; }
   .fm { display: none; }
@@ -1388,17 +1392,18 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-blue); o
             <img src="/assets/images/fourbridges/homepage-annotated.png" alt="Four Bridges homepage annotated" class="cs-img-full">
             <p class="cap">"The homepage doesn't sell. It sorts."</p>
           </figure>
-          <div class="g3" style="grid-template-columns:1fr;">
-            <div class="cs-img-slot">
-              <img src="/assets/images/fourbridges/services-outcome-first.png" alt="Services page" class="cs-img-grid">
-            </div>
-            <div class="cs-img-slot">
-              <img src="/assets/images/fourbridges/about-proof-types.png" alt="About page" class="cs-img-grid">
-            </div>
-            <div class="cs-img-slot">
-              <img src="/assets/images/fourbridges/engage-framing.png" alt="Engage page" class="cs-img-grid">
-            </div>
+
+          <div class="cs-img-3col">
+            <figure class="cs-img-3col__item">
+              <img src="/assets/images/fourbridges/approach-overall.png" alt="" class="cs-img-full">
+              <p class="cap"></p>
+            </figure>
+            <figure class="cs-img-3col__item">
+              <img src="/assets/images/fourbridges/process-overall.png" alt="" class="cs-img-full">
+              <p class="cap">"The homepage doesn't sell. It sorts."</p>
+            </figure>
           </div>
+
           <figure class="cs-img">
             <img src="/assets/images/fourbridges/mobile-process.png" alt="Mobile view" class="cs-img-full">
             <p class="cap">"Two mobile-specific decisions: the nav surfaces the highest-intent CTA on first tap; the form leads with context before contact details."</p>
