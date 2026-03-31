@@ -754,6 +754,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   padding-bottom: 3.5rem;
   border-bottom: 1px solid rgba(240,237,230,0.07);
   margin-bottom: 3.5rem;
+  scroll-margin-top: calc(var(--nav-h, 68px) + 1.5rem);
 }
 .dd-chapter:last-child { border-bottom: none; margin-bottom: 0; }
 .dd-ch-header { display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 1.8rem; }
@@ -825,7 +826,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     </div>
     <h1>Percept:<br><em>Learn Photography</em></h1>
     <p class="hero-sub">
-      Percept is a guided learning platform designed <strong>to help beginners understand photography through visual explanations </strong>rather than technical jargon. The system breaks down camera concepts into interactive modules that simulate how exposure, aperture, and lighting affect real images. 
+      Percept is a photography learning app built around one structural idea: lessons that end in the real world, not on a screen. Every module closes with a mandatory field prompt — making going outside a required part of the curriculum, not optional extra credit.
     </p>
   </div>
 </section>
@@ -861,7 +862,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   <div class="snapshot reveal">
     <div class="snapshot-cell">
       <p class="snapshot-lbl">The problem</p>
-      <p class="snapshot-val">Learning a hobby is easier than ever — yet sustaining passion has become harder. People access thousands of tutorials but fail to convert knowledge into visible skill or habitual practice.</p>
+      <p class="snapshot-val">Beginners don't fail from lack of technique — they fail because they can't predict how a shot will look before pressing the shutter. Knowing settings isn't the same as knowing how to see.</p>
     </div>
     <div class="snapshot-cell">
       <p class="snapshot-lbl">What I did</p>
@@ -880,13 +881,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="section-rule"></div>
     </div>
     <h2>Knowing the settings<br><em>doesn't mean you can see</em></h2>
-    <p class="body">Today, learning a hobby is easier than ever — yet sustaining passion has become harder. People can access thousands of tutorials, courses, and communities online, but these resources often fail to support how passion actually develops over time. From early observations, three patterns emerged: passion fades when practice becomes monotonous, learning platforms overwhelm beginners, and converting theory into visible results is harder than it looks.</p>
-    <div class="pull">
-      <p>"The real problem was the lack of an experience that sustains motivation and curiosity over time."</p>
-      <cite>Insight derived through research, existing solutions, and user interviews.</cite>
-    </div>
-    <p class="body">Beginner photographers fail not because of technical knowledge — they fail because they can't predict how a shot will look before pressing the shutter. Understanding aperture and ISO is easy. Knowing where to point the camera is the actual skill.</p>
-  </div>
+    <p class="body">Beginner photographers fail not because of technical knowledge — they fail because they can't predict how a shot will look before pressing the shutter. Understanding aperture and ISO is easy. Knowing where to point the camera is the actual skill. "The real problem was the lack of an experience that sustains motivation and curiosity over time."</p>
 
   <!-- 02 — KEY CONSTRAINT -->
   <div class="section-block reveal" id="fs-constraint">
@@ -900,15 +895,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="cf-icon">📸</div>
       <div>
         <div class="cf-lbl">The binding constraint</div>
-        <p class="cf-text">Learning requires doing — passive content doesn't build muscle memory or visual judgment. Progress in photography is subjective and hard to gamify meaningfully. <strong>The lesson structure had to end in the real world, with a camera, before the learning could count.</strong></p>
+        <p class="cf-text">Learning requires doing — passive content doesn't build muscle memory or visual judgment. Progress in photography is subjective and hard to gamify meaningfully. <strong>The lesson structure had to end in the real world, with a camera, before the learning could count.</strong>
       </div>
-    </div>
-    <div class="pills">
-      <span class="pill hard">Learning requires doing — passive content doesn't build muscle memory</span>
-      <span class="pill hard">Progress in photography is subjective — hard to gamify meaningfully</span>
-      <span class="pill hard">Lesson context switches: in-app → real world → back in-app</span>
-      <span class="pill">Risk: gamification mechanics undermine the meditative quality of shooting</span>
-      <span class="pill">Users will open this app outdoors — legibility in sunlight</span>
     </div>
   </div>
 
@@ -929,7 +917,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <div class="fsd-chosen-lbl">What we chose</div>
         <p><strong>A mandatory real-world field prompt built into each lesson's final step.</strong> The app bridges theory and practice by making the outdoor shot the lesson's conclusion — not optional extra credit. Completion requires leaving the screen.</p>
       </div>
-      <div class="fsd-why">A lesson that ends on a screen teaches settings. <strong>A lesson that ends with a camera in hand teaches vision.</strong> The field prompt is the mechanism that closes the gap between knowing a concept and being able to apply it in the world.</div>
+      <div class="fsd-why"><strong>A lesson that ends on a screen teaches settings. A lesson that ends with a camera in hand teaches vision. </strong> The field prompt closes the gap between knowing a concept and applying it.</div>
     </div>
   </div>
 
@@ -943,7 +931,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <p class="body">Percept structures photography learning around a three-stage loop: learn the concept in-app, go outside and apply it, return to reflect on what you shot. Each lesson closes with a mandatory field prompt rather than an optional challenge — making the real world a required part of the curriculum, not an afterthought.</p>
     <figure class="solution-img-full reveal">
       <img src="../assets/images/percept/app-overview.png" alt="Percept full app flow — onboarding through lesson, real world, and reflection">
-      <figcaption>"The lesson-to-field-prompt loop is the core structural decision. Everything else — the visual language, the IA, the reflection mechanic — serves this one transition."</figcaption>
     </figure>
     <p class="body">Visual design follows the same principle: calm, minimal, unhurried — designed for a user who is about to put their phone away and pick up a camera.</p>
     <div class="solution-grid reveal">
@@ -1026,12 +1013,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </p>
 
     <h4 style="font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-proj);margin:2rem 0 1rem;font-weight:500;">The Problem</h4>
-    <p class="body-text">
-        Today, learning a hobby is easier than ever — yet sustaining passion has become harder. People can access thousands of tutorials, courses, and communities online. But these resources often fail to support how passion actually develops over time.
-      </p>
 
        <p class="body-text">
-        From my early observations, three patterns emerged:
+        Three patterns emerged from early observations:
       </p>
 
       <!-- Insight 1 -->
@@ -1071,12 +1055,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </div>
 
       <img src="../assets/images/percept/the-problem.png" alt="Competitive landscape — where Percept sits relative to existing tools" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">Market and user research revealed a clear gap between discovering hobbies and sustaining them. People need structured, guided, and socially supported learning that fits into everyday life.</p>
-
-      <div class="pull-quote">
-        <p>"The real problem was the lack of an experience that sustains motivation and curiosity over time."</p>
-        <cite>Insight derived through research, existing solutions, and interviews.</cite>
-      </div>
         </div>
 
         <!-- B — SCOPE & CONSTRAINTS -->
@@ -1159,7 +1137,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
         <span class="succeeded-tag">✓ Direction 01 — Chosen</span>
         <h4>Simplifying the learning process</h4>
         <p>The first structural direction was a traditional course architecture — sequential modules, locked content, a "photography 101" pathway. The research seemed to support it: users wanted structure, and beginners didn’t know what they didn’t know. A guided path felt like the answer.</p>
-        <div class="succeeded-why">The intention of bringing about a new perspective through simplification sparks the interest to return to one’s passion. There’s a build-up of curiosity for beginners and professionals.</div>
+        <div class="succeeded-why">A guided path with structured modules removed the paralysis of not knowing where to start — the most common reason beginners stall before they've begun.</div>
       </div>
 
       <div class="failed-direction">
@@ -1299,16 +1277,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
 
       <img src="../assets/images/percept/missions.png" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
+      <p class="img-caption">The missions view — structured around progressive concepts rather than a content library. Users see where they are, not how much is left.</p>
 
       <img src="../assets/images/percept/challenges.png" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
+      <p class="img-caption">The field prompt screen — the moment the lesson leaves the app. The copy is directive and physical: go outside, find something, shoot.</p>
 
       <img src="../assets/images/percept/reflections.png" alt="Percept — app hero, the first screen a user sees" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">The first screen a user sees — concept-led, not feature-led. The visual language signals calm and focus before the lesson begins.</p>
+      <p class="img-caption">The reflection view — submitted shots organised by concept. Progress expressed as a portfolio, not a score.</p>
 
       <p class="body-text">
-        The real signal wouldn't be retention. It would be whether users started talking about their shots differently — noticing light before composition, thinking about what to include vs. exclude. But you can't measure that in a dashboard. The proxies below are what you'd track while watching for that harder signal.
+       The proxies below are what you'd track — but the real signal is qualitative: whether users start talking about their shots differently.
       </p>
 
       <div class="validation-block">
@@ -1330,7 +1308,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       </div>
 
       <p class="body-text">
-        The harder signal: if users begin describing the world in terms of concepts — "I noticed the light was directional, so I adjusted my position" — the product is working. That shift from technical knowledge to visual intuition is what Percept is actually trying to produce. No metric captures it directly, but qualitative feedback from the diary study participants showed it was possible within two weeks of structured practice.
+       Qualitative feedback from the diary study suggested this shift — from technical knowledge to visual intuition — was possible within two weeks of structured practice.
       </p>
         </div>
 
@@ -1481,7 +1459,12 @@ ddLinks.forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const t = document.getElementById(a.getAttribute('href').slice(1));
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (t) {
+      const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+      const offset = navH + 24; // nav height + 1.5rem breathing room
+      const top = t.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   });
 });
 

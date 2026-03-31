@@ -700,6 +700,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   padding-bottom: 3.5rem;
   border-bottom: 1px solid rgba(240,237,230,0.07);
   margin-bottom: 3.5rem;
+  scroll-margin-top: calc(var(--nav-h, 68px) + 1.5rem);
 }
 .dd-chapter:last-child { border-bottom: none; margin-bottom: 0; }
 .dd-ch-header { display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 1.8rem; }
@@ -766,7 +767,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     </div>
     <h1>Swift VR<br><em>Decathlon Pongori</em></h1>
     <p class="hero-sub">
-      <strong>In collaboration with Pongori by Decathlon.</strong> Designing an immersive training system for table tennis that helps players improve reaction speed, shot precision, and decision-making under pressure.
+      <strong>In collaboration with Pongori by Decathlon.</strong> A VR training system for table tennis — designed around the insight that beginners fail not from poor technique, but from being unable to read the ball's trajectory early enough to react. Every interaction decision followed from that finding.
     </p>
   </div>
 </section>
@@ -806,7 +807,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   <div class="snapshot reveal">
     <div class="snapshot-cell">
       <p class="snapshot-lbl">The problem</p>
-      <p class="snapshot-val">Serious table tennis training requires a table, a partner, and hundreds of quality repetitions. Outside professional academies, players rarely have all three — progression stalls between technique and match pressure.</p>
+      <p class="snapshot-val">Outside professional academies, players rarely have a table, a partner, and quality repetitions at the same time. VR can remove those barriers — but only if the interface stays out of the way of the physical act of playing.</p>
     </div>
     <div class="snapshot-cell">
       <p class="snapshot-lbl">What I did</p>
@@ -825,12 +826,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="section-rule"></div>
     </div>
     <h2>Training quality shouldn't<br><em>depend on access</em></h2>
-    <p class="body">Serious table tennis training depends on three conditions: access to a table, a training partner, and hundreds of high-quality repetitions. Outside professional academies, players rarely have all three consistently. As a result, progression from learning technique to executing it under match pressure becomes slow and fragmented.</p>
-    <div class="pull">
-      <p>"Performance in fast-reaction sports improves not through understanding technique, but through the volume of realistic repetitions under pressure."</p>
-      <cite>Synthesis from research on table tennis coaching methods and player training routines.</cite>
-    </div>
-    <p class="body">Virtual reality offers an opportunity to remove several of these barriers. Instead of requiring a full table setup and a training partner, VR can simulate rallies and match situations within a small physical space — making quality repetitions accessible anywhere.</p>
+    <p class="body">Progression from learning technique to executing it under match pressure is slow and fragmented without consistent access to a table, a partner, and quality repetitions. VR removes those barriers — but only if it can simulate the pressure of live play, not just the mechanics.</p>
+    <p class="body">"Performance in fast-reaction sports improves through the volume of realistic repetitions under pressure — not through understanding technique alone."</p>
   </div>
 
   <!-- 02 — KEY CONSTRAINT -->
@@ -845,15 +842,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <div class="cf-icon">⚡</div>
       <div>
         <div class="cf-lbl">The binding constraint</div>
-        <p class="cf-text">Physical fatigue compounds cognitive load in VR. Extended arm movement leads quickly to exhaustion, and the controller-racket mismatch means players are simultaneously learning to play table tennis and to operate an unfamiliar input device. <strong>Every interaction decision had to reduce cognitive and physical overhead — not add to it.</strong></p>
+        <p class="cf-text">The controller-racket mismatch means players are simultaneously learning table tennis and an unfamiliar input device. Extended arm movement leads quickly to exhaustion. <strong>Every interaction decision had to reduce cognitive and physical overhead — not add to it.</strong></p>
       </div>
-    </div>
-    <div class="pills">
-      <span class="pill hard">Motion sickness threshold — session length and movement limits</span>
-      <span class="pill hard">Controller and racket don't feel the same</span>
-      <span class="pill hard">Physical fatigue compounds cognitive load in VR</span>
-      <span class="pill">Spatial audio as a primary feedback mechanism</span>
-      <span class="pill">Beginner users unfamiliar with VR UI conventions</span>
     </div>
   </div>
 
@@ -976,13 +966,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     
 
       <p class="body-text">
-        Serious table tennis training depends on three conditions: access to a table, a training partner, and hundreds of high-quality repetitions. Outside professional academies, players rarely have all three consistently. As a result, progression from learning technique to executing it under match pressure becomes slow and fragmented.
+        Progression stalls when players can't get consistent table time, a partner, and quality repetitions at once. VR's opportunity was to make those repetitions available anywhere — but only if the interface didn't add its own layer of cognitive overhead on top of the physical act of playing.
       </p>
 
-      <div class="pull-quote">
-        <p>"Performance in fast-reaction sports improves not through understanding technique, but through the volume of realistic repetitions under pressure. The faster players move from observing a movement to executing it in live play, the faster skill develops."</p>
-        <cite>Source — synthesis from research on table tennis coaching methods and player training routines.</cite>
-      </div>
       <img src="../assets/images/swift/the-problem-1.png" alt="Table tennis training landscape" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
 
       <p class="body-text">
@@ -1392,7 +1378,12 @@ ddLinks.forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const t = document.getElementById(a.getAttribute('href').slice(1));
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (t) {
+      const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+      const offset = navH + 24; // nav height + 1.5rem breathing room
+      const top = t.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   });
 });
 
