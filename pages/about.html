@@ -72,13 +72,45 @@ body::before {
   backdrop-filter:blur(14px); background:rgba(13,13,11,0.88);
   transition:border-color 0.3s;
 }
-.nav-name { font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; }
+.nav-name { font-size:0.8rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase;
+  white-space: nowrap;
+}
 .nav-links { display:flex; gap:2rem; list-style:none; }
 .nav-links a { font-size:0.8rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); transition:color 0.2s; }
 .nav-links a:hover, .nav-links a.active { color:var(--white); }
 .nav-status { display:flex; align-items:center; gap:0.5rem; font-size:0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); }
 .status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 2.5s ease-in-out infinite; }
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+
+/* NAV HAMBURGER — hidden on desktop, shown on mobile */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-hamburger span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* PAGE */
 .page {
@@ -255,6 +287,31 @@ body::before {
 .fl a:hover { color:var(--white); }
 
 @media (max-width:860px) {
+  .nav-hamburger { display: flex; }
+  .nav-status { display: none; }
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: var(--nav-h, 68px);
+    left: 0; right: 0;
+    flex-direction: column;
+    background: rgba(13,13,11,0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(240,237,230,0.08);
+    padding: 0.4rem 0;
+    z-index: 490;
+    gap: 0;
+  }
+  .nav-links.mobile-open { display: flex; }
+  .nav-links a {
+    display: block;
+    padding: 0.9rem 1.5rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(240,237,230,0.05);
+  }
+  .nav-links li:last-child a { border-bottom: none; }
+
   .nav { padding:0 1.5rem; }
   .page { padding-left:1.5rem; padding-right:1.5rem; }
   .hero { grid-template-columns:1fr; gap:2.5rem; padding-top:5rem; }
@@ -290,12 +347,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 <nav class="nav" id="nav">
   <a href="/" class="nav-name">Manav Hemnani</a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="/pages/work.html">Work</a></li>
     <li><a href="/pages/about.html" class="active">About</a></li>
     <li><a href="/pages/contact.html">Contact</a></li>
   </ul>
   <div class="nav-status"><span class="status-dot"></span>Open to roles</div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 </nav>
 
 <div class="page">
@@ -459,6 +521,29 @@ window.addEventListener('scroll', () => {
   document.getElementById('nav').style.borderBottomColor =
     window.scrollY > 20 ? 'rgba(240,237,230,0.1)' : 'rgba(240,237,230,0.06)';
 }, { passive: true });
+</script>
+
+<script>
+// ─── Mobile hamburger menu
+(function () {
+  var hamburger = document.getElementById('navHamburger');
+  var navLinks  = document.getElementById('navLinks');
+  if (!hamburger || !navLinks) return;
+
+  hamburger.addEventListener('click', function () {
+    var isOpen = hamburger.classList.toggle('open');
+    navLinks.classList.toggle('mobile-open', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navLinks.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('mobile-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+}());
 </script>
 </body>
 </html>

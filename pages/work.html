@@ -96,6 +96,7 @@ body::before {
   font-size: 0.8rem; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--white);
+  white-space: nowrap;
 }
 
 .nav-right { display: flex; align-items: center; gap: 2.5rem; }
@@ -123,6 +124,36 @@ body::before {
   0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(76,175,125,0.4); }
   50%      { opacity:0.7; box-shadow: 0 0 0 5px rgba(76,175,125,0); }
 }
+
+
+/* NAV HAMBURGER — hidden on desktop, shown on mobile */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-hamburger span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* PAGE */
 .page-wrap { padding-top: var(--nav-h); }
@@ -437,6 +468,31 @@ body::before {
 .footer-links a:hover { color: var(--white); }
 
 @media (max-width: 900px) {
+  .nav-hamburger { display: flex; }
+  .nav-status { display: none; }
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: var(--nav-h, 68px);
+    left: 0; right: 0;
+    flex-direction: column;
+    background: rgba(13,13,11,0.97);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(240,237,230,0.08);
+    padding: 0.4rem 0;
+    z-index: 490;
+    gap: 0;
+  }
+  .nav-links.mobile-open { display: flex; }
+  .nav-links a {
+    display: block;
+    padding: 0.9rem 1.5rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(240,237,230,0.05);
+  }
+  .nav-links li:last-child a { border-bottom: none; }
+
   :root { --px: 1.5rem;
   /* Layout grid */
   --page-max:    1100px;
@@ -479,12 +535,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 <nav class="nav">
   <a href="/" class="nav-name">Manav Hemnani</a>
   <div class="nav-right">
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="/pages/work.html" class="active">Work</a></li>
       <li><a href="/pages/about.html">About</a></li>
       <li><a href="/pages/contact.html">Contact</a></li>
     </ul>
     <div class="nav-status"><span class="status-dot"></span>Open to roles</div>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </nav>
 
@@ -693,6 +754,29 @@ document.querySelectorAll('.card, .work-cta').forEach(el => {
   el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
   obs.observe(el);
 });
+</script>
+
+<script>
+// ─── Mobile hamburger menu
+(function () {
+  var hamburger = document.getElementById('navHamburger');
+  var navLinks  = document.getElementById('navLinks');
+  if (!hamburger || !navLinks) return;
+
+  hamburger.addEventListener('click', function () {
+    var isOpen = hamburger.classList.toggle('open');
+    navLinks.classList.toggle('mobile-open', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navLinks.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('mobile-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+}());
 </script>
 </body>
 </html>
