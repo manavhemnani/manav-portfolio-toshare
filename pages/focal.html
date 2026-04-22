@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SEO META -->
+<title>Focal by Four Bridges — Manav Hemnani</title>
+<meta name="description" content="Voice-first deal operating system for finance teams — speak an update, AI extracts tasks and deal changes, human confirms before anything updates.">
+<link rel="canonical" href="https://manavhemnani.com/focal">
+
+<!-- FAVICON -->
+<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="/assets/images/favicon.png">
+
+<!-- OPEN GRAPH -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Focal by Four Bridges — Manav Hemnani">
+<meta property="og:description" content="Voice-first deal operating system for finance teams — speak an update, AI extracts tasks and deal changes, human confirms before anything updates.">
+<meta property="og:image" content="https://manavhemnani.com/assets/images/focal-by-fourbridges/homepage-1.png">
+<meta property="og:url" content="https://manavhemnani.com/focal">
+
+<!-- TWITTER -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Focal by Four Bridges — Manav Hemnani">
+<meta name="twitter:description" content="Voice-first deal operating system for finance teams — speak an update, AI extracts tasks and deal changes, human confirms before anything updates.">
+<meta name="twitter:image" content="https://manavhemnani.com/assets/images/focal-by-fourbridges/homepage-1.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+:root {
+  --bg:           #07080f;
+  --bg-2:         #0c0e18;
+  --bg-3:         #111422;
+  --white:        #f0ede6;
+  --muted:        #4a5568;
+  --mid:          #697585;
+  --accent-blue:  #4a9eff;
+  --accent-amber: #c8a96e;
+  --accent-proj:  #4B7FE8;
+  --accent-light: #93b4f8;
+  --sans:         'DM Sans', system-ui, sans-serif;
+  --serif:        'Cormorant Garamond', Georgia, serif;
+  --nav-h:        68px;
+  --content-max:  720px;
+  --page-max:     1100px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--sans);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9000; pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ─── NAV ─────────────────────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: var(--nav-h);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 3rem;
+  border-bottom: 1px solid rgba(240,237,230,0.06);
+  backdrop-filter: blur(14px);
+  background: rgba(7,8,15,0.92);
+  transition: border-color 0.3s;
+}
+.nav-name { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; }
+.nav-right { display: flex; align-items: center; gap: 2.5rem; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.8rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.nav-back:hover { color: var(--white); }
+
+.nav-hamburger {
+  display: none; flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px; width: 32px; height: 32px; cursor: pointer; background: none; border: none; padding: 4px; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-hamburger span {
+  display: block; width: 20px; height: 1.5px; background: var(--white); border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease; transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav-overlay {
+  display: none; position: fixed; inset: 0; z-index: 490;
+  background: rgba(7,8,15,0.97); flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+}
+.nav-overlay.open { display: flex; }
+.nav-overlay a { font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); transition: color 0.2s; }
+.nav-overlay a:hover { color: var(--white); }
+
+/* ─── HERO ────────────────────────────────────────── */
+.cs-hero {
+  padding-top: var(--nav-h);
+  display: flex;
+  flex-direction: column;
+}
+.hero-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 72vh;
+  min-height: 460px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 60%, rgba(75,127,232,0.13) 0%, transparent 52%),
+    radial-gradient(ellipse at 80% 25%, rgba(75,127,232,0.06) 0%, transparent 45%),
+    linear-gradient(155deg, #040610 0%, #07080f 100%);
+}
+.hero-fade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(7,8,15,0.2) 38%, rgba(7,8,15,0.88) 76%, var(--bg) 100%);
+}
+
+/* Floating phone visual */
+.phone-hero-visual {
+  position: absolute; top: 50%; right: 5.5rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+.phv-phone {
+  width: 190px;
+  border-radius: 26px;
+  border: 5px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(75,127,232,0.18),
+    0 40px 100px rgba(0,0,0,0.7),
+    0 0 50px rgba(75,127,232,0.1);
+  animation: phoneFloat 4s ease-in-out infinite;
+}
+.phv-phone:nth-child(2) {
+  margin-top: 2.5rem;
+  animation-delay: 0.7s;
+}
+.phv-phone img { width: 100%; display: block; }
+@keyframes phoneFloat {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-10px); }
+}
+
+.hero-content {
+  position: relative;
+  padding: 3.5rem 3rem 2.5rem;
+  max-width: 860px;
+  animation: fadeUp 1s 0.15s ease both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.eyebrow { display:flex; align-items:center; gap:1rem; margin-bottom:1.4rem; flex-wrap:wrap; }
+
+/* WIP badge — amber */
+.badge.wip {
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  background: rgba(200,169,110,0.1); border: 1px solid rgba(200,169,110,0.28);
+  color: var(--accent-amber); padding: 0.28rem 0.8rem; border-radius: 2px;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.badge.wip::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent-amber); animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+.hero-meta { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.cs-hero h1 {
+  font-size: clamp(3rem, 5.8vw, 5.6rem);
+  font-weight: 300; line-height: 0.98; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+}
+.cs-hero h1 em { font-family: var(--serif); font-style: italic; color: var(--accent-light); font-weight: 600; }
+.hero-sub { font-size: 1rem; color: var(--mid); line-height: 1.72; font-weight: 300; max-width: 560px; }
+.hero-sub strong { color: var(--white); font-weight: 400; }
+
+/* ─── META STRIP ──────────────────────────────────── */
+.meta-strip {
+  background: var(--bg-2);
+  border-top: 1px solid rgba(240,237,230,0.1);
+  border-bottom: 1px solid rgba(240,237,230,0.1);
+  padding: 2rem 3rem;
+  animation: fadeUp 1s 0.35s ease both;
+}
+.meta-inner { max-width: var(--page-max); margin: 0 auto; display: flex; gap: 3.5rem; flex-wrap: wrap; }
+.meta-lbl { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.32rem; }
+.meta-val { font-size: 0.88rem; color: var(--white); font-weight: 400; }
+.meta-val.amber { color: var(--accent-amber); }
+
+/* ─── FAST SCAN WRAPPER ───────────────────────────── */
+.fast-scan { max-width: var(--page-max); margin: 0 auto; padding: 0 3rem; }
+
+/* ─── SNAPSHOT ───────────────────────────────────── */
+.snapshot {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border: 1px solid rgba(240,237,230,0.1); border-radius: 6px; margin: 3rem 0 0; overflow: hidden;
+}
+.snapshot-cell {
+  padding: 1.6rem 1.8rem; border-right: 1px solid rgba(240,237,230,0.1);
+}
+.snapshot-cell:last-child { border-right: none; }
+.snapshot-lbl {
+  font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-light); margin-bottom: 0.6rem; font-weight: 500;
+}
+.snapshot-val { font-size: 0.85rem; color: var(--mid); line-height: 1.65; }
+
+/* ─── SECTION BLOCKS ──────────────────────────────── */
+.section-block { padding: 4rem 0; border-bottom: 1px solid rgba(240,237,230,0.07); }
+.section-block:last-of-type { border-bottom: none; }
+
+.section-eyebrow { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
+.section-num { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-proj); font-weight: 500; }
+.section-rule { flex: 1; height: 1px; background: rgba(240,237,230,0.07); max-width: 60px; }
+
+.section-block h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 300; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 1.5rem;
+}
+.section-block h2 em { font-family: var(--serif); font-style: italic; color: var(--accent-light); font-weight: 600; }
+
+.body { font-size: 0.95rem; color: var(--mid); line-height: 1.82; font-weight: 300; margin-bottom: 1.4rem; max-width: var(--content-max); }
+.body strong { color: var(--white); font-weight: 400; }
+
+/* PULL QUOTE */
+.pull {
+  margin: 2.5rem 0; padding: 1.8rem 2.2rem;
+  border-left: 3px solid var(--accent-proj);
+  background: rgba(75,127,232,0.04);
+  max-width: var(--content-max);
+}
+.pull p {
+  font-family: var(--serif); font-style: italic; font-size: 1.3rem;
+  color: var(--white); line-height: 1.55; margin-bottom: 0.6rem; font-weight: 600;
+}
+.pull cite { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-style: normal; }
+
+/* IMPACT METRIC GRID */
+.impact-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2.5rem 0;
+  max-width: var(--content-max);
+}
+.impact-metric {
+  padding: 1.8rem 1.5rem;
+  background: var(--bg-2);
+  border: 1px solid rgba(75,127,232,0.18);
+  border-radius: 6px;
+}
+.im-num {
+  font-size: 2.6rem; font-weight: 300; letter-spacing: -0.04em;
+  color: var(--accent-light); line-height: 1; margin-bottom: 0.6rem;
+  font-family: var(--serif); font-style: italic;
+}
+.im-label { font-size: 0.78rem; color: var(--mid); line-height: 1.55; font-weight: 300; }
+.im-label strong { color: var(--white); font-weight: 400; }
+
+/* CONSTRAINT / DECISION BLOCKS */
+.constraint-feature {
+  margin: 2rem 0; padding: 1.8rem 2rem;
+  background: var(--bg-2); border: 1px solid rgba(240,237,230,0.1);
+  border-radius: 6px; max-width: var(--content-max);
+  display: flex; gap: 1.5rem; align-items: flex-start;
+}
+.cf-icon { font-size: 1.1rem; line-height: 1; margin-top: 0.15rem; flex-shrink: 0; }
+.cf-lbl { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-proj); margin-bottom: 0.45rem; font-weight: 500; }
+.cf-text { font-size: 0.9rem; color: var(--mid); line-height: 1.72; font-weight: 300; }
+.cf-text strong { color: var(--white); font-weight: 400; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 0; }
+.pill { font-size: 0.74rem; padding: 0.38rem 0.9rem; border: 1px solid rgba(240,237,230,0.1); color: var(--mid); border-radius: 2px; font-weight: 300; }
+.pill.hard { border-color: rgba(75,127,232,0.28); color: var(--accent-light); background: rgba(75,127,232,0.05); font-weight: 400; }
+
+/* PHONE GALLERY */
+.phone-gallery {
+  display: flex; gap: 1.8rem; overflow-x: auto;
+  padding: 2.5rem 0; margin: 0 -3rem; padding-left: 3rem; padding-right: 3rem;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  align-items: flex-start;
+}
+.phone-gallery::-webkit-scrollbar { display: none; }
+
+.pg-phone { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 0.85rem; }
+.pg-phone:nth-child(even) { margin-top: 2rem; }
+
+.pg-frame {
+  width: 210px; border-radius: 26px;
+  border: 5px solid rgba(240,237,230,0.09);
+  overflow: hidden; background: #060D1E;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(240,237,230,0.04);
+}
+.pg-frame img { width: 100%; display: block; }
+.pg-cap { font-size: 0.68rem; color: var(--muted); text-align: center; max-width: 200px; line-height: 1.5; font-style: italic; }
+
+/* FEATURE LIST */
+.feature-list { margin: 2rem 0; display: flex; flex-direction: column; gap: 0; max-width: var(--content-max); }
+.feature-row {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  padding: 1.1rem 0; border-bottom: 1px solid rgba(240,237,230,0.06);
+}
+.feature-row:last-child { border-bottom: none; }
+.fr-num { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-proj); font-weight: 500; min-width: 2rem; padding-top: 0.1rem; }
+.fr-title { font-size: 0.9rem; color: var(--white); font-weight: 400; margin-bottom: 0.28rem; }
+.fr-desc { font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300; }
+
+/* LIVE CALLOUT */
+.live-callout {
+  margin: 2.5rem 0 0; padding: 1.6rem 1.8rem;
+  background: rgba(75,127,232,0.04); border: 1px solid rgba(75,127,232,0.22);
+  border-radius: 4px; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem; max-width: var(--content-max);
+}
+.lc-label {
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.lc-label::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.lc-title { font-size: 1rem; color: var(--white); font-weight: 400; letter-spacing: 0.01em; }
+.lc-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+.lc-link {
+  font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent-light); border: 1px solid rgba(75,127,232,0.28);
+  padding: 0.6rem 1.3rem; border-radius: 2px; transition: all 0.2s; white-space: nowrap;
+}
+.lc-link:hover { background: rgba(75,127,232,0.1); border-color: rgba(147,180,248,0.45); }
+
+/* WIP TILE */
+.wip-tile {
+  margin: 2rem 0; padding: 2.2rem 2.4rem;
+  background: var(--bg-2); border: 1px solid rgba(200,169,110,0.22); border-radius: 6px;
+  max-width: var(--content-max);
+}
+.wip-tile-lbl {
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent-amber); margin-bottom: 1rem; font-weight: 500;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.wip-tile-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-amber); }
+.wip-headline {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem); font-weight: 300; letter-spacing: -0.02em;
+  color: var(--white); line-height: 1.35; margin-bottom: 0.9rem;
+}
+.wip-body { font-size: 0.88rem; color: var(--mid); line-height: 1.78; font-weight: 300; max-width: 54ch; }
+
+/* ─── REVEAL ANIMATION ───────────────────────────── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── DEEP DIVE TOGGLE ───────────────────────────── */
+.deep-dive-toggle-wrap { max-width: var(--page-max); margin: 0 auto; padding: 0 3rem 5rem; }
+.deep-dive-cta {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 2rem 0; border-top: 1px solid rgba(240,237,230,0.1);
+}
+.deep-dive-cta::before, .deep-dive-cta::after {
+  content: ''; flex: 1; height: 1px; background: rgba(240,237,230,0.07);
+}
+.toggle-btn {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--bg-2); border: 1px solid rgba(240,237,230,0.12);
+  color: var(--mid); font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.85rem 1.8rem; border-radius: 2px; cursor: pointer; transition: all 0.25s; white-space: nowrap;
+  position: relative; overflow: hidden;
+}
+.toggle-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent-proj); transform: translateX(-101%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.toggle-btn:hover { color: var(--white); border-color: rgba(75,127,232,0.4); }
+.toggle-btn:hover::before { transform: translateX(0); }
+.toggle-btn span { position: relative; z-index: 1; }
+.toggle-arrow { position: relative; z-index: 1; display: inline-block; transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); font-size: 0.9rem; }
+.toggle-btn.open .toggle-arrow { transform: rotate(180deg); }
+
+/* ─── DEEP DIVE ──────────────────────────────────── */
+.deep-dive {
+  max-width: var(--page-max); margin: 0 auto; padding: 0 3rem;
+  overflow: hidden; max-height: 0; transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease; opacity: 0;
+}
+.deep-dive.open { max-height: 9999px; opacity: 1; transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease 0.1s; }
+.deep-dive-inner { padding-bottom: 4rem; border-top: 1px solid rgba(240,237,230,0.1); }
+
+.dd-grid { display: grid; grid-template-columns: 180px 1fr; gap: 5rem; align-items: start; }
+.dd-sidebar { position: sticky; top: calc(var(--nav-h) + 2rem); padding-top: 3.5rem; }
+.dd-sb-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+.dd-sb-nav { list-style: none; }
+.dd-sb-nav li { margin-bottom: 0.05rem; }
+.dd-sb-nav a {
+  display: flex; align-items: center; gap: 0.65rem; font-size: 0.74rem; letter-spacing: 0.06em;
+  color: var(--muted); padding: 0.38rem 0 0.38rem 0.75rem; margin-left: -0.75rem;
+  border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+}
+.dd-sb-nav a:hover { color: var(--white); }
+.dd-sb-nav a.active { color: var(--white); border-left-color: var(--accent-proj); }
+.dd-sb-num { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; min-width: 1.3rem; transition: color 0.2s; }
+.dd-sb-nav a.active .dd-sb-num { color: var(--accent-proj); }
+
+.dd-content { padding-top: 3.5rem; }
+.dd-chapter {
+  padding-bottom: 3.5rem; border-bottom: 1px solid rgba(240,237,230,0.07);
+  margin-bottom: 3.5rem; scroll-margin-top: calc(var(--nav-h, 68px) + 1.5rem);
+}
+.dd-chapter:last-child { border-bottom: none; margin-bottom: 0; }
+.dd-ch-header { display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 1.8rem; }
+.dd-ch-num { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-proj); font-weight: 500; white-space: nowrap; }
+.dd-ch-title { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+.dd-ch-title em { font-family: var(--serif); font-style: italic; color: var(--accent-light); }
+.dd-tldr { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 0.4rem; margin-bottom: 1.6rem; max-width: 52ch; }
+
+.dd-body { font-size: 0.9rem; color: var(--mid); line-height: 1.82; font-weight: 300; margin-bottom: 1.2rem; }
+.dd-body strong { color: var(--white); font-weight: 400; }
+
+/* Principles grid */
+.principles-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: rgba(240,237,230,0.07); margin: 1.8rem 0;
+  border: 1px solid rgba(240,237,230,0.07); border-radius: 4px; overflow: hidden;
+}
+.principle-card { background: var(--bg-2); padding: 1.4rem 1.3rem; }
+.pc-num { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-proj); margin-bottom: 0.3rem; }
+.pc-title { font-size: 0.88rem; color: var(--white); font-weight: 400; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+.pc-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+/* Decision block */
+.decision {
+  margin: 2rem 0; border: 1px solid rgba(240,237,230,0.1); border-radius: 4px;
+  overflow: hidden; background: var(--bg-2);
+}
+.dec-head { padding: 1.1rem 1.5rem; border-bottom: 1px solid rgba(240,237,230,0.06); display: flex; align-items: center; gap: 0.75rem; }
+.dec-icon { font-size: 0.88rem; }
+.dec-q { font-size: 0.82rem; font-weight: 500; color: var(--white); letter-spacing: -0.005em; }
+.dec-body { padding: 1.3rem 1.5rem; }
+.dec-lbl { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+.dec-body p { font-size: 0.85rem; color: var(--mid); line-height: 1.7; font-weight: 300; }
+.dec-body p strong { color: var(--white); font-weight: 400; }
+.dec-why {
+  padding: 1.1rem 1.5rem; border-top: 1px solid rgba(240,237,230,0.06);
+  background: rgba(75,127,232,0.04); font-size: 0.82rem; color: var(--mid); line-height: 1.65; font-weight: 300;
+}
+.dec-why strong { color: var(--white); font-weight: 400; }
+
+/* Reflect */
+.reflect { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.2rem; }
+.reflect-lbl {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-proj); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.reflect-lbl::before { content: ''; width: 16px; height: 1px; background: var(--accent-proj); }
+.reflect-col p { font-size: 0.87rem; color: var(--mid); line-height: 1.78; font-weight: 300; }
+.reflect-full { margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid rgba(240,237,230,0.07); }
+.reflect-full p { font-size: 0.95rem; color: var(--mid); line-height: 1.82; font-weight: 300; max-width: var(--content-max); }
+
+/* Scope table */
+.scope-table {
+  margin: 1.8rem 0; border: 1px solid rgba(240,237,230,0.09);
+  border-radius: 4px; overflow: hidden; background: var(--bg-3);
+}
+.scope-table-hd {
+  padding: 0.8rem 1.5rem; border-bottom: 1px solid rgba(240,237,230,0.1);
+  font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+}
+.scope-row { display: grid; grid-template-columns: 1fr 2fr; border-bottom: 1px solid rgba(240,237,230,0.045); }
+.scope-row:last-child { border-bottom: none; }
+.scope-area {
+  padding: 0.9rem 1.3rem; border-right: 1px solid rgba(240,237,230,0.045);
+  font-size: 0.8rem; color: var(--white); font-weight: 400; display: flex; align-items: center;
+}
+.scope-detail { padding: 0.9rem 1.3rem; font-size: 0.8rem; color: var(--mid); font-weight: 300; line-height: 1.6; }
+
+/* ─── NEXT PROJECT ────────────────────────────────── */
+.next {
+  padding: 5rem 3rem; border-top: 1px solid rgba(240,237,230,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: var(--page-max); margin: 0 auto; gap: 2rem; flex-wrap: wrap;
+}
+.next-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.next-title { font-size: clamp(1.4rem, 2.5vw, 2.1rem); font-weight: 300; letter-spacing: -0.02em; }
+.next-title em { font-family: var(--serif); font-style: italic; color: var(--accent-light); }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(75,127,232,0.08); border: 1px solid rgba(75,127,232,0.3);
+  color: var(--accent-light); padding: 0.85rem 1.8rem; border-radius: 2px; transition: all 0.25s; white-space: nowrap;
+}
+.btn:hover { background: rgba(75,127,232,0.16); border-color: rgba(147,180,248,0.5); }
+
+/* ─── TICKER ──────────────────────────────────────── */
+.ticker-wrap {
+  overflow: hidden; border-top: 1px solid rgba(240,237,230,0.06);
+  border-bottom: 1px solid rgba(240,237,230,0.06); padding: 1.1rem 0;
+}
+.ticker { display: flex; gap: 2.5rem; width: max-content; animation: tick 30s linear infinite; }
+.ticker-item { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 0.6rem; }
+.ticker-item.blue { color: var(--accent-light); }
+.ticker-dot { width: 3px; height: 3px; border-radius: 50%; background: currentColor; }
+@keyframes tick { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+/* ─── FOOTER ──────────────────────────────────────── */
+.footer {
+  padding: 2.5rem 3rem; display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem; border-top: 1px solid rgba(240,237,230,0.06);
+  max-width: var(--page-max); margin: 0 auto;
+}
+.footer-name { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); }
+.footer-nav { display: flex; gap: 1.8rem; list-style: none; justify-content: center; }
+.footer-nav a { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+.footer-nav a:hover { color: var(--white); }
+.footer-copy { font-size: 0.72rem; color: var(--muted); text-align: right; }
+
+/* ─── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav { padding: 0 1.5rem; }
+  .nav-right { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .hero-content { padding: 2rem 1.5rem; }
+  .phone-hero-visual { display: none; }
+  .cs-hero h1 { font-size: 2.5rem; }
+
+  .meta-strip { padding: 1.5rem; }
+  .meta-inner { gap: 1.5rem; }
+
+  .fast-scan { padding: 0 1.5rem; }
+  .snapshot { grid-template-columns: 1fr; }
+  .snapshot-cell { border-right: none; border-bottom: 1px solid rgba(240,237,230,0.1); }
+  .snapshot-cell:last-child { border-bottom: none; }
+
+  .impact-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .phone-gallery { margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+  .pg-phone:nth-child(even) { margin-top: 0; }
+
+  .deep-dive-toggle-wrap { padding: 0 1.5rem 3rem; }
+  .deep-dive { padding: 0 1.5rem; }
+  .dd-grid { grid-template-columns: 1fr; gap: 0; }
+  .dd-sidebar { display: none; }
+
+  .next { padding: 3rem 1.5rem; flex-direction: column; }
+  .footer { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+  .footer-nav { justify-content: flex-start; }
+  .footer-copy { text-align: left; }
+
+  .reflect { grid-template-columns: 1fr; }
+  .principles-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     NAV
+     ════════════════════════════════ -->
+<nav class="nav">
+  <a href="/" class="nav-name">Manav Hemnani</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="/pages/work.html">Work</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+      <li><a href="/pages/contact.html">Contact</a></li>
+    </ul>
+    <a href="/pages/work.html" class="nav-back">← All Work</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-overlay" id="navOverlay">
+  <a href="/pages/work.html" onclick="closeNav()">Work</a>
+  <a href="/pages/about.html" onclick="closeNav()">About</a>
+  <a href="/pages/contact.html" onclick="closeNav()">Contact</a>
+</div>
+
+<!-- ════════════════════════════════
+     HERO
+     ════════════════════════════════ -->
+<section class="cs-hero">
+  <div class="hero-image-wrap">
+  <div class="hero-bg">
+    <img src="/assets/images/focal-by-fourbridges/Project Cover-1.png" alt="Focal-3-Screens" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+  </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="eyebrow">
+      <span class="badge wip">In Development</span>
+      <span class="hero-meta">2026 · Mobile AI Product · Finance</span>
+    </div>
+    <h1>Focal —<br><em>Voice-First Deal OS</em></h1>
+    <p class="hero-sub">
+      <strong>Finance partners run crore-scale deals through calls, voice notes, and WhatsApp.</strong> The CRM stays empty. Focal is the operating layer that listens, extracts, and structures — without asking anyone to change how they work.
+    </p>
+  </div>
+</section>
+
+<!-- META STRIP -->
+<div class="meta-strip">
+  <div class="meta-inner">
+    <div class="meta-item">
+      <div class="meta-lbl">My Role</div>
+      <div class="meta-val">Product Design · UX Architecture</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-lbl">Scope</div>
+      <div class="meta-val">Mobile-First AI Workflow Tool</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-lbl">Platform</div>
+      <div class="meta-val">iOS-First Native App</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-lbl">Timeline</div>
+      <div class="meta-val">3 months · Ongoing</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-lbl">Status</div>
+      <div class="meta-val amber">● Active Prototype</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     FAST SCAN
+     ════════════════════════════════ -->
+<div class="fast-scan">
+
+  <!-- SNAPSHOT -->
+  <div class="snapshot reveal">
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">The impact</p>
+      <p class="snapshot-val">Voice recordings and WhatsApp messages become structured deal updates, tasks, and reminders — without asking partners to open a browser, fill a form, or change how they communicate.</p>
+    </div>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">The problem</p>
+      <p class="snapshot-val">Finance professionals communicate by instinct and voice. Every CRM, tracker, and task system was built for people who type. That behavioral mismatch is where deals fall through the cracks.</p>
+    </div>
+    <div class="snapshot-cell">
+      <p class="snapshot-lbl">What I built</p>
+      <p class="snapshot-val">A mobile-first AI assistant that converts voice input into proposed deal changes, tasks, and follow-ups — with human-in-the-loop validation on every inference. 12+ months iterating inside a real firm.</p>
+    </div>
+  </div>
+
+  <!-- ── 01 IMPACT ─────────────────────────────────────── -->
+  <div class="section-block reveal" id="fs-impact">
+    <div class="section-eyebrow">
+      <span class="section-num">01 — Impact</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Zero behavior change.<br><em>Full operational visibility.</em></h2>
+    <p class="body">
+      The finance professional who never updates anything now updates everything — because the update happens in the moment they're already speaking, not at the end of the day when they're trying to remember it. These are the outcomes Focal is built to deliver.
+    </p>
+
+    <div class="impact-grid reveal">
+      <div class="impact-metric">
+        <div class="im-num">&lt;30s</div>
+        <div class="im-label">Voice input to <strong>structured deal update.</strong> Speak once. Focal does the rest.</div>
+      </div>
+      <div class="impact-metric">
+        <div class="im-num">0</div>
+        <div class="im-label"><strong>Manual CRM fields</strong> required from partner-level users for standard updates.</div>
+      </div>
+      <div class="impact-metric">
+        <div class="im-num">100%</div>
+        <div class="im-label">AI inferences reviewed <strong>before anything updates.</strong> Every change is proposed, not silent.</div>
+      </div>
+    </div>
+
+    <div class="pull reveal">
+      <p>"The best workflow tool is the one that fits around the person — not the one that demands the person fit around it."</p>
+      <cite>Design principle that shaped every decision in Focal</cite>
+    </div>
+
+    <div class="constraint-feature reveal">
+      <div class="cf-icon">📱</div>
+      <div>
+        <div class="cf-lbl">Mobile-first, deliberately</div>
+        <p class="cf-text">This isn't a desktop app with a mobile view. <strong>Every design decision started on a 390px screen.</strong> Finance professionals are on the move — between client offices, in cabs, on calls. The tool had to work in that context or it wouldn't work at all.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02 PROBLEM ─────────────────────────────────────── -->
+  <div class="section-block reveal" id="fs-problem">
+    <div class="section-eyebrow">
+      <span class="section-num">02 — Problem</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Finance runs on voice.<br><em>The tools don't.</em></h2>
+    <p class="body">
+      I spent months embedded inside Four Bridges. Partners ran Rs. 2–5 Cr deals entirely through calls, WhatsApp voice notes, and corridor conversations. Decisions were made in real time. Context shifted fast. The people who knew the most about any deal were also the ones with the least patience — and the least time — to update any system.
+    </p>
+    <p class="body">
+      The result was a predictable failure mode: one analyst manually translating every spoken decision into spreadsheets and shared documents. Under pressure, that dependency cracked. Deals slipped — not from bad judgment, but from coordination failure. The information was there. The system just couldn't see it.
+    </p>
+
+    <div class="pull reveal">
+      <p>"The most valuable person in the room is also the worst at updating any tool."</p>
+      <cite>Observed pattern across every financial boutique — the friction behind the firm</cite>
+    </div>
+
+    <p class="body">
+      The problem wasn't a software gap. It was a behavioral one. <strong>Every project management tool, CRM, and deal tracker was built for people who communicate by text.</strong> Finance professionals communicate by voice. That mismatch is where deals fall through the cracks — and where Focal begins.
+    </p>
+
+    <div class="pills reveal">
+      <span class="pill hard">Partners won't open a laptop to log a deal update after a call</span>
+      <span class="pill hard">Analysts spend hours manually transcribing spoken decisions</span>
+      <span class="pill hard">Compliance-sensitive environment — AI errors in deal records have real consequences</span>
+      <span class="pill">3–5 person team with fluid roles and rapidly shifting deal state</span>
+      <span class="pill">Finance-specific language that generic AI transcription doesn't handle well</span>
+    </div>
+  </div>
+
+  <!-- ── 03 SOLUTION ─────────────────────────────────────── -->
+  <div class="section-block reveal" id="fs-solution">
+    <div class="section-eyebrow">
+      <span class="section-num">03 — Solution</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2>Speak. Review.<br><em>Confirm.</em></h2>
+    <p class="body">
+      Focal is built around one loop: speak or upload, AI extracts and proposes, human confirms, system updates. Five screens carry that loop — the dashboard, voice input, AI proposals, tasks, and deal intelligence. Nothing in the interface exists outside of that sequence.
+    </p>
+    <p class="body">
+      The central design principle: <strong>AI proposes. Human confirms. Always.</strong> The system never makes silent updates to deal records. Every inference surfaces as a proposed change with its source transcript visible — and it waits for explicit approval before touching anything.
+    </p>
+
+    <!-- Phone gallery -->
+    <div class="phone-gallery reveal">
+      <div class="pg-phone">
+        <div class="pg-frame">
+          <img src="/assets/images/focal-by-fourbridges/voice-rec-1.png" alt="Voice recording screen — tap and speak a deal update">
+        </div>
+        <p class="pg-cap">Voice input — tap mic, speak the update. Or upload a recording. Or type a quick note.</p>
+      </div>
+      <div class="pg-phone">
+        <div class="pg-frame">
+          <img src="/assets/images/focal-by-fourbridges/homepage-1.png" alt="Focal home — priority deals, AI changes bar, morning briefing">
+        </div>
+        <p class="pg-cap">Dashboard — priority deals surface first. AI changes waiting for review. Morning briefing from the AI.</p>
+      </div>
+      <div class="pg-phone">
+        <div class="pg-frame">
+          <img src="/assets/images/focal-by-fourbridges/task-added-to-deal.png" alt="Tasks screen — AI-proposed items added after voice input">
+        </div>
+        <p class="pg-cap">Tasks — AI-proposed items flagged amber. Confirmed tasks in the main list. Nothing silently added.</p>
+      </div>
+      <div class="pg-phone">
+        <div class="pg-frame">
+          <img src="/assets/images/focal-by-fourbridges/project-1.png" alt="Deals screen — live deal cards with stage and risk indicators">
+        </div>
+        <p class="pg-cap">Deals — live deal cards with stage progress, risk flags, and last-update attribution.</p>
+      </div>
+    </div>
+
+    <!-- Feature list -->
+    <div class="feature-list reveal">
+      <div class="feature-row">
+        <div class="fr-num">01</div>
+        <div>
+          <div class="fr-title">Voice, recording, or text — any input format</div>
+          <div class="fr-desc">Speak a quick update mid-call, upload a recorded meeting, or type a note on the move. The AI handles all three formats the same way.</div>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="fr-num">02</div>
+        <div>
+          <div class="fr-title">AI extracts tasks, deal changes, and risk flags</div>
+          <div class="fr-desc">The system identifies what matters: stage changes, follow-up owners, deadlines, compliance signals — and surfaces them as discrete proposed items.</div>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="fr-num">03</div>
+        <div>
+          <div class="fr-title">Human confirms before anything updates</div>
+          <div class="fr-desc">Every proposed change requires explicit approval. The source transcript is always visible. In a compliance-sensitive environment, silent AI updates are never acceptable.</div>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="fr-num">04</div>
+        <div>
+          <div class="fr-title">Priority surface — deals that need attention now</div>
+          <div class="fr-desc">The dashboard doesn't show everything. It shows what's critical, delayed, or has pending AI changes waiting for review — so attention goes where it's needed.</div>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="fr-num">05</div>
+        <div>
+          <div class="fr-title">Morning briefing — AI summarizes overnight context</div>
+          <div class="fr-desc">Each morning, the system surfaces a plain-language briefing: what moved, what's at risk, and what needs action today — from the previous day's inputs.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="live-callout reveal">
+      <div>
+        <div class="lc-label">Interactive prototype</div>
+        <div class="lc-title">Explore the full Focal interface</div>
+        <div class="lc-sub">Voice input, AI proposals, deal cards, tasks, and insights — all interactive.</div>
+      </div>
+      <a href="/assets/prototype/focal.html" target="_blank" class="lc-link">Open prototype →</a>
+    </div>
+
+    <!-- WIP honest framing -->
+    <div class="wip-tile reveal">
+      <div class="wip-tile-lbl">Honest status</div>
+      <div class="wip-headline">Active prototype. <em>Not yet shipped.</em></div>
+      <div class="wip-body">
+        Focal is currently being refined in real working conditions with the actual team it was built for. The voice pipeline, AI extraction logic, and confirmation UX have all gone through multiple rounds of iteration based on real usage. This is what 12+ months of working inside a firm actually looks like — not a shipped product, but a system that's earned its place in the workflow.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /fast-scan -->
+
+<!-- ════════════════════════════════
+     DEEP DIVE TOGGLE
+     ════════════════════════════════ -->
+<div class="deep-dive-toggle-wrap">
+  <div class="deep-dive-cta">
+    <button class="toggle-btn" id="toggleBtn" onclick="toggleDive()">
+      <span>Process Deep Dive</span>
+      <span class="toggle-arrow" id="toggleArrow">↓</span>
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     DEEP DIVE
+     ════════════════════════════════ -->
+<section class="deep-dive" id="deepDive" aria-hidden="true">
+  <div class="deep-dive-inner">
+    <div class="dd-grid">
+
+      <!-- Sidebar -->
+      <aside class="dd-sidebar">
+        <div class="dd-sb-label">Chapters</div>
+        <ul class="dd-sb-nav">
+          <li><a href="#ch-a" class="active"><span class="dd-sb-num">A</span> The Pivot</a></li>
+          <li><a href="#ch-b"><span class="dd-sb-num">B</span> Architecture</a></li>
+          <li><a href="#ch-c"><span class="dd-sb-num">C</span> Key Decisions</a></li>
+          <li><a href="#ch-d"><span class="dd-sb-num">D</span> Where It's Going</a></li>
+        </ul>
+      </aside>
+
+      <!-- Chapters -->
+      <div class="dd-content">
+
+        <!-- A: The Pivot -->
+        <div class="dd-chapter" id="ch-a">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">A</span>
+            <h3 class="dd-ch-title">The Pivot — <em>From Desktop to Phone</em></h3>
+          </div>
+          <p class="dd-tldr">The product started as a desktop dashboard. It's now a mobile-first app. That shift wasn't a rebrand — it was the product finding where it actually belongs.</p>
+
+          <p class="dd-body">The earlier version of this product was built for a desktop browser. It had a command center, a deal tracker, an AI changes panel, and a full analytics view. It was well-designed. It was never going to get used.</p>
+          <p class="dd-body">
+            The observation that drove the pivot was simple: <strong>the people who needed this tool most never sat at a laptop when they needed it.</strong> A deal update happens in a cab, on a call, walking between meetings. The desktop wasn't wrong — it was just not where the work happened.
+          </p>
+
+          <div class="decision">
+            <div class="dec-head">
+              <span class="dec-icon">🔄</span>
+              <span class="dec-q">Desktop app vs. mobile-first product — which is the right surface?</span>
+            </div>
+            <div class="dec-body">
+              <div class="dec-lbl">What we decided</div>
+              <p><strong>Mobile-first, always.</strong> Not a responsive version of the desktop app — a product designed ground-up for a 390px screen, with the phone's native affordances (microphone, camera, notifications) at the center of the interaction model.</p>
+            </div>
+            <div class="dec-why">The desktop version tried to solve the right problem in the wrong context. Switching the primary surface from desktop to phone wasn't a design decision — <strong>it was an observation about where actual work happens, finally acted on.</strong></div>
+          </div>
+
+          <p class="dd-body">
+            The rebuild also gave us the chance to simplify. The desktop version had a lot of surface area — it tried to be everything. The mobile version started from a single constraint: <strong>what is the one thing this product has to do well?</strong> The answer was voice input to structured output. Everything else is secondary.
+          </p>
+        </div>
+
+        <!-- B: Product Architecture -->
+        <div class="dd-chapter" id="ch-b">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">B</span>
+            <h3 class="dd-ch-title">Product Architecture — <em>The Core Loop</em></h3>
+          </div>
+          <p class="dd-tldr">Focal is built around a single loop: input → extract → propose → confirm → update. Every screen exists to serve one stage of that sequence.</p>
+
+          <p class="dd-body">The architecture came from asking: what's the minimum viable interaction that converts a spoken thought into a structured record? The answer was a five-step loop that couldn't be shortcut.</p>
+
+          <div class="scope-table">
+            <div class="scope-table-hd">The five-step loop</div>
+            <div class="scope-row">
+              <div class="scope-area">01 · Input</div>
+              <div class="scope-detail">Voice recording, audio file upload, or quick text. All three formats enter the same pipeline. No special handling required from the user.</div>
+            </div>
+            <div class="scope-row">
+              <div class="scope-area">02 · Extract</div>
+              <div class="scope-detail">AI transcribes and parses the input — identifying deal references, stage changes, task owners, deadlines, risk signals, and compliance flags.</div>
+            </div>
+            <div class="scope-row">
+              <div class="scope-area">03 · Propose</div>
+              <div class="scope-detail">Extracted items surface as discrete proposed changes. Each one shows its source (transcript segment or timestamp) and a confidence signal.</div>
+            </div>
+            <div class="scope-row">
+              <div class="scope-area">04 · Confirm</div>
+              <div class="scope-detail">The user reviews and approves or dismisses each proposed change. Nothing touches the deal record until explicit confirmation.</div>
+            </div>
+            <div class="scope-row">
+              <div class="scope-area">05 · Update</div>
+              <div class="scope-detail">Confirmed changes write to the deal record, task list, and team activity log. The source input is preserved and linked for traceability.</div>
+            </div>
+          </div>
+
+          <p class="dd-body">Five screens carry this loop: the Dashboard (priority surface), Voice (input), Proposals (review queue), Tasks (confirmed + pending), and Deals (live deal state). A sixth screen — Insights — sits outside the loop and aggregates activity over time.</p>
+
+          <div class="principles-grid">
+            <div class="principle-card">
+              <div class="pc-num">P01</div>
+              <div class="pc-title">Voice is the primary input — always</div>
+              <div class="pc-desc">The central nav button is a microphone. Typing is supported but never the implied default. The product leads with the behavior finance professionals already have.</div>
+            </div>
+            <div class="principle-card">
+              <div class="pc-num">P02</div>
+              <div class="pc-title">Priority first — not chronology</div>
+              <div class="pc-desc">The dashboard shows what needs attention now, not what happened most recently. Risk, delay, and pending AI changes surface before routine updates.</div>
+            </div>
+            <div class="principle-card">
+              <div class="pc-num">P03</div>
+              <div class="pc-title">AI proposes, human confirms — always</div>
+              <div class="pc-desc">The loop requires explicit human approval before any deal record is updated. The architecture treats silent AI writes as a design failure, not a feature.</div>
+            </div>
+            <div class="principle-card">
+              <div class="pc-num">P04</div>
+              <div class="pc-title">Source always visible</div>
+              <div class="pc-desc">Every AI proposal shows the transcript segment it came from. If you can't see why the AI proposed something, you can't evaluate whether it's right.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- C: Key Decisions -->
+        <div class="dd-chapter" id="ch-c">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">C</span>
+            <h3 class="dd-ch-title">Key Decisions — <em>Where the Hard Tradeoffs Were</em></h3>
+          </div>
+          <p class="dd-tldr">The decisions that shaped Focal were mostly about what to leave out — and where to keep the human in control.</p>
+
+          <div class="decision">
+            <div class="dec-head">
+              <span class="dec-icon">⚡</span>
+              <span class="dec-q">Should the AI update the deal record directly, or require human confirmation every time?</span>
+            </div>
+            <div class="dec-body">
+              <div class="dec-lbl">What we chose</div>
+              <p><strong>Human-in-the-loop for every AI inference, without exception.</strong> No silent updates. No confidence threshold that bypasses confirmation. Every proposed change waits for explicit approval.</p>
+            </div>
+            <div class="dec-why">In a compliance-sensitive, high-stakes environment, the cost of a wrong AI inference reaching the deal record is higher than the friction of a confirmation tap. Trust in an AI system builds incrementally. <strong>A system that shows its work earns the right to do more — eventually.</strong></div>
+          </div>
+
+          <div class="decision">
+            <div class="dec-head">
+              <span class="dec-icon">🔔</span>
+              <span class="dec-q">Should the app surface everything or filter to priority?</span>
+            </div>
+            <div class="dec-body">
+              <div class="dec-lbl">What we chose</div>
+              <p><strong>Ruthless prioritization over completeness.</strong> The dashboard never shows all deals or all tasks — only those with risk flags, delays, or pending AI changes. The full view is always one tap away.</p>
+            </div>
+            <div class="dec-why">Finance professionals have no patience for a dashboard that requires scanning. If everything is on the surface, nothing is. <strong>The product earns attention by respecting it — showing only what actually needs action.</strong></div>
+          </div>
+
+          <div class="decision">
+            <div class="dec-head">
+              <span class="dec-icon">📋</span>
+              <span class="dec-q">Onboarding — how much setup is acceptable before first value?</span>
+            </div>
+            <div class="dec-body">
+              <div class="dec-lbl">What we chose</div>
+              <p><strong>Minimal onboarding, maximum first-session value.</strong> The onboarding flow imports existing deal context first, so the dashboard is populated before the user ever speaks their first update.</p>
+            </div>
+            <div class="dec-why">An empty dashboard is the fastest path to abandonment. <strong>The first session had to feel like the product already understood the firm</strong> — not like the user was starting from scratch.</div>
+          </div>
+        </div>
+
+        <!-- D: Current Status & Future Direction -->
+        <div class="dd-chapter" id="ch-d">
+          <div class="dd-ch-header">
+            <span class="dd-ch-num">D</span>
+            <h3 class="dd-ch-title">Where It's Going — <em>Current Status &amp; Next Step</em></h3>
+          </div>
+          <p class="dd-tldr">Focal is an active prototype being refined through real workflow observation. The next step is controlled — building a private internal AI voice agent to test, learn, and protect what matters.</p>
+
+          <div class="reflect">
+            <div class="reflect-col">
+              <div class="reflect-lbl">Current status</div>
+              <p>The prototype is live and being used inside Four Bridges in real working conditions. Voice input, AI extraction, and the confirmation flow have gone through multiple rounds of iteration based on observed usage — not hypothetical feedback. The core loop works. The refinement now is around trust, speed, and the specific language patterns of finance professionals.</p>
+            </div>
+            <div class="reflect-col">
+              <div class="reflect-lbl">What's being refined</div>
+              <p>Real usage surfaces things no prototype session ever will: which AI proposals get dismissed and why, how long users take before confirming, which deal contexts the extraction model struggles with. Every round of real use makes the proposal quality measurably better — and makes the confirmation UX feel less like a checkpoint and more like a routine.</p>
+            </div>
+          </div>
+
+          <div class="reflect-full">
+            <div class="constraint-feature" style="margin-top: 0;">
+              <div class="cf-icon">→</div>
+              <div>
+                <div class="cf-lbl">Next step</div>
+                <p class="cf-text">
+                  The next phase is building a <strong>private internal AI voice agent</strong> — not a public product, not a third-party integration, but a controlled internal system the team owns entirely. The goal is to test real daily usage, measure how the workflow improves, and keep all company data and deal context protected inside the firm. <strong>No sensitive business information exposed to external tools. No dependency on consumer AI infrastructure.</strong> A system that earns trust the same way Focal's confirmation UX does — one verified interaction at a time.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /dd-content -->
+    </div><!-- /dd-grid -->
+  </div><!-- /deep-dive-inner -->
+</section><!-- /deep-dive -->
+
+<!-- ════════════════════════════════
+     NEXT PROJECT
+     ════════════════════════════════ -->
+<div class="next">
+  <div>
+    <div class="next-label">Same firm, different problem</div>
+    <div class="next-title">Four Bridges Capital —<br><em>Building Credibility from Zero</em></div>
+  </div>
+  <a href="fourbridgescapital.html" class="btn"><span>View Case Study →</span></a>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item blue"><span class="ticker-dot"></span>Voice-First Interface</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Mobile Product Design</div>
+    <div class="ticker-item blue"><span class="ticker-dot"></span>AI Workflow System</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Finance UX</div>
+    <div class="ticker-item blue"><span class="ticker-dot"></span>Human-in-the-Loop</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Deal Operating System</div>
+    <div class="ticker-item blue"><span class="ticker-dot"></span>iOS-First Design</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>AI Product Design</div>
+    <div class="ticker-item blue"><span class="ticker-dot"></span>Voice-First Interface</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Mobile Product Design</div>
+    <div class="ticker-item blue"><span class="ticker-dot"></span>AI Workflow System</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Finance UX</div>
+    <div class="ticker-item blue"><span class="ticker-dot"></span>Human-in-the-Loop</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Deal Operating System</div>
+    <div class="ticker-item blue"><span class="ticker-dot"></span>iOS-First Design</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>AI Product Design</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer">
+    <div class="footer-name">Manav Hemnani</div>
+    <ul class="footer-nav">
+      <li><a href="/pages/work.html">Work</a></li>
+      <li><a href="/pages/about.html">About</a></li>
+      <li><a href="/pages/contact.html">Contact</a></li>
+    </ul>
+    <div class="footer-copy">© 2025</div>
+  </div>
+</footer>
+
+<script>
+// NAV
+const hamburger = document.getElementById('hamburger');
+const navOverlay = document.getElementById('navOverlay');
+function closeNav() { hamburger.classList.remove('open'); navOverlay.classList.remove('open'); }
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navOverlay.classList.toggle('open');
+});
+
+// DEEP DIVE TOGGLE
+function toggleDive() {
+  const dd = document.getElementById('deepDive');
+  const btn = document.getElementById('toggleBtn');
+  const open = dd.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  dd.setAttribute('aria-hidden', !open);
+}
+
+// REVEAL ON SCROLL
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => observer.observe(el));
+
+// DEEP DIVE SIDEBAR SCROLL SPY
+const chapters = document.querySelectorAll('.dd-chapter');
+const navLinks = document.querySelectorAll('.dd-sb-nav a');
+const sidebarObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.dd-sb-nav a[href="#${e.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+chapters.forEach(ch => sidebarObserver.observe(ch));
+</script>
+
+</body>
+</html>

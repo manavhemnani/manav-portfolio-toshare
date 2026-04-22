@@ -83,45 +83,13 @@ body::before {
   backdrop-filter: blur(14px);
   background: rgba(13,13,11,0.8);
 }
-.nav-name { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white);
-  white-space: nowrap;
-}
+.nav-name { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); }
 .nav-right { display: flex; align-items: center; gap: 2.5rem; }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a { font-size: 0.8rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
 .nav-links a:hover { color: var(--white); }
 .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; transition: color 0.2s; }
 .nav-back:hover { color: var(--white); }
-
-
-/* NAV HAMBURGER — hidden on desktop, shown on mobile */
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 4px;
-  flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-.nav-hamburger span {
-  display: block;
-  width: 20px;
-  height: 1.5px;
-  background: var(--white);
-  border-radius: 2px;
-  transition: transform 0.25s ease, opacity 0.2s ease;
-  transform-origin: center;
-}
-.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* HERO */
 .cs-hero {
@@ -442,31 +410,6 @@ body::before {
 .footer-links a:hover { color: var(--white); }
 
 @media (max-width: 900px) {
-  .nav-hamburger { display: flex; }
-  .nav-status { display: none; }
-  .nav-links {
-    display: none;
-    position: fixed;
-    top: var(--nav-h, 68px);
-    left: 0; right: 0;
-    flex-direction: column;
-    background: rgba(13,13,11,0.97);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(240,237,230,0.08);
-    padding: 0.4rem 0;
-    z-index: 490;
-    gap: 0;
-  }
-  .nav-links.mobile-open { display: flex; }
-  .nav-links a {
-    display: block;
-    padding: 0.9rem 1.5rem;
-    font-size: 0.8rem;
-    border-bottom: 1px solid rgba(240,237,230,0.05);
-  }
-  .nav-links li:last-child a { border-bottom: none; }
-
   :root {
   --accent-light: #c084fc; --sidebar-w: 0px;
   /* Layout grid */
@@ -757,7 +700,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   padding-bottom: 3.5rem;
   border-bottom: 1px solid rgba(240,237,230,0.07);
   margin-bottom: 3.5rem;
-  scroll-margin-top: calc(var(--nav-h, 68px) + 1.5rem);
 }
 .dd-chapter:last-child { border-bottom: none; margin-bottom: 0; }
 .dd-ch-header { display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 1.8rem; }
@@ -793,17 +735,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 <nav class="nav">
   <a href="/" class="nav-name">Manav Hemnani</a>
   <div class="nav-right">
-    <ul class="nav-links" id="navLinks">
+    <ul class="nav-links">
       <li><a href="/pages/work.html">Work</a></li>
       <li><a href="/pages/about.html">About</a></li>
       <li><a href="/pages/contact.html">Contact</a></li>
     </ul>
     <a href="work.html" class="nav-back">← Back to Work</a>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
   </div>
 </nav>
 
@@ -940,7 +877,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <p class="body">Players enter a shared virtual training environment where training activities appear as floating panels around the room. Instead of navigating traditional menus, players select drills, matches, or coaching sessions directly within the VR space — keeping navigation minimal and peripheral.</p>
     <figure class="solution-img-full reveal">
       <img src="../assets/images/swift/vr-home-1.jpg" alt="Swift VR — spatial home environment with floating training panels">
-      <figcaption>"Training activities are spatial, not navigational — players select what to work on by moving through the environment, not by tapping through a menu hierarchy."</figcaption>
     </figure>
     <p class="body">Coaches can join sessions and appear spatially within the player's environment to demonstrate techniques in real-time. After each session, performance reports highlight strengths and weaknesses to guide the next training cycle.</p>
     <div class="solution-grid reveal">
@@ -1019,9 +955,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <p class="body-text">
         This project was developed in partnership with Decathlon Pongori, exploring how the brand could extend beyond equipment into professional table tennis training systems. The brief focused on supporting players training within Pongori academies and competitive environments.
       </p>
-      <p class="body-text">
-        The Pongori line makes table tennis accessible — from beginner paddles to academy-grade equipment. Extending into VR training meant designing the first digital infrastructure for serious skill development within that ecosystem.
-      </p>
 
       <img src="../assets/images/swift/the-brief.jpg" alt="Swift VR — Pongori vision overview" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
     <h4 style="font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent-proj);margin:2rem 0 1rem;font-weight:500;">The Problem</h4>
@@ -1045,11 +978,10 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
             <span class="dd-ch-num">—B</span>
             <h3 class="dd-ch-title">Scope &amp; <em>Constraints</em></h3>
           </div>
-          <p class="dd-tldr">VR-specific constraints — physical fatigue, controller mismatch, motion sickness — shaped every interaction decision in the first 10 sessions.</p>
     
 
       <p class="body-text">
-        VR requires continuous physical engagement, which means users tire faster than in traditional digital interfaces. All interaction happens through handheld controllers that neither weigh nor move like a real table-tennis racket. This creates a mismatch between expected physical feedback and the simulated action, while extended arm movement quickly leads to fatigue.
+       VR-specific constraints — physical fatigue, controller mismatch, motion sickness — shaped every interaction decision in the first 10 sessions.
       </p>
 
        <div class="constraint-list">
@@ -1071,20 +1003,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           </div>
           <p class="dd-tldr">Two early directions abandoned for the same reason: both introduced UI complexity inside VR instead of reducing it.</p>
     
-
-      <p class="body-text">
-        The concept emerged from combining Pongori’s global table tennis ecosystem with the VR Eleven simulation engine. Pongori provides sport expertise and community reach, while VR Eleven delivers realistic physics and match environments. Together they create the foundation for an immersive training platform.
-      </p>
        <img src="../assets/images/swift/pongori-partnership.png" alt="pongori x eleven vr" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
 
       <p class="body-text">
-       Early sketches explored how traditional coaching cues could translate into spatial interactions. Guidance was embedded directly into gameplay through ball drills, visual prompts, and contextual feedback rather than menus. These explorations shaped how learning could happen through movement.
+       Early sketches explored how coaching cues could be embedded directly into gameplay — visual prompts, spatial feedback, ball drills — rather than surfaced through menus. The question in every sketch was the same: does this interaction require the player to look away from the ball?
       </p>
        <img src="../assets/images/swift/experience-ideation.png" alt="experience sketches" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-
-      <p class="body-text">
-        The system was structured around activities rather than screens. Two primary roles — coach and player — define the interaction model, with quick access to training sessions, match modes, and multiplayer play. This structure keeps navigation minimal inside the headset.
-      </p>
 
       <img src="../assets/images/swift/user-flow.png" alt="User flow — connected training ecosystem for coaches and students" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
       <p class="img-caption">User flow — the connected training ecosystem showing how players, coaches, and sessions interact across the VR experience.</p>
@@ -1216,27 +1140,19 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
             <span class="dd-ch-num">—E</span>
             <h3 class="dd-ch-title">The <em>Build</em></h3>
           </div>
-          <p class="dd-tldr">Spatial panels, coach presence, session reports, and performance-guided autonomous practice — four interaction models that replace the traditional sports coaching relationship.</p>
-    
 
       <p class="body-text">
-       Players begin in a spatial home environment where training activities appear as floating panels around the room. Instead of navigating traditional menus, players select drills, matches, or coaching sessions directly within the VR space.
+       Players enter a shared virtual training environment where drills, coaching sessions, and matches are accessible through spatial panels placed around the room. The interface remains lightweight and peripheral so players can focus on movement and gameplay rather than navigating complex menus.
       </p>
 
       <img src="../assets/images/swift/vr-home-1.jpg" alt="Pongori homepage" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
-      <p class="img-caption">Players enter a shared virtual training environment where drills, coaching sessions, and matches are accessible through spatial panels placed around the room. The interface remains lightweight and peripheral so players can focus on movement and gameplay rather than navigating complex menus.</p>
-
+      
       <p class="body-text">
         Players can join classroom sessions where coaches demonstrate techniques and strategies. Observing expert play helps players understand positioning, timing, and shot mechanics before attempting the drills themselves.
       </p>
 
       <img src="../assets/images/swift/masterclass-view.jpg" alt="Classroom view coach" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
       <p class="img-caption"></p>
-
-
-      <p class="body-text">
-       Players can practice against other participants in live matches, allowing them to apply trained skills in real game scenarios. Multiplayer sessions recreate the competitive dynamics of real table tennis training environments.
-      </p>
 
       <img src="../assets/images/swift/coach-view.jpg" alt="1v1 coach view" style="width:100%;border-radius:4px;display:block;margin:2.5rem 0;">
       <p class="img-caption"></p>
@@ -1260,11 +1176,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
        <img src="../assets/images/swift/player-profile.jpg" alt="Detailed report">
        <img src="../assets/images/swift/practice-drill.jpg" alt="Autonomous training">
       </div>
-    
-
-      <p class="body-text">
-        If released as a real Decathlon Pongori training product, the first 90 days would focus on validating whether players can learn effectively inside VR and return regularly for practice. Success would be measured through session completion, repeated practice behaviour, and long-term retention within the training ecosystem.
-      </p>
 
       <div class="validation-block">
         <div class="validation-header">Hypothetical success metrics — if shipped</div>
@@ -1283,10 +1194,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           </div>
         </div>
       </div>
-
-      <p class="body-text">
-        A high drop-off during the first training session would indicate the onboarding flow is too complex or physically demanding. If players repeatedly choose quick matches instead of structured drills, it would suggest the training progression is not engaging enough to sustain deliberate practice.
-      </p>
         </div>
 
         <!-- F — REFLECTION -->
@@ -1298,7 +1205,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
           <div class="reflect">
             <div class="reflect-col">
               <div class="reflect-lbl">What worked</div>
-              <p>During the project review, Jonathan Vandamme from Pongori highlighted how the system reframed VR from a gaming experience into a structured training environment. The combination of observation, drills, and performance reflection mirrored how players actually improve in professional table tennis training, reinforcing the potential of VR as a serious skill development tool.</p>
+              <p>Jonathan Vandamme from Pongori highlighted how the system reframed VR from gaming into structured training — observation, drills, and performance reflection mirroring how players actually improve in professional coaching.</p>
             </div>
             <div class="reflect-col">
               <div class="reflect-lbl">What I'd change in V2</div>
@@ -1440,38 +1347,10 @@ ddLinks.forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const t = document.getElementById(a.getAttribute('href').slice(1));
-    if (t) {
-      const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
-      const offset = navH + 24; // nav height + 1.5rem breathing room
-      const top = t.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
-</script>
-
-<script>
-// ─── Mobile hamburger menu
-(function () {
-  var hamburger = document.getElementById('navHamburger');
-  var navLinks  = document.getElementById('navLinks');
-  if (!hamburger || !navLinks) return;
-
-  hamburger.addEventListener('click', function () {
-    var isOpen = hamburger.classList.toggle('open');
-    navLinks.classList.toggle('mobile-open', isOpen);
-    hamburger.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  navLinks.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      hamburger.classList.remove('open');
-      navLinks.classList.remove('mobile-open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
-  });
-}());
 </script>
 </body>
 </html>

@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4Bridges AI — Deal Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Surfaces ── */
+  --bg:   #EDEAE4;
+  --bg2:  #F8F7F4;
+  --bg3:  #FFFFFF;
+  --bg4:  #F2F0EC;
+  --bg5:  #FAFAF8;
+
+  /* ── Borders ── */
+  --bd:   #E0DDD7;
+  --bd2:  #CAC6BE;
+
+  /* ── Text ── */
+  --t:    #0E1117;
+  --t2:   #3D4655;
+  --t3:   #727D8E;
+
+  /* ── Brand blue ── */
+  --blue:  #1D5FA8;
+  --blue2: #1A5496;
+  --bdim:  #DBEAFE;
+  --bglow: rgba(29,95,168,.07);
+
+  /* ── Amber ── */
+  --amber: #A85C00;
+  --adim:  #FEF3C7;
+  --abdr:  #F6C46A;
+
+  /* ── Red ── */
+  --red:   #C53030;
+  --rdim:  #FEE2E2;
+  --rbdr:  #FCA5A5;
+
+  /* ── Green ── */
+  --green:  #15803D;
+  --gdim:   #DCFCE7;
+  --gbdr:   #86EFAC;
+
+  /* ── Purple ── */
+  --purple: #6D28D9;
+  --pdim:   #EDE9FE;
+  --pbdr:   #C4B5FD;
+
+  /* ── Shadows (shell/overlays only) ── */
+  --sh-xs: 0 1px 2px rgba(14,17,23,.04);
+  --sh-sm: 0 1px 4px rgba(14,17,23,.07), 0 0 0 1px rgba(14,17,23,.04);
+  --sh-md: 0 4px 12px rgba(14,17,23,.09), 0 0 0 1px rgba(14,17,23,.04);
+  --sh-lg: 0 8px 32px rgba(14,17,23,.12), 0 0 0 1px rgba(14,17,23,.05);
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--t);
+}
+
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0 }
+
+/* ═══════════════════════════════════════════
+   SHELL
+═══════════════════════════════════════════ */
+.shell {
+  background: linear-gradient(180deg, #F5F3EE 0%, #EDEAE4 100%);
+  border-radius: 16px;
+  border: 1px solid var(--bd);
+  position: relative;
+  min-height: 960px;
+  max-width: 1340px;
+  margin: 0 auto;
+  box-shadow: var(--sh-lg);
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 54px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--bd);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.logo { display: flex; align-items: center; gap: 9px; }
+.lmark {
+  width: 28px; height: 28px;
+  background: var(--blue);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.lname { font-size: 14px; font-weight: 600; letter-spacing: -.3px; color: var(--t); }
+.lname em { color: var(--blue); font-style: normal; }
+
+.npills { display: flex; gap: 2px; }
+.np {
+  padding: 5px 13px;
+  border-radius: 7px;
+  font-size: 12.5px; font-weight: 500;
+  color: var(--t3);
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+  letter-spacing: -.1px;
+}
+.np:hover { background: var(--bg4); color: var(--t2); }
+.np.on { background: var(--bdim); color: var(--blue); }
+
+.nright { display: flex; align-items: center; gap: 12px; }
+.pbadge {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 11px;
+  border-radius: 7px;
+  background: var(--adim);
+  border: 1px solid var(--abdr);
+  font-size: 11.5px; font-weight: 500;
+  color: var(--amber);
+  cursor: pointer;
+  transition: background .15s;
+}
+.pbadge:hover { background: #FDE68A; }
+.pbadge.done { background: var(--gdim); border-color: var(--gbdr); color: var(--green); }
+.pdot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: pulse 2s ease-in-out infinite;
+}
+.pbadge.done .pdot { background: var(--green); animation: none; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.65)} }
+
+.avs { display: flex; }
+.av {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s;
+  box-shadow: var(--sh-xs);
+}
+.av:hover { transform: scale(1.1); }
+.av:not(:first-child) { margin-left: -8px; }
+
+/* ═══════════════════════════════════════════
+   PENDING PANEL
+═══════════════════════════════════════════ */
+.ppanel {
+  display: none;
+  background: var(--bg5);
+  border-bottom: 1px solid var(--bd);
+  padding: 16px 24px;
+}
+.ppanel.open { display: block; box-shadow: inset 0 -4px 12px rgba(14,17,23,.04); }
+.pph {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase;
+  color: var(--t3); margin-bottom: 12px;
+}
+.ppg { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.ppi {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: opacity .3s;
+}
+.ppi.gone { opacity: .25; pointer-events: none; }
+.ppacts { display: flex; gap: 7px; margin-top: 10px; }
+.ppbtn {
+  padding: 5px 12px; border-radius: 8px;
+  font-size: 11.5px; font-weight: 500;
+  cursor: pointer; border: 1px solid; font-family: inherit;
+  transition: all .15s;
+}
+.ppbtn.y { background: var(--blue); border-color: var(--blue); color: white; }
+.ppbtn.y:hover { background: var(--blue2); }
+.ppbtn.n { background: transparent; border-color: var(--bd2); color: var(--t3); }
+.ppbtn.n:hover { background: var(--bg4); color: var(--t2); }
+
+/* ═══════════════════════════════════════════
+   AI COMMAND CENTER  — flat white, no gradient
+═══════════════════════════════════════════ */
+.cmd {
+  padding: 18px 24px 14px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--bd);
+}
+.cmdlbl {
+  font-size: 12px; font-weight: 400;
+  color: var(--t2);
+  margin-bottom: 11px;
+  letter-spacing: 0;
+}
+.cmdr { display: flex; align-items: center; gap: 10px; }
+
+.vbtn {
+  width: 52px; height: 52px;
+  border-radius: 13px;
+  background: var(--blue);
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  transition: all .2s;
+  box-shadow: 0 2px 8px rgba(29,95,168,.3);
+}
+.vbtn:hover { background: var(--blue2); box-shadow: 0 4px 12px rgba(29,95,168,.4); }
+.vbtn.rec {
+  background: var(--red); border: none;
+  animation: recpulse 1s ease-in-out infinite;
+}
+@keyframes recpulse { 0%,100%{box-shadow:0 0 0 0 rgba(197,48,48,.3)} 50%{box-shadow:0 0 0 8px rgba(197,48,48,0)} }
+.vbtn svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.vbtn.rec svg { stroke: white; }
+
+.cin {
+  flex: 1;
+  background: var(--bg3);
+  border: 1.5px solid var(--bd2);
+  border-radius: 12px;
+  display: flex; align-items: center;
+  padding: 0 16px; height: 52px; gap: 10px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.cin:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(29,95,168,.1);
+}
+.cin input {
+  flex: 1; background: none; border: none; outline: none;
+  font-size: 13.5px; color: var(--t); font-family: inherit;
+}
+.cin input::placeholder { color: var(--t3); }
+
+.wwrap { display: none; align-items: center; gap: 3px; height: 22px; }
+.wwrap.on { display: flex; }
+.wb {
+  width: 3px; border-radius: 2px;
+  background: var(--red);
+  animation: wv .7s ease-in-out infinite;
+}
+.wb:nth-child(2){animation-delay:.1s}.wb:nth-child(3){animation-delay:.2s}.wb:nth-child(4){animation-delay:.3s}.wb:nth-child(5){animation-delay:.4s}
+@keyframes wv { 0%,100%{height:4px} 50%{height:20px} }
+
+.ubtn {
+  width: 42px; height: 42px;
+  border-radius: 9px;
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  transition: all .15s;
+}
+.ubtn:hover { background: var(--bg4); border-color: var(--bd2); }
+.ubtn svg { width: 16px; height: 16px; stroke: var(--t2); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.sbtn {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  background: var(--blue);
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  transition: background .15s, box-shadow .15s;
+  box-shadow: 0 2px 8px rgba(29,95,168,.35);
+}
+.sbtn:hover { background: var(--blue2); box-shadow: 0 4px 12px rgba(29,95,168,.4); }
+.sbtn svg { width: 17px; height: 17px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* 3 chips only, border-radius 8px */
+.chips { display: flex; gap: 7px; margin-top: 12px; flex-wrap: wrap; }
+.chip {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 11.5px; font-weight: 500;
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  color: var(--t3);
+  cursor: pointer;
+  transition: all .15s;
+}
+.chip:hover { border-color: var(--blue); color: var(--blue); background: var(--bdim); }
+
+/* ═══════════════════════════════════════════
+   FEEDBACK BAR
+═══════════════════════════════════════════ */
+.fb {
+  padding: 11px 24px;
+  font-size: 12.5px;
+  color: var(--t2);
+  display: none;
+  border-bottom: 1px solid var(--bd);
+  background: var(--bdim);
+  border-left: 3px solid var(--blue);
+}
+.fb.on { display: block; }
+.fb strong { color: var(--t); font-weight: 600; }
+.fb a { color: var(--blue); text-decoration: none; font-weight: 500; }
+.fb a:hover { text-decoration: underline; }
+
+.pd span {
+  display: inline-block;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--blue);
+  animation: bk 1.2s ease-in-out infinite;
+  margin: 0 1px; vertical-align: middle;
+}
+.pd span:nth-child(2){animation-delay:.2s}.pd span:nth-child(3){animation-delay:.4s}
+@keyframes bk { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+/* ═══════════════════════════════════════════
+   AI CHANGES PANEL — collapsed bar by default
+═══════════════════════════════════════════ */
+/* Collapsed single-line bar */
+.chp-bar {
+  margin: 14px 24px 0;
+  padding: 10px 14px;
+  background: var(--bdim);
+  border: 1px solid #BFDBFE;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+  transition: background .15s;
+}
+.chp-bar:hover { background: #BFDBFE; }
+.chp-bartxt { font-size: 12.5px; font-weight: 600; color: var(--blue); }
+.chp-barsrc { font-size: 11px; color: var(--t3); margin-left: 10px; }
+.chp-barlink {
+  font-size: 11.5px; font-weight: 500;
+  color: var(--blue);
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* Expanded panel — hidden by default */
+.chp {
+  display: none;
+  margin: 6px 24px 0;
+  padding: 14px 16px;
+  background: var(--bdim);
+  border: 1px solid #BFDBFE;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+.chp.open { display: block; }
+.chph {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; gap: 10px;
+}
+.chptit { font-size: 12px; font-weight: 600; color: var(--blue); }
+.chpsrc { font-size: 11px; color: var(--t3); flex-shrink: 0; }
+.chp-collapse {
+  font-size: 11.5px; font-weight: 500;
+  color: var(--t3);
+  cursor: pointer;
+  background: none; border: none; font-family: inherit;
+  padding: 0; transition: color .15s;
+}
+.chp-collapse:hover { color: var(--blue); }
+
+.chi {
+  background: var(--bg3);
+  border: 1px solid var(--abdr);
+  border-left: 3px solid var(--amber);
+  border-radius: 8px;
+  padding: 11px 13px;
+  margin-bottom: 7px;
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px;
+  transition: opacity .3s;
+}
+.chi:last-child { margin-bottom: 0; }
+.chi.gone { opacity: .2; pointer-events: none; }
+
+.ctp { font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 3px; }
+.ct-t { color: var(--blue); }
+.ct-r { color: var(--red); }
+.ct-s { color: var(--green); }
+
+.ctxt { font-size: 12.5px; color: var(--t); margin-bottom: 5px; line-height: 1.45; font-weight: 500; }
+.cconf { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--t3); }
+.cdot2 { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+.cbtns { display: flex; gap: 6px; flex-shrink: 0; align-self: center; }
+.cbtn {
+  padding: 5px 11px; border-radius: 8px;
+  font-size: 11.5px; font-weight: 500;
+  cursor: pointer; border: 1px solid; font-family: inherit;
+  transition: all .15s;
+}
+.cbtn.y { background: var(--blue); border-color: var(--blue); color: white; }
+.cbtn.y:hover { background: var(--blue2); }
+.cbtn.n { background: transparent; border-color: var(--bd2); color: var(--t3); }
+.cbtn.n:hover { background: var(--bg4); color: var(--t2); }
+
+/* ═══════════════════════════════════════════
+   DECISION STRIP — white background
+═══════════════════════════════════════════ */
+.dstrip {
+  padding: 20px 24px 24px;
+  border-bottom: 1px solid var(--bd);
+  background: var(--bg3);
+  margin-top: 14px;
+}
+.dsh {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.dslbl {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600;
+  color: var(--t2);
+}
+.dsn {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: white;
+}
+
+.dcc { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.dc {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 14px 16px;
+  transition: opacity .4s;
+}
+.dc.crit { border-color: var(--rbdr); border-left: 3px solid var(--red); background: linear-gradient(180deg, rgba(197,48,48,.04) 0%, #FFFFFF 40%); }
+.dc.warn { border-color: var(--abdr); border-left: 3px solid var(--amber); background: linear-gradient(180deg, rgba(168,92,0,.03) 0%, #FFFFFF 40%); }
+.dc.gone { opacity: .18; pointer-events: none; }
+.dc.flash { animation: dcf .8s ease-out; }
+@keyframes dcf { 0%{background:var(--bdim)} 100%{background:var(--bg3)} }
+
+.dbadge {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 8px;
+  margin-bottom: 8px; display: inline-block;
+  letter-spacing: .3px;
+}
+.db-r { background: var(--rdim); color: var(--red); }
+.db-a { background: var(--adim); color: var(--amber); }
+.db-b { background: var(--bdim); color: var(--blue); }
+
+.dtit { font-size: 14px; font-weight: 600; color: var(--t); margin-bottom: 4px; }
+.dsub { font-size: 12px; color: var(--t2); margin-bottom: 12px; line-height: 1.5; }
+
+.dact {
+  width: 100%; padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1.5px solid; font-family: inherit;
+  transition: all .15s; letter-spacing: -.1px;
+}
+.da-r { background: var(--rdim); border-color: var(--red); color: var(--red); }
+.da-r:hover { background: #FECACA; }
+.da-a { background: var(--adim); border-color: var(--amber); color: var(--amber); }
+.da-a:hover { background: #FDE68A; }
+.da-b { background: var(--bdim); border-color: var(--blue); color: var(--blue); }
+.da-b:hover { background: #BFDBFE; }
+
+.ddl { font-size: 10.5px; color: var(--t3); margin-top: 8px; text-align: right; }
+
+/* ═══════════════════════════════════════════
+   SECTION LABELS — two-tier system
+   .sl-primary  → 12px/600 for Deals, Decisions, Tasks
+   .slbl        → 10px uppercase for Activity, metadata
+═══════════════════════════════════════════ */
+.sl-primary {
+  font-size: 12px; font-weight: 600;
+  color: var(--t2);
+  letter-spacing: -.1px;
+}
+.slbl {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--t3);
+}
+
+/* ═══════════════════════════════════════════
+   MAIN GRID
+═══════════════════════════════════════════ */
+.mg {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  border-bottom: 1px solid var(--bd);
+}
+.lc {
+  padding: 24px 24px 20px;
+  display: flex; flex-direction: column; gap: 20px;
+  border-right: 1px solid var(--bd);
+}
+.rc {
+  padding: 18px 16px;
+  display: flex; flex-direction: column; gap: 0;
+  background: linear-gradient(180deg, #FAFAF8 0%, #F5F3EE 100%);
+}
+
+/* ═══════════════════════════════════════════
+   AI BRIEFING — plain text, no card container
+═══════════════════════════════════════════ */
+.brief-wrap { display: flex; flex-direction: column; gap: 8px; }
+.brief-meta {
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap;
+}
+.aitag {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500;
+  color: var(--blue);
+}
+.btxt { font-size: 13px; line-height: 1.7; color: var(--t2); }
+.btxt strong { color: var(--t); font-weight: 600; }
+
+.bpills { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 4px; }
+.bp {
+  padding: 4px 10px; border-radius: 8px;
+  font-size: 11px; font-weight: 500; border: 1px solid;
+}
+.bp-r { background: var(--rdim); color: var(--red); border-color: var(--rbdr); }
+.bp-a { background: var(--adim); color: var(--amber); border-color: var(--abdr); }
+.bp-g { background: var(--gdim); color: var(--green); border-color: var(--gbdr); }
+.bp-n { background: var(--bg4); color: var(--t3); border-color: var(--bd); }
+
+/* ═══════════════════════════════════════════
+   DEAL CARDS — no shadows, no background tints
+═══════════════════════════════════════════ */
+.dg { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.deal {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 15px 16px;
+  cursor: pointer;
+  transition: border-color .2s, transform .15s;
+  display: flex; flex-direction: column;
+}
+.deal:hover { border-color: var(--bd2); transform: translateY(-1px); }
+/* Risk / delayed: left accent border only, no background tint */
+.deal.risk    { border-left: 3px solid var(--red);   padding-left: 14px; }
+.deal.delayed { border-left: 3px solid var(--amber); padding-left: 14px; }
+.deal.flash { animation: dealflash 1.6s ease-out forwards; }
+@keyframes dealflash { 0%{background:var(--bdim)} 100%{background:var(--bg3)} }
+
+.dh { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2px; }
+.dn { font-size: 13px; font-weight: 600; color: var(--t); }
+
+/* Deal value — typographic anchor */
+.dval {
+  font-size: 18px; font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--t);
+  line-height: 1;
+  margin-bottom: 5px;
+  margin-top: 4px;
+}
+
+.dst {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border-radius: 8px;
+  letter-spacing: .2px; white-space: nowrap;
+}
+.st-r  { background: var(--rdim); color: var(--red); }
+.st-d  { background: var(--adim); color: var(--amber); }
+.st-a  { background: var(--bdim); color: var(--blue); }
+.st-c  { background: var(--gdim); color: var(--green); }
+.st-rv { background: var(--pdim); color: var(--purple); }
+
+.dmeta { font-size: 11.5px; color: var(--t3); margin-bottom: 10px; }
+
+.snames { display: flex; margin-bottom: 4px; }
+.sn { flex: 1; font-size: 8.5px; font-weight: 500; color: var(--t3); text-align: center; letter-spacing: .2px; text-transform: uppercase; }
+.sn.cur { color: var(--t2); }
+
+.strack { display: flex; gap: 4px; margin-bottom: 10px; }
+.ss { flex: 1; height: 5px; border-radius: 3px; background: #DEDAD3; }
+.ss.db  { background: var(--blue); }
+.ss.dr  { background: var(--red); }
+.ss.da  { background: var(--amber); }
+.ss.dg2 { background: var(--green); }
+
+/* dfoot: flex-start alignment, margin-top:auto pushes to bottom */
+.dfoot { display: flex; align-items: flex-start; justify-content: space-between; margin-top: auto; }
+.dprov { font-size: 10.5px; color: var(--t3); }
+.dprov .ai { color: var(--blue); font-weight: 500; }
+
+.tavs { display: flex; }
+.tav {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7.5px; font-weight: 700;
+}
+.tav:not(:first-child) { margin-left: -6px; }
+
+/* ═══════════════════════════════════════════
+   RIGHT COLUMN
+═══════════════════════════════════════════ */
+.rcard {
+  border-radius: 10px;
+  padding: 13px 14px;
+  margin-bottom: 10px;
+  border: 1px solid;
+}
+.rcard.rd { background: #FFF8F8; border-color: var(--rbdr); }
+.rcard.ra { background: #FFFCF4; border-color: var(--abdr); }
+.rch { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+.rcd { width: 7px; height: 7px; border-radius: 50%; }
+.rct { font-size: 12.5px; font-weight: 600; color: var(--t); }
+.rctxt { font-size: 12px; color: var(--t2); line-height: 1.5; margin-bottom: 6px; }
+.rcf { display: flex; align-items: center; justify-content: space-between; }
+.rcsrc { font-size: 10.5px; color: var(--t3); }
+
+/* Activity legend */
+.leg { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 12px; margin-bottom: 12px; }
+.li { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--t3); }
+.ld { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* Activity feed */
+.fi { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--bd); }
+.fi:last-child { border-bottom: none; }
+.fst { display: flex; flex-direction: column; align-items: center; }
+.fd { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+.fc { width: 1px; background: var(--bd); flex: 1; min-height: 6px; margin-top: 3px; }
+.fd-b { background: var(--blue); }
+.fd-r { background: var(--red); }
+.fd-a { background: var(--amber); }
+.fd-g { background: var(--green); }
+.ftxt { font-size: 12px; color: var(--t2); line-height: 1.45; flex: 1; }
+.ftxt strong { color: var(--t); font-weight: 600; }
+.ftime { font-size: 10.5px; color: var(--t3); margin-top: 2px; }
+
+/* Right col section divider — padding only, no border-top */
+.rc-div { padding-top: 14px; margin-top: 6px; }
+
+/* Activity collapse link */
+.act-link {
+  font-size: 11.5px; font-weight: 500;
+  color: var(--blue);
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: color .15s;
+}
+.act-link:hover { color: var(--blue2); text-decoration: underline; }
+
+/* ═══════════════════════════════════════════
+   TASKS
+═══════════════════════════════════════════ */
+.tarea { padding: 16px 24px 24px; border-top: 1px solid var(--bd); }
+
+.ttabs { display: flex; border-bottom: 1px solid var(--bd); margin-bottom: 14px; }
+.ttab {
+  padding: 9px 16px;
+  font-size: 12.5px; font-weight: 500;
+  color: var(--t3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  transition: color .15s;
+}
+.ttab.on { color: var(--blue); border-bottom-color: var(--blue); }
+.ttab:hover:not(.on) { color: var(--t2); }
+/* No styled .tcnt badge — count is inline text */
+
+.trow {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bd);
+}
+.trow:last-child { border-bottom: none; }
+.trow.prop {
+  border: 1px solid var(--abdr);
+  border-left: 3px solid var(--amber);
+  border-radius: 8px;
+  padding: 11px 13px;
+  margin-bottom: 8px;
+  background: #FFFCF4;
+}
+.trow.done { opacity: .35; }
+
+.tchk {
+  width: 15px; height: 15px;
+  border-radius: 4px;
+  border: 1.5px solid var(--bd2);
+  flex-shrink: 0; margin-top: 1px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.tchk:hover { border-color: var(--blue); }
+.tchk.ck { background: var(--green); border-color: var(--green); }
+.tchk.ck::after { content: '✓'; display: block; color: white; font-size: 9px; font-weight: 700; text-align: center; line-height: 12px; }
+
+.tbody { flex: 1; }
+.ttit { font-size: 13px; font-weight: 500; color: var(--t); margin-bottom: 5px; line-height: 1.4; }
+.tmeta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tpri {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 8px;
+  letter-spacing: .2px;
+}
+.tp-c { background: var(--rdim); color: var(--red); }
+.tp-h { background: var(--rdim); color: var(--red); }
+.tp-m { background: var(--adim); color: var(--amber); }
+.tp-l { background: var(--bdim); color: var(--blue); }
+.tsrc { font-size: 11px; color: var(--blue); font-weight: 500; }
+.tdue { font-size: 11px; color: var(--t3); }
+.tplbl {
+  font-size: 10px; font-weight: 700;
+  background: var(--adim); color: var(--amber);
+  padding: 2px 7px; border-radius: 8px;
+}
+
+.tbtns { display: flex; gap: 7px; margin-top: 9px; }
+.tcfb {
+  padding: 5px 13px; border-radius: 8px;
+  font-size: 11.5px; font-weight: 600;
+  cursor: pointer;
+  background: var(--blue); border: none;
+  color: white; font-family: inherit;
+  transition: background .15s;
+}
+.tcfb:hover { background: var(--blue2); }
+.tdmb {
+  padding: 5px 13px; border-radius: 8px;
+  font-size: 11.5px; font-weight: 500;
+  cursor: pointer;
+  background: transparent; border: 1px solid var(--bd2);
+  color: var(--t3); font-family: inherit;
+  transition: all .15s;
+}
+.tdmb:hover { background: var(--bg4); color: var(--t2); }
+.tsuc { font-size: 11.5px; color: var(--green); font-weight: 500; margin-top: 5px; display: none; }
+
+/* ═══════════════════════════════════════════
+   PAGE HEADERS
+═══════════════════════════════════════════ */
+#pg-deals  { display: none; padding: 28px 28px; }
+#pg-intel  { display: none; padding: 28px 28px; }
+.ptit { font-size: 22px; font-weight: 600; color: var(--t); margin-bottom: 4px; letter-spacing: -.4px; }
+.psub { font-size: 13px; color: var(--t3); margin-bottom: 22px; }
+
+/* ═══════════════════════════════════════════
+   DEALS TABLE
+═══════════════════════════════════════════ */
+.dtbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.dtbl th {
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--t3);
+  text-align: left; padding: 10px 14px;
+  border-bottom: 1px solid var(--bd);
+  background: var(--bg5);
+}
+.dtbl td {
+  font-size: 12.5px; color: var(--t2);
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--bd);
+  vertical-align: middle;
+}
+.drow { cursor: pointer; transition: background .12s; }
+.drow:hover td { background: var(--bg4); }
+.drow-name { font-size: 13px; font-weight: 600; color: var(--t); }
+.row-r td:first-child { border-left: 3px solid var(--red); }
+.row-a td:first-child { border-left: 3px solid var(--amber); }
+.row-g td:first-child { border-left: 3px solid var(--green); }
+.row-b td:first-child { border-left: 3px solid var(--blue); }
+
+/* ═══════════════════════════════════════════
+   INTELLIGENCE PAGE
+═══════════════════════════════════════════ */
+.sgrid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 22px; }
+.sc {
+  background: var(--bg3); border: 1px solid var(--bd);
+  border-radius: 10px; padding: 16px 18px;
+}
+.sc-lbl { font-size: 11.5px; color: var(--t3); margin-bottom: 6px; font-weight: 500; }
+.sc-val { font-size: 28px; font-weight: 600; color: var(--t); letter-spacing: -.5px; }
+.sc-sub { font-size: 11.5px; color: var(--t3); margin-top: 3px; }
+
+.igrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic {
+  background: var(--bg3); border: 1px solid var(--bd);
+  border-radius: 10px; padding: 16px 18px;
+}
+.ic-tit { font-size: 13px; font-weight: 600; color: var(--t); margin-bottom: 14px; }
+.cbr { margin-bottom: 10px; }
+.cbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--t2); margin-bottom: 5px; }
+.cbtr { height: 6px; background: var(--bg4); border-radius: 3px; overflow: hidden; border: 1px solid var(--bd); }
+.cbf { height: 6px; border-radius: 3px; }
+
+/* ═══════════════════════════════════════════
+   DEAL DETAIL OVERLAY
+═══════════════════════════════════════════ */
+#dm {
+  display: none;
+  position: fixed; inset: 0; z-index: 200;
+  background: #E8E5DF;
+  overflow-y: auto;
+}
+#dm.open { display: block; animation: slin .22s ease; }
+@keyframes slin { from{transform:translateX(32px);opacity:0} to{transform:translateX(0);opacity:1} }
+
+.dmhdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 28px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--bd);
+  position: sticky; top: 0; z-index: 2;
+  box-shadow: var(--sh-xs);
+  flex-wrap: wrap; gap: 10px;
+}
+.dmback {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; font-weight: 500;
+  color: var(--t3);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--bd);
+  font-family: inherit;
+  transition: all .15s;
+}
+.dmback:hover { background: var(--bg4); color: var(--t); }
+.dmback svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.dmtw { display: flex; align-items: center; gap: 12px; }
+.dmname { font-size: 18px; font-weight: 600; color: var(--t); letter-spacing: -.3px; }
+
+.dmbody {
+  padding: 24px 28px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  max-width: 1200px; margin: 0 auto;
+}
+.dmain { display: flex; flex-direction: column; gap: 16px; }
+.daside { display: flex; flex-direction: column; gap: 14px; }
+
+.dmsec {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.dmsect {
+  font-size: 10px; font-weight: 700;
+  color: var(--t3); letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 14px;
+}
+
+.dmmetag { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.dmmv { background: var(--bg4); border-radius: 8px; padding: 9px 12px; border: 1px solid var(--bd); }
+.dmml { font-size: 10.5px; color: var(--t3); margin-bottom: 3px; font-weight: 500; }
+.dmmval { font-size: 13px; font-weight: 600; color: var(--t); }
+
+.dmtrow {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 9px 0; border-bottom: 1px solid var(--bd);
+}
+.dmtrow:last-child { border-bottom: none; }
+.dmtchk {
+  width: 14px; height: 14px; border-radius: 4px;
+  border: 1.5px solid var(--bd2); flex-shrink: 0; margin-top: 2px; cursor: pointer;
+}
+
+.dmhist { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--bd); }
+.dmhist:last-child { border-bottom: none; }
+.dmhst { display: flex; flex-direction: column; align-items: center; }
+.dmhdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+.dmhc { width: 1px; background: var(--bd); flex: 1; min-height: 6px; margin-top: 3px; }
+
+/* ═══════════════════════════════════════════
+   DRAFT MODAL
+═══════════════════════════════════════════ */
+#dftm {
+  display: none;
+  position: fixed; inset: 0; z-index: 250;
+  background: rgba(14,17,23,.45);
+  backdrop-filter: blur(4px);
+  align-items: flex-start; justify-content: center;
+  padding-top: 52px;
+}
+#dftm.open { display: flex; animation: fadeIn .18s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+.dftc {
+  background: var(--bg3);
+  border: 1px solid var(--bd);
+  border-radius: 16px;
+  width: 580px; max-width: calc(100% - 32px);
+  overflow: hidden;
+  box-shadow: var(--sh-lg);
+}
+.dfth {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--bd);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg5);
+}
+.dfttit { font-size: 14px; font-weight: 600; color: var(--t); letter-spacing: -.2px; }
+.dftx {
+  width: 26px; height: 26px; border-radius: 6px;
+  background: transparent; border: 1px solid var(--bd);
+  cursor: pointer; color: var(--t3); font-size: 16px;
+  line-height: 24px; text-align: center; font-family: inherit;
+  transition: all .15s;
+}
+.dftx:hover { background: var(--bg4); color: var(--t); }
+
+.dftn {
+  padding: 10px 20px;
+  background: var(--adim);
+  border-bottom: 1px solid var(--abdr);
+  font-size: 11.5px; color: var(--amber); font-weight: 500;
+}
+.dftb { padding: 16px 20px; }
+.dftl { font-size: 11px; font-weight: 600; color: var(--t3); margin-bottom: 7px; letter-spacing: .5px; text-transform: uppercase; }
+.dftsp {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px; color: var(--t3); padding: 14px 0;
+}
+.dftta {
+  width: 100%;
+  background: var(--bg5);
+  border: 1px solid var(--bd);
+  border-radius: 9px;
+  padding: 12px 14px;
+  font-size: 13px; color: var(--t); font-family: inherit;
+  line-height: 1.65; resize: vertical; outline: none;
+  min-height: 170px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.dftta:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(29,95,168,.1); }
+.dftf {
+  padding: 13px 20px;
+  border-top: 1px solid var(--bd);
+  display: flex; gap: 9px; align-items: center;
+  background: var(--bg5);
+}
+.dftcp {
+  padding: 8px 16px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 600;
+  background: var(--blue); border: none;
+  color: white; cursor: pointer; font-family: inherit;
+  transition: background .15s;
+}
+.dftcp:hover { background: var(--blue2); }
+.dftdm {
+  padding: 8px 14px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 500;
+  background: transparent; border: 1px solid var(--bd2);
+  color: var(--t3); cursor: pointer; font-family: inherit;
+  transition: all .15s;
+}
+.dftdm:hover { background: var(--bg4); color: var(--t2); }
+.dftok { font-size: 12px; color: var(--green); font-weight: 600; margin-right: auto; display: none; }
+
+/* ═══════════════════════════════════════════
+   MOBILE BAR
+═══════════════════════════════════════════ */
+.mobbar {
+  display: none;
+  background: var(--bg3);
+  border-top: 1px solid var(--bd);
+  padding: 10px 16px;
+  align-items: center; gap: 10px;
+  position: sticky; bottom: 0;
+  box-shadow: 0 -2px 8px rgba(14,17,23,.08);
+}
+.mobmic {
+  flex: 1; height: 48px;
+  border-radius: 11px;
+  background: var(--bdim);
+  border: 1.5px solid var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: var(--blue);
+}
+.mobmic svg { width: 16px; height: 16px; stroke: var(--blue); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.mobup {
+  width: 48px; height: 48px;
+  border-radius: 11px;
+  background: var(--bg5);
+  border: 1px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.mobup svg { width: 17px; height: 17px; stroke: var(--t2); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:900px){
+  .mg{grid-template-columns:1fr 256px}
+  .dcc{grid-template-columns:1fr 1fr}
+  .ppg{grid-template-columns:1fr 1fr}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .igrid{grid-template-columns:1fr}
+  .dmbody{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .npills{display:none}
+  .mg{grid-template-columns:1fr}
+  .lc{border-right:none}
+  .dg{grid-template-columns:1fr}
+  .dcc{grid-template-columns:1fr}
+  .ppg{grid-template-columns:1fr}
+  .igrid{grid-template-columns:1fr}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .cmd{display:none}
+  .mobbar{display:flex}
+  .dmbody{padding:16px}
+  .dmmetag{grid-template-columns:1fr}
+  .dftc{width:calc(100% - 24px)}
+  .dmhdr{padding:12px 16px}
+  #pg-deals,#pg-intel{padding:18px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="shell" id="shell">
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="logo">
+    <div class="lmark">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <!-- Bridge arch -->
+        <path d="M1 11 Q8 2 15 11" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Bridge deck -->
+        <line x1="1" y1="11" x2="15" y2="11" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Suspension cables -->
+        <line x1="4.5" y1="6.5" x2="4.5" y2="11" stroke="white" stroke-width="0.9"/>
+        <line x1="8" y1="3.5" x2="8" y2="11" stroke="white" stroke-width="0.9"/>
+        <line x1="11.5" y1="6.5" x2="11.5" y2="11" stroke="white" stroke-width="0.9"/>
+      </svg>
+    </div>
+    <div class="lname">4<em>Bridges</em> AI</div>
+  </div>
+  <div class="npills">
+    <div class="np on" id="nav-db"    onclick="gp('db')">Dashboard</div>
+    <div class="np"    id="nav-deals" onclick="gp('deals')">Deals</div>
+    <div class="np"    id="nav-tasks" onclick="gp('db');stab('t')">Tasks</div>
+    <div class="np"    id="nav-intel" onclick="gp('intel')">Intelligence</div>
+  </div>
+  <div class="nright">
+    <div class="pbadge" id="pbadge" onclick="togglePP()">
+      <div class="pdot" id="pdot"></div>
+      <span id="pctxt">3 pending</span>
+    </div>
+    <div class="avs">
+      <div class="av" style="background:var(--bdim);color:var(--blue)"   title="Rohan Kapoor — Partner">RK</div>
+      <div class="av" style="background:var(--pdim);color:var(--purple)" title="Anika Singh — Associate">AS</div>
+      <div class="av" style="background:var(--gdim);color:var(--green)"  title="Priya Mehta — Analyst">PM</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ PENDING PANEL ═══ -->
+<div class="ppanel" id="ppanel">
+  <div class="pph">Pending AI updates — review before applying</div>
+  <div class="ppg">
+    <div class="ppi" id="pp1">
+      <div style="width:7px;height:7px;border-radius:50%;background:var(--red);margin-bottom:7px"></div>
+      <div style="font-size:12.5px;font-weight:600;color:var(--t);margin-bottom:3px">Orion stage → At Risk</div>
+      <div style="font-size:11.5px;color:var(--t3);line-height:1.5">Inferred from call · Apr 7 · High confidence · Direct quote at 12:34</div>
+      <div class="ppacts">
+        <button class="ppbtn y" onclick="cfPP('pp1','Orion At Risk confirmed — deal card updated')">Confirm</button>
+        <button class="ppbtn n" onclick="dmPP('pp1')">Dismiss</button>
+      </div>
+    </div>
+    <div class="ppi" id="pp2">
+      <div style="width:7px;height:7px;border-radius:50%;background:var(--amber);margin-bottom:7px"></div>
+      <div style="font-size:12.5px;font-weight:600;color:var(--t);margin-bottom:3px">Atlas milestone +3 days</div>
+      <div style="font-size:11.5px;color:var(--t3);line-height:1.5">From client email · Apr 8 · AI inferred · Verify recommended</div>
+      <div class="ppacts">
+        <button class="ppbtn y" onclick="cfPP('pp2','Atlas delay confirmed — timeline updated')">Confirm</button>
+        <button class="ppbtn n" onclick="dmPP('pp2')">Dismiss</button>
+      </div>
+    </div>
+    <div class="ppi" id="pp3">
+      <div style="width:7px;height:7px;border-radius:50%;background:var(--blue);margin-bottom:7px"></div>
+      <div style="font-size:12.5px;font-weight:600;color:var(--t);margin-bottom:3px">Meridian — 2 new tasks</div>
+      <div style="font-size:11.5px;color:var(--t3);line-height:1.5">From partner notes · Apr 7 · Direct extract · High confidence</div>
+      <div class="ppacts">
+        <button class="ppbtn y" onclick="cfPP('pp3','Meridian tasks added to task list')">Confirm</button>
+        <button class="ppbtn n" onclick="dmPP('pp3')">Dismiss</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE: DASHBOARD ═══ -->
+<div id="pg-db">
+
+  <!-- AI COMMAND CENTER — flat white, no gradient, no pulsing dot -->
+  <div class="cmd">
+    <div class="cmdlbl">Speak, ask, or update</div>
+    <div class="cmdr">
+      <div class="vbtn" id="vbtn" onclick="toggleVoice()" title="Click to speak">
+        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+      </div>
+      <div class="cin">
+        <div class="wwrap" id="wv"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div></div>
+        <input type="text" id="cfi" placeholder="Speak, type, or upload — 'What needs attention?' · 'Update Orion after call' · 'Summarize risks'" onkeydown="if(event.key==='Enter')sendQuery()" />
+      </div>
+      <div class="ubtn" id="ubtn" onclick="document.getElementById('fi').click()" title="Upload recording or document">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <input type="file" id="fi" style="display:none" accept="audio/*,.pdf,.txt" onchange="handleUpload(this)"/>
+      <div class="sbtn" id="sbtn" onclick="sendQuery()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </div>
+    </div>
+    <!-- 3 chips only -->
+    <div class="chips">
+      <div class="chip" onclick="rc('What needs my attention today?')">What needs attention?</div>
+      <div class="chip" onclick="rc('Summarize all risks across deals')">Summarize risks</div>
+      <div class="chip" onclick="rc('Meridian close checklist')">Meridian checklist</div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK BAR -->
+  <div class="fb" id="fb"></div>
+
+  <!-- AI CHANGES PANEL — collapsed bar by default -->
+  <div class="chp-bar" id="chp-bar" onclick="expandChp()">
+    <div class="chp-bartxt">AI proposed 3 changes</div>
+    <span class="chp-barlink">Review →</span>
+  </div>
+
+  <!-- Expanded AI Changes Panel — hidden by default -->
+  <div class="chp" id="chp">
+    <div class="chph">
+      <div class="chptit">3 proposed changes — confirm to apply to system</div>
+      <button class="chp-collapse" onclick="collapseChp()">Collapse ↑</button>
+    </div>
+    <div class="chi" id="ch1">
+      <div style="flex:1">
+        <div class="ctp ct-t">New Task</div>
+        <div class="ctxt">Submit SEBI disclosure form to legal counsel before Friday term sheet</div>
+        <div class="cconf"><div class="cdot2" style="background:var(--green)"></div>High confidence · Direct quote at 12:34 — "we need the SEBI form before Friday"</div>
+      </div>
+      <div class="cbtns"><button class="cbtn y" onclick="cfCh('ch1','task')">Confirm</button><button class="cbtn n" onclick="dmCh('ch1')">Dismiss</button></div>
+    </div>
+    <div class="chi" id="ch2">
+      <div style="flex:1">
+        <div class="ctp ct-r">Risk Flagged</div>
+        <div class="ctxt">Promoter lock-in structure ambiguous — may delay regulatory approval</div>
+        <div class="cconf"><div class="cdot2" style="background:var(--amber)"></div>AI inferred · Discussed at 18:50, not explicitly resolved — verify before escalating</div>
+      </div>
+      <div class="cbtns"><button class="cbtn y" onclick="cfCh('ch2','risk')">Confirm</button><button class="cbtn n" onclick="dmCh('ch2')">Dismiss</button></div>
+    </div>
+    <div class="chi" id="ch3">
+      <div style="flex:1">
+        <div class="ctp ct-s">Stage Update</div>
+        <div class="ctxt">Orion moves Structuring → Documentation (client confirmed readiness at 28:12)</div>
+        <div class="cconf"><div class="cdot2" style="background:var(--green)"></div>High confidence · Explicit client confirmation on record</div>
+      </div>
+      <div class="cbtns"><button class="cbtn y" onclick="cfCh('ch3','stage')">Confirm</button><button class="cbtn n" onclick="dmCh('ch3')">Dismiss</button></div>
+    </div>
+  </div>
+
+  <!-- DECISION STRIP — white background -->
+  <div class="dstrip">
+    <div class="dsh">
+      <div class="dslbl"><div class="dsn" id="dsn">3</div>Decisions required now</div>
+      <div style="font-size:11px;color:var(--t3)">Updated 8 min ago</div>
+    </div>
+    <div class="dcc">
+      <div class="dc crit" id="dc1">
+        <div class="dbadge db-r">Critical · Compliance</div>
+        <div class="dtit">Orion — SEBI disclosure gap</div>
+        <div class="dsub">Missing promoter lock-in form. Term sheet submission blocked until filed with counsel.</div>
+        <button class="dact da-r" onclick="actDC('dc1','Orion SEBI docs submitted to legal counsel — deal status updated','deal-orion',false)">Submit to legal counsel</button>
+        <div class="ddl">Deadline: <span style="color:var(--red);font-weight:600">Friday, Apr 10 · 2 days</span></div>
+      </div>
+      <div class="dc warn" id="dc2">
+        <div class="dbadge db-a">Attention · Timeline</div>
+        <div class="dtit">Atlas — client update overdue</div>
+        <div class="dsub">Karan Johar awaiting revised milestone plan. No response sent in 18 hours.</div>
+        <button class="dact da-a" onclick="actDC('dc2','Drafting Atlas timeline update for Karan Johar…','deal-atlas',true)">Draft timeline update</button>
+        <div class="ddl">Deadline: <span style="color:var(--amber);font-weight:600">Today EOD</span></div>
+      </div>
+      <div class="dc" id="dc3">
+        <div class="dbadge db-b">Review · Closing</div>
+        <div class="dtit">Meridian — final sign-off</div>
+        <div class="dsub">All close conditions satisfied. Partner signature is the only remaining gate.</div>
+        <button class="dact da-b" onclick="actDC('dc3','Opening Meridian term sheet for partner review','deal-meridian',false)">Review term sheet</button>
+        <div class="ddl">Deadline: <span style="color:var(--t2);font-weight:500">Apr 10</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="mg">
+    <div class="lc">
+
+      <!-- BRIEFING — plain text, no card container -->
+      <div class="brief-wrap">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div class="sl-primary">AI Briefing</div>
+          <div class="brief-meta">
+            <span class="aitag">Generated 8:42 AM · Wed Apr 8</span>
+            <span style="font-size:11px;color:var(--t3)">4 active deals · $230M</span>
+          </div>
+        </div>
+        <div class="btxt">
+          <strong>2 deals require action before EOD.</strong> Orion faces a compliance block — SEBI disclosure form missing, confirmed from yesterday's call at 12:34. Atlas is 3 days behind schedule; Karan expects a revised plan today. <strong>Meridian Capital</strong> close conditions fully satisfied — partner signature is the last gate. Vega remains in early origination, no blockers.
+        </div>
+        <div class="bpills">
+          <div class="bp bp-r">2 risks active</div>
+          <div class="bp bp-a">1 deadline today</div>
+          <div class="bp bp-g">Meridian closing</div>
+        </div>
+      </div>
+
+      <!-- DEALS — no daction chips, no shadow, no bg tint -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="sl-primary">Live Deal State</div>
+          <div style="font-size:12px;color:var(--blue);font-weight:500;cursor:pointer" onclick="gp('deals')">View pipeline →</div>
+        </div>
+        <div class="dg">
+
+          <div class="deal risk" id="deal-orion" onclick="openDeal('orion')">
+            <div class="dh"><div class="dn">Project Orion</div><div class="dst st-r" id="ost">At Risk</div></div>
+            <div class="dval">$48M</div>
+            <div class="dmeta">Series B · PE Mandate</div>
+            <div class="snames"><div class="sn">Orig</div><div class="sn">Due Dil</div><div class="sn cur">Struct</div><div class="sn">Docs</div><div class="sn">Close</div></div>
+            <div class="strack" id="otr"><div class="ss dr"></div><div class="ss dr"></div><div class="ss dr"></div><div class="ss"></div><div class="ss"></div></div>
+            <div class="dfoot">
+              <div class="dprov"><span class="ai">Via call recording</span> · 2h ago</div>
+              <div class="tavs"><div class="tav" style="background:var(--bdim);color:var(--blue)">RK</div><div class="tav" style="background:var(--pdim);color:var(--purple)">AS</div></div>
+            </div>
+          </div>
+
+          <div class="deal delayed" id="deal-atlas" onclick="openDeal('atlas')">
+            <div class="dh"><div class="dn">Project Atlas</div><div class="dst st-d">Delayed</div></div>
+            <div class="dval">$120M</div>
+            <div class="dmeta">M&amp;A Advisory · Sell-Side</div>
+            <div class="snames"><div class="sn">Orig</div><div class="sn">Due Dil</div><div class="sn cur">Struct</div><div class="sn">Docs</div><div class="sn">Close</div></div>
+            <div class="strack"><div class="ss da"></div><div class="ss da"></div><div class="ss da"></div><div class="ss"></div><div class="ss"></div></div>
+            <div class="dfoot">
+              <div class="dprov"><span class="ai">AI updated</span> · 5h ago</div>
+              <div class="tavs"><div class="tav" style="background:var(--bdim);color:var(--blue)">KJ</div><div class="tav" style="background:var(--gdim);color:var(--green)">PM</div></div>
+            </div>
+          </div>
+
+          <div class="deal" id="deal-meridian" onclick="openDeal('meridian')">
+            <div class="dh"><div class="dn">Meridian Capital</div><div class="dst st-c">Closing</div></div>
+            <div class="dval">$35M</div>
+            <div class="dmeta">Debt Restructure · Buy-Side</div>
+            <div class="snames"><div class="sn">Orig</div><div class="sn">Due Dil</div><div class="sn">Struct</div><div class="sn">Docs</div><div class="sn cur">Close</div></div>
+            <div class="strack"><div class="ss dg2"></div><div class="ss dg2"></div><div class="ss dg2"></div><div class="ss dg2"></div><div class="ss dg2"></div></div>
+            <div class="dfoot">
+              <div class="dprov" id="mprov"><span class="ai">Via transcript</span> · 1d ago</div>
+              <div class="tavs"><div class="tav" style="background:var(--bdim);color:var(--blue)">RK</div><div class="tav" style="background:var(--pdim);color:var(--purple)">AS</div><div class="tav" style="background:var(--gdim);color:var(--green)">PM</div></div>
+            </div>
+          </div>
+
+          <div class="deal" id="deal-vega" onclick="openDeal('vega')">
+            <div class="dh"><div class="dn">Project Vega</div><div class="dst st-a">Active</div></div>
+            <div class="dval">$27M</div>
+            <div class="dmeta">Growth Equity · Co-Invest</div>
+            <div class="snames"><div class="sn">Orig</div><div class="sn cur">Due Dil</div><div class="sn">Struct</div><div class="sn">Docs</div><div class="sn">Close</div></div>
+            <div class="strack"><div class="ss db"></div><div class="ss db"></div><div class="ss"></div><div class="ss"></div><div class="ss"></div></div>
+            <div class="dfoot">
+              <div class="dprov" id="vprov">Manual update · 3d ago</div>
+              <div class="tavs"><div class="tav" style="background:var(--pdim);color:var(--purple)">AS</div><div class="tav" style="background:var(--bdim);color:var(--blue)">KJ</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="rc">
+      <div class="sl-primary" style="margin-bottom:10px">Risk Alerts</div>
+      <div class="rcard rd">
+        <div class="rch"><div class="rcd" style="background:var(--red)"></div><div class="rct">Compliance gap · Orion</div></div>
+        <div class="rctxt">Missing SEBI disclosure form for promoter lock-in. Term sheet blocked until filed with counsel.</div>
+        <div style="font-size:10.5px;color:var(--green);font-weight:500">Transcript · Apr 7 · High conf</div>
+      </div>
+      <div class="rcard ra">
+        <div class="rch"><div class="rcd" style="background:var(--amber)"></div><div class="rct">Communication gap · Atlas</div></div>
+        <div class="rctxt">3-day delay confirmed. Buyer contact not updated. Relationship risk accumulating.</div>
+        <div style="font-size:10.5px;color:var(--amber);font-weight:500">AI analysis · Apr 8 · AI inferred</div>
+      </div>
+
+      <!-- Activity — collapsed by default, padding-only divider -->
+      <div class="rc-div">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="slbl">Activity</div>
+          <span class="act-link" id="act-link" onclick="toggleActivity()">View activity →</span>
+        </div>
+        <div id="act-feed" style="display:none">
+          <div class="fi"><div class="fst"><div class="fd fd-b" title="AI action"></div><div class="fc"></div></div><div><div class="ftxt"><strong>AI created 3 tasks</strong> from Orion call recording</div><div class="ftime">Today · 8:40 AM</div></div></div>
+          <div class="fi"><div class="fst"><div class="fd fd-r" title="Risk flagged"></div><div class="fc"></div></div><div><div class="ftxt"><strong>Risk flagged</strong> — Orion compliance gap</div><div class="ftime">Today · 8:40 AM</div></div></div>
+          <div class="fi"><div class="fst"><div class="fd fd-a" title="Delay / attention"></div><div class="fc"></div></div><div><div class="ftxt"><strong>Karan</strong> updated Atlas → Delayed</div><div class="ftime">Yesterday · 6:18 PM</div></div></div>
+          <div class="fi"><div class="fst"><div class="fd fd-g" title="Positive event"></div><div class="fc"></div></div><div><div class="ftxt"><strong>Meridian</strong> conditions met — closing</div><div class="ftime">Yesterday · 3:05 PM</div></div></div>
+          <div class="fi"><div class="fst"><div class="fd fd-b" title="AI action"></div></div><div><div class="ftxt"><strong>AI summarised</strong> Vega founder intro</div><div class="ftime">Apr 6 · 11:30 AM</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end .mg -->
+
+  <!-- TASKS — inline count, no styled badge -->
+  <div class="tarea">
+    <div class="ttabs">
+      <div class="ttab on" id="ttab1" onclick="stab('t')">AI Tasks (4)</div>
+      <div class="ttab"    id="ttab2" onclick="stab('l')">AI Activity Log</div>
+    </div>
+    <div id="tab-t">
+      <div class="trow prop" id="tr1">
+        <div class="tchk" id="chk1"></div>
+        <div class="tbody">
+          <div class="ttit">Submit SEBI disclosure form to counsel — blocks Orion term sheet</div>
+          <div class="tmeta"><div class="tpri tp-c">Critical</div><div class="tplbl">AI proposed</div><div class="tsrc">Orion call · Apr 7 · 12:34</div><div class="tdue">Due: Today</div></div>
+          <div class="tbtns" id="tb1"><button class="tcfb" onclick="cfTask('tr1','tb1','ts1')">Confirm task</button><button class="tdmb" onclick="dmTask('tr1')">Dismiss</button></div>
+          <div class="tsuc" id="ts1">✓ Confirmed — added to Orion deal record</div>
+        </div>
+      </div>
+      <div class="trow prop" id="tr2">
+        <div class="tchk" id="chk2"></div>
+        <div class="tbody">
+          <div class="ttit">Send Karan Johar the revised Atlas project milestone plan</div>
+          <div class="tmeta"><div class="tpri tp-h">High</div><div class="tplbl">AI proposed</div><div class="tsrc">AI inferred · Atlas analysis</div><div class="tdue">Due: Today</div></div>
+          <div class="tbtns" id="tb2"><button class="tcfb" onclick="cfTask('tr2','tb2','ts2')">Confirm task</button><button class="tdmb" onclick="dmTask('tr2')">Dismiss</button></div>
+          <div class="tsuc" id="ts2">✓ Confirmed — added to Atlas deal record</div>
+        </div>
+      </div>
+      <div class="trow" id="tr3">
+        <div class="tchk" id="chk3" onclick="doneTask('tr3','chk3','deal-meridian','mprov','Task completed · just now')"></div>
+        <div class="tbody">
+          <div class="ttit">Prepare Meridian term sheet for partner sign-off</div>
+          <div class="tmeta"><div class="tpri tp-m">Medium</div><div class="tsrc">Partner notes · Apr 6</div><div class="tdue">Due: Apr 10</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--t3)"><div style="width:5px;height:5px;border-radius:50%;background:var(--green)"></div>High confidence</div></div>
+        </div>
+      </div>
+      <div class="trow" id="tr4">
+        <div class="tchk" id="chk4" onclick="doneTask('tr4','chk4','deal-vega','vprov','Kick-off scheduled · just now')"></div>
+        <div class="tbody">
+          <div class="ttit">Schedule kick-off call with Vega founders and co-investors</div>
+          <div class="tmeta"><div class="tpri tp-l">Normal</div><div class="tsrc">AI assigned · Vega</div><div class="tdue">Due: Apr 12</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--t3)"><div style="width:5px;height:5px;border-radius:50%;background:var(--amber)"></div>AI inferred</div></div>
+        </div>
+      </div>
+      <div id="newslot"></div>
+    </div>
+    <div id="tab-l" style="display:none;font-size:12.5px;color:var(--t3);line-height:1.75">
+      <div style="padding:9px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--blue);font-weight:600">AI</span> processed orion_client_call_apr7.mp3 (34 min) — extracted 3 tasks, 1 risk · <span style="color:var(--green);font-weight:500">High confidence</span> · Apr 7, 08:40</div>
+      <div style="padding:9px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--t2);font-weight:600">RK</span> manually updated Meridian stage → Closing · Human-confirmed · Apr 7, 15:05</div>
+      <div style="padding:9px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--blue);font-weight:600">AI</span> inferred Atlas milestone delay from client email · <span style="color:var(--amber);font-weight:500">Medium confidence — verify recommended</span> · Apr 8, 08:15</div>
+      <div style="padding:9px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--blue);font-weight:600">AI</span> generated morning briefing from 4 deal states + 2 active risks · Apr 8, 08:42</div>
+      <div style="padding:9px 0"><span style="color:var(--t2);font-weight:600">AS</span> confirmed Orion stage proposal by AI · Human override: kept at Structuring · Apr 7, 16:30</div>
+    </div>
+  </div>
+
+</div><!-- end #pg-db -->
+
+<!-- ═══ PAGE: DEALS ═══ -->
+<div id="pg-deals">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+    <div class="ptit">Deal Pipeline</div>
+    <div style="font-size:12px;color:var(--t3);font-weight:500">$230M · 4 active mandates</div>
+  </div>
+  <div class="psub">Click any row to view full deal detail</div>
+  <table class="dtbl">
+    <colgroup><col style="width:20%"><col style="width:16%"><col style="width:9%"><col style="width:15%"><col style="width:10%"><col style="width:20%"><col style="width:10%"></colgroup>
+    <thead>
+      <tr><th>Deal</th><th>Type</th><th>Value</th><th>Stage</th><th>Risk</th><th>Last AI Update</th><th>Team</th></tr>
+    </thead>
+    <tbody>
+      <tr class="drow row-r" onclick="openDeal('orion')">
+        <td><div class="drow-name">Project Orion</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Series B · PE Mandate</div></td>
+        <td style="color:var(--t2)">Private Equity</td>
+        <td style="color:var(--t);font-weight:600">$48M</td>
+        <td><span class="dst st-r" id="orion-tbl-st">At Risk</span><div style="font-size:10.5px;color:var(--t3);margin-top:3px">Structuring</div></td>
+        <td><span class="dst st-r" style="font-size:10px">2 risks</span></td>
+        <td><span style="color:var(--blue);font-size:11.5px;font-weight:500">Via call recording</span><div style="font-size:10.5px;color:var(--t3);margin-top:2px">Apr 7 · High conf</div></td>
+        <td><div class="tavs"><div class="tav" style="background:var(--bdim);color:var(--blue)">RK</div><div class="tav" style="background:var(--pdim);color:var(--purple)">AS</div></div></td>
+      </tr>
+      <tr class="drow row-a" onclick="openDeal('atlas')">
+        <td><div class="drow-name">Project Atlas</div><div style="font-size:11px;color:var(--t3);margin-top:2px">M&amp;A · Sell-Side</div></td>
+        <td style="color:var(--t2)">M&amp;A Advisory</td>
+        <td style="color:var(--t);font-weight:600">$120M</td>
+        <td><span class="dst st-d">Delayed</span><div style="font-size:10.5px;color:var(--t3);margin-top:3px">Structuring</div></td>
+        <td><span class="dst st-d" style="font-size:10px">1 risk</span></td>
+        <td><span style="color:var(--blue);font-size:11.5px;font-weight:500">AI analysis</span><div style="font-size:10.5px;color:var(--t3);margin-top:2px">Apr 8 · Medium conf</div></td>
+        <td><div class="tavs"><div class="tav" style="background:var(--bdim);color:var(--blue)">KJ</div><div class="tav" style="background:var(--gdim);color:var(--green)">PM</div></div></td>
+      </tr>
+      <tr class="drow row-g" onclick="openDeal('meridian')">
+        <td><div class="drow-name">Meridian Capital</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Debt · Buy-Side</div></td>
+        <td style="color:var(--t2)">Debt Restructure</td>
+        <td style="color:var(--t);font-weight:600">$35M</td>
+        <td><span class="dst st-c">Closing</span><div style="font-size:10.5px;color:var(--t3);margin-top:3px">Close stage</div></td>
+        <td><span style="font-size:11.5px;color:var(--green);font-weight:500">No risks</span></td>
+        <td><span style="color:var(--blue);font-size:11.5px;font-weight:500">Via transcript</span><div style="font-size:10.5px;color:var(--t3);margin-top:2px">Apr 7 · High conf</div></td>
+        <td><div class="tavs"><div class="tav" style="background:var(--bdim);color:var(--blue)">RK</div><div class="tav" style="background:var(--pdim);color:var(--purple)">AS</div><div class="tav" style="background:var(--gdim);color:var(--green)">PM</div></div></td>
+      </tr>
+      <tr class="drow row-b" onclick="openDeal('vega')">
+        <td><div class="drow-name">Project Vega</div><div style="font-size:11px;color:var(--t3);margin-top:2px">Growth Equity · Co-Invest</div></td>
+        <td style="color:var(--t2)">Growth Equity</td>
+        <td style="color:var(--t);font-weight:600">$27M</td>
+        <td><span class="dst st-a">Active</span><div style="font-size:10.5px;color:var(--t3);margin-top:3px">Due Diligence</div></td>
+        <td><span style="font-size:11.5px;color:var(--t3)">No risks</span></td>
+        <td><span style="color:var(--t3);font-size:11.5px">Manual entry</span><div style="font-size:10.5px;color:var(--t3);margin-top:2px">Apr 5 · Human</div></td>
+        <td><div class="tavs"><div class="tav" style="background:var(--pdim);color:var(--purple)">AS</div><div class="tav" style="background:var(--bdim);color:var(--blue)">KJ</div></div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ PAGE: INTELLIGENCE ═══ -->
+<div id="pg-intel">
+  <div class="ptit">Intelligence</div>
+  <div class="psub">AI activity summary and portfolio insight — Apr 1–8, 2026</div>
+  <div class="sgrid">
+    <div class="sc"><div class="sc-lbl">Total pipeline value</div><div class="sc-val">$230M</div><div class="sc-sub">4 active deals</div></div>
+    <div class="sc"><div class="sc-lbl">AI actions this week</div><div class="sc-val">12</div><div class="sc-sub">6 confirmed by humans</div></div>
+    <div class="sc"><div class="sc-lbl">Risks detected</div><div class="sc-val" style="color:var(--amber)">4</div><div class="sc-sub">2 unresolved · 2 resolved</div></div>
+    <div class="sc"><div class="sc-lbl">Human-confirmed tasks</div><div class="sc-val" style="color:var(--green)">6</div><div class="sc-sub">3 pending review</div></div>
+  </div>
+  <div class="igrid">
+    <div class="ic">
+      <div class="ic-tit">AI Confidence Distribution</div>
+      <div class="cbr"><div class="cbl"><span>High confidence — direct quote</span><span style="color:var(--green);font-weight:600">7 · 58%</span></div><div class="cbtr"><div class="cbf" style="width:58%;background:var(--green)"></div></div></div>
+      <div class="cbr"><div class="cbl"><span>Medium confidence — AI inferred</span><span style="color:var(--amber);font-weight:600">4 · 33%</span></div><div class="cbtr"><div class="cbf" style="width:33%;background:var(--amber)"></div></div></div>
+      <div class="cbr" style="margin-bottom:0"><div class="cbl"><span>Human-entered manual</span><span style="color:var(--t3);font-weight:600">1 · 9%</span></div><div class="cbtr"><div class="cbf" style="width:9%;background:var(--t3)"></div></div></div>
+    </div>
+    <div class="ic">
+      <div class="ic-tit">Risk Frequency by Deal</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px"><div style="font-size:12.5px;color:var(--t2);width:120px;flex-shrink:0;font-weight:500">Project Orion</div><div style="flex:1;height:6px;background:var(--bg4);border-radius:3px;border:1px solid var(--bd)"><div style="width:100%;height:4px;border-radius:3px;background:var(--red);margin:0"></div></div><div style="font-size:11.5px;color:var(--red);width:20px;text-align:right;font-weight:600">2</div></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="font-size:12.5px;color:var(--t2);width:120px;flex-shrink:0;font-weight:500">Project Atlas</div><div style="flex:1;height:6px;background:var(--bg4);border-radius:3px;border:1px solid var(--bd)"><div style="width:50%;height:4px;border-radius:3px;background:var(--amber);margin:0"></div></div><div style="font-size:11.5px;color:var(--amber);width:20px;text-align:right;font-weight:600">1</div></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="font-size:12.5px;color:var(--t2);width:120px;flex-shrink:0;font-weight:500">Meridian Capital</div><div style="flex:1;height:6px;background:var(--bg4);border-radius:3px;border:1px solid var(--bd)"></div><div style="font-size:11.5px;color:var(--green);width:20px;text-align:right;font-weight:600">0</div></div>
+        <div style="display:flex;align-items:center;gap:12px"><div style="font-size:12.5px;color:var(--t2);width:120px;flex-shrink:0;font-weight:500">Project Vega</div><div style="flex:1;height:6px;background:var(--bg4);border-radius:3px;border:1px solid var(--bd)"></div><div style="font-size:11.5px;color:var(--green);width:20px;text-align:right;font-weight:600">0</div></div>
+      </div>
+    </div>
+    <div class="ic" style="grid-column:1/-1">
+      <div class="ic-tit">AI Activity Timeline — This Week</div>
+      <div class="fi"><div class="fst"><div class="fd fd-b"></div><div class="fc"></div></div><div><div class="ftxt"><strong>AI extracted 3 tasks + 1 risk</strong> from Orion call recording (34 min, high confidence)</div><div class="ftime">Apr 7 · 08:40</div></div></div>
+      <div class="fi"><div class="fst"><div class="fd fd-r"></div><div class="fc"></div></div><div><div class="ftxt"><strong>Risk flagged</strong> — Orion SEBI compliance gap (direct quote, high confidence)</div><div class="ftime">Apr 7 · 08:40</div></div></div>
+      <div class="fi"><div class="fst"><div class="fd fd-g"></div><div class="fc"></div></div><div><div class="ftxt"><strong>Meridian conditions confirmed</strong> — all 5 close conditions satisfied (high confidence)</div><div class="ftime">Apr 7 · 15:00</div></div></div>
+      <div class="fi"><div class="fst"><div class="fd fd-a"></div><div class="fc"></div></div><div><div class="ftxt"><strong>Atlas delay inferred</strong> from client email — medium confidence, human verification recommended</div><div class="ftime">Apr 8 · 08:15</div></div></div>
+      <div class="fi" style="border:none"><div class="fst"><div class="fd fd-b"></div></div><div><div class="ftxt"><strong>Morning briefing generated</strong> from 4 deal states, 2 risk alerts, 3 pending tasks</div><div class="ftime">Apr 8 · 08:42</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MOBILE BAR ═══ -->
+<div class="mobbar">
+  <div class="mobmic" onclick="toggleVoice()">
+    <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+    Speak an update
+  </div>
+  <div class="mobup" onclick="document.getElementById('fi').click()">
+    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+  </div>
+</div>
+
+<!-- ═══ DEAL DETAIL OVERLAY ═══ -->
+<div id="dm">
+  <div class="dmhdr">
+    <button class="dmback" onclick="closeDeal()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to dashboard</button>
+    <div class="dmtw"><div class="dmname" id="dm-n"></div><div class="dst" id="dm-st"></div></div>
+    <div style="font-size:12px;color:var(--t3)" id="dm-meta"></div>
+  </div>
+  <div class="dmbody">
+    <div class="dmain">
+      <div class="dmsec">
+        <div class="dmsect">Deal Stage</div>
+        <div class="snames" id="dm-sn"></div>
+        <div class="strack" id="dm-trk" style="margin-bottom:12px"></div>
+        <div class="dmmetag" id="dm-mg"></div>
+      </div>
+      <div class="dmsec"><div class="dmsect">Tasks</div><div id="dm-tk"></div></div>
+      <div class="dmsec" id="dm-rw"><div class="dmsect">Risk Log</div><div id="dm-rr"></div></div>
+    </div>
+    <div class="daside">
+      <div class="dmsec"><div class="dmsect">AI Update History</div><div id="dm-hist"></div></div>
+      <div class="dmsec">
+        <div class="dmsect">Assigned Team</div>
+        <div id="dm-team" style="display:flex;flex-direction:column;gap:10px;margin-bottom:12px"></div>
+        <div style="font-size:11.5px;color:var(--t3)" id="dm-key-dates"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DRAFT MODAL ═══ -->
+<div id="dftm">
+  <div class="dftc">
+    <div class="dfth">
+      <div class="dfttit" id="dft-tit">AI Draft — Atlas Timeline Update</div>
+      <button class="dftx" onclick="closeDraft()">×</button>
+    </div>
+    <div class="dftn">AI generated · Medium confidence · Review before sending · Based on deal state and client correspondence history</div>
+    <div class="dftb">
+      <div class="dftl">Draft email</div>
+      <div class="dftsp" id="dft-sp" style="display:none"><span class="pd"><span></span><span></span><span></span></span>&nbsp;AI is drafting…</div>
+      <textarea class="dftta" id="dft-ta" style="display:none"></textarea>
+    </div>
+    <div class="dftf">
+      <div class="dftok" id="dftok">✓ Copied to clipboard</div>
+      <button class="dftdm" onclick="closeDraft()">Dismiss</button>
+      <button class="dftcp" id="dftcp" onclick="copyDraft()" style="display:none">Copy to clipboard</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .shell -->
+
+<script>
+/* ─── DATA ─── */
+const DD = {
+  orion: {
+    name:'Project Orion', type:'Series B · PE Mandate · $48M', value:'$48M',
+    status:'At Risk', stc:'st-r', si:2,
+    sn:['Origination','Due Diligence','Structuring','Documentation','Close'], sc:'dr',
+    team:[{i:'RK',s:'var(--bdim)',c:'var(--blue)',name:'Rohan Kapoor',role:'Partner'},{i:'AS',s:'var(--pdim)',c:'var(--purple)',name:'Anika Singh',role:'Associate'}],
+    dl:'Friday, Apr 10', partner:'Rohan Kapoor', sector:'Technology',
+    tasks:[
+      {t:'Submit SEBI disclosure form to legal counsel before Friday term sheet',d:'Today',p:'Critical',s:'Orion call · Apr 7 · 12:34',c:'high'},
+      {t:'Prepare promoter lock-in structure memo for partner review',d:'Apr 9',p:'High',s:'AI inferred · Apr 8',c:'medium'},
+      {t:'Schedule follow-up with founder on board composition',d:'Apr 11',p:'Medium',s:'Manual · RK',c:'human'}
+    ],
+    risks:[
+      {t:'SEBI disclosure gap',d:'Promoter lock-in form missing — blocks term sheet submission',c:'High confidence · direct quote',tp:'rd'},
+      {t:'Promoter lock-in ambiguity',d:'Structure not clearly defined — may delay regulatory approval',c:'AI inferred · verify',tp:'ra'}
+    ],
+    hist:[
+      {t:'Today 8:40',x:'AI extracted 3 tasks + 1 risk from call recording (high confidence)',tp:'b'},
+      {t:'Apr 7 12:34',x:'Call transcript processed — compliance risk flagged via direct quote',tp:'r'},
+      {t:'Apr 7 10:00',x:'AS confirmed Orion stage at Structuring — human override retained',tp:'g'},
+      {t:'Apr 6',x:'Due diligence package submitted to fund, all docs signed',tp:'a'}
+    ]
+  },
+  atlas: {
+    name:'Project Atlas', type:'M&A Advisory · Sell-Side · $120M', value:'$120M',
+    status:'Delayed', stc:'st-d', si:2,
+    sn:['Origination','Due Diligence','Structuring','Documentation','Close'], sc:'da',
+    team:[{i:'KJ',s:'var(--bdim)',c:'var(--blue)',name:'Karan Johar',role:'Client Partner'},{i:'PM',s:'var(--gdim)',c:'var(--green)',name:'Priya Mehta',role:'Analyst'}],
+    dl:'Today EOD', partner:'Karan Johar', sector:'Industrial Manufacturing',
+    tasks:[
+      {t:'Send Karan Johar revised Atlas milestone plan',d:'Today',p:'High',s:'AI flagged · Apr 8',c:'medium'},
+      {t:'Align internal team on new Q2 timeline',d:'Apr 9',p:'Medium',s:'Manual · PM',c:'human'}
+    ],
+    risks:[
+      {t:'Communication gap',d:'18 hours without outreach to buyer contact — relationship risk accumulating daily',c:'AI inferred · verify',tp:'ra'}
+    ],
+    hist:[
+      {t:'Apr 8 9:00',x:'AI inferred 3-day delay from client email analysis (medium confidence)',tp:'a'},
+      {t:'Yesterday 6:18',x:'KJ manually updated deal stage to Delayed in system',tp:'g'},
+      {t:'Apr 6',x:'Buyer NDA signed — moved to structuring phase',tp:'b'}
+    ]
+  },
+  meridian: {
+    name:'Meridian Capital', type:'Debt Restructure · Buy-Side · $35M', value:'$35M',
+    status:'Closing', stc:'st-c', si:4,
+    sn:['Origination','Due Diligence','Structuring','Documentation','Close'], sc:'dg2',
+    team:[{i:'RK',s:'var(--bdim)',c:'var(--blue)',name:'Rohan Kapoor',role:'Partner'},{i:'AS',s:'var(--pdim)',c:'var(--purple)',name:'Anika Singh',role:'Associate'},{i:'PM',s:'var(--gdim)',c:'var(--green)',name:'Priya Mehta',role:'Analyst'}],
+    dl:'Apr 10', partner:'Rohan Kapoor', sector:'Financial Services',
+    tasks:[
+      {t:'Prepare term sheet for partner sign-off',d:'Apr 10',p:'Medium',s:'Partner notes · Apr 6',c:'high'},
+      {t:'Confirm escrow account structure with legal counsel',d:'Apr 10',p:'Medium',s:'AI extracted · Apr 7',c:'high'}
+    ],
+    risks:[],
+    hist:[
+      {t:'Apr 7',x:'All 5 close conditions confirmed satisfied — AI verified (high confidence)',tp:'g'},
+      {t:'Apr 7',x:'RK updated deal stage to Closing — human confirmed',tp:'g'},
+      {t:'Apr 5',x:'Final legal review completed and signed off by all parties',tp:'b'}
+    ]
+  },
+  vega: {
+    name:'Project Vega', type:'Growth Equity · Co-Invest · $27M', value:'$27M',
+    status:'Active', stc:'st-a', si:1,
+    sn:['Origination','Due Diligence','Structuring','Documentation','Close'], sc:'db',
+    team:[{i:'AS',s:'var(--pdim)',c:'var(--purple)',name:'Anika Singh',role:'Lead'},{i:'KJ',s:'var(--bdim)',c:'var(--blue)',name:'Karan Johar',role:'Advisor'}],
+    dl:'Apr 12', partner:'Anika Singh', sector:'FinTech / Payments',
+    tasks:[
+      {t:'Schedule kick-off call with Vega founders and co-investors',d:'Apr 12',p:'Normal',s:'AI assigned · Vega',c:'medium'},
+      {t:'Request co-investor term sheet from LP',d:'Apr 15',p:'Normal',s:'Manual · AS',c:'human'}
+    ],
+    risks:[],
+    hist:[
+      {t:'Apr 6',x:'AI summarised founder intro meeting — 3 key points extracted (medium confidence)',tp:'b'},
+      {t:'Apr 5',x:'AS initiated deal origination in system',tp:'g'}
+    ]
+  }
+};
+
+const DRAFTS = {
+  atlas: {
+    title: 'AI Draft — Atlas Timeline Update for Karan Johar',
+    body: `Dear Karan,\n\nFollowing our recent discussions, I wanted to update you on the revised Project Atlas milestone plan. We have incorporated a 3-day adjustment to the structuring phase to reflect the additional time required for the revised financial model review.\n\nThe updated Documentation phase is now scheduled to commence on April 14 (previously April 11). All other milestones remain aligned to the original close target, and we do not anticipate further slippage.\n\nI will have the revised data room updated by end of day. Please let me know if you would like to connect before then to walk through the timeline in detail.\n\nBest regards,\n[Partner Name]\n4Bridges Advisory`
+  },
+  orion: {
+    title: 'AI Draft — Orion Legal Counsel Submission Cover Note',
+    body: `Dear Legal Team,\n\nPlease find attached the SEBI disclosure documentation for Project Orion as discussed. This package includes the promoter lock-in structure forms and supporting annexures required for the term sheet submission.\n\nWe require this reviewed and filed by Friday, April 10 — two days from today — to keep the term sheet timeline on track.\n\nPlease confirm receipt and flag any gaps at your earliest convenience.\n\nRegards,\nRohan Kapoor\n4Bridges Advisory`
+  },
+  meridian: {
+    title: 'AI Draft — Meridian Capital Partner Sign-Off Request',
+    body: `Dear [Partner],\n\nAll close conditions for the Meridian Capital debt restructure have been satisfied as of April 7. The term sheet is ready for final sign-off.\n\nPlease review the attached term sheet and escrow structure confirmation. Your signature is the only remaining gate before we proceed to execution.\n\nThe target close date remains April 10.\n\nBest regards,\nRohan Kapoor\n4Bridges Advisory`
+  }
+};
+
+/* ─── STATE ─── */
+let pcount = 3, isRec = false, recTimer = null, propLeft = 2, dcCount = 3;
+const priCls  = p  => ({Critical:'tp-c',High:'tp-h',Medium:'tp-m',Normal:'tp-l'}[p]||'tp-l');
+const confDot = c  => c==='high'?'var(--green)':c==='medium'?'var(--amber)':'var(--t3)';
+const confLbl = c  => c==='high'?'High confidence':c==='medium'?'AI inferred — verify':'Human entry';
+const fdClr   = tp => ({b:'var(--blue)',r:'var(--red)',a:'var(--amber)',g:'var(--green)'}[tp]||'var(--t3)');
+
+/* ─── PAGE NAVIGATION ─── */
+function gp(name){
+  ['db','deals','intel'].forEach(p=>{const el=document.getElementById('pg-'+p);if(el)el.style.display='none';});
+  const t=document.getElementById('pg-'+name);
+  if(t){t.style.display='block';}
+  const map={db:'Dashboard',deals:'Deals',intel:'Intelligence'};
+  document.querySelectorAll('.np').forEach(n=>{
+    const txt=n.textContent.trim();
+    n.classList.toggle('on',txt===(map[name]||'')||(name==='db'&&txt==='Tasks'));
+  });
+  if(name==='db') document.getElementById('nav-db').classList.add('on');
+}
+
+/* ─── PENDING PANEL ─── */
+function togglePP(){
+  document.getElementById('ppanel').classList.toggle('open');
+}
+function cfPP(id,msg){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.add('gone');pcount--;updatePBadge();
+  showFB('<strong>✓ Confirmed:</strong> '+msg);
+}
+function dmPP(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.add('gone');pcount--;updatePBadge();
+}
+function updatePBadge(){
+  const badge=document.getElementById('pbadge'),txt=document.getElementById('pctxt');
+  if(pcount<=0){badge.classList.add('done');txt.textContent='All caught up';document.getElementById('ppanel').classList.remove('open');}
+  else{txt.textContent=pcount+' pending';}
+}
+
+/* ─── AI CHANGES PANEL — collapsible ─── */
+function expandChp(){
+  document.getElementById('chp').classList.add('open');
+  document.getElementById('chp-bar').style.borderRadius='10px 10px 0 0';
+}
+function collapseChp(){
+  document.getElementById('chp').classList.remove('open');
+  document.getElementById('chp-bar').style.borderRadius='10px';
+}
+function cfCh(id,type){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.add('gone');
+  if(type==='task'){showFB('<strong>✓ Task confirmed</strong> — added to Orion deal record and task list');}
+  else if(type==='risk'){showFB('<strong>✓ Risk confirmed</strong> — Orion risk log updated, flagged for partner review');}
+  else if(type==='stage'){
+    showFB('<strong>✓ Stage update confirmed</strong> — Orion advancing to Documentation phase');
+    const otr=document.getElementById('otr');
+    if(otr)otr.innerHTML='<div class="ss db"></div><div class="ss db"></div><div class="ss db"></div><div class="ss db"></div><div class="ss"></div>';
+    const ost=document.getElementById('ost');
+    if(ost){ost.textContent='Under Review';ost.className='dst st-rv';}
+    setTimeout(()=>flashEl('deal-orion'),400);
+  }
+}
+function dmCh(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.add('gone');showFB('Dismissed — item removed from proposed changes');
+}
+
+/* ─── DECISION CARDS ─── */
+function actDC(dcid,msg,dealId,isDraft){
+  const dc=document.getElementById(dcid);if(!dc)return;
+  dc.classList.add('gone');
+  dcCount=Math.max(0,dcCount-1);
+  document.getElementById('dsn').textContent=dcCount;
+  if(msg)showFB('<strong>Action taken:</strong> '+msg);
+  if(dealId==='deal-orion'){setTimeout(()=>{flashEl('deal-orion');const ost=document.getElementById('ost');if(ost){ost.textContent='Under Review';ost.className='dst st-rv';}const otr=document.getElementById('otr');if(otr)otr.innerHTML='<div class="ss db"></div><div class="ss db"></div><div class="ss db"></div><div class="ss db"></div><div class="ss"></div>';},700);}
+  if(dealId==='deal-meridian')setTimeout(()=>flashEl('deal-meridian'),700);
+  if(dealId==='deal-atlas')setTimeout(()=>flashEl('deal-atlas'),700);
+  if(isDraft){const draftKey=dealId.replace('deal-','');setTimeout(()=>openDraft(draftKey),800);}
+}
+
+/* ─── DEAL DETAIL OVERLAY ─── */
+function openDeal(id){
+  const d=DD[id];if(!d)return;
+  document.getElementById('dm-n').textContent=d.name;
+  const st=document.getElementById('dm-st');st.textContent=d.status;st.className='dst '+d.stc;
+  document.getElementById('dm-meta').textContent=d.type+' · Key date: '+d.dl;
+  const snEl=document.getElementById('dm-sn'),trEl=document.getElementById('dm-trk');
+  snEl.innerHTML='';trEl.innerHTML='';
+  d.sn.forEach((n,i)=>{
+    const sd=document.createElement('div');sd.className='sn'+(i===d.si?' cur':'');sd.textContent=n;snEl.appendChild(sd);
+    const ss=document.createElement('div');ss.className='ss'+(i<=d.si?' '+d.sc:'');trEl.appendChild(ss);
+  });
+  document.getElementById('dm-mg').innerHTML=mkMV('Value',d.value)+mkMV('Stage',d.sn[d.si])+mkMV('Partner',d.partner)+mkMV('Sector',d.sector);
+  const tkEl=document.getElementById('dm-tk');
+  if(d.tasks.length===0){tkEl.innerHTML='<div style="font-size:12.5px;color:var(--t3)">No tasks assigned to this deal.</div>';}
+  else{tkEl.innerHTML=d.tasks.map(tk=>`<div class="dmtrow"><div class="dmtchk"></div><div style="flex:1"><div style="font-size:13px;color:var(--t);margin-bottom:4px;font-weight:500">${tk.t}</div><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="tpri ${priCls(tk.p)}">${tk.p}</span><span style="font-size:11.5px;color:var(--blue);font-weight:500">${tk.s}</span><span style="font-size:11.5px;color:var(--t3)">Due: ${tk.d}</span><span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--t3)"><span style="width:5px;height:5px;border-radius:50%;background:${confDot(tk.c)};display:inline-block"></span>${confLbl(tk.c)}</span></div></div></div>`).join('');}
+  const rrEl=document.getElementById('dm-rr'),rwEl=document.getElementById('dm-rw');
+  if(d.risks.length===0){rwEl.style.display='none';}
+  else{rwEl.style.display='';rrEl.innerHTML=d.risks.map(r=>`<div class="rcard ${r.tp}" style="margin-bottom:8px"><div class="rch"><div class="rcd" style="background:${r.tp==='rd'?'var(--red)':'var(--amber)'}"></div><div class="rct">${r.t}</div></div><div class="rctxt">${r.d}</div><div style="font-size:11px;color:var(--t3);font-weight:500">${r.c}</div></div>`).join('');}
+  document.getElementById('dm-hist').innerHTML=d.hist.map((h,i)=>`<div class="dmhist"><div class="dmhst"><div class="dmhdot" style="background:${fdClr(h.tp)}"></div>${i<d.hist.length-1?'<div class="dmhc"></div>':''}</div><div style="flex:1"><div style="font-size:12.5px;color:var(--t2)">${h.x}</div><div style="font-size:10.5px;color:var(--t3);margin-top:2px">${h.t}</div></div></div>`).join('');
+  document.getElementById('dm-team').innerHTML=d.team.map(m=>`<div style="display:flex;align-items:center;gap:10px"><div class="av" style="background:${m.s};color:${m.c};width:34px;height:34px;font-size:11px">${m.i}</div><div><div style="font-size:13px;font-weight:600;color:var(--t)">${m.name}</div><div style="font-size:11.5px;color:var(--t3)">${m.role}</div></div></div>`).join('');
+  document.getElementById('dm-key-dates').innerHTML=`<span style="color:var(--t3)">Key date:</span> <span style="color:var(--t2);font-weight:500">${d.dl}</span>`;
+  const dm=document.getElementById('dm');dm.style.display='block';dm.classList.add('open');dm.scrollTop=0;
+}
+function closeDeal(){
+  const dm=document.getElementById('dm');dm.classList.remove('open');dm.style.display='none';
+}
+function mkMV(label,val){
+  return `<div class="dmmv"><div class="dmml">${label}</div><div class="dmmval">${val}</div></div>`;
+}
+
+/* ─── DRAFT MODAL ─── */
+function openDraft(key){
+  const data=DRAFTS[key]||DRAFTS.atlas;
+  document.getElementById('dft-tit').textContent=data.title;
+  document.getElementById('dft-ta').style.display='none';
+  document.getElementById('dft-ta').value=data.body;
+  document.getElementById('dftcp').style.display='none';
+  document.getElementById('dftok').style.display='none';
+  document.getElementById('dft-sp').style.display='flex';
+  document.getElementById('dftm').classList.add('open');
+  setTimeout(()=>{document.getElementById('dft-sp').style.display='none';document.getElementById('dft-ta').style.display='block';document.getElementById('dftcp').style.display='inline-block';},900);
+}
+function closeDraft(){document.getElementById('dftm').classList.remove('open');}
+function copyDraft(){
+  const ta=document.getElementById('dft-ta');
+  if(navigator.clipboard){navigator.clipboard.writeText(ta.value).catch(()=>{});}else{ta.select();document.execCommand('copy');}
+  const ok=document.getElementById('dftok');ok.style.display='block';
+  setTimeout(()=>{ok.style.display='none';},2500);
+}
+
+/* ─── TASKS ─── */
+function stab(tab){
+  const tView=document.getElementById('tab-t'),lView=document.getElementById('tab-l');
+  const t1=document.getElementById('ttab1'),t2=document.getElementById('ttab2');
+  if(tab==='t'){tView.style.display='';lView.style.display='none';t1.classList.add('on');t2.classList.remove('on');}
+  else{tView.style.display='none';lView.style.display='';t2.classList.add('on');t1.classList.remove('on');}
+}
+function cfTask(rowId,btnId,sucId){
+  const btns=document.getElementById(btnId);if(btns)btns.style.display='none';
+  const suc=document.getElementById(sucId);if(suc)suc.style.display='block';
+  const row=document.getElementById(rowId);
+  if(row){row.classList.remove('prop');row.style.borderColor='var(--green)';row.style.background='rgba(21,128,61,.04)';}
+  propLeft=Math.max(0,propLeft-1);
+  showFB('<strong>✓ Task confirmed</strong> — added to deal record and task list');
+}
+function dmTask(rowId){
+  const row=document.getElementById(rowId);if(!row)return;
+  row.style.transition='opacity .3s';row.style.opacity='0';
+  setTimeout(()=>{row.remove();},300);
+  propLeft=Math.max(0,propLeft-1);
+}
+function doneTask(rowId,chkId,dealCardId,provId,provTxt){
+  const chk=document.getElementById(chkId);if(!chk||chk.classList.contains('ck'))return;
+  chk.classList.add('ck');
+  const row=document.getElementById(rowId);if(row)setTimeout(()=>row.classList.add('done'),200);
+  const prov=document.getElementById(provId);
+  if(prov)prov.innerHTML=`<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span><span style="color:var(--green);font-weight:500">${provTxt}</span></span>`;
+  setTimeout(()=>flashEl(dealCardId),400);
+  showFB('<strong>Task completed</strong> — deal record updated');
+}
+
+/* ─── ACTIVITY FEED TOGGLE ─── */
+function toggleActivity(){
+  const feed=document.getElementById('act-feed');
+  const link=document.getElementById('act-link');
+  const isOpen=feed.style.display!=='none';
+  feed.style.display=isOpen?'none':'block';
+  link.textContent=isOpen?'View activity →':'Hide activity ↑';
+}
+
+/* ─── VOICE ─── */
+function toggleVoice(){
+  const btn=document.getElementById('vbtn'),wv=document.getElementById('wv'),inp=document.getElementById('cfi');
+  if(!isRec){
+    isRec=true;btn.classList.add('rec');wv.classList.add('on');inp.placeholder='Listening…';inp.value='';
+    showFB('<span class="pd"><span></span><span></span><span></span></span> <strong>Recording…</strong> Speak your update. Auto-stops in 4 seconds.');
+    recTimer=setTimeout(stopVoice,4000);
+  }else{clearTimeout(recTimer);stopVoice();}
+}
+function stopVoice(){
+  isRec=false;
+  const btn=document.getElementById('vbtn'),wv=document.getElementById('wv'),inp=document.getElementById('cfi');
+  btn.classList.remove('rec');wv.classList.remove('on');inp.placeholder='Speak, type, or upload…';
+  showFB('<span class="pd"><span></span><span></span><span></span></span> <strong>Processing audio…</strong> AI is analysing your update');
+  setTimeout(()=>{showFB('<strong>AI processed voice input</strong> — 2 proposed changes ready for review');injectVoiceChanges();},2200);
+}
+function injectVoiceChanges(){
+  const chp=document.getElementById('chp');if(!chp)return;
+  expandChp();
+  chp.innerHTML=`<div class="chph"><div class="chptit">AI proposed 2 changes from voice input</div><button class="chp-collapse" onclick="collapseChp()">Collapse ↑</button></div><div class="chi" id="vch1"><div style="flex:1"><div class="ctp ct-t">New Task</div><div class="ctxt">Follow up with Orion founder on board seat allocation before Apr 11</div><div class="cconf"><div class="cdot2" style="background:var(--amber)"></div>AI inferred · Medium confidence — verify before acting</div></div><div class="cbtns"><button class="cbtn y" onclick="cfCh('vch1','task')">Confirm</button><button class="cbtn n" onclick="dmCh('vch1')">Dismiss</button></div></div><div class="chi" id="vch2"><div style="flex:1"><div class="ctp ct-s">Stage Update</div><div class="ctxt">Vega moves Due Diligence → Structuring (mentioned in spoken update)</div><div class="cconf"><div class="cdot2" style="background:var(--amber)"></div>AI inferred · Review before applying — not a direct quote</div></div><div class="cbtns"><button class="cbtn y" onclick="cfCh('vch2','stage')">Confirm</button><button class="cbtn n" onclick="dmCh('vch2')">Dismiss</button></div></div>`;
+  chp.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ─── FILE UPLOAD ─── */
+function handleUpload(input){
+  const file=input.files[0];if(!file)return;const name=file.name;
+  showFB('<span class="pd"><span></span><span></span><span></span></span> <strong>Processing:</strong> '+name+' — AI is transcribing and extracting updates');
+  setTimeout(()=>{
+    showFB('<strong>✓ File processed:</strong> '+name+' — <a href="#" onclick="expandChp();document.getElementById(\'chp\').scrollIntoView({behavior:\'smooth\'});return false;">Review 3 proposed changes →</a>');
+    resetChpanel();input.value='';
+  },2200);
+}
+function resetChpanel(){
+  const bar=document.getElementById('chp-bar');
+  if(bar)bar.querySelector('.chp-bartxt').textContent='AI proposed 3 changes';
+  const chp=document.getElementById('chp');if(!chp)return;
+  chp.innerHTML=`<div class="chph"><div class="chptit">3 proposed changes — confirm to apply to system</div><button class="chp-collapse" onclick="collapseChp()">Collapse ↑</button></div><div class="chi" id="ch1"><div style="flex:1"><div class="ctp ct-t">New Task</div><div class="ctxt">Submit SEBI disclosure form to legal counsel before Friday term sheet</div><div class="cconf"><div class="cdot2" style="background:var(--green)"></div>High confidence · Direct quote at 12:34</div></div><div class="cbtns"><button class="cbtn y" onclick="cfCh('ch1','task')">Confirm</button><button class="cbtn n" onclick="dmCh('ch1')">Dismiss</button></div></div><div class="chi" id="ch2"><div style="flex:1"><div class="ctp ct-r">Risk Flagged</div><div class="ctxt">Promoter lock-in structure ambiguous — may delay regulatory approval</div><div class="cconf"><div class="cdot2" style="background:var(--amber)"></div>AI inferred · Verify before escalating</div></div><div class="cbtns"><button class="cbtn y" onclick="cfCh('ch2','risk')">Confirm</button><button class="cbtn n" onclick="dmCh('ch2')">Dismiss</button></div></div><div class="chi" id="ch3"><div style="flex:1"><div class="ctp ct-s">Stage Update</div><div class="ctxt">Orion moves Structuring → Documentation (client confirmed at 28:12)</div><div class="cconf"><div class="cdot2" style="background:var(--green)"></div>High confidence · Explicit client confirmation on record</div></div><div class="cbtns"><button class="cbtn y" onclick="cfCh('ch3','stage')">Confirm</button><button class="cbtn n" onclick="dmCh('ch3')">Dismiss</button></div></div>`;
+}
+
+/* ─── TEXT QUERY / CHIPS ─── */
+function rc(text){const inp=document.getElementById('cfi');inp.value=text;inp.focus();setTimeout(()=>sendQuery(),100);}
+function sendQuery(){
+  const inp=document.getElementById('cfi'),q=inp.value.trim();if(!q)return;inp.value='';
+  showFB('<span class="pd"><span></span><span></span><span></span></span> AI is analysing: <strong>'+q+'</strong>');
+  setTimeout(()=>{
+    const ql=q.toLowerCase();
+    if(ql.includes('attention')||ql.includes('today')){showFB('<strong>2 items need your attention now:</strong> (1) Orion SEBI disclosure gap — blocks Friday term sheet. (2) Atlas client update overdue — Karan awaiting response.');flashEl('dc1');flashEl('dc2',300);}
+    else if(ql.includes('risk')){showFB('<strong>AI risk summary:</strong> 2 active risks. Orion: SEBI compliance gap (High confidence). Atlas: Communication gap with buyer (AI inferred). Meridian and Vega are risk-free.');}
+    else if(ql.includes('meridian')){showFB('<strong>Meridian Capital</strong> — Closing. All 5 conditions satisfied. Partner sign-off is the final gate. Close target: Apr 10.');flashEl('deal-meridian',200);}
+    else if(ql.includes('atlas')){showFB('<strong>Project Atlas</strong> — Delayed. 3-day milestone slip from client email. Karan awaiting revised plan. <a onclick="openDraft(\'atlas\');return false;" href="#">Draft update →</a>');flashEl('dc2',200);}
+    else if(ql.includes('orion')){showFB('<strong>Project Orion</strong> — At Risk. SEBI disclosure form missing. 3 AI-proposed tasks awaiting confirmation. <a onclick="openDeal(\'orion\');return false;" href="#">View detail →</a>');flashEl('deal-orion',200);}
+    else{showFB('<strong>AI:</strong> 2 deals require action today — Orion (compliance gap) and Atlas (client update overdue). Portfolio total: $230M across 4 active mandates.');}
+  },1200);
+}
+
+/* ─── FEEDBACK BAR ─── */
+function showFB(html){const fb=document.getElementById('fb');fb.innerHTML=html;fb.classList.add('on');}
+
+/* ─── HELPERS ─── */
+function flashEl(id,delay){
+  setTimeout(()=>{const el=document.getElementById(id);if(!el)return;el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1800);},delay||0);
+}
+
+/* ─── INIT ─── */
+gp('db');
+</script>
+</body>
+</html>
+

@@ -1,0 +1,3325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Focal — Deal Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:   #060D1E;
+  --bg2:  #0B1828;
+  --bg3:  #0F2040;
+  --bg4:  rgba(255,255,255,0.04);
+  --bg5:  rgba(255,255,255,0.07);
+  --bd:   rgba(255,255,255,0.08);
+  --bd2:  rgba(255,255,255,0.14);
+  --t:    #E8EFF8;
+  --t2:   rgba(232,239,248,0.80);
+  --t3:   rgba(232,239,248,0.52);
+  --blue:  #4B7FE8;
+  --blue2: #3A6DD4;
+  --bdim:  rgba(75,127,232,0.12);
+  --bglow: rgba(75,127,232,0.22);
+  --gold:  #C9943A;
+  --goldim: rgba(201,148,58,0.14);
+  --red:   #E8534B;
+  --rdim:  rgba(232,83,75,0.12);
+  --rbdr:  rgba(232,83,75,0.28);
+  --green:  #3DD68C;
+  --gdim:   rgba(61,214,140,0.12);
+  --gbdr:   rgba(61,214,140,0.28);
+  --amber: #F5A623;
+  --adim:  rgba(245,166,35,0.12);
+  --abdr:  rgba(245,166,35,0.28);
+  --purple: #8B5CF6;
+  --pdim:   rgba(139,92,246,0.12);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  background: #030912;
+  min-height: 100vh;
+  color: var(--t);
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   PAGE — centers phone frame on desktop
+═══════════════════════════════════════════ */
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(75,127,232,0.08) 0%, #030912 60%);
+}
+
+/* ═══════════════════════════════════════════
+   PHONE FRAME
+═══════════════════════════════════════════ */
+.phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 44px;
+  overflow: hidden;
+  background: var(--bg);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.10),
+    0 0 0 8px rgba(255,255,255,0.03),
+    0 60px 160px rgba(0,0,0,0.80),
+    0 0 80px rgba(75,127,232,0.07);
+}
+
+/* Status bar */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px 8px;
+  flex-shrink: 0;
+}
+.sb-time { font-size: 15px; font-weight: 600; color: var(--t); letter-spacing: -.3px; }
+.sb-icons { display: flex; align-items: center; gap: 6px; }
+
+/* ═══════════════════════════════════════════
+   APP HEADER — Focal brand hierarchy
+═══════════════════════════════════════════ */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 24px 16px;
+  flex-shrink: 0;
+}
+.logo-wrap { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, #4B7FE8 0%, #3A6DD4 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(75,127,232,0.35);
+  flex-shrink: 0;
+}
+/* Brand text: Focal as hero, by FourBridges as sub */
+.logo-text { display: flex; flex-direction: column; gap: 0px; }
+.logo-focal {
+  font-size: 18px; font-weight: 700;
+  color: var(--t); letter-spacing: -.5px;
+  line-height: 1;
+}
+.logo-by {
+  font-size: 9.5px; font-weight: 500;
+  color: var(--t3); letter-spacing: .2px;
+  line-height: 1.2;
+}
+
+.header-right { display: flex; align-items: center; gap: 10px; }
+.notif-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--bg4);
+  border: 1px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative;
+  transition: background .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.notif-btn:active { transform: scale(.93); background: var(--bg5); }
+.notif-btn svg { width: 16px; height: 16px; stroke: var(--t2); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.notif-dot {
+  position: absolute; top: 6px; right: 7px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+  border: 1.5px solid var(--bg);
+}
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--bdim);
+  border: 1.5px solid var(--bd2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--blue);
+  cursor: pointer;
+  transition: transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.avatar:active { transform: scale(.93); }
+
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════ */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.main::-webkit-scrollbar { display: none; }
+
+/* ═══════════════════════════════════════════
+   SCREENS
+═══════════════════════════════════════════ */
+.screen { display: none; padding-bottom: 20px; }
+.screen.active { display: block; animation: scrIn .22s ease; }
+@keyframes scrIn { from{opacity:.6;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ═══════════════════════════════════════════
+   HOME — greeting
+═══════════════════════════════════════════ */
+.greeting { padding: 0 24px 18px; }
+.greeting-hi {
+  font-size: 22px; font-weight: 600;
+  color: var(--t); letter-spacing: -.5px;
+  margin-bottom: 3px;
+}
+.greeting-sub {
+  font-size: 13px; color: var(--t3); font-weight: 400;
+  display: flex; align-items: center; gap: 8px;
+}
+.g-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--bd2); }
+
+/* ═══════════════════════════════════════════
+   AI CHANGES BAR
+═══════════════════════════════════════════ */
+.changes-bar {
+  margin: 0 16px 20px;
+  padding: 12px 14px;
+  background: rgba(75,127,232,0.10);
+  border: 1px solid rgba(75,127,232,0.22);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.changes-bar:active { transform: scale(.97); background: rgba(75,127,232,0.14); }
+.cb-txt { font-size: 13px; font-weight: 600; color: var(--blue); }
+.cb-link { font-size: 12px; font-weight: 500; color: var(--t3); }
+
+/* ═══════════════════════════════════════════
+   SECTION HEADERS
+═══════════════════════════════════════════ */
+.sec-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; margin-bottom: 12px;
+}
+.sec-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .9px; text-transform: uppercase;
+  color: var(--t3);
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-badge {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: white;
+  letter-spacing: 0; text-transform: none;
+}
+.sec-link { font-size: 12px; font-weight: 500; color: var(--blue); cursor: pointer; }
+
+/* ═══════════════════════════════════════════
+   PRIORITY CARDS
+═══════════════════════════════════════════ */
+.priority-scroll {
+  overflow-x: auto; overflow-y: hidden;
+  display: flex; gap: 10px;
+  padding: 0 24px 4px; margin-bottom: 24px;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.priority-scroll::-webkit-scrollbar { display: none; }
+
+.pcard {
+  flex-shrink: 0; width: 176px;
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 16px; padding: 14px;
+  cursor: pointer;
+  transition: transform .18s;
+  position: relative; overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.pcard::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.pcard.crit::before { background: var(--red); }
+.pcard.warn::before { background: var(--amber); }
+.pcard.ok::before   { background: var(--blue); }
+.pcard:active { transform: scale(.96); }
+.pcard.crit { border-color: rgba(232,83,75,0.22); }
+.pcard.warn { border-color: rgba(245,166,35,0.22); }
+.pcard.ok   { border-color: rgba(75,127,232,0.22); }
+.pcard.gone { opacity: 0; transform: scale(.9); pointer-events: none; transition: opacity .4s, transform .4s; }
+
+.pc-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .8px;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 6px;
+  display: inline-block; margin-bottom: 10px;
+}
+.pc-b-r { background: var(--rdim); color: var(--red); }
+.pc-b-a { background: var(--adim); color: var(--amber); }
+.pc-b-b { background: var(--bdim); color: var(--blue); }
+
+.pc-title { font-size: 13px; font-weight: 600; color: var(--t); margin-bottom: 4px; line-height: 1.35; }
+.pc-sub { font-size: 11.5px; color: var(--t2); line-height: 1.45; margin-bottom: 12px; }
+.pc-btn {
+  width: 100%; padding: 8px 0; border-radius: 10px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  border: none; font-family: inherit; transition: opacity .15s;
+}
+.pc-btn:active { opacity: .7; }
+.pc-btn-r { background: var(--rdim); color: var(--red); }
+.pc-btn-a { background: var(--adim); color: var(--amber); }
+.pc-btn-b { background: var(--bdim); color: var(--blue); }
+.pc-due { font-size: 10.5px; color: var(--t3); margin-top: 8px; }
+
+/* ═══════════════════════════════════════════
+   AI BRIEFING STRIP
+═══════════════════════════════════════════ */
+.brief-strip {
+  margin: 0 16px 22px;
+  padding: 13px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--bd);
+  border-left: 2px solid var(--blue);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.brief-strip:active { transform: scale(.98); }
+.bs-label { font-size: 9.5px; font-weight: 700; letter-spacing: .9px; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+.bs-txt { font-size: 12.5px; color: var(--t2); line-height: 1.55; }
+.bs-txt strong { color: var(--t); font-weight: 600; }
+.bs-meta { font-size: 10.5px; color: var(--t3); margin-top: 5px; }
+
+/* ═══════════════════════════════════════════
+   DEAL CARDS
+═══════════════════════════════════════════ */
+.deal-list { padding: 0 16px; display: flex; flex-direction: column; gap: 10px; }
+
+.deal-card {
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 16px; padding: 16px;
+  cursor: pointer;
+  transition: border-color .2s, transform .15s;
+  position: relative; overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.deal-card:active { transform: scale(.97); }
+.deal-card.risk    { border-color: rgba(232,83,75,0.2); }
+.deal-card.delayed { border-color: rgba(245,166,35,0.2); }
+.deal-card.flash { animation: dflash 1.4s ease-out forwards; }
+@keyframes dflash { 0%{border-color:rgba(75,127,232,0.6);box-shadow:0 0 0 2px rgba(75,127,232,0.15)} 100%{border-color:var(--bd);box-shadow:none} }
+
+.deal-card::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  border-radius: 2px 0 0 2px;
+}
+.deal-card.risk::before      { background: var(--red); }
+.deal-card.delayed::before   { background: var(--amber); }
+.deal-card.closing::before   { background: var(--green); }
+.deal-card.active-deal::before { background: var(--blue); }
+
+.dc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2px; }
+.dc-name { font-size: 14px; font-weight: 600; color: var(--t); }
+.dc-status {
+  font-size: 9.5px; font-weight: 700;
+  padding: 3px 8px; border-radius: 6px;
+  white-space: nowrap; letter-spacing: .2px; flex-shrink: 0;
+}
+.st-r  { background: var(--rdim); color: var(--red); }
+.st-d  { background: var(--adim); color: var(--amber); }
+.st-a  { background: var(--bdim); color: var(--blue); }
+.st-c  { background: var(--gdim); color: var(--green); }
+.st-rv { background: var(--pdim); color: var(--purple); }
+
+.dc-value { font-size: 22px; font-weight: 600; color: var(--t); letter-spacing: -.6px; margin-bottom: 2px; line-height: 1; }
+.dc-meta  { font-size: 11.5px; color: var(--t3); margin-bottom: 12px; }
+
+.stage-wrap    { margin-bottom: 10px; }
+.stage-names   { display: flex; margin-bottom: 5px; }
+.sn-m { flex: 1; font-size: 8px; font-weight: 500; color: var(--t3); text-align: center; letter-spacing: .2px; text-transform: uppercase; }
+.sn-m.cur { color: var(--t2); }
+.strack-m { display: flex; gap: 3px; }
+.ss-m { flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.07); }
+.ss-m.bl { background: var(--blue); }
+.ss-m.rd { background: var(--red); }
+.ss-m.am { background: var(--amber); }
+.ss-m.gr { background: var(--green); }
+
+.dc-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 2px; }
+.dc-prov { font-size: 10.5px; color: var(--t3); }
+.dc-prov .ai-src { color: var(--blue); font-weight: 500; }
+.dc-avs { display: flex; }
+.dc-av {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1.5px solid var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; font-weight: 700;
+}
+.dc-av:not(:first-child) { margin-left: -6px; }
+
+/* ═══════════════════════════════════════════
+   SCREEN HEADER
+═══════════════════════════════════════════ */
+.screen-header {
+  padding: 0 24px 20px;
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.screen-title { font-size: 22px; font-weight: 600; color: var(--t); letter-spacing: -.5px; }
+.screen-sub   { font-size: 12px; color: var(--t3); }
+
+/* ═══════════════════════════════════════════
+   TASKS SCREEN
+═══════════════════════════════════════════ */
+.task-tabs {
+  display: flex;
+  margin: 0 16px 14px;
+  background: var(--bg2);
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid var(--bd);
+}
+.task-tab {
+  flex: 1; padding: 7px 0;
+  font-size: 12px; font-weight: 500;
+  color: var(--t3); text-align: center;
+  cursor: pointer; border-radius: 9px;
+  transition: all .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.task-tab.on { background: var(--bg3); color: var(--t); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+.task-list { padding: 0 16px; display: flex; flex-direction: column; gap: 7px; }
+
+.task-row {
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 13px; padding: 12px 13px;
+  display: flex; align-items: flex-start; gap: 11px;
+  transition: opacity .3s, max-height .4s, margin .4s, padding .4s;
+}
+.task-row.proposed { border-color: rgba(245,166,35,0.22); border-left: 2px solid var(--amber); }
+.task-row.done-row { opacity: .32; }
+
+.task-chk {
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 1.5px solid var(--bd2);
+  flex-shrink: 0; margin-top: 1px;
+  cursor: pointer;
+  transition: all .15s;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.task-chk:active { transform: scale(.9); }
+.task-chk.ck { background: var(--green); border-color: var(--green); }
+.task-chk.ck::after { content: '✓'; color: var(--bg); font-size: 10px; font-weight: 700; }
+
+.task-body { flex: 1; min-width: 0; }
+.task-title { font-size: 12.5px; font-weight: 500; color: var(--t); margin-bottom: 5px; line-height: 1.4; }
+.task-meta  { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.task-pri {
+  font-size: 9.5px; font-weight: 700;
+  padding: 2px 7px; border-radius: 5px; letter-spacing: .2px;
+}
+.tp-c { background: var(--rdim); color: var(--red); }
+.tp-h { background: var(--rdim); color: var(--red); }
+.tp-m { background: var(--adim); color: var(--amber); }
+.tp-l { background: var(--bdim); color: var(--blue); }
+.task-src { font-size: 11px; color: var(--blue); font-weight: 500; }
+.task-due { font-size: 11px; color: var(--t3); }
+.task-ai-badge { font-size: 9.5px; font-weight: 700; background: var(--adim); color: var(--amber); padding: 2px 7px; border-radius: 5px; }
+.task-done-ts  { font-size: 10.5px; color: var(--green); font-weight: 500; margin-left: 4px; }
+
+.task-actions { display: flex; gap: 7px; margin-top: 9px; }
+.task-confirm {
+  padding: 6px 14px; border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+  background: var(--blue); border: none;
+  color: white; cursor: pointer; font-family: inherit;
+  transition: opacity .15s, transform .1s;
+}
+.task-confirm:active { transform: scale(.95); }
+.task-dismiss {
+  padding: 6px 14px; border-radius: 8px;
+  font-size: 12px; font-weight: 500;
+  background: var(--bg4); border: 1px solid var(--bd);
+  color: var(--t3); cursor: pointer; font-family: inherit;
+  transition: background .15s, transform .1s;
+}
+.task-dismiss:active { transform: scale(.95); }
+.task-suc { font-size: 11.5px; color: var(--green); font-weight: 500; margin-top: 6px; display: none; }
+
+/* ═══════════════════════════════════════════
+   INSIGHTS SCREEN
+═══════════════════════════════════════════ */
+.intel-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; padding: 0 16px; margin-bottom: 20px;
+}
+.intel-card {
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 14px; padding: 16px 14px;
+}
+.ic-label { font-size: 10.5px; color: var(--t3); margin-bottom: 8px; font-weight: 500; }
+.ic-val { font-size: 26px; font-weight: 600; color: var(--t); letter-spacing: -.5px; }
+.ic-sub { font-size: 10.5px; color: var(--t3); margin-top: 3px; }
+
+.intel-timeline { padding: 0 16px; }
+.it-hdr { font-size: 13px; font-weight: 600; color: var(--t); margin-bottom: 14px; }
+.it-row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--bd); }
+.it-row:last-child { border-bottom: none; }
+.it-dot-wrap { display: flex; flex-direction: column; align-items: center; padding-top: 3px; }
+.it-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.it-line { width: 1px; flex: 1; min-height: 8px; margin-top: 3px; background: var(--bd); }
+.it-txt { font-size: 12px; color: var(--t2); line-height: 1.5; }
+.it-txt strong { color: var(--t); font-weight: 600; }
+.it-time { font-size: 10.5px; color: var(--t3); margin-top: 2px; }
+.dot-b { background: var(--blue); }
+.dot-r { background: var(--red); }
+.dot-a { background: var(--amber); }
+.dot-g { background: var(--green); }
+
+/* ═══════════════════════════════════════════
+   FEEDBACK TOAST
+═══════════════════════════════════════════ */
+.toast {
+  position: absolute; bottom: 88px; left: 16px; right: 16px;
+  background: var(--bg3); border: 1px solid var(--bd2);
+  border-radius: 14px; padding: 12px 16px;
+  font-size: 12.5px; color: var(--t2); z-index: 90;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  display: none;
+}
+.toast.show { display: block; animation: toastIn .25s ease; }
+@keyframes toastIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ═══════════════════════════════════════════
+   BOTTOM NAVIGATION — 5 tabs, center voice
+═══════════════════════════════════════════ */
+.bottom-nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(6,13,30,0.95);
+  border-top: 1px solid var(--bd);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 6px 0 20px;
+  position: relative;
+  z-index: 10;
+}
+.nav-item {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 6px 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-icon {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-icon svg { width: 22px; height: 22px; stroke: var(--t3); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
+.nav-item.on .nav-icon svg { stroke: var(--blue); }
+.nav-label { font-size: 9.5px; font-weight: 500; color: var(--t3); letter-spacing: .2px; transition: color .2s; }
+.nav-item.on .nav-label { color: var(--blue); }
+
+/* Voice center button */
+.nav-voice {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  cursor: pointer; padding-bottom: 2px;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+.nav-voice-btn {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5B8FE8 0%, #3A6DD4 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow:
+    0 0 0 6px rgba(75,127,232,0.12),
+    0 4px 20px rgba(75,127,232,0.45);
+  transform: translateY(-10px);
+  transition: transform .15s, box-shadow .15s;
+  animation: navVoicePulse 3s ease-in-out infinite;
+}
+.nav-voice-btn:active { transform: translateY(-10px) scale(.91); box-shadow: 0 0 0 4px rgba(75,127,232,0.1), 0 2px 12px rgba(75,127,232,0.35); }
+.nav-voice-btn svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes navVoicePulse {
+  0%,100% { box-shadow: 0 0 0 6px rgba(75,127,232,0.12), 0 4px 20px rgba(75,127,232,0.45); }
+  50%      { box-shadow: 0 0 0 10px rgba(75,127,232,0.07), 0 4px 24px rgba(75,127,232,0.55); }
+}
+.nav-voice-label { font-size: 9.5px; font-weight: 500; color: var(--blue); letter-spacing: .2px; margin-top: 2px; }
+
+/* ═══════════════════════════════════════════
+   NOTIFICATION PANEL — slides down from top
+═══════════════════════════════════════════ */
+#notif-overlay {
+  display: none; position: absolute; inset: 0; z-index: 180;
+  background: rgba(3,9,18,0.5); backdrop-filter: blur(4px);
+}
+#notif-overlay.open { display: block; animation: fadeIn .2s ease; }
+
+#notif-panel {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 181;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--bd2);
+  border-radius: 0 0 24px 24px;
+  padding: 0 0 20px;
+  transform: translateY(-100%);
+  transition: transform .26s cubic-bezier(.32,.72,0,1);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+#notif-panel.open { transform: translateY(0); }
+
+.np-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 56px 20px 14px;
+  border-bottom: 1px solid var(--bd);
+}
+.np-title { font-size: 16px; font-weight: 600; color: var(--t); letter-spacing: -.3px; }
+.np-count { font-size: 11px; font-weight: 600; color: white; background: var(--red); padding: 2px 8px; border-radius: 20px; }
+.np-clear { font-size: 12px; color: var(--blue); font-weight: 500; cursor: pointer; }
+
+.notif-list { padding: 8px 0; }
+.notif-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.notif-item:active { background: var(--bg4); }
+.notif-item.unread { background: rgba(75,127,232,0.04); }
+.ni-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 5px;
+}
+.ni-dot.unread { background: var(--blue); }
+.ni-dot.read   { background: var(--bd2); }
+.ni-body { flex: 1; }
+.ni-title { font-size: 13px; font-weight: 500; color: var(--t); margin-bottom: 2px; line-height: 1.4; }
+.ni-title strong { font-weight: 600; }
+.ni-meta { font-size: 11px; color: var(--t3); }
+.ni-close {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg4); border: 1px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 15px; color: var(--t3);
+  transition: background .15s;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   UPLOAD SHEET — iOS-style option list
+═══════════════════════════════════════════ */
+#upload-overlay {
+  display: none; position: absolute; inset: 0; z-index: 160;
+  background: rgba(3,9,18,0.55); backdrop-filter: blur(4px);
+}
+#upload-overlay.open { display: block; animation: fadeIn .2s ease; }
+
+#upload-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 161;
+  padding: 0 12px 20px;
+  transform: translateY(100%);
+  transition: transform .26s cubic-bezier(.32,.72,0,1);
+}
+#upload-sheet.open { transform: translateY(0); }
+
+.us-label {
+  font-size: 11px; font-weight: 500; color: var(--t3);
+  text-align: center; margin-bottom: 8px; letter-spacing: .2px;
+}
+.us-group {
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 16px; overflow: hidden;
+  margin-bottom: 10px;
+}
+.us-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px;
+  font-size: 16px; font-weight: 400; color: var(--t);
+  cursor: pointer; border-bottom: 1px solid var(--bd);
+  transition: background .12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.us-item:last-child { border-bottom: none; }
+.us-item:active { background: var(--bg4); }
+.us-item-icon { font-size: 20px; }
+.us-cancel {
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  font-size: 16px; font-weight: 600; color: var(--blue);
+  cursor: pointer;
+  transition: background .12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.us-cancel:active { background: var(--bg4); }
+
+/* ═══════════════════════════════════════════
+   VOICE OVERLAY — full screen
+═══════════════════════════════════════════ */
+#vo {
+  display: none; position: absolute; inset: 0; z-index: 200;
+  background: var(--bg);
+  flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 24px;
+}
+#vo.open { display: flex; animation: fadeIn .2s ease; }
+
+.vo-status {
+  position: absolute; top: 56px; right: 24px;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--bd); border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 10.5px; font-weight: 600;
+  color: var(--t3); letter-spacing: .5px; text-transform: uppercase;
+}
+.vo-status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+
+.waveform {
+  display: flex; align-items: center; gap: 5px;
+  height: 160px; margin-bottom: 40px;
+}
+.wb-bar {
+  width: 3.5px; border-radius: 3px;
+  background: var(--blue); opacity: 0.85;
+  transition: height .15s ease;
+}
+.wb-bar:nth-child(1)  { height: 20px; }
+.wb-bar:nth-child(2)  { height: 35px; }
+.wb-bar:nth-child(3)  { height: 55px; }
+.wb-bar:nth-child(4)  { height: 75px; }
+.wb-bar:nth-child(5)  { height: 110px; }
+.wb-bar:nth-child(6)  { height: 140px; }
+.wb-bar:nth-child(7)  { height: 120px; }
+.wb-bar:nth-child(8)  { height: 90px; }
+.wb-bar:nth-child(9)  { height: 60px; opacity:.5; }
+.wb-bar:nth-child(10) { height: 40px; opacity:.35; }
+.wb-bar:nth-child(11) { height: 28px; opacity:.25; }
+
+.waveform.recording .wb-bar { animation: wbAnim 1s ease-in-out infinite; opacity: 1; }
+.waveform.recording .wb-bar:nth-child(1)  { animation-delay:.00s; }
+.waveform.recording .wb-bar:nth-child(2)  { animation-delay:.05s; }
+.waveform.recording .wb-bar:nth-child(3)  { animation-delay:.10s; }
+.waveform.recording .wb-bar:nth-child(4)  { animation-delay:.15s; }
+.waveform.recording .wb-bar:nth-child(5)  { animation-delay:.20s; }
+.waveform.recording .wb-bar:nth-child(6)  { animation-delay:.25s; }
+.waveform.recording .wb-bar:nth-child(7)  { animation-delay:.20s; }
+.waveform.recording .wb-bar:nth-child(8)  { animation-delay:.15s; }
+.waveform.recording .wb-bar:nth-child(9)  { animation-delay:.10s; }
+.waveform.recording .wb-bar:nth-child(10) { animation-delay:.05s; }
+.waveform.recording .wb-bar:nth-child(11) { animation-delay:.00s; }
+@keyframes wbAnim { 0%,100%{height:var(--h-base,40px)} 50%{height:var(--h-peak,120px)} }
+.waveform.recording .wb-bar:nth-child(1)  { --h-base:20px;  --h-peak:50px; }
+.waveform.recording .wb-bar:nth-child(2)  { --h-base:35px;  --h-peak:90px; }
+.waveform.recording .wb-bar:nth-child(3)  { --h-base:55px;  --h-peak:130px; }
+.waveform.recording .wb-bar:nth-child(4)  { --h-base:75px;  --h-peak:150px; }
+.waveform.recording .wb-bar:nth-child(5)  { --h-base:110px; --h-peak:155px; }
+.waveform.recording .wb-bar:nth-child(6)  { --h-base:140px; --h-peak:158px; }
+.waveform.recording .wb-bar:nth-child(7)  { --h-base:120px; --h-peak:152px; }
+.waveform.recording .wb-bar:nth-child(8)  { --h-base:90px;  --h-peak:140px; }
+.waveform.recording .wb-bar:nth-child(9)  { --h-base:60px;  --h-peak:100px; }
+.waveform.recording .wb-bar:nth-child(10) { --h-base:40px;  --h-peak:70px; }
+.waveform.recording .wb-bar:nth-child(11) { --h-base:28px;  --h-peak:55px; }
+
+.vo-label { font-size: 20px; font-weight: 600; color: var(--t); margin-bottom: 6px; letter-spacing: -.4px; }
+.vo-sub   { font-size: 13.5px; color: var(--t3); margin-bottom: 48px; }
+
+.vo-results {
+  display: none; flex-direction: column; gap: 9px;
+  width: 100%; max-width: 310px; margin-bottom: 40px;
+}
+.vo-card {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--bd2);
+  border-radius: 14px; padding: 14px;
+  animation: slideUp .3s ease both;
+}
+.vo-card-icon { font-size: 18px; line-height: 1; width: 28px; text-align: center; flex-shrink: 0; }
+.vo-card-body { flex: 1; }
+.vo-card-label { font-size: 13px; font-weight: 600; color: var(--t); margin-bottom: 2px; }
+.vo-card-detail { font-size: 12px; color: var(--t2); line-height: 1.4; }
+
+.vo-stop {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--red); border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  animation: stopPulse 2s ease-in-out infinite;
+  transition: transform .15s;
+}
+.vo-stop:active { transform: scale(.92); }
+.vo-stop svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes stopPulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,83,75,0.3)} 50%{box-shadow:0 0 0 12px rgba(232,83,75,0)} }
+
+.vo-close {
+  position: absolute; top: 56px; left: 24px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--bg4); border: 1px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; color: var(--t3);
+  transition: background .15s;
+}
+.vo-tagline {
+  position: absolute; bottom: 40px; left: 24px;
+  font-size: 10px; font-weight: 500;
+  color: var(--t3); letter-spacing: 1.2px; text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════
+   DEAL DETAIL SHEET
+═══════════════════════════════════════════ */
+.sheet-overlay {
+  display: none; position: absolute; inset: 0; z-index: 150;
+  background: rgba(3,9,18,0.6); backdrop-filter: blur(4px);
+}
+.sheet-overlay.open { display: block; animation: fadeIn .2s ease; }
+
+.sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 151;
+  background: var(--bg2);
+  border-radius: 24px 24px 0 0; border-top: 1px solid var(--bd);
+  padding: 0 0 28px;
+  transform: translateY(100%);
+  transition: transform .26s cubic-bezier(.32,.72,0,1);
+  will-change: transform;
+  max-height: 80%; overflow-y: auto;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.sheet::-webkit-scrollbar { display: none; }
+.sheet.open { transform: translateY(0); }
+
+.sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--bd2); margin: 12px auto 20px; }
+.sheet-hdr { padding: 0 20px 16px; border-bottom: 1px solid var(--bd); margin-bottom: 16px; }
+.sh-name  { font-size: 20px; font-weight: 600; color: var(--t); letter-spacing: -.4px; margin-bottom: 2px; }
+.sh-value { font-size: 32px; font-weight: 700; color: var(--t); letter-spacing: -.8px; line-height: 1; margin-bottom: 4px; }
+.sh-meta  { font-size: 12px; color: var(--t3); margin-bottom: 12px; }
+
+.sheet-body { padding: 0 20px; }
+.sh-sec { margin-bottom: 20px; }
+.sh-sec-title { font-size: 10px; font-weight: 700; letter-spacing: .9px; text-transform: uppercase; color: var(--t3); margin-bottom: 10px; }
+.sh-bar { flex: 1; height: 4px; border-radius: 3px; background: var(--bd2); }
+.sh-bar.active { background: var(--blue); }
+
+.sh-task { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--bd); }
+.sh-task:last-child { border-bottom: none; }
+.sh-task-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.sh-task-txt { flex: 1; font-size: 12.5px; font-weight: 500; color: var(--t); line-height: 1.45; }
+.sh-task-due { font-size: 11px; color: var(--t3); flex-shrink: 0; }
+
+.sh-risk { background: var(--bg3); border: 1px solid rgba(232,83,75,0.2); border-left: 2px solid var(--red); border-radius: 10px; padding: 11px 13px; margin-bottom: 8px; }
+.sh-risk-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.sh-risk-lbl { font-size: 12.5px; font-weight: 600; color: var(--t); }
+.sh-risk-sev { font-size: 10px; font-weight: 700; letter-spacing: .5px; }
+.sh-risk-note { font-size: 11.5px; color: var(--t2); line-height: 1.45; }
+
+.sh-hist-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--bd); }
+.sh-hist-row:last-child { border-bottom: none; }
+.sh-hist-date { font-size: 11px; color: var(--t3); flex-shrink: 0; width: 40px; }
+.sh-hist-txt  { font-size: 12px; color: var(--t2); line-height: 1.4; }
+
+.sh-team { display: flex; gap: 10px; flex-wrap: wrap; }
+.sh-member { display: flex; align-items: center; gap: 8px; }
+.sh-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+.sh-member-info { display: flex; flex-direction: column; gap: 1px; }
+.sh-member-name { font-size: 12px; font-weight: 600; color: var(--t); }
+.sh-member-role { font-size: 10.5px; color: var(--t3); }
+
+/* ═══════════════════════════════════════════
+   MISC UTILITIES
+═══════════════════════════════════════════ */
+@keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+@keyframes slideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+.pdots span {
+  display: inline-block; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--blue); animation: pd 1.2s ease-in-out infinite;
+  margin: 0 1.5px; vertical-align: middle;
+}
+.pdots span:nth-child(2){animation-delay:.2s}.pdots span:nth-child(3){animation-delay:.4s}
+@keyframes pd { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:430px){
+  .page { padding: 0; align-items: flex-start; }
+  .phone { width: 100%; height: 100vh; border-radius: 0; box-shadow: none; }
+}
+/* ═══════════════════════════════════════════
+   TRUST BAR
+═══════════════════════════════════════════ */
+.trust-bar {
+  display: flex; align-items: center;
+  padding: 0 20px 12px;
+  flex-shrink: 0;
+  overflow-x: auto; scrollbar-width: none;
+}
+.trust-bar::-webkit-scrollbar { display: none; }
+.tb-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 500;
+  color: var(--t3); white-space: nowrap;
+}
+.tb-item svg { width: 10px; height: 10px; stroke: var(--t3); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.tb-item.ok  { color: rgba(61,214,140,0.60); }
+.tb-item.ok svg { stroke: rgba(61,214,140,0.60); }
+.tb-sep { font-size: 10px; color: var(--bd2); padding: 0 7px; }
+
+/* ═══════════════════════════════════════════
+   AI REVIEW SHEET
+═══════════════════════════════════════════ */
+#ar-overlay {
+  display: none; position: absolute; inset: 0; z-index: 220;
+  background: rgba(3,9,18,0.65); backdrop-filter: blur(6px);
+}
+#ar-overlay.open { display: block; animation: fadeIn .2s ease; }
+
+#ar-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 221;
+  background: var(--bg2);
+  border-radius: 24px 24px 0 0;
+  border-top: 1px solid var(--bd2);
+  padding: 0 0 32px;
+  transform: translateY(100%);
+  transition: transform .26s cubic-bezier(.32,.72,0,1);
+  will-change: transform;
+  max-height: 88%; overflow-y: auto;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  box-shadow: 0 -8px 48px rgba(0,0,0,0.5);
+}
+#ar-sheet::-webkit-scrollbar { display: none; }
+#ar-sheet.open { transform: translateY(0); }
+
+.ar-hdr { padding: 20px 20px 14px; border-bottom: 1px solid var(--bd); }
+.ar-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.ar-ai-badge {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .6px;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 6px;
+  background: var(--adim); color: var(--amber);
+}
+.ar-deal-tag { font-size: 11px; color: var(--t3); font-weight: 500; }
+.ar-title {
+  font-size: 16px; font-weight: 600; color: var(--t);
+  line-height: 1.4; letter-spacing: -.3px; margin-bottom: 14px;
+}
+.ar-conf-row { display: flex; align-items: center; gap: 8px; }
+.ar-conf {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 4px 10px;
+  border-radius: 20px; letter-spacing: .3px;
+}
+.ar-conf.high { background: var(--gdim); color: var(--green); }
+.ar-conf.med  { background: var(--adim); color: var(--amber); }
+.ar-conf.low  { background: var(--bdim); color: var(--blue); }
+.ar-conf-dot  { width: 5px; height: 5px; border-radius: 50%; }
+.ar-conf.high .ar-conf-dot { background: var(--green); }
+.ar-conf.med  .ar-conf-dot { background: var(--amber); }
+.ar-conf.low  .ar-conf-dot { background: var(--blue); }
+.ar-source-tag { font-size: 10.5px; color: var(--blue); font-weight: 500; }
+
+.ar-body { padding: 16px 20px 0; }
+.ar-section { margin-bottom: 16px; }
+.ar-sec-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .9px;
+  text-transform: uppercase; color: var(--t3); margin-bottom: 7px;
+}
+.ar-reason { font-size: 13px; color: var(--t2); line-height: 1.6; }
+.ar-quote {
+  background: var(--bg3); border: 1px solid var(--bd);
+  border-left: 2px solid var(--blue);
+  border-radius: 10px; padding: 11px 13px; margin-top: 10px;
+  font-size: 12px; color: var(--t2); line-height: 1.55; font-style: italic;
+}
+.ar-source-row { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--t2); }
+.ar-source-icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--bdim); border: 1px solid rgba(75,127,232,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.ar-field {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 0; border-bottom: 1px solid var(--bd);
+}
+.ar-field:last-child { border-bottom: none; }
+.ar-field-label { font-size: 12px; color: var(--t3); font-weight: 500; }
+.ar-field-val { font-size: 12.5px; color: var(--t); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.ar-edit-chip {
+  font-size: 10px; color: var(--blue); background: var(--bdim);
+  padding: 2px 7px; border-radius: 5px; cursor: pointer; font-weight: 600;
+  transition: background .15s; -webkit-tap-highlight-color: transparent;
+}
+.ar-edit-chip:active { background: rgba(75,127,232,0.22); }
+
+.ar-actions {
+  display: flex; gap: 8px;
+  padding: 16px 20px 0;
+  border-top: 1px solid var(--bd);
+}
+.ar-approve {
+  flex: 2; padding: 13px; border-radius: 14px;
+  background: var(--blue); border: none;
+  font-size: 14px; font-weight: 600; color: white;
+  cursor: pointer; font-family: inherit;
+  transition: opacity .15s, transform .1s;
+}
+.ar-approve:active { transform: scale(.97); opacity: .88; }
+.ar-edit-btn {
+  flex: 1; padding: 13px; border-radius: 14px;
+  background: var(--bg4); border: 1px solid var(--bd2);
+  font-size: 14px; font-weight: 500; color: var(--t2);
+  cursor: pointer; font-family: inherit;
+  transition: background .15s, transform .1s;
+}
+.ar-edit-btn:active { transform: scale(.97); background: var(--bg5); }
+.ar-reject {
+  flex: 1; padding: 13px; border-radius: 14px;
+  background: var(--rdim); border: 1px solid rgba(232,83,75,0.2);
+  font-size: 14px; font-weight: 500; color: var(--red);
+  cursor: pointer; font-family: inherit;
+  transition: background .15s, transform .1s;
+}
+.ar-reject:active { transform: scale(.97); }
+
+/* ═══════════════════════════════════════════
+   DEAL QUICK ACTIONS
+═══════════════════════════════════════════ */
+.qa-scroll {
+  display: flex; gap: 7px;
+  padding: 12px 16px 14px;
+  overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  border-bottom: 1px solid var(--bd); flex-shrink: 0;
+}
+.qa-scroll::-webkit-scrollbar { display: none; }
+.qa-btn {
+  flex-shrink: 0;
+  padding: 7px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  border: 1px solid var(--bd);
+  white-space: nowrap;
+  transition: transform .1s, background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.qa-btn:active { transform: scale(.94); }
+.qa-primary { background: var(--blue); color: white; border-color: transparent; box-shadow: 0 2px 10px rgba(75,127,232,0.3); }
+.qa-default { background: var(--bg4); color: var(--t2); }
+.qa-default:active { background: var(--bg5); }
+
+/* ═══════════════════════════════════════════
+   SHEET AUDIT FOOTER
+═══════════════════════════════════════════ */
+.sh-audit-footer {
+  margin: 8px 20px 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--bd);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sh-audit-txt {
+  font-size: 10.5px; color: var(--t3);
+  display: flex; align-items: center; gap: 5px;
+}
+.sh-audit-txt svg { width: 10px; height: 10px; stroke: var(--t3); fill: none; stroke-width: 2; stroke-linecap: round; }
+.sh-audit-link { font-size: 10.5px; color: var(--blue); cursor: pointer; font-weight: 500; }
+
+/* Proposed task tap hint */
+.task-row.proposed { cursor: pointer; }
+.task-row.proposed:active { background: rgba(245,166,35,0.04); }
+.task-review-hint { font-size: 10.5px; color: var(--blue); margin-top: 5px; font-weight: 500; }
+
+/* ═══════════════════════════════════════════
+   PROFILE OVERLAY — full-screen slide-up
+═══════════════════════════════════════════ */
+#profile {
+  display: none;
+  position: absolute; inset: 0; z-index: 230;
+  background: var(--bg);
+  flex-direction: column;
+  overflow: hidden;
+}
+#profile.open { display: flex; animation: scrIn .25s ease; }
+
+.profile-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 56px 20px 16px;
+  flex-shrink: 0;
+}
+.profile-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500; color: var(--blue);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: opacity .15s;
+}
+.profile-back:active { opacity: .6; }
+.profile-back svg { width: 16px; height: 16px; stroke: var(--blue); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.profile-topbar-title { font-size: 15px; font-weight: 600; color: var(--t); }
+.profile-topbar-space { width: 60px; } /* balance back button */
+
+/* Scrollable content */
+.profile-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding: 0 0 40px;
+}
+.profile-scroll::-webkit-scrollbar { display: none; }
+
+/* Hero account block */
+.profile-hero {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 8px 24px 28px;
+  border-bottom: 1px solid var(--bd);
+  margin-bottom: 24px;
+}
+.profile-av-lg {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(75,127,232,0.25) 0%, rgba(75,127,232,0.12) 100%);
+  border: 2px solid rgba(75,127,232,0.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700; color: var(--blue);
+  margin-bottom: 14px;
+  box-shadow: 0 0 0 6px rgba(75,127,232,0.07);
+}
+.profile-name {
+  font-size: 20px; font-weight: 600; color: var(--t);
+  letter-spacing: -.4px; margin-bottom: 4px;
+}
+.profile-role { font-size: 13px; color: var(--t2); margin-bottom: 2px; }
+.profile-firm { font-size: 12px; color: var(--t3); margin-bottom: 16px; }
+.profile-edit-btn {
+  padding: 8px 22px; border-radius: 20px;
+  border: 1px solid var(--bd2);
+  background: var(--bg4);
+  font-size: 13px; font-weight: 500; color: var(--t2);
+  cursor: pointer; font-family: inherit;
+  transition: background .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.profile-edit-btn:active { transform: scale(.96); background: var(--bg5); }
+
+/* Settings section */
+.settings-section { padding: 0 16px; margin-bottom: 24px; }
+.settings-sec-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--t3);
+  padding: 0 4px; margin-bottom: 8px;
+}
+.settings-group {
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 16px; overflow: hidden;
+}
+.settings-row {
+  display: flex; align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--bd);
+  cursor: pointer;
+  transition: background .12s;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 52px;
+}
+.settings-row:last-child { border-bottom: none; }
+.settings-row:active { background: var(--bg4); }
+.settings-row.no-tap { cursor: default; }
+.settings-row.no-tap:active { background: transparent; }
+
+.sr-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-right: 12px;
+  font-size: 15px;
+}
+.sr-icon svg { width: 15px; height: 15px; fill: none; stroke: white; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.si-blue   { background: var(--blue); }
+.si-green  { background: var(--green); }
+.si-amber  { background: var(--amber); }
+.si-purple { background: var(--purple); }
+.si-red    { background: var(--red); }
+.si-teal   { background: #0EA5E9; }
+.si-slate  { background: #475569; }
+
+.sr-body { flex: 1; min-width: 0; }
+.sr-label { font-size: 14px; font-weight: 500; color: var(--t); }
+.sr-sub   { font-size: 11.5px; color: var(--t3); margin-top: 1px; }
+
+.sr-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.sr-value { font-size: 13px; color: var(--t3); }
+.sr-chevron { font-size: 17px; color: var(--t3); line-height: 1; }
+
+/* Integration status dots */
+.sr-status {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500;
+}
+.sr-status.connected { color: var(--green); }
+.sr-status.optional  { color: var(--t3); }
+.sr-status.connecting { color: var(--amber); }
+.sr-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sr-status.connected  .sr-dot { background: var(--green); box-shadow: 0 0 0 2px rgba(61,214,140,0.2); }
+.sr-status.optional   .sr-dot { background: var(--bd2); }
+.sr-status.connecting .sr-dot { background: var(--amber); }
+
+/* Connect chip */
+.sr-connect {
+  font-size: 11px; font-weight: 600; color: var(--blue);
+  background: var(--bdim); padding: 3px 10px; border-radius: 20px;
+  cursor: pointer; transition: background .15s;
+}
+.sr-connect:active { background: rgba(75,127,232,0.22); }
+
+/* iOS-style toggle */
+.toggle-wrap { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
+.toggle-input { opacity: 0; width: 0; height: 0; position: absolute; }
+.toggle-slider {
+  position: absolute; inset: 0;
+  border-radius: 13px;
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: background .22s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(232,239,248,0.7);
+  top: 2px; left: 2px;
+  transition: transform .22s, background .22s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+}
+.toggle-input:checked + .toggle-slider { background: var(--blue); }
+.toggle-input:checked + .toggle-slider::before {
+  transform: translateX(18px);
+  background: white;
+}
+
+/* Security row — device trusted badge */
+.sr-trusted {
+  font-size: 11px; font-weight: 600; color: var(--green);
+  background: var(--gdim); padding: 3px 9px; border-radius: 20px;
+}
+
+/* Logout */
+.logout-btn {
+  margin: 0 16px 8px;
+  padding: 15px;
+  background: var(--rdim); border: 1px solid rgba(232,83,75,0.2);
+  border-radius: 16px;
+  font-size: 15px; font-weight: 600; color: var(--red);
+  text-align: center; cursor: pointer; font-family: inherit;
+  transition: background .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+  width: calc(100% - 32px);
+}
+.logout-btn:active { transform: scale(.98); background: rgba(232,83,75,0.18); }
+
+/* Version string */
+.profile-version {
+  text-align: center; font-size: 11px; color: var(--t3);
+  padding: 8px 0 4px; letter-spacing: .3px;
+}
+
+/* ═══════════════════════════════════════════
+   ONBOARDING OVERLAY
+═══════════════════════════════════════════ */
+#onboarding {
+  position: absolute; inset: 0; z-index: 300;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+#onboarding.done { display: none; }
+
+/* Skip button */
+.ob-skip {
+  position: absolute; top: 56px; right: 22px; z-index: 10;
+  font-size: 13px; font-weight: 500; color: var(--t3);
+  cursor: pointer; padding: 6px 4px;
+  transition: color .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.ob-skip:active { color: var(--t2); }
+
+/* Screen container — clips sliding panels */
+.ob-track {
+  flex: 1; position: relative; overflow: hidden;
+}
+
+/* Each screen */
+.ob-screen {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 0 32px 0;
+  opacity: 0; pointer-events: none;
+  transform: translateX(48px);
+  transition: opacity .38s cubic-bezier(.4,0,.2,1),
+              transform .38s cubic-bezier(.4,0,.2,1);
+  will-change: opacity, transform;
+}
+.ob-screen.active {
+  opacity: 1; pointer-events: all;
+  transform: translateX(0);
+}
+.ob-screen.exit {
+  opacity: 0; pointer-events: none;
+  transform: translateX(-48px);
+  transition: opacity .28s ease, transform .28s ease;
+}
+
+/* ── ILLUSTRATION AREA ── */
+.ob-visual {
+  width: 100%; max-width: 280px;
+  height: 240px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 44px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Screen 1: Voice waveform illustration */
+.ob-wave-ring {
+  width: 140px; height: 140px; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(75,127,232,0.14) 0%, rgba(75,127,232,0.04) 60%, transparent 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.ob-wave-ring::before, .ob-wave-ring::after {
+  content: ''; position: absolute; border-radius: 50%;
+  border: 1px solid rgba(75,127,232,0.15);
+  animation: obRingPulse 3s ease-in-out infinite;
+}
+.ob-wave-ring::before { width: 160px; height: 160px; animation-delay: 0s; }
+.ob-wave-ring::after  { width: 200px; height: 200px; animation-delay: .8s; }
+@keyframes obRingPulse {
+  0%,100% { opacity: .8; transform: scale(1); }
+  50%     { opacity: .2; transform: scale(1.04); }
+}
+.ob-mic-circle {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, #4B7FE8 0%, #3A6DD4 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 10px rgba(75,127,232,0.12),
+              0 8px 32px rgba(75,127,232,0.4);
+  animation: obMicPulse 2.4s ease-in-out infinite;
+}
+@keyframes obMicPulse {
+  0%,100% { box-shadow: 0 0 0 10px rgba(75,127,232,0.12), 0 8px 32px rgba(75,127,232,0.4); }
+  50%     { box-shadow: 0 0 0 16px rgba(75,127,232,0.07), 0 8px 40px rgba(75,127,232,0.5); }
+}
+.ob-mic-circle svg { width: 28px; height: 28px; stroke: white; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ob-bars {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: flex-end; gap: 5px;
+}
+.ob-bar {
+  width: 3px; border-radius: 2px;
+  background: var(--blue); opacity: .7;
+  animation: obBarAnim 1.4s ease-in-out infinite;
+}
+.ob-bar:nth-child(1) { height: 14px; animation-delay: .0s; }
+.ob-bar:nth-child(2) { height: 24px; animation-delay: .12s; }
+.ob-bar:nth-child(3) { height: 36px; animation-delay: .24s; }
+.ob-bar:nth-child(4) { height: 28px; animation-delay: .12s; }
+.ob-bar:nth-child(5) { height: 16px; animation-delay: .0s; }
+@keyframes obBarAnim {
+  0%,100% { transform: scaleY(.5); opacity: .4; }
+  50%     { transform: scaleY(1); opacity: .85; }
+}
+
+/* Screen 2: Task cards illustration */
+.ob-cards-wrap {
+  position: relative; width: 240px; height: 220px;
+}
+.ob-card-bg {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-radius: 16px;
+  animation: obCardFloat .1s ease forwards;
+  opacity: 0;
+}
+.ob-card-bg:nth-child(1) { width: 210px; top: 64px; animation-delay: .1s; }
+.ob-card-bg:nth-child(2) { width: 210px; top: 106px; animation-delay: .25s; }
+.ob-card-bg:nth-child(3) { width: 210px; top: 148px; animation-delay: .4s; }
+@keyframes obCardFloat {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.ob-card-main {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 224px;
+  background: var(--bg2);
+  border: 1px solid rgba(75,127,232,0.25);
+  border-radius: 16px; padding: 14px 16px;
+  box-shadow: 0 4px 24px rgba(75,127,232,0.15);
+  animation: obCardFloat .35s ease .05s forwards; opacity: 0;
+}
+.ob-card-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .7px;
+  text-transform: uppercase;
+  background: var(--adim); color: var(--amber);
+  display: inline-block; padding: 2px 8px; border-radius: 5px;
+  margin-bottom: 9px;
+}
+.ob-card-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 0; border-bottom: 1px solid var(--bd);
+}
+.ob-card-row:last-child { border-bottom: none; padding-bottom: 0; }
+.ob-card-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.ob-card-txt { font-size: 11.5px; color: var(--t2); }
+
+/* Screen 3: Briefing card illustration */
+.ob-brief-card {
+  width: 248px;
+  background: var(--bg2); border: 1px solid var(--bd);
+  border-left: 2px solid var(--blue);
+  border-radius: 18px; padding: 18px 18px 14px;
+  animation: obCardFloat .4s ease forwards; opacity: 0;
+}
+.ob-brief-hi { font-size: 13px; font-weight: 600; color: var(--blue); margin-bottom: 10px; }
+.ob-brief-txt { font-size: 12.5px; color: var(--t2); line-height: 1.6; margin-bottom: 14px; }
+.ob-brief-txt strong { color: var(--t); }
+.ob-brief-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ob-stat {
+  background: var(--bg4); border: 1px solid var(--bd);
+  border-radius: 10px; padding: 10px 11px;
+  animation: obCardFloat .35s ease both; opacity: 0;
+}
+.ob-stat:nth-child(1) { animation-delay: .18s; }
+.ob-stat:nth-child(2) { animation-delay: .26s; }
+.ob-stat:nth-child(3) { animation-delay: .34s; }
+.ob-stat:nth-child(4) { animation-delay: .42s; }
+.ob-stat-val { font-size: 20px; font-weight: 700; color: var(--t); letter-spacing: -.4px; }
+.ob-stat-lbl { font-size: 9.5px; color: var(--t3); margin-top: 2px; }
+
+/* ── TEXT CONTENT ── */
+.ob-headline {
+  font-size: 26px; font-weight: 700; color: var(--t);
+  letter-spacing: -.6px; line-height: 1.25;
+  text-align: center; margin-bottom: 14px;
+}
+.ob-subtext {
+  font-size: 15px; color: var(--t2); line-height: 1.65;
+  text-align: center; max-width: 260px;
+}
+
+/* ── PROGRESS DOTS ── */
+.ob-dots {
+  display: flex; align-items: center; justify-content: center;
+  gap: 7px; margin-top: 36px; margin-bottom: 10px;
+}
+.ob-dot {
+  width: 6px; height: 6px; border-radius: 3px;
+  background: var(--bd2);
+  transition: width .3s ease, background .3s ease;
+}
+.ob-dot.active { width: 20px; background: var(--blue); }
+
+/* ── BOTTOM NAV (shared by screens 1-3) ── */
+.ob-footer {
+  flex-shrink: 0; padding: 20px 24px 36px;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.ob-next-btn {
+  width: 100%; padding: 15px;
+  border-radius: 16px; border: none;
+  background: var(--blue);
+  font-size: 15px; font-weight: 600; color: white;
+  cursor: pointer; font-family: inherit;
+  transition: opacity .15s, transform .1s;
+  box-shadow: 0 4px 20px rgba(75,127,232,0.35);
+  -webkit-tap-highlight-color: transparent;
+  margin-bottom: 16px;
+}
+.ob-next-btn:active { transform: scale(.97); opacity: .88; }
+
+/* ── CONNECT SCREEN (screen 4) ── */
+.ob-screen.connect { justify-content: flex-start; padding-top: 64px; }
+.ob-connect-hdr { text-align: center; margin-bottom: 28px; width: 100%; }
+.ob-connect-hdr .ob-headline { font-size: 22px; margin-bottom: 8px; }
+.ob-connect-hdr .ob-subtext  { font-size: 13.5px; }
+
+.ob-integrations { width: 100%; background: var(--bg2); border: 1px solid var(--bd); border-radius: 18px; overflow: hidden; margin-bottom: 24px; }
+.ob-int-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; border-bottom: 1px solid var(--bd);
+  cursor: pointer; transition: background .12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.ob-int-row:last-child { border-bottom: none; }
+.ob-int-row:active { background: var(--bg4); }
+.ob-int-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.ob-int-body { flex: 1; }
+.ob-int-name { font-size: 14px; font-weight: 600; color: var(--t); }
+.ob-int-sub  { font-size: 11.5px; color: var(--t3); margin-top: 1px; }
+.ob-int-right { flex-shrink: 0; }
+.ob-int-toggle { display: flex; } /* reuse toggle-wrap */
+
+.ob-get-started {
+  width: 100%; padding: 15px; border-radius: 16px; border: none;
+  background: var(--blue); color: white;
+  font-size: 15px; font-weight: 600; font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(75,127,232,0.4);
+  transition: opacity .15s, transform .1s;
+  margin-bottom: 14px;
+  -webkit-tap-highlight-color: transparent;
+}
+.ob-get-started:active { transform: scale(.97); opacity: .88; }
+.ob-demo-link {
+  font-size: 14px; color: var(--t3); font-weight: 500;
+  cursor: pointer; padding: 6px 0;
+  transition: color .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.ob-demo-link:active { color: var(--blue); }
+
+/* CSS_DONE */
+</style>
+</head>
+<body>
+
+<div class="page">
+<div class="phone" id="phone">
+
+  <!-- ═══════════════════════════════════════
+       ONBOARDING FLOW
+  ═══════════════════════════════════════ -->
+  <div id="onboarding">
+
+    <!-- Skip (screens 1-3 only) -->
+    <div class="ob-skip" id="ob-skip" onclick="obSkip()">Skip</div>
+
+    <!-- Track holds the sliding screens -->
+    <div class="ob-track">
+
+      <!-- ── SCREEN 1: Speak naturally ── -->
+      <div class="ob-screen active" id="obs-1">
+        <div class="ob-visual">
+          <div class="ob-wave-ring">
+            <div class="ob-mic-circle">
+              <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+            </div>
+          </div>
+          <div class="ob-bars">
+            <div class="ob-bar"></div>
+            <div class="ob-bar"></div>
+            <div class="ob-bar"></div>
+            <div class="ob-bar"></div>
+            <div class="ob-bar"></div>
+          </div>
+        </div>
+        <div class="ob-headline">Speak updates<br>naturally</div>
+        <div class="ob-subtext">Use voice, files, or text while moving between meetings.</div>
+        <div class="ob-dots">
+          <div class="ob-dot active" id="od-1"></div>
+          <div class="ob-dot" id="od-2"></div>
+          <div class="ob-dot" id="od-3"></div>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 2: Turns into action ── -->
+      <div class="ob-screen" id="obs-2">
+        <div class="ob-visual">
+          <div class="ob-cards-wrap">
+            <!-- floating shadow cards -->
+            <div class="ob-card-bg" style="height:48px"></div>
+            <div class="ob-card-bg" style="height:48px"></div>
+            <div class="ob-card-bg" style="height:48px"></div>
+            <!-- main card -->
+            <div class="ob-card-main">
+              <div class="ob-card-badge">✦ Focal AI · 3 actions</div>
+              <div class="ob-card-row">
+                <div class="ob-card-dot" style="background:var(--red)"></div>
+                <div class="ob-card-txt">Submit SEBI form to counsel</div>
+              </div>
+              <div class="ob-card-row">
+                <div class="ob-card-dot" style="background:var(--amber)"></div>
+                <div class="ob-card-txt">Send Atlas milestone plan</div>
+              </div>
+              <div class="ob-card-row">
+                <div class="ob-card-dot" style="background:var(--blue)"></div>
+                <div class="ob-card-txt">Review Meridian SPA redline</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ob-headline">Focal turns updates<br>into action</div>
+        <div class="ob-subtext">Tasks, CRM updates, reminders, summaries — instantly organized.</div>
+        <div class="ob-dots">
+          <div class="ob-dot" id="od-1b"></div>
+          <div class="ob-dot active" id="od-2b"></div>
+          <div class="ob-dot" id="od-3b"></div>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 3: Stay ahead ── -->
+      <div class="ob-screen" id="obs-3">
+        <div class="ob-visual">
+          <div class="ob-brief-card">
+            <div class="ob-brief-hi">✦ AI Briefing · 8:42 AM</div>
+            <div class="ob-brief-txt"><strong>2 deals need action today.</strong> Orion SEBI gap blocks close. Meridian ready for partner sign-off.</div>
+            <div class="ob-brief-stats">
+              <div class="ob-stat">
+                <div class="ob-stat-val">$230M</div>
+                <div class="ob-stat-lbl">Pipeline</div>
+              </div>
+              <div class="ob-stat">
+                <div class="ob-stat-val" style="color:var(--amber)">4</div>
+                <div class="ob-stat-lbl">Risks flagged</div>
+              </div>
+              <div class="ob-stat">
+                <div class="ob-stat-val">9</div>
+                <div class="ob-stat-lbl">Tasks ready</div>
+              </div>
+              <div class="ob-stat">
+                <div class="ob-stat-val" style="color:var(--green)">1</div>
+                <div class="ob-stat-lbl">Closing soon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ob-headline">Stay ahead<br>every morning</div>
+        <div class="ob-subtext">Get AI briefings, deal risks, overdue follow-ups, next actions.</div>
+        <div class="ob-dots">
+          <div class="ob-dot" id="od-1c"></div>
+          <div class="ob-dot" id="od-2c"></div>
+          <div class="ob-dot active" id="od-3c"></div>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 4: Connect workspace ── -->
+      <div class="ob-screen connect" id="obs-4">
+        <div class="ob-connect-hdr">
+          <div class="ob-headline">Connect your<br>workspace</div>
+          <div class="ob-subtext">Focal works best with your existing tools.</div>
+        </div>
+        <div class="ob-integrations">
+          <div class="ob-int-row" onclick="obToggleInt('sf')">
+            <div class="ob-int-icon" style="background:rgba(0,161,224,0.12);font-size:13px;font-weight:700;color:#00A1E0">SF</div>
+            <div class="ob-int-body">
+              <div class="ob-int-name">Salesforce</div>
+              <div class="ob-int-sub">CRM · deals, contacts, tasks</div>
+            </div>
+            <div class="ob-int-right">
+              <label class="toggle-wrap" onclick="event.stopPropagation()">
+                <input type="checkbox" class="toggle-input" id="sf-tog" checked onchange="obToggleInt('sf')">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="ob-int-row" onclick="obToggleInt('gmail')">
+            <div class="ob-int-icon" style="background:rgba(234,67,53,0.12);font-size:16px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#EA4335" stroke-width="1.5" stroke-linejoin="round"/><polyline points="22,6 12,13 2,6" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="ob-int-body">
+              <div class="ob-int-name">Gmail</div>
+              <div class="ob-int-sub">Email threads &amp; attachments</div>
+            </div>
+            <div class="ob-int-right">
+              <label class="toggle-wrap" onclick="event.stopPropagation()">
+                <input type="checkbox" class="toggle-input" id="gmail-tog" checked onchange="obToggleInt('gmail')">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="ob-int-row" onclick="obToggleInt('cal')">
+            <div class="ob-int-icon" style="background:rgba(14,165,233,0.12)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#0EA5E9" stroke-width="1.5"/><line x1="16" y1="2" x2="16" y2="6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="2" x2="8" y2="6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/><line x1="3" y1="10" x2="21" y2="10" stroke="#0EA5E9" stroke-width="1.5"/></svg>
+            </div>
+            <div class="ob-int-body">
+              <div class="ob-int-name">Calendar</div>
+              <div class="ob-int-sub">Meetings, reminders, blocks</div>
+            </div>
+            <div class="ob-int-right">
+              <label class="toggle-wrap" onclick="event.stopPropagation()">
+                <input type="checkbox" class="toggle-input" id="cal-tog" checked onchange="obToggleInt('cal')">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <button class="ob-get-started" onclick="obDone()">Get Started</button>
+        <div class="ob-demo-link" onclick="obExploreDemo()">Explore Demo →</div>
+      </div>
+
+    </div><!-- end ob-track -->
+
+    <!-- Footer for screens 1–3 -->
+    <div class="ob-footer" id="ob-footer">
+      <button class="ob-next-btn" id="ob-next" onclick="obNext()">Continue</button>
+    </div>
+
+  </div><!-- end onboarding -->
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span class="sb-time">9:41</span>
+    <div class="sb-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+        <rect x="0" y="4" width="3" height="8" rx="1" fill="rgba(232,239,248,0.4)"/>
+        <rect x="4.5" y="2.5" width="3" height="9.5" rx="1" fill="rgba(232,239,248,0.6)"/>
+        <rect x="9" y="1" width="3" height="11" rx="1" fill="rgba(232,239,248,0.8)"/>
+        <rect x="13.5" y="0" width="3" height="12" rx="1" fill="rgba(232,239,248,1)"/>
+      </svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <path d="M1 4.5C3.5 2 6 .8 8 .8s4.5 1.2 7 3.7" stroke="rgba(232,239,248,0.5)" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M3 7C4.5 5.5 6.2 4.8 8 4.8s3.5.7 5 2.2" stroke="rgba(232,239,248,0.8)" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="8" cy="10.5" r="1.2" fill="rgba(232,239,248,1)"/>
+      </svg>
+      <svg width="26" height="12" viewBox="0 0 26 12" fill="none">
+        <rect x=".5" y=".5" width="22" height="11" rx="2.5" stroke="rgba(232,239,248,0.4)" stroke-width="1"/>
+        <rect x="1.5" y="1.5" width="18" height="9" rx="2" fill="rgba(232,239,248,0.9)"/>
+        <path d="M24 4v4c1.1-.5 1.1-3.5 0-4z" fill="rgba(232,239,248,0.4)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- App Header — Focal brand hierarchy -->
+  <div class="app-header">
+    <div class="logo-wrap">
+      <div class="logo-mark">
+        <!-- F-mark: clean abstract focal point / lens motif -->
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="3" stroke="white" stroke-width="1.5"/>
+          <circle cx="9" cy="9" r="6.5" stroke="rgba(255,255,255,0.40)" stroke-width="1"/>
+          <line x1="9" y1="1" x2="9" y2="4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="9" y1="13.5" x2="9" y2="17" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="1" y1="9" x2="4.5" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="13.5" y1="9" x2="17" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <div class="logo-focal">Focal</div>
+        <div class="logo-by">by FourBridges</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="notif-btn" id="notif-btn" onclick="openNotif()">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div class="notif-dot" id="notif-dot"></div>
+      </div>
+      <div class="avatar" onclick="openProfile()">RD</div>
+    </div>
+  </div>
+
+  <!-- Trust Bar -->
+  <div class="trust-bar">
+    <div class="tb-item ok">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Secure workspace
+    </div>
+    <div class="tb-sep">·</div>
+    <div class="tb-item ok">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      CRM synced · now
+    </div>
+    <div class="tb-sep">·</div>
+    <div class="tb-item">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      AI requires approval
+    </div>
+  </div>
+
+  <!-- Main scrollable area -->
+  <div class="main" id="main">
+
+    <!-- ═══════════════════════════════
+         SCREEN: HOME
+    ═══════════════════════════════ -->
+    <div class="screen active" id="scr-home">
+
+      <div class="greeting">
+        <div class="greeting-hi">Good morning, Rahul.</div>
+        <div class="greeting-sub">
+          Wed, Apr 22
+          <div class="g-dot"></div>
+          4 active deals
+          <div class="g-dot"></div>
+          $230M pipeline
+        </div>
+      </div>
+
+      <!-- AI Changes bar -->
+      <div class="changes-bar" onclick="showToast('AI proposed 3 actions from orion_call_apr20.mp3 — tap Tasks to review')">
+        <div>
+          <div class="cb-txt">✦ Focal AI proposed 3 actions</div>
+          <div style="font-size:10.5px;color:var(--t3);margin-top:2px">orion_call_apr20.mp3 · 3 min ago</div>
+        </div>
+        <div class="cb-link">Review →</div>
+      </div>
+
+      <!-- Priority decisions -->
+      <div class="sec-hdr">
+        <div class="sec-title"><div class="sec-badge">3</div>Decisions</div>
+        <div class="sec-link" onclick="goScreen('scr-deals')">View all →</div>
+      </div>
+      <div class="priority-scroll">
+        <div class="pcard crit" id="pc1">
+          <div class="pc-badge pc-b-r">Critical</div>
+          <div class="pc-title">Orion — SEBI disclosure</div>
+          <div class="pc-sub">Missing promoter lock-in form. Term sheet blocked.</div>
+          <button class="pc-btn pc-btn-r" onclick="event.stopPropagation();actPC('pc1','SEBI docs submitted to legal counsel')">Submit to counsel</button>
+          <div class="pc-due">Due: Today</div>
+        </div>
+        <div class="pcard warn" id="pc2">
+          <div class="pc-badge pc-b-a">Attention</div>
+          <div class="pc-title">Atlas — client overdue</div>
+          <div class="pc-sub">Karan awaiting revised milestone plan. 18h no response.</div>
+          <button class="pc-btn pc-btn-a" onclick="event.stopPropagation();actPC('pc2','Drafting Atlas timeline update…')">Draft update</button>
+          <div class="pc-due">Due: Today EOD</div>
+        </div>
+        <div class="pcard ok" id="pc3">
+          <div class="pc-badge pc-b-b">Review</div>
+          <div class="pc-title">Meridian — final sign-off</div>
+          <div class="pc-sub">All close conditions met. Partner signature is the last gate.</div>
+          <button class="pc-btn pc-btn-b" onclick="event.stopPropagation();actPC('pc3','Opening Meridian term sheet for review')">Review term sheet</button>
+          <div class="pc-due">Due: Apr 23</div>
+        </div>
+      </div>
+
+      <!-- AI Briefing -->
+      <div class="brief-strip" onclick="showToast('Full AI briefing: 2 deals require action before EOD. Meridian closing. Vega in diligence.')">
+        <div class="bs-label">✦ AI Briefing · Wed 8:42 AM</div>
+        <div class="bs-txt"><strong>2 deals need action today.</strong> Orion SEBI gap blocks Friday close. Atlas client update 18h overdue. <strong>Meridian Capital</strong> close conditions satisfied — partner sign-off is the final gate.</div>
+        <div class="bs-meta">4 deals · $230M · 3 decisions pending · <span style="color:var(--green);font-weight:500">Synced now</span></div>
+      </div>
+
+      <!-- Live deals -->
+      <div class="sec-hdr" style="margin-top:4px">
+        <div class="sec-title">Live Deals</div>
+        <div class="sec-link" onclick="goScreen('scr-deals')">All 4 →</div>
+      </div>
+      <div class="deal-list" id="home-deal-list">
+
+        <div class="deal-card risk" id="deal-orion" onclick="openSheet('orion')">
+          <div class="dc-top">
+            <div class="dc-name">Project Orion</div>
+            <div class="dc-status st-r" id="ost">At Risk</div>
+          </div>
+          <div class="dc-value">$48M</div>
+          <div class="dc-meta">Series B · PE Mandate</div>
+          <div class="stage-wrap">
+            <div class="stage-names">
+              <div class="sn-m">Orig</div><div class="sn-m">Due Dil</div><div class="sn-m cur">Struct</div><div class="sn-m">Docs</div><div class="sn-m">Close</div>
+            </div>
+            <div class="strack-m" id="otr">
+              <div class="ss-m rd"></div><div class="ss-m rd"></div><div class="ss-m rd"></div><div class="ss-m"></div><div class="ss-m"></div>
+            </div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov"><span class="ai-src">Via call</span> · Updated 3m ago</div>
+            <div class="dc-avs">
+              <div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">RK</div>
+              <div class="dc-av" style="background:rgba(139,92,246,0.15);color:var(--purple)">AS</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deal-card delayed" id="deal-atlas" onclick="openSheet('atlas')">
+          <div class="dc-top">
+            <div class="dc-name">Project Atlas</div>
+            <div class="dc-status st-d">Delayed</div>
+          </div>
+          <div class="dc-value">$120M</div>
+          <div class="dc-meta">M&amp;A Advisory · Sell-Side</div>
+          <div class="stage-wrap">
+            <div class="stage-names">
+              <div class="sn-m">Orig</div><div class="sn-m">Due Dil</div><div class="sn-m cur">Struct</div><div class="sn-m">Docs</div><div class="sn-m">Close</div>
+            </div>
+            <div class="strack-m">
+              <div class="ss-m am"></div><div class="ss-m am"></div><div class="ss-m am"></div><div class="ss-m"></div><div class="ss-m"></div>
+            </div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov"><span class="ai-src">AI inferred</span> · Apr 21, 8:15 AM</div>
+            <div class="dc-avs">
+              <div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">KJ</div>
+              <div class="dc-av" style="background:rgba(61,214,140,0.15);color:var(--green)">PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deal-card closing" id="deal-meridian" onclick="openSheet('meridian')">
+          <div class="dc-top">
+            <div class="dc-name">Meridian Capital</div>
+            <div class="dc-status st-c">Closing</div>
+          </div>
+          <div class="dc-value">$35M</div>
+          <div class="dc-meta">Debt Restructure · Buy-Side</div>
+          <div class="stage-wrap">
+            <div class="stage-names">
+              <div class="sn-m">Orig</div><div class="sn-m">Due Dil</div><div class="sn-m">Struct</div><div class="sn-m">Docs</div><div class="sn-m cur">Close</div>
+            </div>
+            <div class="strack-m">
+              <div class="ss-m gr"></div><div class="ss-m gr"></div><div class="ss-m gr"></div><div class="ss-m gr"></div><div class="ss-m gr"></div>
+            </div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov" id="mprov"><span class="ai-src">Via transcript</span> · Apr 20, 3:00 PM</div>
+            <div class="dc-avs">
+              <div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">RK</div>
+              <div class="dc-av" style="background:rgba(139,92,246,0.15);color:var(--purple)">AS</div>
+              <div class="dc-av" style="background:rgba(61,214,140,0.15);color:var(--green)">PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deal-card active-deal" id="deal-vega" onclick="openSheet('vega')">
+          <div class="dc-top">
+            <div class="dc-name">Project Vega</div>
+            <div class="dc-status st-a">Active</div>
+          </div>
+          <div class="dc-value">$27M</div>
+          <div class="dc-meta">Growth Equity · Co-Invest</div>
+          <div class="stage-wrap">
+            <div class="stage-names">
+              <div class="sn-m">Orig</div><div class="sn-m cur">Due Dil</div><div class="sn-m">Struct</div><div class="sn-m">Docs</div><div class="sn-m">Close</div>
+            </div>
+            <div class="strack-m">
+              <div class="ss-m bl"></div><div class="ss-m bl"></div><div class="ss-m"></div><div class="ss-m"></div><div class="ss-m"></div>
+            </div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov" id="vprov">Manual entry · Apr 18</div>
+            <div class="dc-avs">
+              <div class="dc-av" style="background:rgba(139,92,246,0.15);color:var(--purple)">AS</div>
+              <div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">KJ</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end deal-list -->
+    </div><!-- end scr-home -->
+
+    <!-- ═══════════════════════════════
+         SCREEN: DEALS
+    ═══════════════════════════════ -->
+    <div class="screen" id="scr-deals">
+      <div class="screen-header">
+        <div class="screen-title">Deals</div>
+        <div class="screen-sub">$230M · 4 mandates</div>
+      </div>
+      <div class="deal-list">
+        <div class="deal-card risk" onclick="openSheet('orion')">
+          <div class="dc-top"><div class="dc-name">Project Orion</div><div class="dc-status st-r">At Risk</div></div>
+          <div class="dc-value">$48M</div>
+          <div class="dc-meta">Series B · PE Mandate · Partner: Rohan Kapoor</div>
+          <div class="stage-wrap">
+            <div class="stage-names"><div class="sn-m">Orig</div><div class="sn-m">Due Dil</div><div class="sn-m cur">Struct</div><div class="sn-m">Docs</div><div class="sn-m">Close</div></div>
+            <div class="strack-m"><div class="ss-m rd"></div><div class="ss-m rd"></div><div class="ss-m rd"></div><div class="ss-m"></div><div class="ss-m"></div></div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov"><span class="ai-src">Via call recording</span> · Apr 20 · <span style="color:var(--green);font-weight:500">High confidence</span></div>
+            <div class="dc-avs"><div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">RK</div><div class="dc-av" style="background:rgba(139,92,246,0.15);color:var(--purple)">AS</div></div>
+          </div>
+        </div>
+        <div class="deal-card delayed" onclick="openSheet('atlas')">
+          <div class="dc-top"><div class="dc-name">Project Atlas</div><div class="dc-status st-d">Delayed</div></div>
+          <div class="dc-value">$120M</div>
+          <div class="dc-meta">M&amp;A Advisory · Sell-Side · Partner: Karan Johar</div>
+          <div class="stage-wrap">
+            <div class="stage-names"><div class="sn-m">Orig</div><div class="sn-m">Due Dil</div><div class="sn-m cur">Struct</div><div class="sn-m">Docs</div><div class="sn-m">Close</div></div>
+            <div class="strack-m"><div class="ss-m am"></div><div class="ss-m am"></div><div class="ss-m am"></div><div class="ss-m"></div><div class="ss-m"></div></div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov"><span class="ai-src">AI analysis</span> · Apr 21 · <span style="color:var(--amber);font-weight:500">Med confidence</span></div>
+            <div class="dc-avs"><div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">KJ</div><div class="dc-av" style="background:rgba(61,214,140,0.15);color:var(--green)">PM</div></div>
+          </div>
+        </div>
+        <div class="deal-card closing" onclick="openSheet('meridian')">
+          <div class="dc-top"><div class="dc-name">Meridian Capital</div><div class="dc-status st-c">Closing</div></div>
+          <div class="dc-value">$35M</div>
+          <div class="dc-meta">Debt Restructure · Buy-Side · Partner: Rohan Kapoor</div>
+          <div class="stage-wrap">
+            <div class="stage-names"><div class="sn-m">Orig</div><div class="sn-m">Due Dil</div><div class="sn-m">Struct</div><div class="sn-m">Docs</div><div class="sn-m cur">Close</div></div>
+            <div class="strack-m"><div class="ss-m gr"></div><div class="ss-m gr"></div><div class="ss-m gr"></div><div class="ss-m gr"></div><div class="ss-m gr"></div></div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov"><span class="ai-src">Via transcript</span> · Apr 20 · <span style="color:var(--green);font-weight:500">High confidence</span></div>
+            <div class="dc-avs"><div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">RK</div><div class="dc-av" style="background:rgba(139,92,246,0.15);color:var(--purple)">AS</div><div class="dc-av" style="background:rgba(61,214,140,0.15);color:var(--green)">PM</div></div>
+          </div>
+        </div>
+        <div class="deal-card active-deal" onclick="openSheet('vega')">
+          <div class="dc-top"><div class="dc-name">Project Vega</div><div class="dc-status st-a">Active</div></div>
+          <div class="dc-value">$27M</div>
+          <div class="dc-meta">Growth Equity · Co-Invest · Lead: Anika Singh</div>
+          <div class="stage-wrap">
+            <div class="stage-names"><div class="sn-m">Orig</div><div class="sn-m cur">Due Dil</div><div class="sn-m">Struct</div><div class="sn-m">Docs</div><div class="sn-m">Close</div></div>
+            <div class="strack-m"><div class="ss-m bl"></div><div class="ss-m bl"></div><div class="ss-m"></div><div class="ss-m"></div><div class="ss-m"></div></div>
+          </div>
+          <div class="dc-foot">
+            <div class="dc-prov">Manual entry · Apr 18</div>
+            <div class="dc-avs"><div class="dc-av" style="background:rgba(139,92,246,0.15);color:var(--purple)">AS</div><div class="dc-av" style="background:rgba(75,127,232,0.15);color:var(--blue)">KJ</div></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end scr-deals -->
+
+    <!-- ═══════════════════════════════
+         SCREEN: TASKS
+    ═══════════════════════════════ -->
+    <div class="screen" id="scr-tasks">
+      <div class="screen-header">
+        <div class="screen-title">Tasks</div>
+        <div class="screen-sub" id="task-count">9 open · 3 done · 3 AI proposed</div>
+      </div>
+      <div class="task-tabs">
+        <div class="task-tab on" id="ttab1" onclick="stab('tl-ai')">AI Proposed</div>
+        <div class="task-tab" id="ttab2" onclick="stab('tl-all')">All Tasks</div>
+        <div class="task-tab" id="ttab3" onclick="stab('tl-done')">Done</div>
+      </div>
+
+      <!-- TAB: AI PROPOSED -->
+      <div class="task-list" id="tl-ai">
+        <div class="task-row proposed" id="tr1" onclick="openAIReview('tr1')">
+          <div class="task-chk" id="chk1" onclick="event.stopPropagation()"></div>
+          <div class="task-body">
+            <div class="task-title">Submit SEBI disclosure form to counsel — blocks Orion term sheet</div>
+            <div class="task-meta">
+              <div class="task-pri tp-c">Critical</div>
+              <div class="task-ai-badge">✦ AI proposed</div>
+              <div class="task-src">Orion call · Apr 20</div>
+              <div class="task-due">Due: Today</div>
+            </div>
+            <div class="task-review-hint">Tap to review Focal's reasoning →</div>
+            <div class="task-actions" id="tb1" onclick="event.stopPropagation()">
+              <button class="task-confirm" onclick="approveTask('tr1','tb1','ts1')">Approve</button>
+              <button class="task-dismiss" onclick="rejectTask('tr1')">Reject</button>
+            </div>
+            <div class="task-suc" id="ts1">✓ Approved — added to Orion</div>
+          </div>
+        </div>
+        <div class="task-row proposed" id="tr2" onclick="openAIReview('tr2')">
+          <div class="task-chk" id="chk2" onclick="event.stopPropagation()"></div>
+          <div class="task-body">
+            <div class="task-title">Send Karan Johar the revised Atlas project milestone plan</div>
+            <div class="task-meta">
+              <div class="task-pri tp-h">High</div>
+              <div class="task-ai-badge">✦ AI proposed</div>
+              <div class="task-src">AI inferred · Atlas</div>
+              <div class="task-due">Due: Today</div>
+            </div>
+            <div class="task-review-hint">Tap to review Focal's reasoning →</div>
+            <div class="task-actions" id="tb2" onclick="event.stopPropagation()">
+              <button class="task-confirm" onclick="approveTask('tr2','tb2','ts2')">Approve</button>
+              <button class="task-dismiss" onclick="rejectTask('tr2')">Reject</button>
+            </div>
+            <div class="task-suc" id="ts2">✓ Approved — added to Atlas</div>
+          </div>
+        </div>
+        <div class="task-row proposed" id="tr5" onclick="openAIReview('tr5')">
+          <div class="task-chk" id="chk5" onclick="event.stopPropagation()"></div>
+          <div class="task-body">
+            <div class="task-title">Review Meridian SPA redline and clear legal comments</div>
+            <div class="task-meta">
+              <div class="task-pri tp-h">High</div>
+              <div class="task-ai-badge">✦ AI proposed</div>
+              <div class="task-src">Transcript · Apr 20</div>
+              <div class="task-due">Due: Today</div>
+            </div>
+            <div class="task-review-hint">Tap to review Focal's reasoning →</div>
+            <div class="task-actions" id="tb5" onclick="event.stopPropagation()">
+              <button class="task-confirm" onclick="approveTask('tr5','tb5','ts5')">Approve</button>
+              <button class="task-dismiss" onclick="rejectTask('tr5')">Reject</button>
+            </div>
+            <div class="task-suc" id="ts5">✓ Approved — added to Meridian</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: ALL TASKS -->
+      <div class="task-list" id="tl-all" style="display:none">
+        <div class="task-row proposed" id="tr1b">
+          <div class="task-chk" id="chk1b"></div>
+          <div class="task-body">
+            <div class="task-title">Submit SEBI disclosure form to counsel</div>
+            <div class="task-meta">
+              <div class="task-pri tp-c">Critical</div>
+              <div class="task-ai-badge">AI proposed</div>
+              <div class="task-due">Today</div>
+            </div>
+          </div>
+        </div>
+        <div class="task-row proposed" id="tr2b">
+          <div class="task-chk" id="chk2b"></div>
+          <div class="task-body">
+            <div class="task-title">Send Karan Johar revised Atlas milestone plan</div>
+            <div class="task-meta">
+              <div class="task-pri tp-h">High</div>
+              <div class="task-ai-badge">AI proposed</div>
+              <div class="task-due">Today</div>
+            </div>
+          </div>
+        </div>
+        <div class="task-row" id="tr3">
+          <div class="task-chk" id="chk3" onclick="doneTask('tr3','chk3','deal-meridian','mprov','Task done · now')"></div>
+          <div class="task-body">
+            <div class="task-title">Prepare Meridian term sheet for partner sign-off</div>
+            <div class="task-meta">
+              <div class="task-pri tp-m">Medium</div>
+              <div class="task-src">Partner notes · Apr 19</div>
+              <div class="task-due">Due: Apr 23</div>
+            </div>
+          </div>
+        </div>
+        <div class="task-row" id="tr4">
+          <div class="task-chk" id="chk4" onclick="doneTask('tr4','chk4','deal-vega','vprov','Kick-off scheduled')"></div>
+          <div class="task-body">
+            <div class="task-title">Schedule kick-off call with Vega founders and co-investors</div>
+            <div class="task-meta">
+              <div class="task-pri tp-l">Normal</div>
+              <div class="task-src">AI assigned · Vega</div>
+              <div class="task-due">Due: Apr 24</div>
+            </div>
+          </div>
+        </div>
+        <div class="task-row" id="tr6">
+          <div class="task-chk" id="chk6"></div>
+          <div class="task-body">
+            <div class="task-title">Follow up with Atlas CFO on Q4 normalized EBITDA</div>
+            <div class="task-meta">
+              <div class="task-pri tp-m">Medium</div>
+              <div class="task-src">Manual · Karan Johar</div>
+              <div class="task-due">Due: Apr 22</div>
+            </div>
+          </div>
+        </div>
+        <div class="task-row" id="tr7">
+          <div class="task-chk" id="chk7"></div>
+          <div class="task-body">
+            <div class="task-title">Circulate Vega diligence tracker to co-investors</div>
+            <div class="task-meta">
+              <div class="task-pri tp-l">Normal</div>
+              <div class="task-src">Manual · Anika Singh</div>
+              <div class="task-due">Due: Apr 25</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: DONE -->
+      <div class="task-list" id="tl-done" style="display:none">
+        <div class="task-row done-row">
+          <div class="task-chk ck"></div>
+          <div class="task-body">
+            <div class="task-title">Submit Orion disclosure documents to legal counsel</div>
+            <div class="task-meta">
+              <div class="task-pri tp-c">Critical</div>
+              <div class="task-src">Orion</div>
+              <div class="task-done-ts">✓ Today · 10:32 AM</div>
+            </div>
+          </div>
+        </div>
+        <div class="task-row done-row">
+          <div class="task-chk ck"></div>
+          <div class="task-body">
+            <div class="task-title">Share Atlas milestone plan with Karan Johar</div>
+            <div class="task-meta">
+              <div class="task-pri tp-h">High</div>
+              <div class="task-src">Atlas</div>
+              <div class="task-done-ts">✓ Yesterday · 4:15 PM</div>
+            </div>
+          </div>
+        </div>
+        <div class="task-row done-row">
+          <div class="task-chk ck"></div>
+          <div class="task-body">
+            <div class="task-title">Schedule Vega founder introduction call</div>
+            <div class="task-meta">
+              <div class="task-pri tp-m">Medium</div>
+              <div class="task-src">Vega</div>
+              <div class="task-done-ts">✓ Apr 19</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end scr-tasks -->
+
+    <!-- ═══════════════════════════════
+         SCREEN: INSIGHTS (renamed from Intel)
+    ═══════════════════════════════ -->
+    <div class="screen" id="scr-insights">
+      <div class="screen-header">
+        <div class="screen-title">Insights</div>
+        <div class="screen-sub">Apr 15–22, 2026</div>
+      </div>
+      <div class="intel-grid">
+        <div class="intel-card"><div class="ic-label">Pipeline Value</div><div class="ic-val">$230M</div><div class="ic-sub">4 active deals · <span style="color:var(--green)">Synced</span></div></div>
+        <div class="intel-card"><div class="ic-label">AI Actions</div><div class="ic-val">17</div><div class="ic-sub">11 confirmed · 6 pending</div></div>
+        <div class="intel-card"><div class="ic-label">Risks Flagged</div><div class="ic-val" style="color:var(--amber)">6</div><div class="ic-sub">2 critical · 4 monitor</div></div>
+        <div class="intel-card"><div class="ic-label">Tasks Closed</div><div class="ic-val" style="color:var(--green)">9</div><div class="ic-sub">3 pending review</div></div>
+      </div>
+      <div class="intel-timeline" style="margin:0 16px">
+        <div class="it-hdr">AI Activity — This Week</div>
+        <div class="it-row"><div class="it-dot-wrap"><div class="it-dot dot-b"></div><div class="it-line"></div></div><div><div class="it-txt"><strong>AI extracted 4 tasks + 2 risks</strong> from Orion call recording (38 min)</div><div class="it-time">Apr 20 · 08:40 · High confidence</div></div></div>
+        <div class="it-row"><div class="it-dot-wrap"><div class="it-dot dot-r"></div><div class="it-line"></div></div><div><div class="it-txt"><strong>SEBI compliance risk flagged</strong> — Orion promoter lock-in gap identified</div><div class="it-time">Apr 20 · 08:41 · Direct quote</div></div></div>
+        <div class="it-row"><div class="it-dot-wrap"><div class="it-dot dot-g"></div><div class="it-line"></div></div><div><div class="it-txt"><strong>Meridian closing confirmed</strong> — all 5 conditions satisfied, SPA in redline</div><div class="it-time">Apr 20 · 15:00 · High confidence</div></div></div>
+        <div class="it-row"><div class="it-dot-wrap"><div class="it-dot dot-a"></div><div class="it-line"></div></div><div><div class="it-txt"><strong>Atlas 3-day delay inferred</strong> from client email — verify recommended</div><div class="it-time">Apr 21 · 08:15 · Medium confidence</div></div></div>
+        <div class="it-row"><div class="it-dot-wrap"><div class="it-dot dot-b"></div></div><div><div class="it-txt"><strong>Weekly briefing generated</strong> from 4 deals, 6 risks, 9 tasks</div><div class="it-time">Apr 22 · 08:42 · <span style="color:var(--green)">Updated now</span></div></div></div>
+      </div>
+    </div><!-- end scr-insights -->
+
+  </div><!-- end main -->
+
+  <!-- ═══════════════════════════════
+       BOTTOM NAVIGATION — 5 tabs
+  ═══════════════════════════════ -->
+  <nav class="bottom-nav">
+    <div class="nav-item on" id="ni-home" onclick="goScreen('scr-home')">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <span class="nav-label">Home</span>
+    </div>
+    <div class="nav-item" id="ni-deals" onclick="goScreen('scr-deals')">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <span class="nav-label">Deals</span>
+    </div>
+    <!-- CENTER VOICE ACTION -->
+    <div class="nav-voice" id="ni-voice" onclick="openVoice()">
+      <div class="nav-voice-btn">
+        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+      </div>
+      <span class="nav-voice-label">Voice</span>
+    </div>
+    <div class="nav-item" id="ni-tasks" onclick="goScreen('scr-tasks')">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+      <span class="nav-label">Tasks</span>
+    </div>
+    <div class="nav-item" id="ni-insights" onclick="goScreen('scr-insights')">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <span class="nav-label">Insights</span>
+    </div>
+  </nav>
+
+  <!-- Toast feedback -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ═══ NOTIFICATION PANEL ═══ -->
+  <div id="notif-overlay" onclick="closeNotif()"></div>
+  <div id="notif-panel">
+    <div class="np-hdr">
+      <div class="np-title">Notifications</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="np-count">3 new</div>
+        <div class="np-clear" onclick="clearNotifs()">Clear all</div>
+        <div class="ni-close" onclick="closeNotif()">×</div>
+      </div>
+    </div>
+    <div class="notif-list" id="notif-list">
+      <div class="notif-item unread" onclick="closeNotif();showToast('Opening Orion deal…');goScreen(\'scr-deals\')">
+        <div class="ni-dot unread"></div>
+        <div class="ni-body">
+          <div class="ni-title"><strong>Project Orion updated</strong> — SEBI risk flagged by AI</div>
+          <div class="ni-meta">5 min ago · Focal AI</div>
+        </div>
+      </div>
+      <div class="notif-item unread" onclick="closeNotif();goScreen(\'scr-tasks\')">
+        <div class="ni-dot unread"></div>
+        <div class="ni-body">
+          <div class="ni-title"><strong>2 AI tasks awaiting your approval</strong></div>
+          <div class="ni-meta">12 min ago · Tasks</div>
+        </div>
+      </div>
+      <div class="notif-item unread" onclick="closeNotif();showToast('Meridian closing condition confirmed ✓')">
+        <div class="ni-dot unread"></div>
+        <div class="ni-body">
+          <div class="ni-title"><strong>Meridian</strong> — closing condition confirmed</div>
+          <div class="ni-meta">1 hr ago · Focal AI</div>
+        </div>
+      </div>
+      <div class="notif-item" onclick="closeNotif();goScreen(\'scr-deals\')">
+        <div class="ni-dot read"></div>
+        <div class="ni-body">
+          <div class="ni-title"><strong>Atlas</strong> — overdue follow-up reminder</div>
+          <div class="ni-meta">3 hr ago · Calendar</div>
+        </div>
+      </div>
+      <div class="notif-item" onclick="closeNotif();showToast('Opening weekly briefing…')">
+        <div class="ni-dot read"></div>
+        <div class="ni-body">
+          <div class="ni-title"><strong>Weekly briefing ready</strong> — 4 deals, $230M pipeline</div>
+          <div class="ni-meta">Today 8:42 AM · Focal AI</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ UPLOAD SHEET ═══ -->
+  <div id="upload-overlay" onclick="closeUpload()"></div>
+  <div id="upload-sheet">
+    <div class="us-label">Share Update From</div>
+    <div class="us-group">
+      <div class="us-item" onclick="handleUploadOption('Files')">
+        <span>Files</span>
+        <span class="us-item-icon">📄</span>
+      </div>
+      <div class="us-item" onclick="handleUploadOption('iCloud Drive')">
+        <span>iCloud Drive</span>
+        <span class="us-item-icon">☁️</span>
+      </div>
+      <div class="us-item" onclick="handleUploadOption('Voice Memo')">
+        <span>Voice Memo</span>
+        <span class="us-item-icon">🎙</span>
+      </div>
+      <div class="us-item" onclick="handleUploadOption('Photos')">
+        <span>Photos</span>
+        <span class="us-item-icon">🖼</span>
+      </div>
+      <div class="us-item" onclick="handleUploadOption('Record Audio')">
+        <span>Record Audio</span>
+        <span class="us-item-icon">🎤</span>
+      </div>
+      <div class="us-item" onclick="handleUploadOption('Gmail Attachment')">
+        <span>Gmail Attachment</span>
+        <span class="us-item-icon">✉️</span>
+      </div>
+    </div>
+    <div class="us-cancel" onclick="closeUpload()">Cancel</div>
+  </div>
+
+  <!-- ═══ VOICE OVERLAY ═══ -->
+  <div id="vo">
+    <div class="vo-close" onclick="closeVoice()">×</div>
+    <div class="vo-status"><div class="vo-status-dot"></div>Focal AI</div>
+
+    <div class="waveform" id="waveform">
+      <div class="wb-bar"></div><div class="wb-bar"></div><div class="wb-bar"></div>
+      <div class="wb-bar"></div><div class="wb-bar"></div><div class="wb-bar"></div>
+      <div class="wb-bar"></div><div class="wb-bar"></div><div class="wb-bar"></div>
+      <div class="wb-bar"></div><div class="wb-bar"></div>
+    </div>
+
+    <div class="vo-label" id="vo-label">Listening…</div>
+    <div class="vo-sub" id="vo-sub">Speak your update or ask anything</div>
+    <div class="vo-results" id="vo-results"></div>
+
+    <button class="vo-stop" id="vo-stop" onclick="stopVoice()">
+      <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+    </button>
+
+    <div class="vo-tagline">Focal · Voice to Action · Deal Intelligence</div>
+  </div>
+
+  <!-- ═══ DEAL DETAIL SHEET ═══ -->
+  <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <div class="sh-name" id="sh-name">Project Orion</div>
+      <div class="sh-value" id="sh-value">$48M</div>
+      <div class="sh-meta" id="sh-meta">Series B · PE Mandate · At Risk</div>
+      <div class="strack-m" id="sh-track" style="margin-top:12px;gap:4px"></div>
+    </div>
+    <!-- Quick Actions -->
+    <div class="qa-scroll">
+      <button class="qa-btn qa-primary" onclick="quickAction('ask')">✦ Ask Focal</button>
+      <button class="qa-btn qa-default" onclick="quickAction('draft')">Draft update</button>
+      <button class="qa-btn qa-default" onclick="quickAction('blockers')">Summarize blockers</button>
+      <button class="qa-btn qa-default" onclick="quickAction('task')">Create task</button>
+      <button class="qa-btn qa-default" onclick="quickAction('note')">Add note</button>
+    </div>
+    <div class="sheet-body">
+      <div class="sh-sec">
+        <div class="sh-sec-title">Tasks</div>
+        <div id="sh-tasks"></div>
+      </div>
+      <div class="sh-sec">
+        <div class="sh-sec-title">Risk Log</div>
+        <div id="sh-risks"></div>
+      </div>
+      <div class="sh-sec">
+        <div class="sh-sec-title">AI History</div>
+        <div id="sh-hist"></div>
+      </div>
+      <div class="sh-sec">
+        <div class="sh-sec-title">Team</div>
+        <div class="sh-team" id="sh-team"></div>
+      </div>
+      <!-- Audit footer -->
+      <div class="sh-audit-footer">
+        <div class="sh-audit-txt">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Audit history available
+        </div>
+        <div class="sh-audit-link" onclick="showToast('Audit log: 14 events recorded for this deal')">View log →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- hidden file input -->
+  <input type="file" id="fi" style="display:none" accept="audio/*,.pdf,.txt" onchange="handleFile(this)"/>
+
+  <!-- ═══ PROFILE / SETTINGS ═══ -->
+  <div id="profile">
+
+    <!-- Top bar -->
+    <div class="profile-topbar">
+      <div class="profile-back" onclick="closeProfile()">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </div>
+      <div class="profile-topbar-title">Account &amp; Settings</div>
+      <div class="profile-topbar-space"></div>
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="profile-scroll">
+
+      <!-- Account hero -->
+      <div class="profile-hero">
+        <div class="profile-av-lg">RD</div>
+        <div class="profile-name">Rahul Deewan</div>
+        <div class="profile-role">Research Analyst</div>
+        <div class="profile-firm">FourBridges Capital</div>
+        <button class="profile-edit-btn" onclick="showToast('Edit profile · opens in full screen')">Edit Profile</button>
+      </div>
+
+      <!-- ── PREFERENCES ── -->
+      <div class="settings-section">
+        <div class="settings-sec-label">Preferences</div>
+        <div class="settings-group">
+          <div class="settings-row">
+            <div class="sr-icon si-blue">
+              <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Notifications</div>
+              <div class="sr-sub">AI proposals, deal updates, reminders</div>
+            </div>
+            <div class="sr-right">
+              <label class="toggle-wrap">
+                <input type="checkbox" class="toggle-input" checked onchange="showToast(this.checked ? 'Notifications on' : 'Notifications off')">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-row" onclick="showToast('Default reminders: 30 min before deadline')">
+            <div class="sr-icon si-amber">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Default reminders</div>
+              <div class="sr-sub">30 min before deadline</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-value">30 min</div>
+              <div class="sr-chevron">›</div>
+            </div>
+          </div>
+          <div class="settings-row" onclick="showToast('Working hours: Mon–Fri, 8 AM – 7 PM')">
+            <div class="sr-icon si-green">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Working hours</div>
+              <div class="sr-sub">Mon–Fri, 8 AM – 7 PM</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-chevron">›</div>
+            </div>
+          </div>
+          <div class="settings-row" onclick="showToast('Theme: Dark (system default)')">
+            <div class="sr-icon si-slate">
+              <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Theme</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-value">Dark</div>
+              <div class="sr-chevron">›</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── INTEGRATIONS ── -->
+      <div class="settings-section">
+        <div class="settings-sec-label">Integrations</div>
+        <div class="settings-group">
+          <div class="settings-row no-tap">
+            <div class="sr-icon si-blue" style="font-size:13px;font-weight:700;letter-spacing:-.5px">SF</div>
+            <div class="sr-body">
+              <div class="sr-label">Salesforce</div>
+              <div class="sr-sub">Synced successfully · 2 min ago</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-status connected"><div class="sr-dot"></div>Live</div>
+            </div>
+          </div>
+          <div class="settings-row" onclick="showToast('Connecting HubSpot — opening OAuth…')">
+            <div class="sr-icon si-amber" style="font-size:11px;font-weight:700">HB</div>
+            <div class="sr-body">
+              <div class="sr-label">HubSpot</div>
+              <div class="sr-sub">Optional — CRM sync</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-connect" onclick="event.stopPropagation();showToast('Connecting HubSpot…')">Connect</div>
+            </div>
+          </div>
+          <div class="settings-row no-tap">
+            <div class="sr-icon" style="background:#EA4335;font-size:13px">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Gmail</div>
+              <div class="sr-sub">manavhemnani150@gmail.com</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-status connected"><div class="sr-dot"></div>Connected</div>
+            </div>
+          </div>
+          <div class="settings-row no-tap">
+            <div class="sr-icon si-teal">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Calendar</div>
+              <div class="sr-sub">Google Calendar · 3 meetings today</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-status connected"><div class="sr-dot"></div>Connected</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECURITY ── -->
+      <div class="settings-section">
+        <div class="settings-sec-label">Security</div>
+        <div class="settings-group">
+          <div class="settings-row">
+            <div class="sr-icon si-green">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Face ID</div>
+              <div class="sr-sub">Unlock and approve actions</div>
+            </div>
+            <div class="sr-right">
+              <label class="toggle-wrap">
+                <input type="checkbox" class="toggle-input" checked onchange="showToast(this.checked ? 'Face ID enabled' : 'Face ID disabled')">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-row no-tap">
+            <div class="sr-icon si-blue">
+              <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Device</div>
+              <div class="sr-sub">iPhone 15 Pro · Last activity: now</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-trusted">Trusted</div>
+            </div>
+          </div>
+          <div class="settings-row" onclick="showToast('Audit log: 47 events across 4 deals this week')">
+            <div class="sr-icon si-slate">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Audit logs</div>
+              <div class="sr-sub">47 events this week</div>
+            </div>
+            <div class="sr-right">
+              <div class="sr-chevron">›</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUPPORT ── -->
+      <div class="settings-section">
+        <div class="settings-sec-label">Support</div>
+        <div class="settings-group">
+          <div class="settings-row" onclick="showToast('Opening Help Center…')">
+            <div class="sr-icon si-blue">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="sr-body"><div class="sr-label">Help Center</div></div>
+            <div class="sr-right"><div class="sr-chevron">›</div></div>
+          </div>
+          <div class="settings-row" onclick="showToast('Opening support chat…')">
+            <div class="sr-icon si-purple">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="sr-body">
+              <div class="sr-label">Contact support</div>
+              <div class="sr-sub">Avg response 2 hours</div>
+            </div>
+            <div class="sr-right"><div class="sr-chevron">›</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logout -->
+      <button class="logout-btn" onclick="showToast('Signing out…');setTimeout(closeProfile,1200)">Sign Out</button>
+
+      <div class="profile-version">Focal 1.0 · FourBridges Capital · Build 2026.04.22</div>
+
+    </div><!-- end profile-scroll -->
+  </div><!-- end profile -->
+
+  <!-- ═══ AI REVIEW SHEET ═══ -->
+  <div id="ar-overlay" onclick="closeAIReview()"></div>
+  <div id="ar-sheet">
+    <div class="sheet-handle"></div>
+    <div id="ar-content">
+      <!-- populated by openAIReview() -->
+    </div>
+  </div>
+
+</div><!-- end phone -->
+</div><!-- end page -->
+<script>
+/* ═══════════════════════════════════════════
+   AI TASK REVIEW DATA
+═══════════════════════════════════════════ */
+const AI_TASKS = {
+  tr1: {
+    id: 'tr1', btnId: 'tb1', sucId: 'ts1',
+    deal: 'Project Orion',
+    title: 'Submit SEBI disclosure form to counsel — blocks Orion term sheet',
+    reason: 'SEBI compliance gap detected in management call transcript. The promoter lock-in form is missing and legally required before the term sheet can be issued or executed.',
+    quote: '"We cannot move the term sheet forward until the lock-in form is cleared with your counsel." — Orion CEO, call recording Apr 20',
+    source: 'Orion call recording · Apr 20, 2026 · 08:40 AM',
+    sourceIcon: '🎙',
+    confidence: 'High', confLevel: 'high',
+    assignee: 'Rohan Kapoor',
+    due: 'Apr 22, 2026 (Today)',
+  },
+  tr2: {
+    id: 'tr2', btnId: 'tb2', sucId: 'ts2',
+    deal: 'Project Atlas',
+    title: 'Send revised Atlas project milestone plan to Karan Johar',
+    reason: 'Client has been awaiting the updated milestone plan for 18+ hours. Focal AI inferred the delay from two unanswered follow-up emails. Continued non-response risks the engagement timeline.',
+    quote: '"Still waiting on the updated plan you mentioned in our last call." — Karan Johar, email Apr 21 · 07:02 AM',
+    source: 'AI email analysis · Apr 21, 2026 · 08:15 AM',
+    sourceIcon: '✉️',
+    confidence: 'High', confLevel: 'high',
+    assignee: 'Karan Johar',
+    due: 'Apr 22, 2026 (Today)',
+  },
+  tr5: {
+    id: 'tr5', btnId: 'tb5', sucId: 'ts5',
+    deal: 'Meridian Capital',
+    title: 'Review Meridian SPA redline and clear legal comments',
+    reason: 'Final SPA draft was received from counterparty counsel. Six legal comments remain open. Partner sign-off on the redline is the last remaining gate before closing can proceed.',
+    quote: '"The redline needs a partner-level review by EOD Wednesday — closing is contingent on this being cleared." — Meridian legal team, Apr 20',
+    source: 'Meridian closing transcript · Apr 20, 2026 · 3:00 PM',
+    sourceIcon: '📄',
+    confidence: 'High', confLevel: 'high',
+    assignee: 'Rohan Kapoor',
+    due: 'Apr 22, 2026 (Today)',
+  },
+};
+
+/* Current deal open in sheet */
+let currentDealId = null;
+
+/* ═══════════════════════════════════════════
+   DEAL DATA
+═══════════════════════════════════════════ */
+const DD = {
+  orion: {
+    name: 'Project Orion', value: '$48M', stage: 3, stages: 5,
+    meta: 'Series B · PE Mandate · Healthcare Tech · At Risk',
+    tasks: [
+      { text: 'Submit SEBI disclosure form to counsel', priority: 'high', due: 'Today' },
+      { text: 'Schedule management presentation', priority: 'med', due: 'Thu' },
+      { text: 'Review Q3 financials vs. model', priority: 'med', due: 'Fri' },
+    ],
+    risks: [
+      { label: 'Customer concentration', sev: 'high', note: 'Top 3 clients = 68% of revenue — flagged by Focal AI' },
+      { label: 'IP assignment gap', sev: 'med', note: 'Founder patents unassigned — legal review pending' },
+    ],
+    hist: [
+      { date: 'Apr 20', text: 'SEBI risk extracted from call · Focal AI' },
+      { date: 'Apr 18', text: 'Management call · Rohan Kapoor' },
+      { date: 'Apr 14', text: 'CIM reviewed · Deal team' },
+    ],
+    team: [
+      { name: 'Rohan Kapoor', role: 'Lead Partner', initials: 'RK', color: '#4B7FE8' },
+      { name: 'Anika Singh', role: 'Associate', initials: 'AS', color: '#8B5CF6' },
+      { name: 'Focal AI', role: 'AI Copilot', initials: 'AI', color: '#C9943A' },
+    ]
+  },
+  atlas: {
+    name: 'Project Atlas', value: '$120M', stage: 3, stages: 5,
+    meta: 'M&A Advisory · Sell-Side · SaaS · Delayed',
+    tasks: [
+      { text: 'Send revised milestone plan to Karan Johar', priority: 'high', due: 'Today' },
+      { text: 'Complete normalized EBITDA bridge', priority: 'high', due: 'Today' },
+      { text: 'Confirm exclusivity window dates', priority: 'med', due: 'Wed' },
+    ],
+    risks: [
+      { label: 'Client communication delay', sev: 'high', note: '18h no response — overdue per engagement SLA' },
+      { label: 'Churn acceleration', sev: 'med', note: 'NRR dropped 4pts last quarter — monitoring' },
+    ],
+    hist: [
+      { date: 'Apr 21', text: 'Delay inferred from client email · Focal AI' },
+      { date: 'Apr 19', text: 'IC memo submitted · Deal team' },
+      { date: 'Apr 16', text: 'Site visit completed · Marcus Lee' },
+    ],
+    team: [
+      { name: 'Karan Johar', role: 'Lead Partner', initials: 'KJ', color: '#4B7FE8' },
+      { name: 'Priya Mehta', role: 'Associate', initials: 'PM', color: '#3DD68C' },
+      { name: 'Focal AI', role: 'AI Copilot', initials: 'AI', color: '#C9943A' },
+    ]
+  },
+  meridian: {
+    name: 'Meridian Capital', value: '$35M', stage: 5, stages: 5,
+    meta: 'Debt Restructure · Buy-Side · Closing',
+    tasks: [
+      { text: 'Review SPA redline and clear legal comments', priority: 'high', due: 'Today' },
+      { text: 'Confirm wire instructions with escrow', priority: 'high', due: 'Today' },
+    ],
+    risks: [
+      { label: 'Closing condition', sev: 'low', note: 'All 5 conditions satisfied — awaiting partner signature only' },
+    ],
+    hist: [
+      { date: 'Apr 20', text: 'Final SPA draft received · Legal' },
+      { date: 'Apr 18', text: 'Board approval · Investment Committee' },
+      { date: 'Apr 14', text: 'Close conditions confirmed · Focal AI' },
+    ],
+    team: [
+      { name: 'Rohan Kapoor', role: 'Lead Partner', initials: 'RK', color: '#4B7FE8' },
+      { name: 'Anika Singh', role: 'Associate', initials: 'AS', color: '#8B5CF6' },
+      { name: 'Priya Mehta', role: 'Support', initials: 'PM', color: '#3DD68C' },
+      { name: 'Focal AI', role: 'AI Copilot', initials: 'AI', color: '#C9943A' },
+    ]
+  },
+  vega: {
+    name: 'Project Vega', value: '$27M', stage: 2, stages: 5,
+    meta: 'Growth Equity · Co-Invest · Due Diligence · Active',
+    tasks: [
+      { text: 'Circulate diligence tracker to co-investors', priority: 'med', due: 'Apr 25' },
+      { text: 'Schedule kick-off call with founders', priority: 'med', due: 'Apr 24' },
+    ],
+    risks: [
+      { label: 'Team depth', sev: 'med', note: 'CTO role vacant — key hire required before closing' },
+    ],
+    hist: [
+      { date: 'Apr 18', text: 'Manual entry · Anika Singh' },
+      { date: 'Apr 15', text: 'Intro deck reviewed · Focal AI' },
+    ],
+    team: [
+      { name: 'Anika Singh', role: 'Lead', initials: 'AS', color: '#8B5CF6' },
+      { name: 'Karan Johar', role: 'Partner Sponsor', initials: 'KJ', color: '#4B7FE8' },
+      { name: 'Focal AI', role: 'AI Copilot', initials: 'AI', color: '#C9943A' },
+    ]
+  }
+};
+
+/* Voice demo sequences */
+const VOICE_DEMOS = [
+  {
+    input: 'Orion LOI sent to legal',
+    results: [
+      { icon: '✓', label: 'Task logged', detail: 'Project Orion · LOI sent to legal team', color: '#3DD68C' },
+      { icon: '→', label: 'Next suggested', detail: 'Schedule management presentation · Thu', color: '#4B7FE8' },
+      { icon: '✦', label: 'Focal AI note', detail: 'Legal turnaround avg 3 days — flag if no response by Apr 24', color: '#C9943A' },
+    ]
+  },
+  {
+    input: 'What is the status of Atlas?',
+    results: [
+      { icon: '◎', label: 'Project Atlas', detail: '$120M · M&A Advisory · Stage 3/5 · Delayed', color: '#4B7FE8' },
+      { icon: '!', label: '3 open tasks', detail: 'Milestone plan overdue · EBITDA bridge today', color: '#F5A623' },
+      { icon: '✦', label: 'Focal AI insight', detail: 'NRR declined 4pts — monitor churn cohort', color: '#C9943A' },
+    ]
+  },
+  {
+    input: 'What closes this week?',
+    results: [
+      { icon: '◉', label: 'Meridian closing', detail: '$35M · SPA redline + partner sign-off pending', color: '#3DD68C' },
+      { icon: '✓', label: 'All 5 conditions met', detail: 'Wire instructions + board resolution confirmed', color: '#4B7FE8' },
+      { icon: '✦', label: 'Focal AI alert', detail: 'SPA redline needs legal sign-off today to hit target', color: '#E8534B' },
+    ]
+  }
+];
+let voiceDemoIdx = 0;
+
+/* ═══════════════════════════════════════════
+   NAVIGATION — 5 tabs
+═══════════════════════════════════════════ */
+const navMap = {
+  'scr-home': 'ni-home',
+  'scr-deals': 'ni-deals',
+  'scr-tasks': 'ni-tasks',
+  'scr-insights': 'ni-insights'
+};
+
+function goScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('on'));
+  const scr = document.getElementById(id);
+  if (scr) scr.classList.add('active');
+  const ni = navMap[id];
+  if (ni) {
+    const navEl = document.getElementById(ni);
+    if (navEl) navEl.classList.add('on');
+  }
+  /* Scroll to top when switching screens */
+  const main = document.getElementById('main');
+  if (main) main.scrollTop = 0;
+}
+
+/* ═══════════════════════════════════════════
+   NOTIFICATION PANEL
+═══════════════════════════════════════════ */
+function openNotif() {
+  document.getElementById('notif-overlay').classList.add('open');
+  document.getElementById('notif-panel').classList.add('open');
+}
+function closeNotif() {
+  document.getElementById('notif-overlay').classList.remove('open');
+  document.getElementById('notif-panel').classList.remove('open');
+}
+function clearNotifs() {
+  document.querySelectorAll('.ni-dot.unread').forEach(d => {
+    d.classList.remove('unread');
+    d.classList.add('read');
+  });
+  document.querySelectorAll('.notif-item.unread').forEach(i => i.classList.remove('unread'));
+  const cnt = document.querySelector('.np-count');
+  if (cnt) cnt.style.display = 'none';
+  const dot = document.getElementById('notif-dot');
+  if (dot) dot.style.display = 'none';
+  showToast('All notifications cleared');
+  setTimeout(closeNotif, 600);
+}
+
+/* ═══════════════════════════════════════════
+   UPLOAD SHEET
+═══════════════════════════════════════════ */
+function openUpload() {
+  document.getElementById('upload-overlay').classList.add('open');
+  document.getElementById('upload-sheet').classList.add('open');
+}
+function closeUpload() {
+  document.getElementById('upload-overlay').classList.remove('open');
+  document.getElementById('upload-sheet').classList.remove('open');
+}
+function handleUploadOption(source) {
+  closeUpload();
+  if (source === 'Files' || source === 'Photos' || source === 'Gmail Attachment') {
+    document.getElementById('fi').click();
+  } else if (source === 'Voice Memo' || source === 'Record Audio') {
+    setTimeout(openVoice, 300);
+  } else {
+    showToast('Opening ' + source + '…');
+  }
+}
+
+/* ═══════════════════════════════════════════
+   VOICE OVERLAY
+═══════════════════════════════════════════ */
+function openVoice() {
+  const wf  = document.getElementById('waveform');
+  const lbl = document.getElementById('vo-label');
+  const sub = document.getElementById('vo-sub');
+  const res = document.getElementById('vo-results');
+  const stop= document.getElementById('vo-stop');
+
+  wf.classList.remove('processing');
+  wf.classList.add('recording');
+  lbl.textContent = 'Listening…';
+  sub.textContent = 'Speak your update or ask anything';
+  res.style.opacity = '0';
+  res.innerHTML = '';
+  stop.style.display = 'flex';
+
+  document.getElementById('vo').classList.add('open');
+}
+
+function stopVoice() {
+  const wf  = document.getElementById('waveform');
+  const lbl = document.getElementById('vo-label');
+  const sub = document.getElementById('vo-sub');
+  const stop= document.getElementById('vo-stop');
+
+  wf.classList.remove('recording');
+  wf.classList.add('processing');
+  lbl.textContent = 'Processing…';
+  sub.textContent = 'Focal AI is analyzing your input';
+  stop.style.display = 'none';
+
+  const demo = VOICE_DEMOS[voiceDemoIdx % VOICE_DEMOS.length];
+  voiceDemoIdx++;
+
+  setTimeout(() => {
+    wf.classList.remove('processing');
+    lbl.textContent = '\u201c' + demo.input + '\u201d';
+    sub.textContent = '';
+
+    const res = document.getElementById('vo-results');
+    res.style.display = 'flex';
+    res.style.flexDirection = 'column';
+    res.style.gap = '9px';
+    res.innerHTML = demo.results.map((r, i) => `
+      <div class="vo-card" style="animation-delay:${i * 0.12}s">
+        <div class="vo-card-icon" style="color:${r.color}">${r.icon}</div>
+        <div class="vo-card-body">
+          <div class="vo-card-label">${r.label}</div>
+          <div class="vo-card-detail">${r.detail}</div>
+        </div>
+      </div>
+    `).join('');
+    res.style.opacity = '0';
+    requestAnimationFrame(() => {
+      res.style.transition = 'opacity 0.4s';
+      res.style.opacity = '1';
+    });
+  }, 2200);
+}
+
+function closeVoice() {
+  const vo = document.getElementById('vo');
+  const wf = document.getElementById('waveform');
+  vo.classList.remove('open');
+  wf.classList.remove('recording', 'processing');
+}
+
+/* ═══════════════════════════════════════════
+   DEAL SHEET
+═══════════════════════════════════════════ */
+function openSheet(dealId) {
+  const d = DD[dealId];
+  if (!d) return;
+  currentDealId = dealId;
+
+  document.getElementById('sh-name').textContent = d.name;
+  document.getElementById('sh-value').textContent = d.value;
+  const meta = document.getElementById('sh-meta');
+  if (meta) meta.textContent = d.meta;
+
+  const trk = document.getElementById('sh-track');
+  if (trk) {
+    let bars = '';
+    for (let i = 1; i <= d.stages; i++) {
+      bars += `<div class="sh-bar ${i <= d.stage ? 'active' : ''}"></div>`;
+    }
+    trk.innerHTML = bars;
+  }
+
+  const priMap = { high: '#E8534B', med: '#F5A623', low: '#4B7FE8' };
+  document.getElementById('sh-tasks').innerHTML = d.tasks.map(t => `
+    <div class="sh-task">
+      <div class="sh-task-dot" style="background:${priMap[t.priority]||'#4B7FE8'}"></div>
+      <div class="sh-task-txt">${t.text}</div>
+      <div class="sh-task-due">${t.due}</div>
+    </div>
+  `).join('');
+
+  const sevColor = { high: '#E8534B', med: '#F5A623', low: '#3DD68C' };
+  document.getElementById('sh-risks').innerHTML = d.risks.map(r => `
+    <div class="sh-risk">
+      <div class="sh-risk-hd">
+        <div class="sh-risk-lbl">${r.label}</div>
+        <div class="sh-risk-sev" style="color:${sevColor[r.sev]||'#F5A623'}">${r.sev.toUpperCase()}</div>
+      </div>
+      <div class="sh-risk-note">${r.note}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('sh-hist').innerHTML = d.hist.map(h => `
+    <div class="sh-hist-row">
+      <div class="sh-hist-date">${h.date}</div>
+      <div class="sh-hist-txt">${h.text}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('sh-team').innerHTML = d.team.map(m => `
+    <div class="sh-member">
+      <div class="sh-avatar" style="background:${m.color}22;color:${m.color}">${m.initials}</div>
+      <div class="sh-member-info">
+        <div class="sh-member-name">${m.name}</div>
+        <div class="sh-member-role">${m.role}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('sheet').classList.add('open');
+  document.getElementById('sheet-overlay').classList.add('open');
+}
+
+function closeSheet() {
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('sheet-overlay').classList.remove('open');
+}
+
+/* ═══════════════════════════════════════════
+   PRIORITY CARDS
+═══════════════════════════════════════════ */
+function actPC(cardId, msg) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.classList.add('gone');
+  showToast(msg || 'Action logged');
+}
+
+/* ═══════════════════════════════════════════
+   TASK INTERACTIONS
+═══════════════════════════════════════════ */
+function cfTask(rowId, btnId, sucId) {
+  const btn = document.getElementById(btnId);
+  const suc = document.getElementById(sucId);
+  if (btn) btn.style.display = 'none';
+  if (suc) suc.style.display = 'flex';
+  showToast('Task confirmed ✓');
+}
+
+function dmTask(rowId) {
+  const row = document.getElementById(rowId);
+  if (!row) return;
+  row.style.transition = 'opacity .35s, max-height .4s, margin .4s, padding .4s';
+  row.style.opacity = '0';
+  row.style.maxHeight = '0';
+  row.style.margin = '0';
+  row.style.padding = '0';
+  row.style.overflow = 'hidden';
+  setTimeout(() => row.remove(), 420);
+  showToast('Task dismissed');
+}
+
+function doneTask(rowId, chkId, dealCardId, provId, provTxt) {
+  const chk = document.getElementById(chkId);
+  if (chk) {
+    chk.style.background = 'rgba(61,214,140,0.18)';
+    chk.style.borderColor = '#3DD68C';
+    chk.innerHTML = `<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5.5L3.5 7.5L8.5 2.5" stroke="#3DD68C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  }
+  const row = document.getElementById(rowId);
+  if (row) setTimeout(() => { row.style.transition = 'opacity .4s'; row.style.opacity = '.35'; }, 350);
+  const prov = document.getElementById(provId);
+  if (prov && provTxt) prov.textContent = provTxt;
+  const dc = document.getElementById(dealCardId);
+  if (dc) {
+    dc.style.transition = 'box-shadow .3s';
+    dc.style.boxShadow = '0 0 0 2px rgba(61,214,140,0.4)';
+    setTimeout(() => { dc.style.boxShadow = ''; }, 900);
+  }
+  showToast('Task completed ✓');
+}
+
+/* ═══════════════════════════════════════════
+   TASK TABS
+═══════════════════════════════════════════ */
+function stab(tab) {
+  const tabIdMap = { 'tl-ai': 'ttab1', 'tl-all': 'ttab2', 'tl-done': 'ttab3' };
+  ['ttab1','ttab2','ttab3'].forEach(t => { const el = document.getElementById(t); if (el) el.classList.remove('on'); });
+  if (tabIdMap[tab]) { const a = document.getElementById(tabIdMap[tab]); if (a) a.classList.add('on'); }
+  ['tl-ai','tl-all','tl-done'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (id === tab) ? 'flex' : 'none';
+  });
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.remove('show');
+  void t.offsetWidth; /* reflow to restart animation */
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ═══════════════════════════════════════════
+   FILE UPLOAD
+═══════════════════════════════════════════ */
+function handleFile(input) {
+  if (input.files && input.files[0]) {
+    showToast('Importing ' + input.files[0].name + '…');
+    setTimeout(() => showToast('Import complete — AI processing ✓'), 2200);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   AI REVIEW SHEET
+═══════════════════════════════════════════ */
+function openAIReview(taskId) {
+  const t = AI_TASKS[taskId];
+  if (!t) return;
+
+  const confLabel = { high: 'HIGH', med: 'MEDIUM', low: 'LOW' };
+
+  document.getElementById('ar-content').innerHTML = `
+    <div class="ar-hdr">
+      <div class="ar-eyebrow">
+        <div class="ar-ai-badge">✦ Focal AI Suggestion</div>
+        <div class="ar-deal-tag">${t.deal}</div>
+      </div>
+      <div class="ar-title">${t.title}</div>
+      <div class="ar-conf-row">
+        <div class="ar-conf ${t.confLevel}">
+          <div class="ar-conf-dot"></div>
+          Confidence: ${confLabel[t.confLevel]}
+        </div>
+        <div class="ar-source-tag">${t.sourceIcon} ${t.source.split('·')[0].trim()}</div>
+      </div>
+    </div>
+    <div class="ar-body">
+      <div class="ar-section">
+        <div class="ar-sec-label">Why Focal suggested this</div>
+        <div class="ar-reason">${t.reason}</div>
+        <div class="ar-quote">${t.quote}</div>
+      </div>
+      <div class="ar-section">
+        <div class="ar-sec-label">Source</div>
+        <div class="ar-source-row">
+          <div class="ar-source-icon">${t.sourceIcon}</div>
+          <div>${t.source}</div>
+        </div>
+      </div>
+      <div class="ar-section">
+        <div class="ar-sec-label">Details</div>
+        <div class="ar-field">
+          <div class="ar-field-label">Assignee</div>
+          <div class="ar-field-val">
+            ${t.assignee}
+            <div class="ar-edit-chip" onclick="showToast('Assignee editing — coming soon')">Edit</div>
+          </div>
+        </div>
+        <div class="ar-field">
+          <div class="ar-field-label">Due date</div>
+          <div class="ar-field-val">
+            ${t.due}
+            <div class="ar-edit-chip" onclick="showToast('Due date editing — coming soon')">Edit</div>
+          </div>
+        </div>
+        <div class="ar-field">
+          <div class="ar-field-label">Deal</div>
+          <div class="ar-field-val">${t.deal}</div>
+        </div>
+      </div>
+    </div>
+    <div class="ar-actions">
+      <button class="ar-approve" onclick="approveTask('${t.id}','${t.btnId}','${t.sucId}');closeAIReview()">Approve</button>
+      <button class="ar-edit-btn" onclick="showToast('Edit mode — coming soon');closeAIReview()">Edit</button>
+      <button class="ar-reject" onclick="rejectTask('${t.id}');closeAIReview()">Reject</button>
+    </div>
+  `;
+
+  document.getElementById('ar-overlay').classList.add('open');
+  document.getElementById('ar-sheet').classList.add('open');
+}
+
+function closeAIReview() {
+  document.getElementById('ar-overlay').classList.remove('open');
+  document.getElementById('ar-sheet').classList.remove('open');
+}
+
+/* ═══════════════════════════════════════════
+   APPROVE / REJECT TASKS
+═══════════════════════════════════════════ */
+function approveTask(rowId, btnId, sucId) {
+  const btn = document.getElementById(btnId);
+  const suc = document.getElementById(sucId);
+  if (btn) btn.style.display = 'none';
+  if (suc) { suc.style.display = 'flex'; suc.textContent = '✓ Approved — added to deal'; }
+  /* Remove tap hint */
+  const row = document.getElementById(rowId);
+  if (row) { const hint = row.querySelector('.task-review-hint'); if (hint) hint.style.display = 'none'; }
+  showToast('Task approved ✓ — added to deal');
+}
+
+function rejectTask(rowId) {
+  const row = document.getElementById(rowId);
+  if (!row) return;
+  row.style.transition = 'opacity .35s, max-height .4s, margin .4s, padding .4s';
+  row.style.opacity = '0';
+  row.style.maxHeight = '0';
+  row.style.margin = '0';
+  row.style.padding = '0';
+  row.style.overflow = 'hidden';
+  setTimeout(() => row.remove(), 420);
+  showToast('Task rejected — Focal AI noted');
+}
+
+/* ═══════════════════════════════════════════
+   DEAL QUICK ACTIONS
+═══════════════════════════════════════════ */
+const QUICK_RESPONSES = {
+  ask: { msg: 'Opening Focal AI for this deal…', action: openVoice },
+  draft: {
+    msg: null,
+    action: () => {
+      const d = currentDealId ? DD[currentDealId] : null;
+      const name = d ? d.name : 'this deal';
+      showToast('Drafting update for ' + name + '…');
+      setTimeout(() => showToast('Draft ready — tap to review in Voice'), 2000);
+    }
+  },
+  blockers: {
+    msg: null,
+    action: () => {
+      const d = currentDealId ? DD[currentDealId] : null;
+      const risks = d ? d.risks.length : 0;
+      const tasks = d ? d.tasks.length : 0;
+      showToast('Focal AI: ' + risks + ' risks, ' + tasks + ' open tasks blocking close');
+    }
+  },
+  task: {
+    msg: null,
+    action: () => {
+      const d = currentDealId ? DD[currentDealId] : null;
+      const name = d ? d.name : 'this deal';
+      showToast('Task created for ' + name + ' · tap Tasks to view');
+    }
+  },
+  note: {
+    msg: null,
+    action: () => {
+      const d = currentDealId ? DD[currentDealId] : null;
+      const name = d ? d.name : 'this deal';
+      showToast('Note saved to ' + name + ' timeline ✓');
+    }
+  },
+};
+
+function quickAction(type) {
+  const qa = QUICK_RESPONSES[type];
+  if (!qa) return;
+  if (qa.action) { qa.action(); }
+  else if (qa.msg) { showToast(qa.msg); }
+}
+
+/* ═══════════════════════════════════════════
+   ONBOARDING
+═══════════════════════════════════════════ */
+let obCurrent = 1; /* 1-based: screens 1–4 */
+const OB_TOTAL = 3; /* feature screens before connect */
+
+function obGoTo(n) {
+  /* Exit current */
+  const cur = document.getElementById('obs-' + obCurrent);
+  if (cur) { cur.classList.remove('active'); cur.classList.add('exit'); setTimeout(() => cur.classList.remove('exit'), 320); }
+
+  obCurrent = n;
+
+  /* Enter next */
+  const next = document.getElementById('obs-' + n);
+  if (next) { setTimeout(() => next.classList.add('active'), 40); }
+
+  /* Toggle footer */
+  const footer = document.getElementById('ob-footer');
+  const skip   = document.getElementById('ob-skip');
+  const nextBtn = document.getElementById('ob-next');
+
+  if (n === 4) {
+    /* Connect screen — hide footer + skip */
+    if (footer) footer.style.display = 'none';
+    if (skip)   skip.style.display = 'none';
+  } else {
+    if (footer) footer.style.display = 'flex';
+    if (skip)   skip.style.display = 'block';
+    if (nextBtn) nextBtn.textContent = n === OB_TOTAL ? 'Connect workspace' : 'Continue';
+  }
+}
+
+function obNext() {
+  if (obCurrent < OB_TOTAL) { obGoTo(obCurrent + 1); }
+  else { obGoTo(4); } /* advance to connect screen */
+}
+
+function obSkip() { obGoTo(4); }
+
+function obToggleInt(id) {
+  /* Toggling integrations — visual only in prototype */
+  const togMap = { sf: 'sf-tog', gmail: 'gmail-tog', cal: 'cal-tog' };
+  const el = document.getElementById(togMap[id]);
+  if (el) {
+    const on = el.checked;
+    showToast(id.charAt(0).toUpperCase() + id.slice(1) + (on ? ' connected ✓' : ' disconnected'));
+  }
+}
+
+function obDone() {
+  const ob = document.getElementById('onboarding');
+  ob.style.transition = 'opacity .4s ease';
+  ob.style.opacity = '0';
+  setTimeout(() => ob.classList.add('done'), 420);
+  showToast('Welcome to Focal ✦');
+}
+
+function obExploreDemo() {
+  const ob = document.getElementById('onboarding');
+  ob.style.transition = 'opacity .35s ease';
+  ob.style.opacity = '0';
+  setTimeout(() => {
+    ob.classList.add('done');
+    showToast('Demo mode — all data is illustrative');
+  }, 380);
+}
+
+/* ═══════════════════════════════════════════
+   PROFILE / SETTINGS
+═══════════════════════════════════════════ */
+function openProfile() {
+  const p = document.getElementById('profile');
+  if (p) { p.classList.add('open'); }
+}
+
+function closeProfile() {
+  const p = document.getElementById('profile');
+  if (p) { p.classList.remove('open'); }
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+(function init() {
+  goScreen('scr-home');
+  stab('tl-ai');
+
+  document.getElementById('sheet-overlay').addEventListener('click', closeSheet);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeProfile(); closeVoice(); closeSheet();
+      closeNotif(); closeUpload(); closeAIReview();
+    }
+  });
+})();
+</script>
+</body>
+</html>
