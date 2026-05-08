@@ -38,8 +38,8 @@ a { color: inherit; text-decoration: none; }
   --bg-3:         #1a1a16;
   --bg-4:         #202019;
   --white:        #f0ede6;
-  --muted:        #5a5a52;
-  --mid:          #8a8a7e;
+  --muted:        #7e7e76;
+  --mid:          #9d9589;
   --accent-blue:  #4a9eff;
   --accent-amber: #c8a96e;
   --success:      #4caf7d;
@@ -529,6 +529,22 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Portfolio-wide accessibility pass ── contrast audit 2026 ──
+   Targeted overrides. All ratios verified against WCAG 2.1 AA.
+   Purely atmospheric/decorative elements intentionally exempt.
+   ─────────────────────────────────────────────────────────── */
+
+/* Nav */
+.nav-links a { color: var(--mid); }   /* was --muted ~2.8:1 */
+
+/* Footer */
+.footer-copy, .fc { color: var(--muted); }
+.footer-links a, .fl a { color: var(--muted); }
+.footer-center, .fm { color: var(--mid); }
+
+/* Ticker */
+.ticker-item, .ti { color: var(--muted); }
 </style>
 </head>
 <body>

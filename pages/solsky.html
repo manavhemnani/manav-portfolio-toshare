@@ -260,7 +260,7 @@ body::before {
   border-left:2px solid var(--accent-proj); background:rgba(212,160,40,0.04);
 }
 .pull p { font-family:var(--serif); font-style:italic; font-size:1.2rem; color:var(--white); line-height:1.6; margin-bottom:0.75rem; }
-.pull cite { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); font-style:normal; }
+.pull cite { font-size: 0.72rem; letter-spacing:0.1em; color:var(--mid); font-style:normal; line-height:1.6; display:block; } /* was var(--muted) 2.75:1; cite is substantive attribution copy */
 
 /* COLLABORATION MAP */
 .collab {
@@ -270,7 +270,7 @@ body::before {
 .collab-cell { background:var(--bg-2); padding:1.6rem 1.5rem; }
 .collab-role { font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-proj); margin-bottom:0.35rem; }
 .collab-name { font-size:0.9rem; color:var(--white); font-weight:400; margin-bottom:0.25rem; }
-.collab-desc { font-size:0.82rem; color:var(--muted); line-height:1.5; font-weight:300; }
+.collab-desc { font-size:0.82rem; color:var(--mid); line-height:1.5; font-weight:300; } /* was var(--muted) 2.75:1 */
 
 /* PILLS */
 .pills { display:flex; flex-wrap:wrap; gap:0.55rem; margin:1.8rem 0; }
@@ -291,7 +291,7 @@ body::before {
 }
 .failed h4 { font-size:0.9rem; font-weight:500; color:var(--white); margin:0.5rem 0 0.5rem; }
 .failed p  { font-size:0.84rem; color:var(--mid); font-weight:300; line-height:1.7; }
-.failed-why { margin-top:0.75rem; font-size:0.82rem; color:var(--muted); font-style:italic; display:flex; gap:0.5rem; }
+.failed-why { margin-top:0.75rem; font-size:0.82rem; color:var(--mid); font-style:italic; display:flex; gap:0.5rem; } /* was var(--muted) 2.75:1 — rationale text is meaningful content */
 .failed-why::before { content:'↳'; flex-shrink:0; }
 
 /* DECISION BLOCK */
@@ -310,7 +310,7 @@ body::before {
 .dec-lbl { font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:0.55rem; }
 .dec-col ul { list-style:none; }
 .dec-col li { font-size:0.82rem; color:var(--mid); font-weight:300; line-height:1.6; padding:0.18rem 0; display:flex; gap:0.6rem; }
-.dec-col li::before { content:'—'; color:var(--muted); flex-shrink:0; }
+.dec-col li::before { content:'—'; color:var(--mid); flex-shrink:0; } /* was var(--muted) — bullet glyph was barely visible */
 .dec-col.yes li::before { content:'✓'; color:var(--accent-proj); }
 .dec-why {
   padding:1.2rem 1.6rem; border-top:1px solid rgba(240,237,230,0.06);
@@ -339,7 +339,7 @@ body::before {
 .dv-tag {
   font-size: 0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted);
 }
-.dv-panel.yes + .dv-tag { color:rgba(212,160,40,0.65); }
+.dv-panel.yes + .dv-tag { color:var(--accent-amber); } /* was rgba(212,160,40,0.65) ≈3.4:1, now 8:1 */
 .dv-mid { display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:0.85rem; }
 
 /* Breathing ring */
@@ -364,13 +364,13 @@ body::before {
 .dv-box {
   font-size: 0.72rem; letter-spacing:0.07em; text-transform:uppercase;
   padding:0.22rem 0.55rem; border-radius:2px;
-  border:1px solid rgba(240,237,230,0.08); color:rgba(240,237,230,0.22);
+  border:1px solid rgba(240,237,230,0.08); color:var(--muted); /* was rgba(240,237,230,0.22) ≈1.9:1 */
 }
 .dv-funnel { display:flex; flex-direction:column; align-items:center; gap:5px; }
 .dv-funnel-in {
   font-size: 0.72rem; letter-spacing:0.08em; text-transform:uppercase;
   padding:0.22rem 0.7rem; border-radius:2px;
-  border:1px solid rgba(212,160,40,0.3); color:rgba(212,160,40,0.65);
+  border:1px solid rgba(212,160,40,0.4); color:rgba(212,160,40,0.9); /* was 0.65 ≈3.4:1 */
 }
 .dv-funnel-depths { display:flex; gap:4px; margin-top:2px; }
 .dv-depth { height:4px; border-radius:1px; background:rgba(212,160,40,0.2); }
@@ -387,7 +387,7 @@ body::before {
 }
 .ph-icon  { font-size:1.4rem; opacity:0.2; }
 .ph-label { font-size: 0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-align:center; }
-.ph-sub   { font-size: 0.72rem; color:rgba(120,140,123,0.5); text-align:center; line-height:1.5; margin-top:0.25rem; font-style:italic; }
+.ph-sub   { font-size: 0.72rem; color:var(--muted); text-align:center; line-height:1.5; margin-top:0.25rem; font-style:italic; } /* was rgba(120,140,123,0.5) ≈2:1 */
 .cap { font-size:0.72rem; color:var(--muted); margin-top:-1.5rem; margin-bottom:2.5rem; font-weight:300; font-style:italic; }
 .g2 { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin:2.5rem 0; }
 .g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.8rem; margin:2.5rem 0; }
@@ -433,8 +433,8 @@ body::before {
 
 /* REFLECTION TWO-COL */
 .reflect { display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:1.5rem; }
-.reflect-lbl { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:0.9rem; display:flex; align-items:center; gap:0.6rem; }
-.reflect-lbl::before { content:''; width:16px; height:1px; background:var(--muted); }
+.reflect-lbl { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent-proj); margin-bottom:0.9rem; display:flex; align-items:center; gap:0.6rem; } /* was var(--muted) 2.75:1 — section labels need 4.5:1 */
+.reflect-lbl::before { content:''; width:16px; height:1px; background:var(--accent-proj); }
 .reflect-col p { font-size:0.88rem; color:var(--mid); line-height:1.8; font-weight:300; }
 
 /* ─── NEXT PROJECT ────────────────────────────────── */
@@ -529,33 +529,33 @@ body::before {
 .ia-diag { margin:2.5rem 0 3rem; border:1px solid rgba(240,237,230,0.09); border-radius:4px; overflow:hidden; background:var(--bg-3); }
 .ia-diag-hd { padding:0.85rem 1.6rem; border-bottom:1px solid rgba(240,237,230,0.07); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; }
 .ia-diag-lbl { font-size: 0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); }
-.ia-diag-sub { font-size: 0.72rem; color:rgba(120,140,123,0.4); font-weight:300; }
+.ia-diag-sub { font-size: 0.72rem; color:var(--muted); font-weight:300; }
 .ia-row { display:grid; grid-template-columns:3rem 1fr auto; align-items:stretch; border-bottom:1px solid rgba(240,237,230,0.045); }
 .ia-row:last-child { border-bottom:none; }
-.ia-row.dead { opacity:0.5; }
+.ia-row.dead { opacity:0.65; } /* was 0.5 — too extreme, dead rows remained illegible */
 .ia-row.chosen { background:rgba(212,160,40,0.03); border-top:1px solid rgba(212,160,40,0.12); border-bottom:none; opacity:1; }
-.ia-rownum { display:flex; align-items:center; justify-content:center; font-size: 0.72rem; letter-spacing:0.12em; color:rgba(120,140,123,0.3); border-right:1px solid rgba(240,237,230,0.06); padding:1rem 0; font-weight:500; }
+.ia-rownum { display:flex; align-items:center; justify-content:center; font-size: 0.72rem; letter-spacing:0.12em; color:var(--muted); border-right:1px solid rgba(240,237,230,0.06); padding:1rem 0; font-weight:500; } /* was rgba(120,140,123,0.3) ≈1.7:1 */
 .ia-row.chosen .ia-rownum { color:var(--accent-proj); }
 .ia-rowmain { padding:1rem 1.4rem; display:flex; flex-direction:column; justify-content:center; gap:0.2rem; }
-.ia-rowtitle { font-size:0.82rem; color:rgba(240,237,230,0.42); font-weight:400; line-height:1.3; }
+.ia-rowtitle { font-size:0.82rem; color:var(--mid); font-weight:400; line-height:1.3; } /* was rgba(240,237,230,0.42) ≈3.5:1 */
 .ia-row.chosen .ia-rowtitle { color:var(--white); }
-.ia-rowsub { font-size: 0.72rem; color:rgba(120,140,123,0.35); font-weight:300; line-height:1.45; }
-.ia-row.chosen .ia-rowsub { color:rgba(212,160,40,0.55); }
+.ia-rowsub { font-size: 0.72rem; color:var(--muted); font-weight:300; line-height:1.45; } /* was rgba(120,140,123,0.35) ≈1.7:1 */
+.ia-row.chosen .ia-rowsub { color:rgba(212,160,40,0.9); } /* was 0.55 — barely 3:1 */
 .ia-rowend { padding:1rem 1.4rem; display:flex; flex-direction:column; justify-content:center; align-items:flex-end; gap:0.28rem; min-width:210px; border-left:1px solid rgba(240,237,230,0.045); }
-.ia-rowstatus { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,237,230,0.18); display:flex; align-items:center; gap:0.4rem; }
+.ia-rowstatus { font-size: 0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:0.4rem; } /* was rgba(240,237,230,0.18) ≈1.7:1 */
 .ia-rowstatus.bad::before { content:'✕'; }
 .ia-rowstatus.good { color:var(--accent-proj); }
 .ia-rowstatus.good::before { content:'✓'; }
-.ia-rowwhy { font-size: 0.72rem; color:rgba(120,140,123,0.32); font-weight:300; font-style:italic; line-height:1.5; text-align:right; max-width:200px; }
-.ia-row.chosen .ia-rowwhy { color:rgba(212,160,40,0.55); font-style:normal; }
+.ia-rowwhy { font-size: 0.72rem; color:var(--muted); font-weight:300; font-style:italic; line-height:1.5; text-align:right; max-width:200px; } /* was rgba(120,140,123,0.32) ≈1.7:1 */
+.ia-row.chosen .ia-rowwhy { color:rgba(212,160,40,0.9); font-style:normal; } /* was 0.55 */
 .ia-chosen-sep { padding:0.5rem 1.6rem; border-top:1px solid rgba(212,160,40,0.12); background:rgba(212,160,40,0.015); }
-.ia-chosen-sep span { font-size: 0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(212,160,40,0.35); }
+.ia-chosen-sep span { font-size: 0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(212,160,40,0.75); } /* was 0.35 — barely visible */
 
 /* ─── UPGRADED DEC-VIS THEME ─────────────────────── */
 .dec-vis { background:var(--bg-3); }
 .dv-panel.no { background:rgba(240,237,230,0.04); border:1px solid rgba(240,237,230,0.12); }
 .dv-panel.yes { background:rgba(212,160,40,0.07); border:1px solid rgba(212,160,40,0.28); }
-.dv-tag { font-size: 0.72rem; letter-spacing:0.11em; text-transform:uppercase; color:rgba(240,237,230,0.3); padding:0.2rem 0.6rem; border:1px solid rgba(240,237,230,0.09); border-radius:2px; }
+.dv-tag { font-size: 0.72rem; letter-spacing:0.11em; text-transform:uppercase; color:var(--muted); padding:0.2rem 0.6rem; border:1px solid rgba(240,237,230,0.09); border-radius:2px; } /* was rgba(240,237,230,0.3) ≈2.5:1 */
 .dv-panel.yes + .dv-tag { color:var(--accent-amber); border-color:rgba(200,169,110,0.25); background:rgba(200,169,110,0.04); }
 
 /* ── Accessibility: focus states ─────────────────────────────── */
@@ -564,6 +564,87 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+/* ── Accessibility: contrast audit pass ──────────────────────────────
+   Targeted overrides for components that rely on inline rgba() stacks
+   or contextual cascade — consolidated here so they're easy to audit.
+
+   All values tested against WCAG 2.1 AA (4.5:1 normal text, 3:1 large).
+   Emotional/atmospheric elements (aqi ghost indicators, decorative bars)
+   intentionally exempt — they carry no readable information.
+   ─────────────────────────────────────────────────────────────────── */
+
+/* — Nav — */
+.nav-links a         { color: var(--mid); }  /* was --muted 2.75:1 → now 6.6:1 */
+.nav-back            { color: var(--mid); }  /* same */
+.hero-meta           { color: var(--mid); }  /* was --muted */
+
+/* — Meta strip — */
+.meta-lbl            { color: var(--muted); } /* explicit; now 4.6:1 vs old 2.75:1 */
+
+/* — Ticker — */
+.ti { color: var(--muted); } /* 4.6:1 on bg-2 */
+
+/* — Footer — */
+.fc  { color: var(--muted); }
+.fm  { color: var(--mid); }
+.fl a { color: var(--muted); }
+.fl a:hover { color: var(--white); }
+
+/* — Sidebar (ia-diag) label — */
+.ia-diag-lbl { color: var(--muted); } /* explicit; now 4.6:1 */
+
+/* — Snapshot block — */
+.snapshot-val { color: var(--mid); }  /* 6.6:1 on bg */
+
+/* — Solution/sg captions — */
+.sg-cap                        { color: var(--muted); }
+.solution-img-full figcaption  { color: var(--muted); }
+
+/* — Deep dive reflect full — */
+.reflect-full p { color: var(--mid); }
+
+/* — Chapter titles with em — keep accent readable — */
+.dd-ch-title em { color: var(--accent-light); } /* #ecc050 = 11.5:1 on bg */
+
+/* — Deep dive chosen ia variants (IA diag) — */
+.ia-row.chosen .ia-rowsub  { color: rgba(212,160,40,0.9);  }
+.ia-row.chosen .ia-rowwhy  { color: rgba(212,160,40,0.9);  }
+
+/* — toggle button default state — */
+.toggle-btn { color: var(--mid); } /* was var(--mid) old 5.3:1 → now 6.6:1 */
+
+/* — Outcome label — */
+.oc-label { color: var(--mid); }
+
+/* — Next project label — */
+.next-lbl { color: var(--muted); }
+
+/* — Pill (soft) — */
+.pill { color: var(--mid); border-color: rgba(240,237,230,0.14); }
+
+/* — Founder quote attr — */
+.fq-attr { color: var(--muted); }
+
+/* — Decision exploration (10 brand alignment section) — */
+.ia-row.chosen .ia-rowsub { color: rgba(212,160,40,0.9); }
+.ia-row.chosen .ia-rowwhy { color: rgba(212,160,40,0.9); }
+
+/* — Learning block text — */
+.learning-text { color: var(--white); }
+
+/* — CF text (constraint feature body) — */
+.cf-text { color: var(--mid); }
+
+/* — FSD (fast-scan decision) — */
+.fsd-chosen p  { color: var(--mid); }
+.fsd-why       { color: var(--mid); }
+
+/* — Impact body — */
+.impact-body { color: var(--mid); }
+
+/* — Dec-why rationale — */
+.dec-why { color: var(--mid); }
 
 /* ── Accessibility: reduced motion ───────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
@@ -583,18 +664,25 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 /* 1 ── WARM DARK PALETTE
    Derived from brand cream (#f2efdd) darkened to dark-mode values.
-   Replaces the inherited green-cast from Praan template.         */
+   Replaces the inherited green-cast from Praan template.
+
+   ACCESSIBILITY NOTES (contrast ratios on --bg #0e0b08, L≈0.0035):
+   --white  #f5efe3  → 18.2:1  (AAA ✓)
+   --muted  #907560  →  4.6:1  (AA  ✓  — was #5e4e3c at 2.75:1, fails all)
+   --mid    #a89278  →  6.6:1  (AA  ✓  — was #8e7a65 at 5.3:1, muddy for long reads)
+   --accent-proj #d4a028 → 8.3:1 (AAA ✓)
+   --accent-amber #c8a040 → 8.0:1 (AAA ✓)
+*/
 :root {
   --bg:           #0e0b08;  /* warm dark — green cast → brown-black */
   --bg-2:         #160f0b;  /* warm dark mid-surface                */
   --bg-3:         #1e1610;  /* warm dark raised surface             */
   --white:        #f5efe3;  /* warm cream — close to brand #f2efdd  */
-  --muted:        #5e4e3c;  /* warm brown (replaces cool olive)      */
-  --mid:          #8e7a65;  /* warm taupe (replaces cool green-grey) */
+  --muted:        #907560;  /* warm readable brown — 4.6:1 on bg (was #5e4e3c at 2.75:1) */
+  --mid:          #a89278;  /* warm taupe for body — 6.6:1 on bg (was #8e7a65 at 5.3:1) */
   --accent-blue:  #4aabdf;  /* brand blue (#0474ba) lightened for dark mode */
-  --accent-amber: #c8a040;  /* warm golden amber                    */
-  --accent-proj:  #d4a028;  /* brand-adjacent gold — bridges current
-                               amber & brand golden yellow #ffbf1e  */
+  --accent-amber: #c8a040;  /* warm golden amber — 8.0:1 on bg     */
+  --accent-proj:  #d4a028;  /* brand-adjacent gold — 8.3:1 on bg   */
   --accent-light: #ecc050;  /* lighter gold highlight               */
 }
 
@@ -670,15 +758,15 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .dv-panel.yes  { background: rgba(212,160,40,0.07); border: 1px solid rgba(212,160,40,0.28); }
 .dv-ring       { border: 1.5px solid rgba(212,160,40,0.55); }
 .dv-ring::after{ background: rgba(212,160,40,0.14); }
-.dv-funnel-in  { border: 1px solid rgba(212,160,40,0.3); color: rgba(212,160,40,0.65); }
+.dv-funnel-in  { border: 1px solid rgba(212,160,40,0.4); color: rgba(212,160,40,0.9); } /* was 0.65 ≈3.4:1 on bg-3 */
 .dv-depth      { background: rgba(212,160,40,0.2); }
 
 /* 10 ── IA EXPLORATION DIAGRAM — chosen row */
 .ia-row.chosen          { background: rgba(212,160,40,0.03); border-top: 1px solid rgba(212,160,40,0.12); }
-.ia-row.chosen .ia-rowsub  { color: rgba(212,160,40,0.55); }
-.ia-row.chosen .ia-rowwhy  { color: rgba(212,160,40,0.55); }
+.ia-row.chosen .ia-rowsub  { color: rgba(212,160,40,0.9); }  /* was 0.55 ≈3.1:1 */
+.ia-row.chosen .ia-rowwhy  { color: rgba(212,160,40,0.9); }  /* was 0.55 */
 .ia-chosen-sep             { border-top: 1px solid rgba(212,160,40,0.12); background: rgba(212,160,40,0.015); }
-.ia-chosen-sep span        { color: rgba(212,160,40,0.35); }
+.ia-chosen-sep span        { color: rgba(212,160,40,0.75); } /* was 0.35 — barely visible on dark bg */
 
 /* 11 ── LEARNING BLOCK */
 .learning {
@@ -700,7 +788,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 /* 15 ── SIDEBAR PROGRESS — warm ambient glow on fill */
 
 /* 16 ── REFLECTION — personal writing gets reading space */
-.reflect-col p { font-size: 0.92rem; line-height: 1.85; }
+.reflect-col p { font-size: 0.92rem; line-height: 1.85; color: var(--mid); } /* explicit — ensure it inherits the new --mid, not old cascade */
 
 /* 17 ── IMAGE DISPLAY — real images in panels and figures */
 figure.cs-img img.cs-img-full {
@@ -743,7 +831,7 @@ figure.cs-img figcaption.cap {
   display: flex;
   flex-direction: column;
 }
-.decision-card.dead { opacity: 0.55; }
+.decision-card.dead { opacity: 0.68; } /* was 0.55 — compound dim + low-opacity text was <1.5:1 */
 .decision-card.chosen {
   border-color: rgba(212,160,40,0.22);
   background: rgba(212,160,40,0.025);
@@ -772,18 +860,18 @@ figure.cs-img figcaption.cap {
   flex: 1;
 }
 /* Reuse existing ia-* text classes, override right-aligned styles for card context */
-.decision-content .ia-rowtitle { color: rgba(240,237,230,0.45); }
+.decision-content .ia-rowtitle { color: var(--mid); } /* was rgba(240,237,230,0.45) ≈4.1:1 — fails at small size */
 .decision-card.chosen .decision-content .ia-rowtitle { color: var(--white); }
 .decision-content .ia-rowwhy {
   text-align: left;
   max-width: none;
   margin-top: 0.1rem;
 }
-.decision-card.chosen .decision-content .ia-rowwhy { color: rgba(212,160,40,0.6); font-style: normal; }
+.decision-card.chosen .decision-content .ia-rowwhy { color: rgba(212,160,40,0.9); font-style: normal; } /* was 0.6 ≈3.5:1 */
 .decision-card-num {
   font-size: 0.72rem;
   letter-spacing: 0.14em;
-  color: rgba(120,140,123,0.3);
+  color: var(--muted); /* was rgba(120,140,123,0.3) ≈1.7:1 */
   font-weight: 500;
   margin-bottom: 0.1rem;
 }
@@ -1025,7 +1113,7 @@ figure.cs-img figcaption.cap {
 .dd-sb-nav li { margin-bottom: 0.05rem; }
 .dd-sb-nav a {
   display: flex; align-items: center; gap: 0.65rem;
-  font-size: 0.74rem; letter-spacing: 0.06em; color: var(--muted);
+  font-size: 0.74rem; letter-spacing: 0.06em; color: var(--mid); /* was var(--muted) 2.75:1 — sidebar links must be readable at a glance */
   padding: 0.38rem 0 0.38rem 0.75rem; margin-left: -0.75rem;
   border-left: 2px solid transparent;
   transition: color 0.2s, border-color 0.2s;
@@ -1050,7 +1138,7 @@ figure.cs-img figcaption.cap {
 .dd-ch-title { font-size: 1.35rem; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
 .dd-ch-title em { font-family: var(--serif); font-style: italic; color: var(--accent-light, var(--accent-proj)); }
 .dd-tldr {
-  font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+  font-size: 0.82rem; color: var(--mid); line-height: 1.6; /* was var(--muted) — chapter summaries need body-level readability */
   margin-top: 0.4rem; margin-bottom: 1.6rem; max-width: 52ch;
 }
 
@@ -1263,10 +1351,6 @@ The website's job isn't to justify the price — it's to earn the values fit. <s
     </div>
     <h2>One entry point.<br><em>Three products. One habit.</em></h2>
     <p class="body">The website, naming convention, and photography were designed as a single coherent system. The homepage leads with the problem before showing a single product. The daily routine converts the product range from a catalogue into a habit. Ingredient-forward photography makes the brand's most important claim — clean formulation, no fillers — visual without requiring the visitor to read anything.</p>
-    <figure class="solution-img-full reveal">
-      <img src="/assets/images/solsky/homepage-full-browser.png" alt="Sol &amp; Sky homepage annotated — problem → daily system → product reveal">
-      <figcaption>"The homepage leads with the problem statement before showing a single product. Problem → system → product reveal is a deliberate narrative architecture, not a default Shopify layout."</figcaption>
-    </figure>
     <div class="solution-grid reveal">
       <div class="sg-item">
         <img src="/assets/images/solsky/collections-fullpage-integrated.png" alt="Sol &amp; Sky daily routine section — Morning, Post-Walk, Bath Time">
@@ -1364,7 +1448,7 @@ The website's job isn't to justify the price — it's to earn the values fit. <s
         </div>
         <div class="collab-cell">
           <div class="collab-role">Direction — Founder</div>
-          <div class="collab-name">Sanika</div>
+          <div class="collab-name">Sanika Shahane</div>
           <div class="collab-desc">Product vision, formulation brief, brand naming, and sign-off. No PM layer — all design decisions were made directly with the founder, which compressed iteration cycles and raised the stakes of every call.</div>
         </div>
         <div class="collab-cell">
@@ -1374,7 +1458,7 @@ The website's job isn't to justify the price — it's to earn the values fit. <s
         </div>
       </div>
       <p class="body">
-        Working directly with Sanika — no PM, no brief document, no feedback layers — meant every decision was made against her founding conviction rather than a spec. When a direction felt off, the filter was always the same: does this feel like a brand that acts before problems appear?
+        Working directly with Sanika Shahane — no PM, no brief document, no feedback layers — meant every decision was made against her founding conviction rather than a spec. When a direction felt off, the filter was always the same: does this feel like a brand that acts before problems appear?
       </p>
 
       <figure class="cs-img" style="margin-top:2rem;">

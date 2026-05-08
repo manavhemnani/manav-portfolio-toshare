@@ -38,8 +38,8 @@ a { color: inherit; text-decoration: none; }
   --bg-2:         #0f1018;
   --bg-3:         #161822;
   --white:        #f0ede6;
-  --muted:        #5a5a62;
-  --mid:          #8a8a96;
+  --muted:        #7e7e8a;
+  --mid:          #9c9ca8;
   --accent-blue:  #4a9eff;
   --accent-amber: #c8a96e;
   --accent-proj:  #6b8fff; /* Percept — deep photography blue */
@@ -841,6 +841,50 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 /* ─── SCROLL REVEAL ───────────────────────────────── */
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.65s ease, transform 0.65s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Portfolio-wide accessibility pass ── contrast audit 2026 ──
+   Targeted overrides. All ratios verified against WCAG 2.1 AA.
+   Purely atmospheric/decorative elements intentionally exempt.
+   ─────────────────────────────────────────────────────────── */
+
+/* Nav */
+.nav-links a { color: var(--mid); }   /* was --muted ~2.8:1 */
+
+/* Footer */
+.footer-copy { color: var(--muted); }
+.footer-links a { color: var(--muted); }
+.footer-center { color: var(--mid); }
+
+/* Ticker */
+.ticker-item { color: var(--muted); }
+
+/* Sidebar nav */
+.sidebar-nav a { color: var(--mid); }
+.sidebar-num { color: var(--muted); }
+.sidebar-label { color: var(--muted); }
+
+/* Pull quote citation */
+.pull-quote cite { color: var(--mid); display: block; line-height: 1.6; }
+
+/* Failed direction rationale */
+.failed-why { color: var(--mid); }
+.succeeded-why { color: rgba(76,175,125,0.85); }
+
+/* Reflection labels */
+.reflection-col-label { color: var(--accent-proj); }
+.reflection-col-label::before { background: var(--accent-proj); }
+
+/* Validation header */
+.validation-header { color: var(--mid); }
+
+/* Img placeholder sub-text */
+.img-placeholder-sub { color: var(--muted); }
+
+/* Next project label */
+.next-label { color: var(--muted); }
+
+/* Sidebar progress label */
+.sidebar-progress-label { color: var(--muted); }
 </style>
 </head>
 <body>
